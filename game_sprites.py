@@ -52,7 +52,7 @@ class MoveBody:
 class Player(pygame.sprite.Sprite, MoveBody):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load(r"image\player.png")
+        self.image = pygame.image.load(r"image\player50x50.png")
         self.rect = self.image.get_rect(center=(WIDTH // 2, HEIGHT // 2))
         self.color_projectile = PROJECTILE_COLOR
 
