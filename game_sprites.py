@@ -272,72 +272,19 @@ class AtomProjectile(pygame.sprite.Sprite):
             self.kill()
 
 
-class LittleBlueSquareEnemy(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        super().__init__()
-        self.size = ENEMY_SIZE
-        self.color = ENEMY_COLOR
-        self.image = pygame.Surface((ENEMY_SIZE, ENEMY_SIZE))
-        self.image.fill(ENEMY_COLOR)
-        self.rect = self.image.get_rect(center=(x, y))
-
-        self.hp = ENEMY_HP
-        self.speed = ENEMY_SPEED
-        self.damage = ENEMY_DAMAGE
-
-        self.angle = random.randint(-3140000, 3140000) / 100000
-        self.index = 0
-
-        self.dx = 0
-        self.dy = 0
-        self.trajectory = None
-        self.smoothness = SMOOTHNESS
-
-    def step_back(self, player):
-        self.angle = math.atan2(self.rect.centery - player.rect.centery, self.rect.centerx - player.rect.centerx)
-
-    def update(self):
-        self.index = (self.index + 1) % 30
-        if self.index > 28:
-            self.angle += random.randint(-31400, 31400) / 30000
-        else:
-            self.angle += random.randint(-31400, 31400) / 1000000
-
-        dx = self.speed * math.cos(self.angle)
-        dy = self.speed * math.sin(self.angle)
-
-        self.rect.x += dx
-        self.rect.y += dy
-
-        if self.rect.x >= (WIDTH - ENEMY_SIZE + R):
-            self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
-
-        if self.rect.x <= R:
-            self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
-
-        if self.rect.y >= (HEIGHT - ENEMY_SIZE):
-            self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
-
-        if self.rect.y <= 0:
-            self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
-
-        self.rect.x = max(R, min(self.rect.x, WIDTH - ENEMY_SIZE + R))
-        self.rect.y = max(0, min(self.rect.y, HEIGHT - ENEMY_SIZE))
-
-
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, player):
+    def __init__(self, x, y, player, hp=ENEMY_HP, speed=ENEMY_SPEED, damage=ENEMY_DAMAGE):
         super().__init__()
         self.size = ENEMY_SIZE
-        self.color = ENEMY_COLOR
+        self.color = (random.randint(0, 254), random.randint(0, 254), random.randint(0, 254))
         self.image = pygame.Surface((ENEMY_SIZE, ENEMY_SIZE))
-        self.image.fill(ENEMY_COLOR)
+        self.image.fill(self.color)
         self.rect = self.image.get_rect(center=(x, y))
         self.player = player
 
-        self.hp = ENEMY_HP
-        self.speed = ENEMY_SPEED
-        self.damage = ENEMY_DAMAGE
+        self.hp = hp
+        self.speed = speed
+        self.damage = damage
 
         self.angle = random.randint(-3140000, 3140000) / 100000
         self.index = 0

@@ -1,8 +1,8 @@
 # Константы
 
 # окружение
-WIDTH, HEIGHT = 1200, 900
-WIDTH_ = 1800
+WIDTH, HEIGHT = 1500, 1000
+WIDTH_ = 1920
 R = (WIDTH_ - WIDTH) // 2
 GRAY = (200, 200, 200)
 FPS = 60
@@ -11,7 +11,7 @@ SMOOTHNESS = 10
 # игрок
 PLAYER_COLOR = (255, 255, 255)
 PLAYER_SIZE = 50
-PLAYER_SPEED = 4
+PLAYER_SPEED = 10
 PLAYER_MAX_HP = 10
 
 # патроны
@@ -26,7 +26,6 @@ PROJECTILE_SIZE = [15, 15]
 
 # маленький синий квадрат
 ENEMY_SIZE = 40
-ENEMY_COLOR = (0, 40, 200)
 ENEMY_HP = 3
 ENEMY_SPEED = 2
 ENEMY_DAMAGE = 1
