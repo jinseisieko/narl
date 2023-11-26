@@ -80,9 +80,6 @@ particles = []
 # игрок
 player = Player()
 all_sprites.add(player)
-for _ in range(10):
-    player.add_improvement(AtomShotImprovement())
-    player.add_improvement(MilkImprovement())
 
 # класс комнаты
 room_number = 1
