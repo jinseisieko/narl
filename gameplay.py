@@ -7,8 +7,8 @@ class Room:
     def __init__(self, number_room, player):
         self.player = player
         self.number_room = number_room
-        # self.enemies_number = number_room // random.randint(5, 11) + random.randint(1, 2)
-        self.enemies_number = 1000
+        self.enemies_number = number_room // random.randint(5, 11) + random.randint(1, 2)
+        # self.enemies_number = 1000
         self.enemies_speed = 5.
 
 
