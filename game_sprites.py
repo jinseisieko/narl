@@ -100,7 +100,7 @@ class Player(pygame.sprite.Sprite, MoveBody):
         self.rect.x += self.dx
         self.rect.y += self.dy
 
-        self.rect.x = max(R // 2, min(self.rect.x, WIDTH - PLAYER_SIZE + R // 2))
+        self.rect.x = max(R, min(self.rect.x, WIDTH - PLAYER_SIZE + R))
         self.rect.y = max(0, min(self.rect.y, HEIGHT - PLAYER_SIZE))
 
     def update_characteristics(self):
@@ -220,9 +220,9 @@ class Projectile(pygame.sprite.Sprite):
 
         self.distant += self.speed
 
-        if self.rect.x <= R // 2:
+        if self.rect.x <= R:
             self.kill()
-        if self.rect.x >= WIDTH + R // 2:
+        if self.rect.x >= WIDTH + R:
             self.kill()
 
 
@@ -266,24 +266,24 @@ class AtomProjectile(pygame.sprite.Sprite):
         self.rect.y = self.parent.rect.y + self.radius * math.sin(self.angle)
         self.distant += PROJECTILE_SPEED
 
-        if self.rect.x <= R // 2:
+        if self.rect.x <= R:
             self.kill()
-        if self.rect.x >= WIDTH + R // 2:
+        if self.rect.x >= WIDTH + R:
             self.kill()
 
 
 class LittleBlueSquareEnemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.size = LITTLE_BLUE_SQUARE_SIZE
-        self.color = LITTLE_BLUE_SQUARE_COLOR
-        self.image = pygame.Surface((LITTLE_BLUE_SQUARE_SIZE, LITTLE_BLUE_SQUARE_SIZE))
-        self.image.fill(LITTLE_BLUE_SQUARE_COLOR)
+        self.size = ENEMY_SIZE
+        self.color = ENEMY_COLOR
+        self.image = pygame.Surface((ENEMY_SIZE, ENEMY_SIZE))
+        self.image.fill(ENEMY_COLOR)
         self.rect = self.image.get_rect(center=(x, y))
 
-        self.hp = LITTLE_BLUE_SQUARE_HP
-        self.speed = LITTLE_BLUE_SQUARE_SPEED
-        self.damage = LITTLE_BLUE_SQUARE_DAMAGE
+        self.hp = ENEMY_HP
+        self.speed = ENEMY_SPEED
+        self.damage = ENEMY_DAMAGE
 
         self.angle = random.randint(-3140000, 3140000) / 100000
         self.index = 0
@@ -309,17 +309,50 @@ class LittleBlueSquareEnemy(pygame.sprite.Sprite):
         self.rect.x += dx
         self.rect.y += dy
 
-        if self.rect.x >= (WIDTH - LITTLE_BLUE_SQUARE_SIZE + R // 2):
+        if self.rect.x >= (WIDTH - ENEMY_SIZE + R):
             self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
 
-        if self.rect.x <= R // 2:
+        if self.rect.x <= R:
             self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
 
-        if self.rect.y >= (HEIGHT - LITTLE_BLUE_SQUARE_SIZE):
+        if self.rect.y >= (HEIGHT - ENEMY_SIZE):
             self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
 
         if self.rect.y <= 0:
             self.angle = ((self.angle + 2 * math.pi) % math.pi) - (random.randint(8, 14) / 10) * math.pi
 
-        self.rect.x = max(R // 2, min(self.rect.x, WIDTH - LITTLE_BLUE_SQUARE_SIZE + R // 2))
-        self.rect.y = max(0, min(self.rect.y, HEIGHT - LITTLE_BLUE_SQUARE_SIZE))
+        self.rect.x = max(R, min(self.rect.x, WIDTH - ENEMY_SIZE + R))
+        self.rect.y = max(0, min(self.rect.y, HEIGHT - ENEMY_SIZE))
+
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, x, y, player):
+        super().__init__()
+        self.size = ENEMY_SIZE
+        self.color = ENEMY_COLOR
+        self.image = pygame.Surface((ENEMY_SIZE, ENEMY_SIZE))
+        self.image.fill(ENEMY_COLOR)
+        self.rect = self.image.get_rect(center=(x, y))
+        self.player = player
+
+        self.hp = ENEMY_HP
+        self.speed = ENEMY_SPEED
+        self.damage = ENEMY_DAMAGE
+
+        self.angle = random.randint(-3140000, 3140000) / 100000
+        self.index = 0
+
+        self.dx = 0
+        self.dy = 0
+        self.trajectory = None
+        self.smoothness = SMOOTHNESS
+
+    def update(self):
+        self.angle = math.atan2(self.player.rect.centery - self.rect.centery,
+                                self.player.rect.centerx - self.rect.centerx)
+
+        self.dx = self.speed * math.cos(self.angle)
+        self.dy = self.speed * math.sin(self.angle)
+
+        self.rect.x += self.dx
+        self.rect.y += self.dy

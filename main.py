@@ -83,7 +83,7 @@ all_sprites.add(player)
 
 # класс комнаты
 room_number = 1
-room = Room(room_number)
+room = Room(room_number, player)
 room.add(all_sprites, enemies)
 
 screen = pygame.display.set_mode((WIDTH_, HEIGHT))
@@ -153,22 +153,21 @@ while running:
         # проверка на столкновение врага и игрока
         for enemy_x in enemies:
             if enemy_x.rect.colliderect(player.rect):
+
                 if frame_count_target == 0:
                     no_target = True
-                    frame_count_target = FPS
-                    player.hp -= enemy_x.damage
+                    frame_count_target = FPS // 2
 
+                    player.hp -= 1
                     if player.hp <= 0:
-                        # поражение
                         print("You Lose")
-                enemy_x.step_back(player)
                 break
 
         all_sprites.update()
 
     # отрисовка
     screen.fill((255, 255, 255))
-    pygame.draw.rect(screen, GRAY, [R // 2, 0, WIDTH, HEIGHT])
+    pygame.draw.rect(screen, GRAY, [R, 0, WIDTH, HEIGHT])
     projectiles.draw(screen)
     screen.blit(player.image, player.rect)
     enemies.draw(screen)
@@ -207,7 +206,7 @@ while running:
     screen.blit(text_size_projectile, (10, 170))
 
     text_inventory = font_ch.render("inventory:", True, (0, 0, 0))
-    screen.blit(text_inventory, (R + HEIGHT + 10, 0))
+    screen.blit(text_inventory, (R + WIDTH + 10, 0))
     test_all_improvements = []
 
     # тестовыйй вывод инвенторя
@@ -215,7 +214,7 @@ while running:
         text_i = font_ch.render(f"- {item.__class__.__name__}"[:-11], True, (0, 0, 0))
         test_all_improvements.append(text_i)
     for i, text_item in enumerate(test_all_improvements):
-        screen.blit(text_item, (R + HEIGHT + 10, 30 + i * 15))
+        screen.blit(text_item, (R + WIDTH + 10, 30 + i * 15))
 
     if console:
         input_console.update()
@@ -223,7 +222,7 @@ while running:
 
     pygame.display.flip()
     clock.tick(FPS)
-    print("FPS:", int(clock.get_fps()))
+    # print("FPS:", int(clock.get_fps()))
     if not console:
         if frame_count_projectile > 0:
             frame_count_projectile -= 1
@@ -238,7 +237,7 @@ while running:
         # новая комната
         room_number += 1
         print(room_number)
-        room = Room(room_number)
+        room = Room(room_number, player)
         room.add(all_sprites, enemies)
 
 pygame.quit()
