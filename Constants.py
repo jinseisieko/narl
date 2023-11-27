@@ -7,14 +7,14 @@ TICKS: int = 240
 FPS: tuple[int, int] = (60, 120)
 DEFAULT_FPS: int = 0
 SMOOTHNESS: int = 10
-PLAYER_SPEED_SPEED: float = 10
-PLAYER_START_HP: int = 10
 
+DEFAULT_PLAYER_SPEED: float = 10
+DEFAULT_PLAYER_HP: int = 10
 DEFAULT_PROJECTILE_PERIOD: int = TICKS
 DEFAULT_PROJECTILE_SPEED: float = 8
 DEFAULT_PROJECTILE_RANGE: float = 250
 DEFAULT_PROJECTILE_DAMAGE: int = 1
-DEFAULT_PROJECTILE_SIZE: tuple[int, int] = (15, 15)
+DEFAULT_PROJECTILE_SIZE: int = 15
 DEFAULT_PROJECTILE_TYPE: str = "none"  # поменять на дефолтный класс
 
 RED: tuple[int, int, int] = (200, 200, 200)
