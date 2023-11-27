@@ -3,6 +3,7 @@ import math
 import pygame.sprite
 import ImageSprites
 from Constants import *
+
 import Items
 
 
@@ -14,11 +15,14 @@ class Player(pygame.sprite.Sprite):
 
         # values
         self.size: int = PLAYER_SIZE
-        self.image: pygame.image = ImageSprites.sprites["player"]
+        self.image: pygame.image = pygame.image.load(ImageSprites.sprites["player"])
         self.rect: pygame.Rect = self.image.get_rect()
 
-        self.x: float = FIELD_HEIGHT / 2
-        self.y: float = FIELD_WIDTH / 2
+        self.x: float = FIELD_WIDTH / 2
+        self.y: float = FIELD_HEIGHT / 2
+
+        self.rect.x = self.x
+        self.rect.y = self.y
 
         self.dx: float = 0.
         self.dy: float = 0.

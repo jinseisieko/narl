@@ -1,6 +1,6 @@
-"""pygame main loop (rendering, updates, organization)"""
-import sys
+"""pygame main loop"""
 
+import sys
 import pygame
 from Constants import *
 from Player import Player
@@ -12,38 +12,44 @@ class Field:
         self.field.fill(GRAY)
         # сделать его красивым
 
+    def draw(self, *groups: pygame.sprite.Group) -> None:
+        self.field.fill(GRAY)
+        for group in groups:
+            group.draw(self.field)
+
 
 # groups
-all_sprites = pygame.sprite.Group()
-players_projectile = pygame.sprite.Group()
-enemies = pygame.sprite.Group()
-enemies_projectile = pygame.sprite.Group()
+all_sprites: pygame.sprite.Group = pygame.sprite.Group()
+players_projectile: pygame.sprite.Group = pygame.sprite.Group()
+enemies: pygame.sprite.Group = pygame.sprite.Group()
+enemies_projectile: pygame.sprite.Group = pygame.sprite.Group()
+player_group: pygame.sprite.Group = pygame.sprite.Group()
 
-# игрок
-player: pygame.sprite.Sprite = Player()
-all_sprites.add(player)
-
-# screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("NARL")
+# player
+player: Player = Player()
+player_group.add(player)
+all_sprites.add(player_group)
+# field
+field: Field = Field()
+screen = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
 running = True
-shooting = False
-console = False
-
-# задержки
-frame_count_projectile = 0
-frame_count_target = 0
-frame_end_console = 0
-player.update_characteristics()
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    # update
+    all_sprites.update()
+
+    # draw
+    field.draw(enemies_projectile, players_projectile, player_group, enemies)
+    screen.fill((0, 0, 0))
+    screen.blit(field.field, (0, 0),
+                (player.rect.centerx - WIDTH // 2, player.rect.centery - HEIGHT // 2, WIDTH, HEIGHT))
+
     pygame.display.flip()
     pygame.time.Clock().tick(TICKS)
-    # print("FPS:", int(clock.get_fps()))
 
 pygame.quit()
 sys.exit()

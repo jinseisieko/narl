@@ -1,7 +1,12 @@
 """constants"""
+from ctypes import *
 
 FIELD_WIDTH: int = 10000
 FIELD_HEIGHT: int = 10000
+
+WIDTH: int = windll.user32.GetSystemMetrics(0)
+HEIGHT: int = windll.user32.GetSystemMetrics(1)
+
 PLAYER_SIZE: int = 50  # matches the size of the player's image
 TICKS: int = 240
 FPS: tuple[int, int] = (60, 120)
