@@ -1,11 +1,8 @@
 """class Player and additional functions"""
 import math
-
 import pygame.sprite
-
 import ImageSprites
 from Constants import *
-
 import Items
 
 
