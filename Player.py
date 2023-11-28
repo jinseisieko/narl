@@ -1,12 +1,10 @@
 """class Player and additional functions"""
-import math
 
 import pygame.sprite
 
 import ImageSprites
 import Items
 from Projectiles import *
-from Constants import *
 
 
 def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
@@ -23,6 +21,53 @@ def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
         y = 0
 
     return x, y
+
+
+def calculate_speed(speed: float, max_speed: float, smoothness: int, sign: bool) -> float:
+    dx: float = max_speed / smoothness
+    if sign:
+        speed -= dx
+        speed = max(speed, -max_speed)
+    else:
+        speed += dx
+        speed = min(speed, max_speed)
+    print(speed)
+    return speed
+
+
+def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: float, acceleration: float, smoothness: int,
+                       upward_movement: bool, downward_movement: bool,
+                       rightward_movement: bool, leftward_movement: bool) -> tuple[float, float]:
+    if upward_movement:
+        dy = calculate_speed(dy, max_speed, smoothness, True)
+    if downward_movement:
+        dy = calculate_speed(dy, max_speed, smoothness, False)
+
+    if rightward_movement:
+        dx = calculate_speed(dx, max_speed, smoothness, False)
+
+    if leftward_movement:
+        dx = calculate_speed(dx, max_speed, smoothness, True)
+
+    if not upward_movement and not downward_movement:
+        if dy > 0:
+            dy -= acceleration
+        elif dy < 0:
+            dy += acceleration
+            dy /= 1.03
+
+    if not rightward_movement and not leftward_movement:
+        if dx > 0:
+            dx -= acceleration
+            dx /= 1.03
+        elif dx < 0:
+            dx += acceleration
+            dx /= 1.03
+
+
+
+
+    return dx, dy
 
 
 class Player(pygame.sprite.Sprite):
@@ -46,7 +91,7 @@ class Player(pygame.sprite.Sprite):
         self.dy: float = 0.
 
         self.max_speed: float = DEFAULT_PLAYER_SPEED
-        self.speed_change: float = self.max_speed / SMOOTHNESS
+        self.acceleration: float = self.max_speed / SMOOTHNESS
 
         self.max_hp: int = DEFAULT_PLAYER_HP
         self.hp: int = DEFAULT_PLAYER_HP
@@ -71,43 +116,18 @@ class Player(pygame.sprite.Sprite):
 
     def speed_calculation(self) -> None:
         """calculation of speed using directional values"""
-
-        if self.upward_movement:
-            if -self.dy < self.max_speed:
-                self.dy -= self.speed_change
-
-        if self.downward_movement:
-            if self.dy < self.max_speed:
-                self.dy += self.speed_change
-
-        if self.rightward_movement:
-            if self.dx < self.max_speed:
-                self.dx += self.speed_change
-
-        if self.leftward_movement:
-            if -self.dx < self.max_speed:
-                self.dx -= self.speed_change
-
-        if not self.upward_movement and not self.downward_movement:
-            if self.dy > 0:
-                self.dy -= self.speed_change
-                self.dy /= 1.03  # это нужно чтобы при остановки ты не двигался на маленькие дробные числа
-            elif self.dy < 0:
-                self.dy += self.speed_change
-                self.dy /= 1.03
-
-        if not self.rightward_movement and not self.leftward_movement:
-            if self.dx > 0:
-                self.dx -= self.speed_change
-                self.dx /= 1.03
-            elif self.dx < 0:
-                self.dx += self.speed_change
-                self.dx /= 1.03
+        self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed, self.acceleration,
+                                              SMOOTHNESS, self.upward_movement, self.downward_movement,
+                                              self.rightward_movement, self.leftward_movement)
 
     def coordinate_calculation(self) -> None:
         """coordinates calculation"""
-        self.x += self.dx
-        self.y += self.dy
+        dx = self.dx
+        dy = self.dy
+        dx = math.cos(math.atan2(abs(dy), abs(dx))) * dx
+        dy = math.cos(math.atan2(abs(dx), abs(dy))) * dy
+        self.x += dx
+        self.y += dy
 
         self.x, self.y = field_boundary_collision(self.x, self.y)
 
