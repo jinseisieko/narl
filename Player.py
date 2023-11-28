@@ -1,10 +1,27 @@
 """class Player and additional functions"""
 import math
+
 import pygame.sprite
+
 import ImageSprites
+import Items
 from Constants import *
 
-import Items
+
+def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
+    """function is designed to change coordinates when colliding with a boundary"""
+
+    if x > FIELD_WIDTH - PLAYER_SIZE:
+        x = FIELD_WIDTH - PLAYER_SIZE
+    elif x < 0:
+        x = 0.
+
+    if y > FIELD_HEIGHT - PLAYER_SIZE:
+        y = FIELD_HEIGHT - PLAYER_SIZE
+    elif y < 0:
+        y = 0
+
+    return x, y
 
 
 class Player(pygame.sprite.Sprite):
@@ -89,6 +106,8 @@ class Player(pygame.sprite.Sprite):
         """coordinates calculation"""
         self.x += self.dx
         self.y += self.dy
+
+        self.x, self.y = field_boundary_collision(self.x, self.y)
 
     def update(self) -> None:
         keys = pygame.key.get_pressed()

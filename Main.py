@@ -5,7 +5,7 @@ import pygame
 from Constants import *
 from Player import Player
 
-mode_fps: int = 0
+mode_fps: int = 1
 clock = pygame.time.Clock()
 
 
