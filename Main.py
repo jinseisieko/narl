@@ -2,6 +2,8 @@
 
 import sys
 import pygame
+
+import ImageSprites
 from Constants import *
 from Player import Player
 from Field import Field
@@ -33,6 +35,7 @@ shooting: bool = False
 frame_draw: int = 0
 frame_shot: int = 0
 
+pygame.mouse.set_visible(False)
 while running:
     flag_for_event = True
     for event in pygame.event.get():
@@ -72,6 +75,9 @@ while running:
         screen.fill((0, 0, 0))
         screen.blit(field.field, (0, 0),
                     (player.rect.centerx - WIDTH // 2, player.rect.centery - HEIGHT // 2, WIDTH, HEIGHT))
+
+        pos_mouse = pygame.mouse.get_pos()
+        screen.blit(ImageSprites.sprites['cursor'], (pos_mouse[0], pos_mouse[1]))
 
     # update frames
     if frame_draw > 0:

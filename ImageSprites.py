@@ -9,4 +9,5 @@ sprites: dict = {
     'grass4': pygame.image.load(r"image/grasses/grass4.png"),
     'grass5': pygame.image.load(r"image/grasses/grass5.png"),
     'stone1': pygame.image.load(r"image/stones/stone1.png"),
+    'cursor': pygame.image.load(r"image/cursor.png")
 }

@@ -5,7 +5,7 @@ from Constants import *
 import pygame
 
 
-def calculate_angle(x1, y1, cursor_x, cursor_y) -> float:
+def calculate_angle(x1: float, y1: float, cursor_x: float, cursor_y: float) -> float:
     """angle calculation is necessary for DefaultPlayerProjectile class"""
     return math.atan2(((y1 - HEIGHT // 2) + cursor_y) - y1, ((x1 - WIDTH // 2) + cursor_x) - x1)
 
@@ -34,8 +34,8 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.image.fill(self.color)
         self.rect = self.image.get_rect()
 
-        self.x: float = self.player.rect.centerx
-        self.y: float = self.player.rect.centery
+        self.x: float = self.player.rect.centerx - self.size / 2
+        self.y: float = self.player.rect.centery - self.size / 2
 
         self.range: float = self.player.projectile_range
         self.distant: float = 0
