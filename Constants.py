@@ -22,9 +22,9 @@ DEFAULT_PROJECTILE_DAMAGE: int = 1
 DEFAULT_PROJECTILE_SIZE: int = 15
 DEFAULT_PROJECTILE_TYPE: str = "default_projectile"
 
-RED: tuple[int, int, int] = (200, 200, 200)
-GREEN: tuple[int, int, int] = (200, 200, 200)
-BLUE: tuple[int, int, int] = (200, 200, 200)
+RED: tuple[int, int, int] = (255, 0, 0)
+GREEN: tuple[int, int, int] = (0, 255, 0)
+BLUE: tuple[int, int, int] = (0, 0, 255)
 GRAY: tuple[int, int, int] = (200, 200, 200)
 
 

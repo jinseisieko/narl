@@ -41,13 +41,27 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
 # actions
 running = True
-
+shooting = False
 # frames
 frame_draw = 0
+frame_shot = 0
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            shooting = True
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            shooting = False
+
+    # add new obj
+    if shooting and frame_shot == 0:
+        frame_shot = player.period
+        projectiles = player.shot()
+
+        for projectile in projectiles:
+            players_projectile.add(projectile)
+            all_sprites.add(projectile)
 
     # update
     all_sprites.update()
@@ -59,9 +73,13 @@ while running:
         screen.fill((0, 0, 0))
         screen.blit(field.field, (0, 0),
                     (player.rect.centerx - WIDTH // 2, player.rect.centery - HEIGHT // 2, WIDTH, HEIGHT))
+
     # update frames
     if frame_draw > 0:
         frame_draw -= 1
+
+    if frame_shot > 0:
+        frame_shot -= 1
 
     pygame.display.flip()
     clock.tick(TICKS)

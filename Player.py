@@ -5,6 +5,7 @@ import pygame.sprite
 
 import ImageSprites
 import Items
+from Projectiles import *
 from Constants import *
 
 
@@ -55,6 +56,7 @@ class Player(pygame.sprite.Sprite):
         self.projectile_size: int = DEFAULT_PROJECTILE_SIZE
         self.projectile_damage: int = DEFAULT_PROJECTILE_DAMAGE
         self.projectile_name_sprite: str = DEFAULT_PROJECTILE_TYPE
+        self.projectile_color: tuple[int, int, int] = RED
 
         self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
         self.projectile_trajectory: list[float] = [0.] * self.projectile_ticks
@@ -121,3 +123,6 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x = round(self.x)
         self.rect.y = round(self.y)
+
+    def shot(self) -> list:  # test
+        return [DefaultPlayerProjectile(self, pygame.mouse.get_pos())]
