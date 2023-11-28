@@ -11,7 +11,7 @@ PLAYER_SIZE: int = 50  # matches the size of the player's image
 TICKS: int = 120
 FPS: tuple[int, int] = (60, 120)
 DEFAULT_FPS: int = 0
-SMOOTHNESS: int = 40
+SMOOTHNESS: int = 25
 
 DEFAULT_PLAYER_SPEED: float = 4
 DEFAULT_PLAYER_HP: int = 10

@@ -54,18 +54,12 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
             dy -= acceleration
         elif dy < 0:
             dy += acceleration
-            dy /= 1.03
 
     if not rightward_movement and not leftward_movement:
         if dx > 0:
             dx -= acceleration
-            dx /= 1.03
         elif dx < 0:
             dx += acceleration
-            dx /= 1.03
-
-
-
 
     return dx, dy
 
