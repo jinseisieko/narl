@@ -41,7 +41,6 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
         dx = min(0.0, dx + max_speed / SLOWDOWN_SMOOTHNESS)
     else:
         dx = max(0.0, dx - max_speed / SLOWDOWN_SMOOTHNESS)
-
     if dy < 0:
         dy = min(0.0, dy + max_speed / SLOWDOWN_SMOOTHNESS)
     else:
@@ -108,7 +107,6 @@ class Player(pygame.sprite.Sprite):
         self.leftward_movement: bool = False
 
     def movements(self) -> None:
-        """calculation of speed using directional values"""
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
                                                               self.acceleration, self.upward_movement,
                                                               self.downward_movement,
