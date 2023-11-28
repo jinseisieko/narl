@@ -23,45 +23,44 @@ def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
     return x, y
 
 
-def calculate_speed(speed: float, max_speed: float, smoothness: int, sign: bool) -> float:
-    dx: float = max_speed / smoothness
+def calculate_speed(speed: float, max_speed: float, sign: bool) -> float:
+    dx: float = max_speed / ACCELERATION_SMOOTHNESS
     if sign:
         speed -= dx
         speed = max(speed, -max_speed)
     else:
         speed += dx
         speed = min(speed, max_speed)
-    print(speed)
     return speed
 
 
-def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: float, acceleration: float, smoothness: int,
+def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: float, acceleration: float,
                        upward_movement: bool, downward_movement: bool,
-                       rightward_movement: bool, leftward_movement: bool) -> tuple[float, float]:
+                       rightward_movement: bool, leftward_movement: bool) -> tuple[float, float, float, float]:
+    if dx < 0:
+        dx = min(0.0, dx + max_speed / SLOWDOWN_SMOOTHNESS)
+    else:
+        dx = max(0.0, dx - max_speed / SLOWDOWN_SMOOTHNESS)
+
+    if dy < 0:
+        dy = min(0.0, dy + max_speed / SLOWDOWN_SMOOTHNESS)
+    else:
+        dy = max(0.0, dy - max_speed / SLOWDOWN_SMOOTHNESS)
+
     if upward_movement:
-        dy = calculate_speed(dy, max_speed, smoothness, True)
+        dy = calculate_speed(dy, max_speed, True)
     if downward_movement:
-        dy = calculate_speed(dy, max_speed, smoothness, False)
-
+        dy = calculate_speed(dy, max_speed, False)
     if rightward_movement:
-        dx = calculate_speed(dx, max_speed, smoothness, False)
-
+        dx = calculate_speed(dx, max_speed, False)
     if leftward_movement:
-        dx = calculate_speed(dx, max_speed, smoothness, True)
+        dx = calculate_speed(dx, max_speed, True)
 
-    if not upward_movement and not downward_movement:
-        if dy > 0:
-            dy -= acceleration
-        elif dy < 0:
-            dy += acceleration
+    x += dx
+    y += dy
 
-    if not rightward_movement and not leftward_movement:
-        if dx > 0:
-            dx -= acceleration
-        elif dx < 0:
-            dx += acceleration
-
-    return dx, dy
+    x, y = field_boundary_collision(x, y)
+    return x, y, dx, dy
 
 
 class Player(pygame.sprite.Sprite):
@@ -85,7 +84,7 @@ class Player(pygame.sprite.Sprite):
         self.dy: float = 0.
 
         self.max_speed: float = DEFAULT_PLAYER_SPEED
-        self.acceleration: float = self.max_speed / SMOOTHNESS
+        self.acceleration: float = self.max_speed / ACCELERATION_SMOOTHNESS
 
         self.max_hp: int = DEFAULT_PLAYER_HP
         self.hp: int = DEFAULT_PLAYER_HP
@@ -108,22 +107,12 @@ class Player(pygame.sprite.Sprite):
         self.rightward_movement: bool = False
         self.leftward_movement: bool = False
 
-    def speed_calculation(self) -> None:
+    def movements(self) -> None:
         """calculation of speed using directional values"""
-        self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed, self.acceleration,
-                                              SMOOTHNESS, self.upward_movement, self.downward_movement,
-                                              self.rightward_movement, self.leftward_movement)
-
-    def coordinate_calculation(self) -> None:
-        """coordinates calculation"""
-        dx = self.dx
-        dy = self.dy
-        dx = math.cos(math.atan2(abs(dy), abs(dx))) * dx
-        dy = math.cos(math.atan2(abs(dx), abs(dy))) * dy
-        self.x += dx
-        self.y += dy
-
-        self.x, self.y = field_boundary_collision(self.x, self.y)
+        self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
+                                                              self.acceleration, self.upward_movement,
+                                                              self.downward_movement,
+                                                              self.rightward_movement, self.leftward_movement)
 
     def update(self) -> None:
         keys = pygame.key.get_pressed()
@@ -131,10 +120,7 @@ class Player(pygame.sprite.Sprite):
         self.downward_movement = keys[pygame.K_s]
         self.rightward_movement = keys[pygame.K_d]
         self.leftward_movement = keys[pygame.K_a]
-
-        self.speed_calculation()
-        self.coordinate_calculation()
-
+        self.movements()
         self.rect.x = round(self.x)
         self.rect.y = round(self.y)
 
