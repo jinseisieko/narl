@@ -4,24 +4,10 @@ import sys
 import pygame
 from Constants import *
 from Player import Player
+from Field import Field
 
 mode_fps: int = 1
 clock = pygame.time.Clock()
-
-
-class Field:
-    def __init__(self) -> None:
-        self.field: pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
-        self.field.fill(GRAY)
-        # сделать его красивым
-
-    def draw(self, *groups: pygame.sprite.Group) -> None:
-        """draw groups in the sequence in which they are presented """
-
-        self.field.fill(GRAY)
-        for group in groups:
-            group.draw(self.field)
-
 
 # groups
 all_sprites: pygame.sprite.Group = pygame.sprite.Group()
@@ -37,22 +23,35 @@ all_sprites.add(player_group)
 
 # field
 field: Field = Field()
-screen = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
+screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
 # actions
-running = True
-shooting = False
+running: bool = True
+shooting: bool = False
+
 # frames
-frame_draw = 0
-frame_shot = 0
+frame_draw: int = 0
+frame_shot: int = 0
+
 while running:
+    flag_for_event = True
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            break
+        elif pygame.key.get_pressed()[pygame.K_DELETE]:
+            pygame.quit()
+            running = False
+            break
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             shooting = True
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             shooting = False
+    else:
+        flag_for_event = False
+
+    if flag_for_event:
+        break
 
     # add new obj
     if shooting and frame_shot == 0:
@@ -83,7 +82,7 @@ while running:
 
     pygame.display.flip()
     clock.tick(TICKS)
-    # print("FPS:", int(clock.get_fps()) / 120 * FPS[mode_fps])
+    # print("FPS:", int(clock.get_fps()) / 120 * FPS[mode_fps], "Objects: ", len(all_sprites))
 
 pygame.quit()
 sys.exit()

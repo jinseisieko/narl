@@ -3,7 +3,7 @@
 
 class Item:
     def __init__(self) -> None:
-        self.id: int = 0
+        self.id: int = None
         self.parent: str = "Item"
         self.characteristics: dict = {}
 
@@ -12,4 +12,15 @@ class Item:
 
         for key, item in self.characteristics.items():
             if hasattr(player, key):
-                eval(f"player.set_{key}(player.get_{key}() * item)")
+                exec(f"player.{key} *= {item}")
+
+
+class ShotTypeItem:
+    def __init__(self) -> None:
+        self.id: int = 0
+        self.parent: str = "ShotTypeItem"
+        self.characteristics: dict = {}
+
+    def get_name(self) -> str:
+        """return name for item definition"""
+        return self.__class__.__name__

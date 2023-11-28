@@ -5,21 +5,26 @@ from Constants import *
 import pygame
 
 
-def angle_calculation(x1, y1, cursor_x, cursor_y) -> float:
+def calculate_angle(x1, y1, cursor_x, cursor_y) -> float:
     """angle calculation is necessary for DefaultPlayerProjectile class"""
-    print(((y1 - FIELD_HEIGHT) + cursor_y))
-    return math.atan2(((y1 - HEIGHT) + cursor_y) - y1, ((x1 - WIDTH) + cursor_x) - x1)
+    return math.atan2(((y1 - HEIGHT // 2) + cursor_y) - y1, ((x1 - WIDTH // 2) + cursor_x) - x1)
 
 
-def speed_calculation(angle: float, speed: float) -> tuple[float, float]:
+def calculate_speed(angle: float, speed: float) -> tuple[float, float]:
     """speed calculation is necessary for DefaultPlayerProjectile class"""
     return speed * math.cos(angle), speed * math.sin(angle)
+
+
+def coordinate_calculation(x: float, y: float, dx: float, dy: float) -> tuple[float, float]:
+    """coordinate calculation for projectile"""
+    return x + dx, y + dy
 
 
 class DefaultPlayerProjectile(pygame.sprite.Sprite):
     def __init__(self, player, target: tuple[float, float]) -> None:
         super().__init__()
-        print(1)
+
+        # values
         self.player = player
 
         self.size: int = self.player.projectile_size
@@ -36,17 +41,16 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.distant: float = 0
         self.speed: float = self.player.projectile_speed
         self.damage: int = self.player.projectile_damage
-        self.angle: float = angle_calculation(self.player.rect.centerx, self.player.rect.centery, target[0], target[1])
+        self.angle: float = calculate_angle(self.player.rect.centerx, self.player.rect.centery, target[0], target[1])
         self.trajectory: list[float] = self.player.projectile_trajectory
 
-        self.dx: float = 0.
-        self.dy: float = 0.
+        self.dx: float
+        self.dy: float
 
-        self.dx, self.dy = speed_calculation(self.angle, self.speed)
+        self.dx, self.dy = calculate_speed(self.angle, self.speed)
 
     def coordinate_calculation(self):
-        self.x += self.dx
-        self.y += self.dy
+        self.x, self.y = coordinate_calculation(self.x, self.y, self.dx, self.dy)
 
     def update(self):
         self.coordinate_calculation()
