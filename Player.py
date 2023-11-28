@@ -90,6 +90,7 @@ class Player(pygame.sprite.Sprite):
         self.max_hp: int = DEFAULT_PLAYER_HP
         self.hp: int = DEFAULT_PLAYER_HP
         self.period: int = DEFAULT_PROJECTILE_PERIOD
+
         self.projectile_range: float = DEFAULT_PROJECTILE_RANGE
         self.projectile_speed: float = DEFAULT_PROJECTILE_SPEED
         self.projectile_size: int = DEFAULT_PROJECTILE_SIZE
