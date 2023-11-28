@@ -89,18 +89,18 @@ class Player(pygame.sprite.Sprite):
         if not self.upward_movement and not self.downward_movement:
             if self.dy > 0:
                 self.dy -= self.speed_change
-                self.dy /= 1.01  # это нужно чтобы при остановки ты не двигался на маленькие дробные числа
+                self.dy /= 1.03  # это нужно чтобы при остановки ты не двигался на маленькие дробные числа
             elif self.dy < 0:
                 self.dy += self.speed_change
-                self.dy /= 1.01
+                self.dy /= 1.03
 
         if not self.rightward_movement and not self.leftward_movement:
             if self.dx > 0:
                 self.dx -= self.speed_change
-                self.dx /= 1.01
+                self.dx /= 1.03
             elif self.dx < 0:
                 self.dx += self.speed_change
-                self.dx /= 1.01
+                self.dx /= 1.03
 
     def coordinate_calculation(self) -> None:
         """coordinates calculation"""

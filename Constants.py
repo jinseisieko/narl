@@ -20,7 +20,7 @@ DEFAULT_PROJECTILE_SPEED: float = 8
 DEFAULT_PROJECTILE_RANGE: float = 250
 DEFAULT_PROJECTILE_DAMAGE: int = 1
 DEFAULT_PROJECTILE_SIZE: int = 15
-DEFAULT_PROJECTILE_TYPE: str = "default_projectile"  # поменять на дефолтный класс
+DEFAULT_PROJECTILE_TYPE: str = "default_projectile"
 
 RED: tuple[int, int, int] = (200, 200, 200)
 GREEN: tuple[int, int, int] = (200, 200, 200)
