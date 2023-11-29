@@ -7,8 +7,8 @@ FIELD_HEIGHT: int = 3000
 WIDTH: int = windll.user32.GetSystemMetrics(0)
 HEIGHT: int = windll.user32.GetSystemMetrics(1)
 
-MOVE_SCREEN_RECT_X: float = 100
-MOVE_SCREEN_RECT_Y: float = 100
+MOVE_SCREEN_RECT_X: float = WIDTH // 8
+MOVE_SCREEN_RECT_Y: float = HEIGHT // 8
 
 PLAYER_SIZE: int = 50  # matches the size of the player's image
 TICKS: int = 120
@@ -17,7 +17,7 @@ DEFAULT_FPS: int = 0
 ACCELERATION_SMOOTHNESS: int = 25
 SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
 
-DEFAULT_PLAYER_SPEED: float = 6
+DEFAULT_PLAYER_SPEED: float = 4
 DEFAULT_PLAYER_HP: int = 10
 DEFAULT_PROJECTILE_PERIOD: int = TICKS // 2
 DEFAULT_PROJECTILE_SPEED: float = 5
