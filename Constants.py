@@ -16,8 +16,8 @@ SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
 
 DEFAULT_PLAYER_SPEED: float = 6
 DEFAULT_PLAYER_HP: int = 10
-DEFAULT_PROJECTILE_PERIOD: int = TICKS//5
-DEFAULT_PROJECTILE_SPEED: float = 4
+DEFAULT_PROJECTILE_PERIOD: int = TICKS
+DEFAULT_PROJECTILE_SPEED: float = 5
 DEFAULT_PROJECTILE_RANGE: float = 250
 DEFAULT_PROJECTILE_DAMAGE: int = 1
 DEFAULT_PROJECTILE_SIZE: int = 30
@@ -27,7 +27,6 @@ RED: tuple[int, int, int] = (255, 0, 0)
 GREEN: tuple[int, int, int] = (0, 255, 0)
 BLUE: tuple[int, int, int] = (0, 0, 255)
 GRAY: tuple[int, int, int] = (200, 200, 200)
-
 
 # вместо TYPE писарь реальное название типа врага
 DEFAULT_TYPE_ENEMY_SIZE: int = 0

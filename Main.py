@@ -71,13 +71,14 @@ while running:
     # draw
     if frame_draw == 0:
         frame_draw = TICKS // FPS[mode_fps]
-        field.draw(enemies_projectile, players_projectile, player_group, enemies)
+        field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
         screen.fill((0, 0, 0))
         screen.blit(field.field, (0, 0),
                     (player.rect.centerx - WIDTH // 2, player.rect.centery - HEIGHT // 2, WIDTH, HEIGHT))
 
         pos_mouse = pygame.mouse.get_pos()
-        screen.blit(ImageSprites.sprites['cursor'], (pos_mouse[0], pos_mouse[1]))
+        screen.blit(ImageSprites.sprites['cursor'],
+                    (pos_mouse[0] - player.projectile_size // 2, pos_mouse[1] - player.projectile_size // 2))
 
     # update frames
     if frame_draw > 0:

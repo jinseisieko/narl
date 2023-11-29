@@ -1,8 +1,11 @@
 import pygame
 
 sprites: dict = {
-    'player_up_0': pygame.image.load(r"image/player/player_up_0.png"),
-    'player_up_1': pygame.image.load(r"image/player/player_up_1.png"),
+    # 'player_up_0': pygame.image.load(r"image/player/player_up_0.png"),
+    # 'player_up_1': pygame.image.load(r"image/player/player_up_1.png"),
+    'player_nr': pygame.image.load(r"image/player/player_nr.png"),
+    'player_pd': pygame.image.load(r"image/player/player_pd.png"),
+    'hat': pygame.image.load(r"image/player/hat.png"),
     'default_projectile': None,
     # 'projectile15': pygame.image.load(r"image/projectiles/projectile15.png"),
     'projectile30': pygame.image.load(r"image/projectiles/projectile30.png"),

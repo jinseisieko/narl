@@ -1,4 +1,5 @@
 """class Player and additional functions"""
+import random
 
 import pygame.sprite
 
@@ -70,8 +71,8 @@ class Player(pygame.sprite.Sprite):
 
         # values
         self.size: int = PLAYER_SIZE
-        self.image: pygame.image = ImageSprites.sprites["player_up_0"]
-        self.rect: pygame.Rect = self.image.get_rect()
+        self.image: pygame.image = ImageSprites.sprites["player_nr"]
+        self.rect: pygame.Rect = pygame.Surface((PLAYER_SIZE, PLAYER_SIZE)).get_rect()
 
         self.x: float = FIELD_WIDTH / 2
         self.y: float = FIELD_HEIGHT / 2
@@ -106,8 +107,9 @@ class Player(pygame.sprite.Sprite):
         self.rightward_movement: bool = False
         self.leftward_movement: bool = False
 
-        self.animation_frame = 0
-        self.animation_number = 0
+        self.animation_frame: int = 0
+        self.animation_number: int = 0
+        self.animation_duration: int = 30
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
@@ -115,13 +117,16 @@ class Player(pygame.sprite.Sprite):
                                                               self.downward_movement,
                                                               self.rightward_movement, self.leftward_movement)
 
-    def update(self) -> None:   # супер прототип на анимации
-        if self.animation_frame == 0:
-            self.animation_frame = 30
+    def update(self) -> None:
+        # animation once per animation_frame ticks and animation_duration ticks duration
+        if self.animation_frame == 0 or self.animation_number >= 1:
+            self.animation_frame = random.randint(35, 1000)
 
-            self.animation_number = (self.animation_number + 1) % 2
-
-            self.image = ImageSprites.sprites[f"player_up_{self.animation_number}"]
+            self.animation_number = (self.animation_number + 1) % self.animation_duration
+            if self.animation_number == 0:
+                self.image = ImageSprites.sprites["player_nr"]
+            else:
+                self.image = ImageSprites.sprites["player_pd"]
 
         keys = pygame.key.get_pressed()
         self.upward_movement = keys[pygame.K_w]
