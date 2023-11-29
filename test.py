@@ -45,6 +45,7 @@ while True:
                 # Обновляем время последнего нажатия
                 last_click_time = current_time
 
+
     # Отрисовка
     screen.fill(white)
 
