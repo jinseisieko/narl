@@ -134,7 +134,9 @@ class Player(pygame.sprite.Sprite):
         self.downward_movement = keys[pygame.K_s]
         self.rightward_movement = keys[pygame.K_d]
         self.leftward_movement = keys[pygame.K_a]
+
         self.movements()
+
         self.rect.x = round(self.x)
         self.rect.y = round(self.y)
 
