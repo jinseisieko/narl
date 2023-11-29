@@ -14,8 +14,8 @@ class Field:
 
         self.background = pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
         self.background.fill((158, 240, 144))
-        for _ in range(500000):
-            if random.choice([True] * 5 + [False]):
+        for _ in range(700000):
+            if random.choice([True] * 9 + [False]):
                 number_image_grass = random.randint(1, 5)
                 self.background.blit(ImageSprites.sprites[f"grass{number_image_grass}"],
                                      (random.randint(-15, FIELD_WIDTH + 15), random.randint(-15, FIELD_HEIGHT + 15)))
