@@ -24,14 +24,15 @@ def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
     return x, y
 
 
-def calculate_speed(speed: float, max_speed: float, sign: bool) -> float:
-    dx: float = max_speed / ACCELERATION_SMOOTHNESS
+def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> float:
+    speed_sign: float = math.copysign(1, number)
+    limit: float = max(abs(speed), max_speed) * speed_sign
     if sign:
-        speed -= dx
-        speed = max(speed, -max_speed)
+        speed -= dv
+        speed = max(speed, -limit)
     else:
-        speed += dx
-        speed = min(speed, max_speed)
+        speed += dv
+        speed = min(speed, limit)
     return speed
 
 
@@ -46,15 +47,15 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
         dy = min(0.0, dy + max_speed / SLOWDOWN_SMOOTHNESS)
     else:
         dy = max(0.0, dy - max_speed / SLOWDOWN_SMOOTHNESS)
-
+                           
     if upward_movement:
-        dy = calculate_speed(dy, max_speed, True)
+        dy = calculate_speed(dy, max_speed, acceleration, True)
     if downward_movement:
-        dy = calculate_speed(dy, max_speed, False)
+        dy = calculate_speed(dy, max_speed, acceleration, False)
     if rightward_movement:
-        dx = calculate_speed(dx, max_speed, False)
+        dx = calculate_speed(dx, max_speed, acceleration, False)
     if leftward_movement:
-        dx = calculate_speed(dx, max_speed, True)
+        dx = calculate_speed(dx, max_speed, acceleration, True)
 
     x += dx
     y += dy
