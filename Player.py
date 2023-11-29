@@ -3,6 +3,7 @@ import random
 
 import pygame.sprite
 
+import Field
 import ImageSprites
 import Items
 from Projectiles import *
@@ -19,7 +20,7 @@ def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
     if y > FIELD_HEIGHT - PLAYER_SIZE:
         y = FIELD_HEIGHT - PLAYER_SIZE
     elif y < 0:
-        y = 0
+        y = 0.
 
     return x, y
 
@@ -46,7 +47,7 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
         dy = min(0.0, dy + max_speed / SLOWDOWN_SMOOTHNESS)
     else:
         dy = max(0.0, dy - max_speed / SLOWDOWN_SMOOTHNESS)
-                           
+
     if upward_movement:
         dy = calculate_speed(dy, max_speed, acceleration, True)
     if downward_movement:
@@ -66,9 +67,10 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
 class Player(pygame.sprite.Sprite):
     """class Player"""
 
-    def __init__(self) -> None:
+    def __init__(self, field: Field.Field) -> None:
         super().__init__()
 
+        self.field: Field.Field = field
         # values
         self.size: int = PLAYER_SIZE
         self.image: pygame.image = ImageSprites.sprites["player_nr"]
@@ -112,8 +114,10 @@ class Player(pygame.sprite.Sprite):
         self.animation_number: int = 0
         self.animation_duration: int = 30
 
+        self.field.screen_centre = [self.rect.centerx, self.rect.centery]
+
     def movements(self) -> None:
-        self.x, self.y, self.dx, self.dy= calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
+        self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
                                                               self.acceleration, self.upward_movement,
                                                               self.downward_movement,
                                                               self.rightward_movement, self.leftward_movement)
@@ -144,4 +148,8 @@ class Player(pygame.sprite.Sprite):
             self.animation_frame -= 1
 
     def shot(self) -> list:  # test
-        return [DefaultPlayerProjectile(self, pygame.mouse.get_pos())]
+        cursor_pos = pygame.mouse.get_pos()
+
+        return [DefaultPlayerProjectile(self, (
+            self.field.screen_centre[0] - WIDTH // 2 + cursor_pos[0],
+            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]))]

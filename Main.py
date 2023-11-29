@@ -8,6 +8,8 @@ from Constants import *
 from Player import Player
 from Field import Field
 
+field: Field = Field()
+
 mode_fps: int = 1
 clock = pygame.time.Clock()
 
@@ -19,12 +21,12 @@ enemies_projectile: pygame.sprite.Group = pygame.sprite.Group()
 player_group: pygame.sprite.Group = pygame.sprite.Group()
 
 # player
-player: Player = Player()
+player: Player = Player(field)
 player_group.add(player)
 all_sprites.add(player_group)
 
 # field
-field: Field = Field()
+
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
 # actions
@@ -68,13 +70,15 @@ while running:
     # update
     all_sprites.update()
 
+    # screen movement calculation
+    field.move_screen_relative_player(player)
     # draw
     if frame_draw == 0:
         frame_draw = TICKS // FPS[mode_fps]
         field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
         screen.fill((0, 0, 0))
         screen.blit(field.field, (0, 0),
-                    (player.rect.centerx - WIDTH // 2, player.rect.centery - HEIGHT // 2, WIDTH, HEIGHT))
+                    (field.screen_centre[0] - WIDTH // 2, field.screen_centre[1] - HEIGHT // 2, WIDTH, HEIGHT))
 
         pos_mouse = pygame.mouse.get_pos()
         screen.blit(ImageSprites.sprites['cursor'],

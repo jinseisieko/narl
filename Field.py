@@ -4,17 +4,18 @@ import pygame
 
 import Constants
 import ImageSprites
-from Constants import GRAY, FIELD_WIDTH, FIELD_HEIGHT, GREEN
+from Constants import *
 
 
 class Field:
     def __init__(self) -> None:
         # values
         self.field: pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
+        self.screen_centre: list[float, float] = [0., 0.]
 
         self.background = pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
         self.background.fill((158, 240, 144))
-        for _ in range(700000):
+        for _ in range(100):
             if random.choice([True] * 9 + [False]):
                 number_image_grass = random.randint(1, 5)
                 self.background.blit(ImageSprites.sprites[f"grass{number_image_grass}"],
@@ -35,3 +36,20 @@ class Field:
 
         self.field.blit(ImageSprites.sprites["hat"],
                         (player.rect.x + Constants.PLAYER_SIZE // 2 - Constants.PLAYER_SIZE // 4, player.rect.y - 15))
+
+        pygame.draw.rect(self.field, (255, 0, 0), (self.screen_centre[0] - MOVE_SCREEN_RECT_X,
+                                                   self.screen_centre[1] - MOVE_SCREEN_RECT_Y,
+                                                   MOVE_SCREEN_RECT_X * 2, MOVE_SCREEN_RECT_Y * 2), 5)
+
+    def move_screen_relative_player(self, player):
+        if MOVE_SCREEN_RECT_X < self.screen_centre[0] - player.rect.centerx:
+            self.screen_centre[0] += -abs((self.screen_centre[0] - MOVE_SCREEN_RECT_X) - player.rect.centerx)
+
+        if MOVE_SCREEN_RECT_X < -(self.screen_centre[0] - player.rect.centerx):
+            self.screen_centre[0] += abs((self.screen_centre[0] + MOVE_SCREEN_RECT_X) - player.rect.centerx)
+
+        if MOVE_SCREEN_RECT_Y < self.screen_centre[1] - player.rect.centery:
+            self.screen_centre[1] += -abs((self.screen_centre[1] - MOVE_SCREEN_RECT_Y) - player.rect.centery)
+
+        if MOVE_SCREEN_RECT_Y < -(self.screen_centre[1] - player.rect.centery):
+            self.screen_centre[1] += abs((self.screen_centre[1] + MOVE_SCREEN_RECT_Y) - player.rect.centery)

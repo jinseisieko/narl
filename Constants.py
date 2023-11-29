@@ -7,6 +7,9 @@ FIELD_HEIGHT: int = 3000
 WIDTH: int = windll.user32.GetSystemMetrics(0)
 HEIGHT: int = windll.user32.GetSystemMetrics(1)
 
+MOVE_SCREEN_RECT_X: float = 100
+MOVE_SCREEN_RECT_Y: float = 100
+
 PLAYER_SIZE: int = 50  # matches the size of the player's image
 TICKS: int = 120
 FPS: tuple[int, int] = (60, 120)
