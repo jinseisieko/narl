@@ -1,13 +1,10 @@
 import pygame
 
 sprites: dict = {
-    # 'player_up_0': pygame.image.load(r"image/player/player_up_0.png"),
-    # 'player_up_1': pygame.image.load(r"image/player/player_up_1.png"),
     'player_nr': pygame.image.load(r"image/player/player_nr.png"),
     'player_pd': pygame.image.load(r"image/player/player_pd.png"),
     'hat': pygame.image.load(r"image/player/hat.png"),
     'default_projectile': None,
-    # 'projectile15': pygame.image.load(r"image/projectiles/projectile15.png"),
     'projectile30': pygame.image.load(r"image/projectiles/projectile30.png"),
     'grass1': pygame.image.load(r"image/grasses/grass1.png"),
     'grass2': pygame.image.load(r"image/grasses/grass2.png"),
@@ -15,5 +12,14 @@ sprites: dict = {
     'grass4': pygame.image.load(r"image/grasses/grass4.png"),
     'grass5': pygame.image.load(r"image/grasses/grass5.png"),
     'stone1': pygame.image.load(r"image/stones/stone1.png"),
-    'cursor': pygame.image.load(r"image/cursor.png")
+    'cursor': pygame.image.load(r"image/cursor.png"),
+    'texture_grass_0': pygame.image.load(r"image/texture_grass/texture_grass_0.png"),
+    'texture_grass_1': pygame.image.load(r"image/texture_grass/texture_grass_1.png"),
+    'texture_grass_2': pygame.image.load(r"image/texture_grass/texture_grass_2.png"),
+    'texture_grass_3': pygame.image.load(r"image/texture_grass/texture_grass_3.png"),
+    'texture_grass_4': pygame.image.load(r"image/texture_grass/texture_grass_4.png"),
+    'texture_grass_5': pygame.image.load(r"image/texture_grass/texture_grass_5.png"),
+    'texture_grass_6': pygame.image.load(r"image/texture_grass/texture_grass_6.png"),
+    'texture_grass_7': pygame.image.load(r"image/texture_grass/texture_grass_7.png"),
+    'texture_grass_8': pygame.image.load(r"image/texture_grass/texture_grass_8.png"),
 }

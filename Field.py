@@ -28,15 +28,11 @@ class Field:
 
         self.background = pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
         self.background.fill((158, 240, 144))
-        for _ in range(100):
-            if random.choice([True] * 9 + [False]):
-                number_image_grass = random.randint(1, 5)
-                self.background.blit(ImageSprites.sprites[f"grass{number_image_grass}"],
-                                     (random.randint(-15, FIELD_WIDTH + 15), random.randint(-15, FIELD_HEIGHT + 15)))
-            else:
-                number_image_stone = random.randint(1, 1)
-                self.background.blit(ImageSprites.sprites[f"stone{number_image_stone}"],
-                                     (random.randint(-15, FIELD_WIDTH + 15), random.randint(-15, FIELD_HEIGHT + 15)))
+        # self.background.fill((200, 200, 200))
+        for i in range(FIELD_WIDTH // 400 + 1):
+            for j in range(FIELD_HEIGHT // 400 + 1):
+                number_texture_grass = random.randint(0, 8)
+                self.background.blit(ImageSprites.sprites[f'texture_grass_{number_texture_grass}'], (i * 400, j * 400))
 
         self.field.blit(self.background, (0, 0))
         # сделать его красивым
