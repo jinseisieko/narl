@@ -70,7 +70,7 @@ class Player(pygame.sprite.Sprite):
 
         # values
         self.size: int = PLAYER_SIZE
-        self.image: pygame.image = pygame.image.load(ImageSprites.sprites["player"])
+        self.image: pygame.image = ImageSprites.sprites["player_up_0"]
         self.rect: pygame.Rect = self.image.get_rect()
 
         self.x: float = FIELD_WIDTH / 2
@@ -106,13 +106,23 @@ class Player(pygame.sprite.Sprite):
         self.rightward_movement: bool = False
         self.leftward_movement: bool = False
 
+        self.animation_frame = 0
+        self.animation_number = 0
+
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
                                                               self.acceleration, self.upward_movement,
                                                               self.downward_movement,
                                                               self.rightward_movement, self.leftward_movement)
 
-    def update(self) -> None:
+    def update(self) -> None:   # супер прототип на анимации
+        if self.animation_frame == 0:
+            self.animation_frame = 30
+
+            self.animation_number = (self.animation_number + 1) % 2
+
+            self.image = ImageSprites.sprites[f"player_up_{self.animation_number}"]
+
         keys = pygame.key.get_pressed()
         self.upward_movement = keys[pygame.K_w]
         self.downward_movement = keys[pygame.K_s]
@@ -121,6 +131,9 @@ class Player(pygame.sprite.Sprite):
         self.movements()
         self.rect.x = round(self.x)
         self.rect.y = round(self.y)
+
+        if self.animation_frame > 0:
+            self.animation_frame -= 1
 
     def shot(self) -> list:  # test
         return [DefaultPlayerProjectile(self, pygame.mouse.get_pos())]
