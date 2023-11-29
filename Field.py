@@ -1,6 +1,7 @@
 import math
 import random
 
+import numba
 import pygame
 
 import Constants
