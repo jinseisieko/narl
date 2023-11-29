@@ -4,11 +4,16 @@ import random
 import pygame.sprite
 
 import Field
-import ImageSprites
 import Items
 from Projectiles import *
 
 
+def calculate_dash(n: int, speed: float, max_speed: float) -> float:
+    speed = min(max_speed, max_speed * 2 * n / DASH_TIME) * math.copysign(1, speed)
+    return speed
+
+
+@numba.jit(nopython=True)
 def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
     """function is designed to change coordinates when colliding with a boundary"""
 
@@ -25,6 +30,7 @@ def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
     return x, y
 
 
+@numba.jit(nopython=True)
 def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> float:
     limit: float = max(abs(speed), max_speed)
     if sign:
@@ -36,6 +42,7 @@ def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> fl
     return speed
 
 
+@numba.jit(nopython=True)
 def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: float, acceleration: float,
                        upward_movement: bool, downward_movement: bool,
                        rightward_movement: bool, leftward_movement: bool) -> tuple[float, float, float, float]:
@@ -91,6 +98,7 @@ class Player(pygame.sprite.Sprite):
         self.max_hp: int = DEFAULT_PLAYER_HP
         self.hp: int = DEFAULT_PLAYER_HP
         self.period: int = DEFAULT_PROJECTILE_PERIOD
+        self.dash_timer: int = 0
 
         self.projectile_range: float = DEFAULT_PROJECTILE_RANGE
         self.projectile_speed: float = DEFAULT_PROJECTILE_SPEED
@@ -122,6 +130,13 @@ class Player(pygame.sprite.Sprite):
                                                               self.downward_movement,
                                                               self.rightward_movement, self.leftward_movement)
 
+    def dash(self) -> None:
+
+        if a:
+            self.dx = calculate_dash(self.dash_timer, self.dx)
+        if b:
+            self.dx = calculate_dash(self.dash_timer, self.dx)
+
     def update(self) -> None:
         # animation once per animation_frame ticks and animation_duration ticks duration
         if self.animation_frame == 0 or self.animation_number >= 1:
@@ -138,9 +153,11 @@ class Player(pygame.sprite.Sprite):
         self.downward_movement = keys[pygame.K_s]
         self.rightward_movement = keys[pygame.K_d]
         self.leftward_movement = keys[pygame.K_a]
+        if self.dash_timer:
+            self.dash()
+            self.dash_timer -= 1
 
         self.movements()
-
         self.rect.x = round(self.x)
         self.rect.y = round(self.y)
 

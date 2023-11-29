@@ -1,22 +1,24 @@
 """classes Projectiles and additional functions"""
 import math
 
+import numba
+
 import ImageSprites
 from Constants import *
 
 import pygame
 
-
+@numba.jit(nopython=True)
 def calculate_angle(x1: float, y1: float, cursor_x: float, cursor_y: float) -> float:
     """angle calculation is necessary for DefaultPlayerProjectile class"""
     return math.atan2(cursor_y - y1, cursor_x - x1)
 
-
+@numba.jit(nopython=True)
 def calculate_speed(angle: float, speed: float, player_dx: float, player_dy: float) -> tuple[float, float]:
     """speed calculation is necessary for DefaultPlayerProjectile class"""
     return speed * math.cos(angle) + player_dx, speed * math.sin(angle) + player_dy
 
-
+@numba.jit(nopython=True)
 def coordinate_calculation(x: float, y: float, dx: float, dy: float) -> tuple[float, float]:
     """coordinate calculation for projectile"""
     return x + dx, y + dy
