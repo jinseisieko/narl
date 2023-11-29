@@ -110,7 +110,7 @@ class Player(pygame.sprite.Sprite):
 
         self.animation_frame: int = 0
         self.animation_number: int = 0
-        self.animation_duration: intц = 30
+        self.animation_duration: int = 30
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
