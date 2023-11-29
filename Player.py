@@ -25,7 +25,6 @@ def field_boundary_collision(x: float, y: float) -> tuple[float, float]:
 
 
 def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> float:
-    speed_sign: float = math.copysign(1, speed)  # здесь был какой-то number
     limit: float = max(abs(speed), max_speed)
     if sign:
         speed -= dv
@@ -114,7 +113,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_duration: int = 30
 
     def movements(self) -> None:
-        self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
+        self.x, self.y, self.dx, self.dy= calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
                                                               self.acceleration, self.upward_movement,
                                                               self.downward_movement,
                                                               self.rightward_movement, self.leftward_movement)
