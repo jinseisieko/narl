@@ -19,7 +19,7 @@ white = (255, 255, 255)
 font = pygame.font.Font(None, 36)
 
 # Переменные для отслеживания двойного нажатия
-double_click_interval = 500  # интервал в миллисекундах между двумя нажатиями для считывания как двойное нажатие
+double_click_interval = 200  # интервал в миллисекундах между двумя нажатиями для считывания как двойное нажатие
 last_click_time = 0
 double_click = False
 
@@ -31,7 +31,7 @@ while True:
             sys.exit()
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_a:
                 # Проверяем, прошло ли достаточно времени с момента последнего нажатия
                 current_time = pygame.time.get_ticks()
                 if current_time - last_click_time < double_click_interval:
@@ -56,4 +56,4 @@ while True:
     pygame.display.flip()
 
     # Ограничение частоты кадров
-    pygame.time.Clock().tick(60)
+    pygame.time.Clock().tick(120)

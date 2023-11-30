@@ -41,6 +41,22 @@ shooting: bool = False
 frame_draw: int = 0
 frame_shot: int = 0
 
+double_click_interval_w = 200
+last_click_time_w = 0
+double_click_w = False
+
+double_click_interval_a = 200
+last_click_time_a = 0
+double_click_a = False
+
+double_click_interval_s = 200
+last_click_time_s = 0
+double_click_s = False
+
+double_click_interval_d = 200
+last_click_time_d = 0
+double_click_d = False
+
 pygame.mouse.set_visible(False)
 while running:
     flag_for_event = True
@@ -56,6 +72,48 @@ while running:
             shooting = True
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             shooting = False
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                current_time_w = pygame.time.get_ticks()
+                if current_time_w - last_click_time_w < double_click_interval_w:
+                    # Это двойное нажатие
+                    double_click_w = True
+                    print("Двойное нажатие! w")
+                else:
+                    double_click_w = False
+                last_click_time_w = current_time_w
+
+            if event.key == pygame.K_a:
+                current_time_a = pygame.time.get_ticks()
+                if current_time_a - last_click_time_a < double_click_interval_a:
+                    # Это двойное нажатие
+                    double_click_a = True
+                    print("Двойное нажатие! a")
+                else:
+                    double_click_a = False
+                last_click_time_a = current_time_a
+
+            if event.key == pygame.K_s:
+                current_time_s = pygame.time.get_ticks()
+                if current_time_s - last_click_time_s < double_click_interval_s:
+                    # Это двойное нажатие
+                    double_click_s = True
+                    print("Двойное нажатие! s")
+                else:
+                    double_click_s = False
+                last_click_time_s = current_time_s
+
+            if event.key == pygame.K_d:
+                current_time_d = pygame.time.get_ticks()
+                if current_time_d - last_click_time_d < double_click_interval_d:
+                    # Это двойное нажатие
+                    double_click_d = True
+                    print("Двойное нажатие! d")
+                else:
+                    double_click_d = False
+                last_click_time_d = current_time_d
+
     else:
         flag_for_event = False
 
