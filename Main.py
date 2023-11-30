@@ -33,6 +33,7 @@ screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.N
 enemy = Enemy(player, player.x, player.y)
 enemies.add(enemy)
 all_sprites.add(enemy)
+
 # actions
 running: bool = True
 shooting: bool = False
