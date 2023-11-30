@@ -9,22 +9,23 @@ import ImageSprites
 from Constants import *
 
 
-def calculate_screen_movement(screen_centre: list[float, float], player_centerx: float, player_centery: float,
-                              speed: float) -> list[float, float]:
-    speed_x: float = speed * ((player_centerx - screen_centre[0]) / MOVE_SCREEN_RECT_X)
-    speed_y: float = speed * ((player_centery - screen_centre[1]) / MOVE_SCREEN_RECT_Y)
+@numba.jit(nopython=True, fastmath=True)
+def calculate_screen_movement(screen_centre_x: float, screen_centre_y: float, player_centerx: float,
+                              player_centery: float,
+                              player_max_speed: float, player_dx, player_dy, MOVE_SCREEN_RECT: int) -> tuple[
+    float, float]:
+    speed: float = max(player_max_speed, (player_dx ** 2 + player_dy ** 2) ** 0.5)
+    speed_x: float = speed * ((player_centerx - screen_centre_x) / MOVE_SCREEN_RECT)
+    speed_y: float = speed * ((player_centery - screen_centre_y) / MOVE_SCREEN_RECT)
 
-    screen_centre[0] += speed_x
-    screen_centre[1] += speed_y
-
-    return screen_centre
+    return screen_centre_x + speed_x, screen_centre_y + speed_y
 
 
 class Field:
     def __init__(self) -> None:
         # values
         self.field: pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
-        self.screen_centre: list[float, float] = [0., 0.]
+        self.screen_centre: tuple[float, float] = 0.0, 0.0
 
         self.background = pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
         self.background.fill((158, 240, 144))
@@ -51,7 +52,6 @@ class Field:
         #                                            MOVE_SCREEN_RECT_X * 2, MOVE_SCREEN_RECT_Y * 2), 5)
 
     def move_screen_relative_player(self, player):
-        self.screen_centre = calculate_screen_movement(self.screen_centre,
-                                                       player.rect.centerx,
-                                                       player.rect.centery,
-                                                       max(player.max_speed, (player.dx ** 2 + player.dy ** 2) ** 0.5))
+        self.screen_centre = calculate_screen_movement(*self.screen_centre, player.rect.centerx, player.rect.centery,
+                                                       player.max_speed, player.dx, player.dy,
+                                                       MOVE_SCREEN_RECT)

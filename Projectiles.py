@@ -2,26 +2,28 @@
 import math
 
 import numba
-
-import ImageSprites
-from Constants import *
-
 import pygame
 
-@numba.jit(nopython=True)
+import ImageSprites
+
+
+@numba.jit(nopython=True, fastmath=True)
 def calculate_angle(x1: float, y1: float, cursor_x: float, cursor_y: float) -> float:
     """angle calculation is necessary for DefaultPlayerProjectile class"""
     return math.atan2(cursor_y - y1, cursor_x - x1)
 
-@numba.jit(nopython=True)
+
+@numba.jit(nopython=True, fastmath=True)
 def calculate_speed(angle: float, speed: float, player_dx: float, player_dy: float) -> tuple[float, float]:
     """speed calculation is necessary for DefaultPlayerProjectile class"""
     return speed * math.cos(angle) + player_dx, speed * math.sin(angle) + player_dy
 
-@numba.jit(nopython=True)
-def coordinate_calculation(x: float, y: float, dx: float, dy: float) -> tuple[float, float]:
+
+@numba.jit(nopython=True, fastmath=True)
+def coordinate_calculation(x: float, y: float, dx: float, dy: float, distant: float, speed: float) -> tuple[
+    float, float, float]:
     """coordinate calculation for projectile"""
-    return x + dx, y + dy
+    return x + dx, y + dy, distant + speed
 
 
 class DefaultPlayerProjectile(pygame.sprite.Sprite):
@@ -56,15 +58,14 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player.dx, self.player.dy)
 
     def coordinate_calculation(self):
-        self.x, self.y = coordinate_calculation(self.x, self.y, self.dx, self.dy)
+        self.x, self.y, self.distant = coordinate_calculation(self.x, self.y, self.dx, self.dy, self.distant,
+                                                              self.speed)
 
     def update(self):
         self.coordinate_calculation()
 
         self.rect.x = round(self.x)
         self.rect.y = round(self.y)
-
-        self.distant += self.speed
 
         if self.distant >= self.range:
             self.kill()

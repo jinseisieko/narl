@@ -6,15 +6,17 @@ import pygame.sprite
 import Field
 import Items
 from Projectiles import *
+from Constants import *
 
 
-def calculate_dash(speed: float, max_speed: float) -> float:
-    speed = 2.2 * max_speed
-    return speed
+@numba.jit(nopython=True, fastmath=True)
+def calculate_dash(velocity: float, max_speed: float, to_direction: int) -> float:
+    return velocity * (1 - abs(to_direction)) + 2.2 * max_speed * to_direction
 
 
-@numba.jit(nopython=True)
-def field_boundary_collision(x: float, y: float, dx: float, dy: float) -> tuple[float, float, float, float]:
+@numba.jit(nopython=True, fastmath=True)
+def field_boundary_collision(x: float, y: float, dx: float, dy: float, FIELD_WIDTH: int, FIELD_HEIGHT: int,
+                             PLAYER_SIZE: int) -> tuple[float, float, float, float]:
     """function is designed to change coordinates when colliding with a boundary"""
 
     if x > FIELD_WIDTH - PLAYER_SIZE:
@@ -34,7 +36,7 @@ def field_boundary_collision(x: float, y: float, dx: float, dy: float) -> tuple[
     return x, y, dx, dy
 
 
-@numba.jit(nopython=True)
+@numba.jit(nopython=True, fastmath=True)
 def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> float:
     limit: float = max(abs(speed), max_speed)
     if sign:
@@ -46,18 +48,20 @@ def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> fl
     return speed
 
 
-@numba.jit(nopython=True)
+@numba.jit(nopython=True, fastmath=True)
 def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: float, acceleration: float,
+                       resistance_acceleration: float,
                        upward_movement: bool, downward_movement: bool,
-                       rightward_movement: bool, leftward_movement: bool) -> tuple[float, float, float, float]:
+                       rightward_movement: bool, leftward_movement: bool, FIELD_WIDTH: int, FIELD_HEIGHT: int,
+                       PLAYER_SIZE: int) -> tuple[float, float, float, float]:
     if dx < 0:
-        dx = min(0.0, dx + max_speed / SLOWDOWN_SMOOTHNESS)
+        dx = min(0.0, dx + resistance_acceleration)
     else:
-        dx = max(0.0, dx - max_speed / SLOWDOWN_SMOOTHNESS)
+        dx = max(0.0, dx - resistance_acceleration)
     if dy < 0:
-        dy = min(0.0, dy + max_speed / SLOWDOWN_SMOOTHNESS)
+        dy = min(0.0, dy + resistance_acceleration)
     else:
-        dy = max(0.0, dy - max_speed / SLOWDOWN_SMOOTHNESS)
+        dy = max(0.0, dy - resistance_acceleration)
 
     if upward_movement:
         dy = calculate_speed(dy, max_speed, acceleration, True)
@@ -71,7 +75,7 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
     x += dx
     y += dy
 
-    return field_boundary_collision(x, y, dx, dy)
+    return field_boundary_collision(x, y, dx, dy, FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
 
 
 class Player(pygame.sprite.Sprite):
@@ -97,6 +101,7 @@ class Player(pygame.sprite.Sprite):
 
         self.max_speed: float = DEFAULT_PLAYER_SPEED
         self.acceleration: float = self.max_speed / ACCELERATION_SMOOTHNESS
+        self.resistance_acceleration: float = self.max_speed / SLOWDOWN_SMOOTHNESS
 
         self.max_hp: int = DEFAULT_PLAYER_HP
         self.hp: int = DEFAULT_PLAYER_HP
@@ -129,15 +134,15 @@ class Player(pygame.sprite.Sprite):
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
-                                                              self.acceleration, self.upward_movement,
-                                                              self.downward_movement,
-                                                              self.rightward_movement, self.leftward_movement)
+                                                              self.acceleration, self.resistance_acceleration,
+                                                              self.upward_movement, self.downward_movement,
+                                                              self.rightward_movement, self.leftward_movement,
+                                                              FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
 
-    def dash(self, to_x: float, to_y: float) -> None:
-        print(self.dash_timer)
+    def dash(self, to_x: int, to_y: int) -> None:
         if self.dash_timer == 0:
-            self.dx = self.dx * (1 - abs(to_x)) + calculate_dash(self.dx, self.max_speed) * to_x
-            self.dy = self.dy * (1 - abs(to_y)) + calculate_dash(self.dy, self.max_speed) * to_y
+            self.dx = calculate_dash(self.dx, self.max_speed, to_x)
+            self.dy = calculate_dash(self.dy, self.max_speed, to_y)
             self.dash_timer = DASH_TIME
 
     def update(self) -> None:
