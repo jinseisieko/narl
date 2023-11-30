@@ -14,9 +14,10 @@ PLAYER_SIZE: int = 50  # matches the size of the player's image
 TICKS: int = 120
 FPS: tuple[int, int] = (60, 120)
 DEFAULT_FPS: int = 0
+DOUBLE_CLICK_INTERVAL: int = TICKS * 2
 ACCELERATION_SMOOTHNESS: int = 25
 SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
-DASH_TIME = 10
+DASH_TIME = TICKS * 2
 
 DEFAULT_PLAYER_SPEED: float = 4
 DEFAULT_PLAYER_HP: int = 10
@@ -32,6 +33,11 @@ GREEN: tuple[int, int, int] = (0, 255, 0)
 BLUE: tuple[int, int, int] = (0, 0, 255)
 GRAY: tuple[int, int, int] = (200, 200, 200)
 
+W: str = "W"
+A: str = "A"
+S: str = "S"
+D: str = "D"
+
 # вместо TYPE писарь реальное название типа врага
 DEFAULT_TYPE_ENEMY_SIZE: int = 0
 DEFAULT_TYPE_ENEMY_HP: int = 0
@@ -42,4 +48,3 @@ DEFAULT_ENEMY_ENEMY_SIZE: int = 40
 DEFAULT_ENEMY_ENEMY_HP: int = 0
 DEFAULT_ENEMY_ENEMY_SPEED: float = 3
 DEFAULT_ENEMY_ENEMY_DAMAGE: int = 0
-
