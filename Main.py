@@ -5,6 +5,7 @@ import pygame
 
 import ImageSprites
 from Constants import *
+from Enemies import Enemy
 from Player import Player
 from Field import Field
 
@@ -29,6 +30,9 @@ all_sprites.add(player_group)
 
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
+enemy = Enemy(player, player.x, player.y)
+enemies.add(enemy)
+all_sprites.add(enemy)
 # actions
 running: bool = True
 shooting: bool = False
