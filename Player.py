@@ -54,6 +54,12 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
                        upward_movement: bool, downward_movement: bool,
                        rightward_movement: bool, leftward_movement: bool, FIELD_WIDTH: int, FIELD_HEIGHT: int,
                        PLAYER_SIZE: int) -> tuple[float, float, float, float]:
+
+    d = (dx**2+dy**2)**0.5
+    if d > max_speed:
+        dx *= max_speed/d
+        dy *= max_speed/d
+
     if dx < 0:
         dx = min(0.0, dx + resistance_acceleration)
     else:

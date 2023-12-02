@@ -12,6 +12,7 @@ from Constants import *
 from Enemies import Enemy
 from Field import Field
 from Player import Player
+from time import time, sleep
 
 
 @numba.jit(nopython=True, fastmath=True)
@@ -61,6 +62,7 @@ last_click_time: dict[str, int] = {W: 0, A: 0, S: 0, D: 0, }
 
 pygame.mouse.set_visible(False)
 
+t0 = time()
 with tqdm() as pbar:
     while running:
         flag_for_event: bool = True
