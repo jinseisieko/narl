@@ -5,13 +5,13 @@ import pygame.sprite
 
 import Field
 import Items
-from Projectiles import *
 from Constants import *
+from Projectiles import *
 
 
 @numba.jit(nopython=True, fastmath=True)
-def calculate_dash(velocity: float, max_speed: float, to_direction: int) -> float:
-    return velocity * (1 - abs(to_direction)) + 2.2 * max_speed * to_direction
+def calculate_dash(velocity: float, max_speed: float, to_direction: int, DASH_COEFFICIENT: float) -> float:
+    return velocity * (1 - abs(to_direction)) + DASH_COEFFICIENT * max_speed * to_direction
 
 
 @numba.jit(nopython=True, fastmath=True)
@@ -141,9 +141,9 @@ class Player(pygame.sprite.Sprite):
 
     def dash(self, to_x: int, to_y: int) -> None:
         if self.dash_timer == 0:
-            self.dx = calculate_dash(self.dx, self.max_speed, to_x)
-            self.dy = calculate_dash(self.dy, self.max_speed, to_y)
-            self.dash_timer = DASH_TIME
+            self.dx = calculate_dash(self.dx, self.max_speed, to_x, DASH_COEFFICIENT)
+            self.dy = calculate_dash(self.dy, self.max_speed, to_y, DASH_COEFFICIENT)
+            self.dash_timer = DASH_DELAY
 
     def update(self) -> None:
         # animation once per animation_frame ticks and animation_duration ticks duration

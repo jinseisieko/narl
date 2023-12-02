@@ -26,7 +26,7 @@ def calculate_cursor_coordinates(mouse_x: int, mouse_y: int, projectile_size):
 
 field: Field = Field()
 
-mode_fps: int = 1
+mode_fps: int = DEFAULT_FPS
 clock = pygame.time.Clock()
 
 # groups
@@ -61,7 +61,6 @@ last_click_time: dict[str, int] = {W: 0, A: 0, S: 0, D: 0, }
 
 pygame.mouse.set_visible(False)
 
-dq: deque = deque(maxlen=TICKS * 10)
 with tqdm() as pbar:
     while running:
         flag_for_event: bool = True
