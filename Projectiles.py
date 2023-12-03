@@ -5,6 +5,7 @@ import numba
 import pygame
 
 import ImageSprites
+from Constants import *
 
 
 @numba.jit(nopython=True, fastmath=True)
@@ -31,6 +32,9 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         super().__init__()
         self.ID: int = ID
         self.IDs: set = IDs
+        self.hp: int = 0
+        self.damage: int = 0
+
         # values
         self.player = player
 
@@ -62,7 +66,7 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.x, self.y, self.distant = coordinate_calculation(self.x, self.y, self.dx, self.dy, self.distant,
                                                               self.speed)
 
-    def update(self):
+    def update(self, array):
         self.coordinate_calculation()
 
         self.rect.x = round(self.x)
@@ -71,3 +75,14 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         if self.distant >= self.range:
             self.IDs.add(self.ID)
             self.kill()
+
+        x: int = int(math.ceil(self.x / CHUNK_SIZE))
+        y: int = int(math.ceil(self.y / CHUNK_SIZE))
+        for i in range(max(0, x - 1), min(CHUNK_N_X, x + 2)):
+            for j in range(max(0, y - 1), min(CHUNK_N_Y, y + 2)):
+                for k in range(len(array[i][j])):
+                    if array[i][j][k][6] == 0:
+                        array[i][j][k] = [self.x, self.y, self.hp, self.damage, self.size, 0, self.ID]
+                        break
+                else:
+                    print(1)

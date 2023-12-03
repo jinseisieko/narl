@@ -2,15 +2,16 @@
 
 import sys
 
+import numpy as np
 from tqdm import tqdm
 
 import ImageSprites
+from Collisions import *
 from Console import *
 from Constants import *
 from Enemies import Enemy
 from Field import Field
 from Player import Player
-import numpy as np
 
 pygame.init()
 
@@ -41,8 +42,8 @@ screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.N
 console = Console(10, 10, 200, 20, player)
 
 enemy: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
-# enemies.add(enemy)
-all_sprites.add(enemy)
+enemies.add(enemy)
+# all_sprites.add(enemy)
 
 # actions
 running: bool = True
@@ -123,15 +124,20 @@ with (tqdm() as pbar):
 
                 for projectile in projectiles:
                     players_projectile.add(projectile)
-                    all_sprites.add(projectile)
+                    # all_sprites.add(projectile)
+
+        enemies_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 7))
+        projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 7))
 
         # update
         if not pause:
             all_sprites.update()
+            enemies.update(enemies_positions)
+            players_projectile.update(projectiles_positions)
         if console_opening:
             console.update()
 
-        
+        calculate_soft_collision(0, enemies_positions, projectiles_positions, CHUNK_N_X, CHUNK_N_Y)
 
         # screen movement calculation
         field.move_screen_relative_player(player)
@@ -172,7 +178,7 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS)
+        clock.tick(TICKS * 100)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
         pbar.update(1)

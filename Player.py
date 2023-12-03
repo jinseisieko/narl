@@ -113,6 +113,7 @@ class Player(pygame.sprite.Sprite):
 
         self.max_hp: int = DEFAULT_PLAYER_HP
         self.hp: int = DEFAULT_PLAYER_HP
+        self.damage: int = 0
         self.period: int = DEFAULT_PROJECTILE_PERIOD
         self.dash_timer: int = 0
 
@@ -188,3 +189,5 @@ class Player(pygame.sprite.Sprite):
 
     def add_item(self, item: Item):
         self.inventory.add_item(item)
+        self.acceleration: float = self.max_speed / ACCELERATION_SMOOTHNESS
+        self.resistance_acceleration: float = self.max_speed / SLOWDOWN_SMOOTHNESS
