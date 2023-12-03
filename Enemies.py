@@ -2,12 +2,14 @@
 import math
 
 import pygame.sprite
+
 from Constants import *
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, player, x, y):
+    def __init__(self, player, x: float, y: float, ID: int):
         super().__init__()
+        self.ID: int = ID
 
         self.image = pygame.Surface((DEFAULT_ENEMY_ENEMY_SIZE, DEFAULT_ENEMY_ENEMY_SIZE))
         self.speed = DEFAULT_ENEMY_ENEMY_SPEED
@@ -25,7 +27,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def angle_calculation(self):
         self.angle = math.atan2(self.player.y + PLAYER_SIZE / 2 - self.y - DEFAULT_ENEMY_ENEMY_SIZE / 2,
-                                self.player.x + PLAYER_SIZE / 2- self.x - DEFAULT_ENEMY_ENEMY_SIZE / 2)
+                                self.player.x + PLAYER_SIZE / 2 - self.x - DEFAULT_ENEMY_ENEMY_SIZE / 2)
 
     def speed_calculation(self):
         self.dx, self.dy = self.speed * math.cos(self.angle), self.speed * math.sin(self.angle)

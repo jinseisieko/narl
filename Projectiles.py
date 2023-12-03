@@ -3,6 +3,7 @@ import math
 
 import numba
 import pygame
+
 import ImageSprites
 
 
@@ -26,8 +27,9 @@ def coordinate_calculation(x: float, y: float, dx: float, dy: float, distant: fl
 
 
 class DefaultPlayerProjectile(pygame.sprite.Sprite):
-    def __init__(self, player, target: tuple[float, float]) -> None:
+    def __init__(self, player, target: tuple[float, float], ID: int) -> None:
         super().__init__()
+        self.ID: int = ID
 
         # values
         self.player = player
