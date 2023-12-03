@@ -4,8 +4,9 @@ import random
 import pygame.sprite
 
 import Field
-import Items
 from Constants import *
+from Inventory import Inventory
+from Items import Item
 from Projectiles import *
 
 
@@ -123,7 +124,7 @@ class Player(pygame.sprite.Sprite):
         self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
         self.projectile_trajectory: list[float] = [0.] * self.projectile_ticks
 
-        self.items: list[Items.Item] = []
+        self.inventory: Inventory = Inventory(self)
 
         # additional values
         self.upward_movement: bool = False
@@ -180,5 +181,9 @@ class Player(pygame.sprite.Sprite):
         cursor_pos = pygame.mouse.get_pos()
 
         return [DefaultPlayerProjectile(self, (
-            self.field.screen_centre[0] - WIDTH // 2 + cursor_pos[0],
-            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]))]
+            self.rect.centerx - WIDTH // 2 + cursor_pos[0],
+            self.rect.centery - HEIGHT // 2 + cursor_pos[1]))]
+
+    def add_item(self, item: Item):
+        self.inventory.add_item(item)
+

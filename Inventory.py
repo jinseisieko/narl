@@ -8,8 +8,10 @@ class Inventory:
         self.items: list[Item, ShotTypeItem] = []
         self.player = player
 
-    def add_item(self, item: (Item, ShotTypeItem)) -> None:
+    def add_item(self, item: [Item, ShotTypeItem]) -> None:
         self.items.append(item)
+        self.apply_item(item)
 
     def apply_item(self, item):
-        item.apply(self.player)
+        if item.parent == "Item":
+            item.apply(self.player)

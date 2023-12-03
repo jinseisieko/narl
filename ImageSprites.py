@@ -22,4 +22,8 @@ sprites: dict = {
     'texture_grass_6': pygame.image.load(r"image/texture_grass/texture_grass_6.png"),
     'texture_grass_7': pygame.image.load(r"image/texture_grass/texture_grass_7.png"),
     'texture_grass_8': pygame.image.load(r"image/texture_grass/texture_grass_8.png"),
+    'rune_of_speed': pygame.image.load(r"image/items/rune_of_speed.png"),
+    'rune_of_heart': pygame.image.load(r"image/items/rune_of_heart.png"),
+    'rune_of_arrow': pygame.image.load(r"image/items/rune_of_arrow.png"),
+    'rune_of_range': pygame.image.load(r"image/items/rune_of_range.png"),
 }
