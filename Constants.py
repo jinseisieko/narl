@@ -1,10 +1,10 @@
 """constants"""
 from ctypes import windll
 
-CHUNCK_SIZE = 100
+CHUNK_SIZE = 100
 
-FIELD_WIDTH: int = 50 * CHUNCK_SIZE
-FIELD_HEIGHT: int = 50 * CHUNCK_SIZE
+FIELD_WIDTH: int = 50 * CHUNK_SIZE
+FIELD_HEIGHT: int = 50 * CHUNK_SIZE
 
 WIDTH: int = windll.user32.GetSystemMetrics(0)
 HEIGHT: int = windll.user32.GetSystemMetrics(1)

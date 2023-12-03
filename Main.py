@@ -28,9 +28,11 @@ player_group: pygame.sprite.Group = pygame.sprite.Group()
 
 object_ID: dict[int] = {}
 IDs: set[int] = set()
+lastID = 0
 
 # player
-player: Player = Player(field)
+player: Player = Player(field, lastID)
+lastID += 1
 player_group.add(player)
 all_sprites.add(player_group)
 
@@ -39,7 +41,7 @@ screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.N
 
 console = Console(10, 10, 200, 20)
 
-enemy: Enemy = Enemy(player, player.x, player.y)
+enemy: Enemy = Enemy(player, player.x, player.y, lastID)
 # enemies.add(enemy)
 all_sprites.add(enemy)
 
@@ -110,12 +112,15 @@ with (tqdm() as pbar):
             if console:
                 console.handle_event(event)
 
+        if len(IDs) == 0:
+            lastID += 1
+            IDs.add(lastID)
 
         # add new obj
         if not pause:
             if shooting and frame_shot == 0:
                 frame_shot = player.period
-                projectiles = player.shot()
+                projectiles = player.shot(IDs.pop())
 
                 for projectile in projectiles:
                     players_projectile.add(projectile)
