@@ -1,5 +1,6 @@
 """console logic"""
 import pygame
+
 from Constants import *
 
 pygame.init()
@@ -9,10 +10,10 @@ class Console:
     """class Console"""
     font = pygame.font.Font(*FONT_CONSOLE)  # initialization in the class so that there is no pygame in the constants
 
-    def __init__(self, x, y, width, height):
+    def __init__(self, x: int, y: int, width: int, height: int) -> None:
         self.rect: pygame.Rect = pygame.Rect(x, y, width, height)
         self.color: tuple[int, int, int] = BLACK
-        self.text = ''
+        self.text: str = ''
         self.txt_surface: pygame.Surface = self.font.render(self.text, True, self.color)
         self.rect_screen: bool = False
         self.center_screen: bool = False
@@ -20,7 +21,7 @@ class Console:
         self.index_previous_commands: int = 0
         self.previous_commands: list[str] = ['']
 
-    def handle_event(self, event):
+    def handle_event(self, event) -> None:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 if self.previous_commands[-1] != self.text:
@@ -63,16 +64,16 @@ class Console:
 
             self.txt_surface = self.font.render(self.text, True, self.color)
 
-    def update(self):
+    def update(self) -> None:
         width = max(200, self.txt_surface.get_width() + 10)
         self.rect.w = width
 
-    def draw(self, screen):
+    def draw(self, screen) -> None:
         """method for drawing text input"""
         screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
         pygame.draw.rect(screen, self.color, self.rect, 1)
 
-    def draw_in_field(self, field):
+    def draw_in_field(self, field) -> None:
         """a method for drawing some important things on the field"""
         if self.rect_screen:
             pygame.draw.ellipse(field.field, (255, 0, 0), (field.screen_centre[0] - MOVE_SCREEN_RECT_X,
@@ -86,10 +87,10 @@ class Console:
                              (field.screen_centre[0] - WIDTH, field.screen_centre[1] + HEIGHT),
                              (field.screen_centre[0] + WIDTH, field.screen_centre[1] - HEIGHT), 1)
 
-    def open_console(self):
+    def open_console(self) -> None:
         self.text = ''
 
-    def input_command(self, command: str):
+    def input_command(self, command: str) -> str:
         try:
             command = command.split()
             object_, command, values = command[0], command[1], command[2:]
