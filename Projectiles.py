@@ -3,7 +3,6 @@ import math
 
 import numba
 import pygame
-
 import ImageSprites
 
 

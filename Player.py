@@ -1,8 +1,6 @@
 """class Player and additional functions"""
 import random
-
 import pygame.sprite
-
 import Field
 from Constants import *
 from Inventory import Inventory
