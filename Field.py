@@ -3,7 +3,6 @@ import random
 import numba
 import pygame
 
-import Constants
 import ImageSprites
 from Constants import *
 
@@ -46,9 +45,12 @@ class Field:
             group.draw(self.field)
 
         self.field.blit(ImageSprites.sprites["hat"],
-                        (player.rect.x + Constants.PLAYER_SIZE // 2 - Constants.PLAYER_SIZE // 4, player.rect.y - 15))
+                        (player.rect.x + PLAYER_SIZE // 2 - PLAYER_SIZE // 4, player.rect.y - 15))
+
+
 
     def move_screen_relative_player(self, player) -> None:
         self.screen_centre = calculate_screen_movement(*self.screen_centre, player.rect.centerx, player.rect.centery,
                                                        player.max_speed, player.dx, player.dy,
                                                        MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y)
+

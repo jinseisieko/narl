@@ -2,21 +2,20 @@
 
 import sys
 
-import pygame
 from tqdm import tqdm
-from Console import *
-import ImageSprites
 
+import ImageSprites
+from Console import *
+from Constants import *
 from Enemies import Enemy
 from Field import Field
 from Player import Player
-from Constants import *
+import numpy as np
 
 pygame.init()
 
 field: Field = Field()
 
-mode_fps: int = DEFAULT_FPS
 clock = pygame.time.Clock()
 
 # groups
@@ -26,13 +25,16 @@ enemies: pygame.sprite.Group = pygame.sprite.Group()
 enemies_projectile: pygame.sprite.Group = pygame.sprite.Group()
 player_group: pygame.sprite.Group = pygame.sprite.Group()
 
+
+object_ID: dict[int] = {}
+IDs: set[int] = set()
+
 # player
 player: Player = Player(field)
 player_group.add(player)
 all_sprites.add(player_group)
 
 # field
-
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
 console = Console(10, 10, 200, 20)
@@ -56,19 +58,17 @@ text_pause: pygame.Surface = pygame.font.Font(*FONT_PAUSE).render("pause", True,
 
 pygame.mouse.set_visible(False)
 
-time_draw: int = TICKS // FPS[mode_fps]
+time_draw: int = TICKS // FPS[DEFAULT_FPS]
 
 with (tqdm() as pbar):
     while running:
+
         current_time: int = pygame.time.get_ticks()
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_DELETE]:
                 running = False
                 quit()
-            elif pygame.key.get_pressed()[pygame.K_DELETE]:
-                pygame.quit()
-                running = False
-                quit()
+
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 shooting = True
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 or event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
@@ -150,7 +150,6 @@ with (tqdm() as pbar):
 
             if console_opening:
                 console.draw(screen)
-
             if pause:
                 screen.blit(text_pause, (WIDTH - text_pause.get_size()[0] - 10, 10))
 
@@ -166,9 +165,6 @@ with (tqdm() as pbar):
         clock.tick(TICKS)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
-        # time.sleep(1000)
-        # clock.tick(TICKS * 10 // 2)
-        # print("FPS:", int(clock.get_fps()) / 120 * FPS[mode_fps], "Objects: ", len(all_sprites))
         pbar.update(1)
 
 pygame.quit()
