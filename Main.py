@@ -60,16 +60,15 @@ time_draw: int = TICKS // FPS[mode_fps]
 
 with (tqdm() as pbar):
     while running:
-        flag_for_event: bool = True
         current_time: int = pygame.time.get_ticks()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                break
+                quit()
             elif pygame.key.get_pressed()[pygame.K_DELETE]:
                 pygame.quit()
                 running = False
-                break
+                quit()
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 shooting = True
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 or event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
@@ -110,11 +109,7 @@ with (tqdm() as pbar):
 
             if console:
                 console.handle_event(event)
-        else:
-            flag_for_event = False
 
-        if flag_for_event:
-            break
 
         # add new obj
         if not pause:
