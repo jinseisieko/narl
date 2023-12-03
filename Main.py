@@ -4,12 +4,15 @@ import sys
 
 import pygame
 from tqdm import tqdm
-
+from Console import *
 import ImageSprites
-from Constants import *
+
 from Enemies import Enemy
 from Field import Field
 from Player import Player
+from Constants import *
+
+pygame.init()
 
 field: Field = Field()
 
@@ -32,6 +35,8 @@ all_sprites.add(player_group)
 
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
+console = Console(10, 10, 200, 20)
+
 enemy: Enemy = Enemy(player, player.x, player.y)
 # enemies.add(enemy)
 all_sprites.add(enemy)
@@ -39,12 +44,15 @@ all_sprites.add(enemy)
 # actions
 running: bool = True
 shooting: bool = False
+console_opening: bool = False
+pause: bool = False
 
 # frames
 frame_draw: int = 0
 frame_shot: int = 0
 
 last_click_time: dict[str, int] = {W: 0, A: 0, S: 0, D: 0, }
+text_pause: pygame.Surface = pygame.font.Font(*FONT_PAUSE).render("pause", True, BLACK)
 
 pygame.mouse.set_visible(False)
 
@@ -66,9 +74,20 @@ with (tqdm() as pbar):
                 shooting = True
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 or event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                 shooting = False
+            elif event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_F1]:
+                if console_opening:
+                    console_opening = False
+                else:
+                    console_opening = True
+                    console.open_console()
+
+            elif event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                if pause:
+                    pause = False
+                else:
+                    pause = True
 
             if event.type == pygame.KEYDOWN:
-
                 if event.key == pygame.K_w:
                     if current_time - last_click_time[W] < DOUBLE_CLICK_INTERVAL:
                         player.dash(0, -1)
@@ -88,6 +107,9 @@ with (tqdm() as pbar):
                     if current_time - last_click_time[D] < DOUBLE_CLICK_INTERVAL:
                         player.dash(1, 0)
                     last_click_time[D] = current_time
+
+            if console:
+                console.handle_event(event)
         else:
             flag_for_event = False
 
@@ -95,21 +117,25 @@ with (tqdm() as pbar):
             break
 
         # add new obj
-        if shooting and frame_shot == 0:
-            frame_shot = player.period
-            projectiles = player.shot()
+        if not pause:
+            if shooting and frame_shot == 0:
+                frame_shot = player.period
+                projectiles = player.shot()
 
-            for projectile in projectiles:
-                players_projectile.add(projectile)
-                all_sprites.add(projectile)
+                for projectile in projectiles:
+                    players_projectile.add(projectile)
+                    all_sprites.add(projectile)
 
         # update
-        all_sprites.update()
+        if not pause:
+            all_sprites.update()
+        if console_opening:
+            console.update()
 
         # screen movement calculation
         field.move_screen_relative_player(player)
-        # draw
 
+        # draw
         # ||| ! самый медленный код из всех ! |||
         if frame_draw == 0:
             frame_draw: int = time_draw
@@ -119,12 +145,19 @@ with (tqdm() as pbar):
 
             screen.fill((0, 0, 0))
             field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
+            console.draw_in_field(field)
 
             screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
             screen.blit(ImageSprites.sprites['cursor'],
                         (mouse_x - player.projectile_size // 2, mouse_y - player.projectile_size // 2))
+
+            if console_opening:
+                console.draw(screen)
+
+            if pause:
+                screen.blit(text_pause, (WIDTH - text_pause.get_size()[0] - 10, 10))
 
         # update frames
         if frame_draw > 0:
