@@ -1,7 +1,7 @@
 """classes Items and additional functions"""
 
 
-def get_Item(id_: int):
+def get_item(id_: int):
     if id_ == RuneOfSpeed.id:
         return RuneOfSpeed()
     elif id_ == RuneOfHeart.id:
@@ -45,7 +45,7 @@ class RuneOfSpeed(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'rune_of_speed'
-        self.characteristics['max_speed'] = '*= 1.02'
+        self.characteristics['max_speed'] = '*= 1.06'
 
 
 class RuneOfHeart(Item):
@@ -63,7 +63,7 @@ class RuneOfArrow(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'rune_of_arrow'
-        self.characteristics['period'] = '*= 0.97'
+        self.characteristics['period'] = '*= 0.95'
 
     def apply(self, player) -> None:
         super().apply(player)
@@ -77,21 +77,4 @@ class RuneOfRange(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'rune_of_range'
-        self.characteristics['projectile_range'] = '*= 1.02'
-
-
-if __name__ == '__main__':
-    class A:
-        def __init__(self):
-            self.max_speed = 100
-            self.max_hp = 10
-            self.period = 100
-            self.projectile_range = 250
-
-
-    a = A()
-
-    i = get_Item(3)
-    i.apply(a)
-
-    print(a.projectile_range)
+        self.characteristics['projectile_range'] = '*= 1.1'

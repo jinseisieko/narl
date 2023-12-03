@@ -25,7 +25,6 @@ enemies: pygame.sprite.Group = pygame.sprite.Group()
 enemies_projectile: pygame.sprite.Group = pygame.sprite.Group()
 player_group: pygame.sprite.Group = pygame.sprite.Group()
 
-
 object_ID: dict[int] = {}
 IDs: set[int] = set()
 lastID = 0
@@ -39,7 +38,7 @@ all_sprites.add(player_group)
 # field
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
-console = Console(10, 10, 200, 20)
+console = Console(10, 10, 200, 20, player)
 
 enemy: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
 # enemies.add(enemy)
@@ -159,6 +158,10 @@ with (tqdm() as pbar):
                 console.draw(screen)
             if pause:
                 screen.blit(text_pause, (WIDTH - text_pause.get_size()[0] - 10, 10))
+
+            for i, row in enumerate(player.inventory.get_to_draw()):
+                for j, item in enumerate(row):
+                    screen.blit(ImageSprites.sprites[item.image], (WIDTH - 37 * 5 - 10 + j * 37, 10 + i * 37))
 
         # update frames
         if not pause:
