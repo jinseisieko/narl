@@ -7,9 +7,10 @@ from Constants import *
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, player, x: float, y: float, ID: int):
+    def __init__(self, player, x: float, y: float, ID: int, IDs: set):
         super().__init__()
         self.ID: int = ID
+        self.IDs: set = IDs
 
         self.image = pygame.Surface((DEFAULT_ENEMY_ENEMY_SIZE, DEFAULT_ENEMY_ENEMY_SIZE))
         self.speed = DEFAULT_ENEMY_ENEMY_SPEED

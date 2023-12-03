@@ -27,10 +27,10 @@ def coordinate_calculation(x: float, y: float, dx: float, dy: float, distant: fl
 
 
 class DefaultPlayerProjectile(pygame.sprite.Sprite):
-    def __init__(self, player, target: tuple[float, float], ID: int) -> None:
+    def __init__(self, player, target: tuple[float, float], ID: int, IDs: set) -> None:
         super().__init__()
         self.ID: int = ID
-
+        self.IDs: set = IDs
         # values
         self.player = player
 
@@ -69,4 +69,5 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.rect.y = round(self.y)
 
         if self.distant >= self.range:
+            self.IDs.add(self.ID)
             self.kill()

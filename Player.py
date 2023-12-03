@@ -87,11 +87,12 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
 class Player(pygame.sprite.Sprite):
     """class Player"""
 
-    def __init__(self, field: Field.Field, ID: int) -> None:
+    def __init__(self, field: Field.Field, ID: int, IDs: set) -> None:
         super().__init__()
-
         self.field: Field.Field = field
         self.ID: int = ID
+        self.IDs: set = IDs
+
         # values
         self.size: int = PLAYER_SIZE
         self.image: pygame.image = ImageSprites.sprites["player_nr"]
@@ -170,20 +171,20 @@ class Player(pygame.sprite.Sprite):
         self.leftward_movement = keys[pygame.K_a]
 
         self.movements()
-        self.rect.x = round(self.x)
-        self.rect.y = round(self.y)
+        self.rect.x = round(self.x) - PLAYER_SIZE // 2
+        self.rect.y = round(self.y) - PLAYER_SIZE // 2
 
         self.dash_timer = max(0, self.dash_timer - 1)
 
         if self.animation_frame > 0:
             self.animation_frame -= 1
 
-    def shot(self, ID:int) -> list:  # test
+    def shot(self, ID: int, IDs: set) -> list:  # test
         cursor_pos = pygame.mouse.get_pos()
 
         return [DefaultPlayerProjectile(self, (
-            self.rect.centerx - WIDTH // 2 + cursor_pos[0],
-            self.rect.centery - HEIGHT // 2 + cursor_pos[1]),ID)]
+            self.field.screen_centre[0] - WIDTH // 2 + cursor_pos[0],
+            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]), ID, IDs)]
 
     def add_item(self, item: Item):
         self.inventory.add_item(item)

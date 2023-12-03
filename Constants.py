@@ -3,8 +3,8 @@ from ctypes import windll
 
 CHUNK_SIZE = 100
 
-FIELD_WIDTH: int = 50 * CHUNK_SIZE
-FIELD_HEIGHT: int = 50 * CHUNK_SIZE
+FIELD_WIDTH: int = 150 * CHUNK_SIZE
+FIELD_HEIGHT: int = 150 * CHUNK_SIZE
 
 WIDTH: int = windll.user32.GetSystemMetrics(0)
 HEIGHT: int = windll.user32.GetSystemMetrics(1)
@@ -15,7 +15,7 @@ MOVE_SCREEN_RECT_Y: int = HEIGHT // 8
 BACKGROUND_PICTURE_SIZE = 400
 
 PLAYER_SIZE: int = 50  # matches the size of the player's image
-TICKS: int = 60  # any integer from 30 to 120 that is a divisor of 120
+TICKS: int = 120  # any integer from 30 to 120 that is a divisor of 120
 FPS: tuple[int, int] = (60, 120)
 COEFFICIENT: float = 120 / TICKS
 DEFAULT_FPS: int = 1
@@ -26,11 +26,11 @@ SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
 DEFAULT_PLAYER_SPEED: float = 4 * COEFFICIENT
 DEFAULT_PLAYER_HP: int = 10
 DASH_DELAY: int = TICKS * 2
-DASH_COEFFICIENT: float = 2.2 / (COEFFICIENT ** 0.5)
+DASH_COEFFICIENT: float = 2000.2 / (COEFFICIENT ** 0.5)
 
-DEFAULT_PROJECTILE_PERIOD: int = TICKS // 2
+DEFAULT_PROJECTILE_PERIOD: int = 1
 DEFAULT_PROJECTILE_SPEED: float = 5 * COEFFICIENT
-DEFAULT_PROJECTILE_RANGE: float = 250
+DEFAULT_PROJECTILE_RANGE: float = 2500
 DEFAULT_PROJECTILE_DAMAGE: int = 1
 DEFAULT_PROJECTILE_SIZE: int = 30
 DEFAULT_PROJECTILE_TYPE: str = "default_projectile"
