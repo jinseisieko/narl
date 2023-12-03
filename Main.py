@@ -160,11 +160,12 @@ with (tqdm() as pbar):
                 screen.blit(text_pause, (WIDTH - text_pause.get_size()[0] - 10, 10))
 
         # update frames
-        if frame_draw > 0:
-            frame_draw -= 1
+        if not pause:
+            if frame_draw > 0:
+                frame_draw -= 1
 
-        if frame_shot > 0:
-            frame_shot -= 1
+            if frame_shot > 0:
+                frame_shot -= 1
 
         pygame.display.flip()
         clock.tick(TICKS)
