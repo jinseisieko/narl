@@ -92,8 +92,12 @@ class Console:
     def open_console(self) -> None:
         self.text = ''
 
-    def input_command(self, command: str) -> str:
+    def input_command(self, command: str) -> None:
         try:
+            if command == "y":
+                self.player.add_item(get_item(0))
+                return
+
             command = command.split()
             object_, command, values = command[0], command[1], command[2:]
             if object_ == "screen_draw" or object_ == "scrd":
