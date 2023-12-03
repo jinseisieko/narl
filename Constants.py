@@ -1,19 +1,22 @@
 """constants"""
 from ctypes import *
 
-FIELD_WIDTH: int = 3000
-FIELD_HEIGHT: int = 3000
+FIELD_WIDTH: int = 2000
+FIELD_HEIGHT: int = 2000
 
 WIDTH: int = windll.user32.GetSystemMetrics(0)
 HEIGHT: int = windll.user32.GetSystemMetrics(1)
 
-MOVE_SCREEN_RECT: int = WIDTH // 8
+MOVE_SCREEN_RECT_X: int = WIDTH // 8
+MOVE_SCREEN_RECT_Y: int = HEIGHT // 8
+
+BACKGROUND_PICTURE_SIZE = 400
 
 PLAYER_SIZE: int = 50  # matches the size of the player's image
-TICKS: int = 120  # any integer from 30 to 120 that is a divisor of 120
+TICKS: int = 60  # any integer from 30 to 120 that is a divisor of 120
 FPS: tuple[int, int] = (60, 120)
 COEFFICIENT: float = 120 / TICKS
-DEFAULT_FPS: int = 0
+DEFAULT_FPS: int = 1
 DOUBLE_CLICK_INTERVAL: int = 200
 ACCELERATION_SMOOTHNESS: int = 25
 SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
@@ -22,7 +25,6 @@ DEFAULT_PLAYER_SPEED: float = 4 * COEFFICIENT
 DEFAULT_PLAYER_HP: int = 10
 DASH_DELAY: int = TICKS * 2
 DASH_COEFFICIENT: float = 2.2 / (COEFFICIENT ** 0.5)
-print(DASH_COEFFICIENT)
 
 DEFAULT_PROJECTILE_PERIOD: int = TICKS // 2
 DEFAULT_PROJECTILE_SPEED: float = 5 * COEFFICIENT

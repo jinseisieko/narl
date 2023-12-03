@@ -19,15 +19,15 @@ def field_boundary_collision(x: float, y: float, dx: float, dy: float, FIELD_WID
                              PLAYER_SIZE: int) -> tuple[float, float, float, float]:
     """function is designed to change coordinates when colliding with a boundary"""
 
-    if x > FIELD_WIDTH - PLAYER_SIZE:
-        x = FIELD_WIDTH - PLAYER_SIZE
+    if x > FIELD_WIDTH:
+        x = FIELD_WIDTH
         dx = 0
     elif x < 0:
         x = 0.
         dx = 0
 
-    if y > FIELD_HEIGHT - PLAYER_SIZE:
-        y = FIELD_HEIGHT - PLAYER_SIZE
+    if y > FIELD_HEIGHT:
+        y = FIELD_HEIGHT
         dy = 0
     elif y < 0:
         y = 0.
@@ -54,11 +54,10 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
                        upward_movement: bool, downward_movement: bool,
                        rightward_movement: bool, leftward_movement: bool, FIELD_WIDTH: int, FIELD_HEIGHT: int,
                        PLAYER_SIZE: int) -> tuple[float, float, float, float]:
-
-    d = (dx**2+dy**2)**0.5
-    if d > max_speed:
-        dx *= max_speed/d
-        dy *= max_speed/d
+    # d = (dx ** 2 + dy ** 2) ** 0.5
+    # if d > max_speed:
+    #     dx *= max_speed / d
+    #     dy *= max_speed / d
 
     if dx < 0:
         dx = min(0.0, dx + resistance_acceleration)
@@ -99,8 +98,8 @@ class Player(pygame.sprite.Sprite):
         self.x: float = FIELD_WIDTH / 2
         self.y: float = FIELD_HEIGHT / 2
 
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x = self.x - PLAYER_SIZE // 2
+        self.rect.y = self.y - PLAYER_SIZE // 2
 
         self.dx: float = 0.
         self.dy: float = 0.
@@ -169,8 +168,8 @@ class Player(pygame.sprite.Sprite):
         self.leftward_movement = keys[pygame.K_a]
 
         self.movements()
-        self.rect.x = round(self.x)
-        self.rect.y = round(self.y)
+        self.rect.x = round(self.x) - PLAYER_SIZE // 2
+        self.rect.y = round(self.y) - PLAYER_SIZE // 2
 
         self.dash_timer = max(0, self.dash_timer - 1)
 

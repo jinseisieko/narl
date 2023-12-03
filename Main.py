@@ -1,9 +1,7 @@
 """pygame main loop"""
 
 import sys
-from collections import deque
 
-import numba
 import pygame
 from tqdm import tqdm
 
@@ -12,18 +10,6 @@ from Constants import *
 from Enemies import Enemy
 from Field import Field
 from Player import Player
-from time import time, sleep
-
-
-@numba.jit(nopython=True, fastmath=True)
-def calculate_canter(screen_centre: float, param: int) -> float:
-    return screen_centre - param // 2
-
-
-@numba.jit(nopython=True, fastmath=True)
-def calculate_cursor_coordinates(mouse_x: int, mouse_y: int, projectile_size):
-    return mouse_x - projectile_size // 2, mouse_y - projectile_size // 2
-
 
 field: Field = Field()
 
@@ -62,8 +48,9 @@ last_click_time: dict[str, int] = {W: 0, A: 0, S: 0, D: 0, }
 
 pygame.mouse.set_visible(False)
 
-t0 = time()
-with tqdm() as pbar:
+time_draw: int = TICKS // FPS[mode_fps]
+
+with (tqdm() as pbar):
     while running:
         flag_for_event: bool = True
         current_time: int = pygame.time.get_ticks()
@@ -75,9 +62,9 @@ with tqdm() as pbar:
                 pygame.quit()
                 running = False
                 break
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 shooting = True
-            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 or event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                 shooting = False
 
             if event.type == pygame.KEYDOWN:
@@ -125,19 +112,19 @@ with tqdm() as pbar:
 
         # ||| ! самый медленный код из всех ! |||
         if frame_draw == 0:
-            frame_draw: int = TICKS // FPS[mode_fps]
+            frame_draw: int = time_draw
 
-            field_screen_centre_x: float = calculate_canter(field.screen_centre[0], WIDTH)
-            field_screen_centre_y: float = calculate_canter(field.screen_centre[1], HEIGHT)
-
-            field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
+            field_screen_centre_x, field_screen_centre_y = field.screen_centre[0] - WIDTH // 2, field.screen_centre[
+                1] - HEIGHT // 2
 
             screen.fill((0, 0, 0))
+            field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
 
             screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
 
+            mouse_x, mouse_y = pygame.mouse.get_pos()
             screen.blit(ImageSprites.sprites['cursor'],
-                        (calculate_cursor_coordinates(*pygame.mouse.get_pos(), player.projectile_size)))
+                        (mouse_x - player.projectile_size // 2, mouse_y - player.projectile_size // 2))
 
         # update frames
         if frame_draw > 0:
@@ -148,8 +135,12 @@ with tqdm() as pbar:
 
         pygame.display.flip()
         clock.tick(TICKS)
+        # print(player.x, player.y)
+        # print(player.rect.centerx, player.rect.centery, 2)
+        # time.sleep(1000)
         # clock.tick(TICKS * 10 // 2)
         # print("FPS:", int(clock.get_fps()) / 120 * FPS[mode_fps], "Objects: ", len(all_sprites))
         pbar.update(1)
+
 pygame.quit()
 sys.exit()
