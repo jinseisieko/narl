@@ -12,6 +12,14 @@ class Inventory:
         self.items.append(item)
         self.apply_item(item)
 
-    def apply_item(self, item):
+    def apply_item(self, item) -> None:
         if item.parent == "Item":
             item.apply(self.player)
+
+    def get_to_draw(self) -> list[str]:
+        array_draw: list[str] = []
+        for i in range(len(self.items) // 5):
+            array_draw += [self.items[i * 5:i * 5 + 5]]
+        if len(self.items) % 5 != 0:
+            array_draw += [self.items[-(len(self.items) % 5):]]
+        return array_draw

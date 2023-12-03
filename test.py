@@ -1,43 +1,11 @@
-import pygame
-import sys
+def get_to_draw(items) -> list[str]:
+    array_draw: list[str] = []
+    for i in range(len(items) // 5):
+        array_draw += [items[i * 5:i * 5 + 5]]
+    if len(items) % 5 != 0:
+        array_draw += [items[-(len(items) % 5):]]
 
-import ImageSprites
+    return array_draw
 
-# Инициализация Pygame
-pygame.init()
-
-# Размеры экрана
-screen_width, screen_height = 800, 600
-
-# Создание окна
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Часть поля")
-
-# Загрузка изображения поля (предположим, что у вас есть изображение "field.jpg")
-field_image = ImageSprites.sprites[f'texture_grass_{1}']
-
-# Размеры поля
-field_width, field_height = field_image.get_size()
-
-# Область, которую вы хотите отобразить (пример: от (100, 100) до (500, 400))
-crop_rect = pygame.Rect(100, 100, 300, 200)
-
-# Основной цикл
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-    # Очистка экрана
-    screen.fill((255, 255, 255))
-
-    # Отображение только части изображения поля
-    screen.blit(field_image, (0, 0), crop_rect)
-
-    # Обновление экрана
-    pygame.display.flip()
-
-# Завершение программы
-pygame.quit()
-sys.exit()
+if __name__ == '__main__':
+    print(get_to_draw([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1]))

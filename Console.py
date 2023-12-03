@@ -2,6 +2,7 @@
 import pygame
 
 from Constants import *
+from Items import get_item
 
 pygame.init()
 
@@ -10,13 +11,14 @@ class Console:
     """class Console"""
     font = pygame.font.Font(*FONT_CONSOLE)  # initialization in the class so that there is no pygame in the constants
 
-    def __init__(self, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, x: int, y: int, width: int, height: int, player) -> None:
         self.rect: pygame.Rect = pygame.Rect(x, y, width, height)
         self.color: tuple[int, int, int] = BLACK
         self.text: str = ''
         self.txt_surface: pygame.Surface = self.font.render(self.text, True, self.color)
         self.rect_screen: bool = False
         self.center_screen: bool = False
+        self.player = player
 
         self.index_previous_commands: int = 0
         self.previous_commands: list[str] = ['']
@@ -114,5 +116,9 @@ class Console:
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.center_screen = False
                         self.rect_screen = False
+
+            if object_ == "player" or object_ == "pl":
+                if command == "additem" or command == "addi":
+                    self.player.add_item(get_item(int(values[0])))
         except Exception as e:
             print(e)
