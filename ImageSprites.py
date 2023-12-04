@@ -26,4 +26,5 @@ sprites: dict = {
     'rune_of_heart': pygame.image.load(r"image/items/rune_of_heart.png"),
     'rune_of_arrow': pygame.image.load(r"image/items/rune_of_arrow.png"),
     'rune_of_range': pygame.image.load(r"image/items/rune_of_range.png"),
+    'rune_of_rapidity': pygame.image.load(r"image/items/rune_of_rapidity.png"),
 }

@@ -10,6 +10,11 @@ def get_item(id_: int):
         return RuneOfArrow()
     elif id_ == RuneOfRange.id:
         return RuneOfRange()
+    elif id_ == RuneOfRapidity.id:
+        print(1)
+        return RuneOfRapidity()
+    else:
+        raise Exception()
 
 
 class Item:
@@ -45,7 +50,7 @@ class RuneOfSpeed(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'rune_of_speed'
-        self.characteristics['max_speed'] = '*= 1.06'
+        self.characteristics['max_speed'] = '+= 0.1'
 
 
 class RuneOfHeart(Item):
@@ -63,7 +68,7 @@ class RuneOfArrow(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'rune_of_arrow'
-        self.characteristics['period'] = '*= 0.95'
+        self.characteristics['period'] = "-=1"
 
     def apply(self, player) -> None:
         super().apply(player)
@@ -77,4 +82,13 @@ class RuneOfRange(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'rune_of_range'
-        self.characteristics['projectile_range'] = '*= 1.1'
+        self.characteristics['projectile_range'] = '+= 5'
+
+
+class RuneOfRapidity(Item):
+    id = 4
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'rune_of_rapidity'
+        self.characteristics['projectile_speed'] = '+= 0.1'
