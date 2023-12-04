@@ -2,17 +2,20 @@
 
 
 def get_item(id_: int):
-    if id_ == RuneOfSpeed.id:
-        return RuneOfSpeed()
+    if id_ == Lightning.id:
+        return Lightning()
     elif id_ == RuneOfHeart.id:
         return RuneOfHeart()
     elif id_ == WoodenBow.id:
         return WoodenBow()
     elif id_ == HuntingArrow.id:
         return HuntingArrow()
-    elif id_ == RuneOfRapidity.id:
-        print(1)
-        return RuneOfRapidity()
+    elif id_ == IronBullet.id:
+        return IronBullet()
+    elif id_ == Cigarette.id:
+        return Cigarette()
+    elif id_ == Meteorite.id:
+        return Meteorite()
     else:
         raise Exception()
 
@@ -44,12 +47,12 @@ class ShotTypeItem:
         return self.__class__.__name__
 
 
-class RuneOfSpeed(Item):
+class Lightning(Item):
     id = 0
 
     def __init__(self) -> None:
         super().__init__()
-        self.image = 'rune_of_speed'
+        self.image = 'lightning'
         self.characteristics['max_speed'] = '+= 0.1'
 
 
@@ -85,10 +88,36 @@ class HuntingArrow(Item):
         self.characteristics['projectile_range'] = '+= 5'
 
 
-class RuneOfRapidity(Item):
+class IronBullet(Item):
     id = 4
 
     def __init__(self) -> None:
         super().__init__()
-        self.image = 'rune_of_rapidity'
+        self.image = 'iron_bullet'
         self.characteristics['projectile_speed'] = '+= 0.1'
+
+
+class Cigarette(Item):
+    id = 5
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "cigarette"
+        self.characteristics['period'] = "*= 0.90"
+        self.characteristics['speed'] = "+= 0.3"
+        self.characteristics['max_hp'] = "-= 2"
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class Meteorite(Item):
+    id = 6
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "meteorite"
+        self.characteristics['projectile_speed'] = '*= 0.80'
+        self.characteristics['projectile_size'] = '*= 1.20'

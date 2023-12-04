@@ -40,9 +40,9 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
 
         self.size: int = self.player.projectile_size
 
-        self.image: pygame.Surface = ImageSprites.sprites["projectile30"]
-        # self.color = self.player.projectile_color
-        # self.image.fill(self.color)
+        self.image: pygame.Surface = pygame.Surface([self.size, self.size])
+        self.color = self.player.projectile_color
+        self.image.fill(self.color)
         self.rect = self.image.get_rect()
 
         self.x: float = self.player.rect.centerx - self.size / 2
