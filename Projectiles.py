@@ -76,13 +76,12 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
             self.IDs.add(self.ID)
             self.kill()
 
-        x: int = int(math.ceil(self.x / CHUNK_SIZE))
-        y: int = int(math.ceil(self.y / CHUNK_SIZE))
-        for i in range(max(0, x - 1), min(CHUNK_N_X, x + 2)):
-            for j in range(max(0, y - 1), min(CHUNK_N_Y, y + 2)):
-                for k in range(len(array[i][j])):
-                    if array[i][j][k][6] == 0:
-                        array[i][j][k] = [self.x, self.y, self.hp, self.damage, self.size, 0, self.ID]
-                        break
-                else:
-                    print(1)
+        i: int = int(math.floor(self.x / CHUNK_SIZE))
+        j: int = int(math.floor(self.y / CHUNK_SIZE))
+        if 0 <= i < CHUNK_N_X and 0 <= j < CHUNK_N_Y:
+            for k in range(len(array[i][j])):
+                if array[i][j][k][8] == 0:
+                    array[i][j][k] = [self.x, self.y, self.dx, self.dy, self.hp, self.damage, self.size, 0, self.ID]
+                    break
+            else:
+                print(1)

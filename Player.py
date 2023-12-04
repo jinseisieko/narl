@@ -4,7 +4,6 @@ import random
 import pygame.sprite
 
 import Field
-from Constants import *
 from Inventory import Inventory
 from Items import Item
 from Projectiles import *
@@ -20,18 +19,18 @@ def field_boundary_collision(x: float, y: float, dx: float, dy: float, FIELD_WID
                              PLAYER_SIZE: int) -> tuple[float, float, float, float]:
     """function is designed to change coordinates when colliding with a boundary"""
 
-    if x > FIELD_WIDTH:
-        x = FIELD_WIDTH
+    if x > FIELD_WIDTH - PLAYER_SIZE // 2:
+        x = FIELD_WIDTH - PLAYER_SIZE // 2
         dx = 0
-    elif x < 0:
-        x = 0.
+    elif x < PLAYER_SIZE // 2:
+        x = PLAYER_SIZE // 2
         dx = 0
 
-    if y > FIELD_HEIGHT:
-        y = FIELD_HEIGHT
+    if y > FIELD_HEIGHT - PLAYER_SIZE // 2:
+        y = FIELD_HEIGHT - PLAYER_SIZE // 2
         dy = 0
-    elif y < 0:
-        y = 0.
+    elif y < PLAYER_SIZE // 2:
+        y = PLAYER_SIZE // 2
         dy = 0
 
     return x, y, dx, dy
@@ -183,9 +182,9 @@ class Player(pygame.sprite.Sprite):
     def shot(self, ID: int, IDs: set) -> list:  # test
         cursor_pos = pygame.mouse.get_pos()
 
-        return [DefaultPlayerProjectile(self, (
+        return DefaultPlayerProjectile(self, (
             self.field.screen_centre[0] - WIDTH // 2 + cursor_pos[0],
-            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]), ID, IDs)]
+            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]), ID, IDs)
 
     def add_item(self, item: Item):
         self.inventory.add_item(item)
