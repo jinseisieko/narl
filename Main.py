@@ -2,7 +2,6 @@
 
 import sys
 
-import numpy as np
 from tqdm import tqdm
 
 import ImageSprites
@@ -26,15 +25,15 @@ enemies: pygame.sprite.Group = pygame.sprite.Group()
 enemies_projectile: pygame.sprite.Group = pygame.sprite.Group()
 player_group: pygame.sprite.Group = pygame.sprite.Group()
 
-object_ID: dict[int] = {}
+object_ID: dict[int] = dict()
 IDs: set[int] = set()
 lastID = 0
 
 # player
 player: Player = Player(field, lastID, IDs)
+object_ID[lastID] = player
 lastID += 1
 player_group.add(player)
-all_sprites.add(player_group)
 
 # field
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
@@ -43,6 +42,11 @@ console = Console(10, 10, 200, 20, player)
 
 enemy: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
 enemies.add(enemy)
+object_ID[lastID] = enemy
+lastID += 1
+enemy1: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
+enemies.add(enemy1)
+object_ID[lastID] = enemy1
 # all_sprites.add(enemy)
 
 # actions
@@ -120,25 +124,36 @@ with (tqdm() as pbar):
         if not pause:
             if shooting and frame_shot == 0:
                 frame_shot = player.period
-                projectiles = player.shot(IDs.pop(), IDs)
+                projectile = player.shot(IDs.pop(), IDs)
 
-                for projectile in projectiles:
-                    players_projectile.add(projectile)
-                    # all_sprites.add(projectile)
+                object_ID[lastID] = projectile
+                players_projectile.add(projectile)
+                # all_sprites.add(projectile)
 
-        enemies_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 7))
-        projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 7))
+        enemies_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 9))
+        projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 9))
+        positions: set[tuple[int, int]] = set()
 
         # update
         if not pause:
-            all_sprites.update()
-            enemies.update(enemies_positions)
+            player_group.update()
+            enemies.update(enemies_positions, positions)
             players_projectile.update(projectiles_positions)
 
         if console_opening:
             console.update()
 
-        calculate_soft_collision(0, enemies_positions, projectiles_positions, CHUNK_N_X, CHUNK_N_Y)
+        positions_np = np.array(list(positions))
+        player_data, enemy_data, projectiles_data = calculate_soft_collision(0, enemies_positions,
+                                                                             projectiles_positions, positions_np,
+                                                                             CHUNK_N_X, CHUNK_N_Y, 20)
+
+        for pos in positions:
+            for i in range(len(enemy_data[pos[0]][pos[1]])):
+                if enemy_data[pos[0]][pos[1]][i][8] == 0:
+                    continue
+                object_ID[enemy_data[pos[0]][pos[1]][i][8]].x = enemy_data[pos[0]][pos[1]][i][0]
+                object_ID[enemy_data[pos[0]][pos[1]][i][8]].y = enemy_data[pos[0]][pos[1]][i][1]
 
         # screen movement calculation
         field.move_screen_relative_player(player)
