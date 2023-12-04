@@ -113,7 +113,6 @@ class Player(pygame.sprite.Sprite):
 
         self.max_hp: int = DEFAULT_PLAYER_HP
         self.hp: int = DEFAULT_PLAYER_HP
-        self.damage: int = 0
         self.period: int = DEFAULT_PROJECTILE_PERIOD
         self.dash_timer: int = 0
 

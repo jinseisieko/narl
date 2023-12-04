@@ -18,6 +18,7 @@ class Console:
         self.txt_surface: pygame.Surface = self.font.render(self.text, True, self.color)
         self.rect_screen: bool = False
         self.center_screen: bool = False
+        self.fps: bool = False
         self.player = player
 
         self.index_previous_commands: int = 0
@@ -89,6 +90,10 @@ class Console:
                              (field.screen_centre[0] - WIDTH, field.screen_centre[1] + HEIGHT),
                              (field.screen_centre[0] + WIDTH, field.screen_centre[1] - HEIGHT), 1)
 
+    def draw_in_screen(self, screen, clock):
+        if self.fps:
+            screen.blit(pygame.font.Font(*FONT_FPS).render(str(clock.get_fps())[:6], True, self.color), (10, 40))
+
     def open_console(self) -> None:
         self.text = ''
 
@@ -112,17 +117,23 @@ class Console:
                         self.center_screen = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.center_screen = False
-
+                if command == "fps":
+                    if values[0].lower() == "true" or values[0].lower() == "1":
+                        self.fps = True
+                    elif values[0].lower() == "false" or values[0].lower() == "0":
+                        self.fps = False
                 if command == "all":
                     if values[0].lower() == "true" or values[0].lower() == "1":
                         self.center_screen = True
                         self.rect_screen = True
+                        self.fps = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.center_screen = False
                         self.rect_screen = False
+                        self.fps = FONT_FPS
 
             if object_ == "player" or object_ == "pl":
                 if command == "additem" or command == "addi":
                     self.player.add_item(get_item(int(values[0])))
-        except Exception as e:
-            print(e)
+        except Exception:
+            pass

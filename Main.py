@@ -134,6 +134,7 @@ with (tqdm() as pbar):
             all_sprites.update()
             enemies.update(enemies_positions)
             players_projectile.update(projectiles_positions)
+
         if console_opening:
             console.update()
 
@@ -159,7 +160,7 @@ with (tqdm() as pbar):
             mouse_x, mouse_y = pygame.mouse.get_pos()
             screen.blit(ImageSprites.sprites['cursor'],
                         (mouse_x - player.projectile_size // 2, mouse_y - player.projectile_size // 2))
-
+            console.draw_in_screen(screen, clock)
             if console_opening:
                 console.draw(screen)
             if pause:
@@ -168,17 +169,17 @@ with (tqdm() as pbar):
             for i, row in enumerate(player.inventory.get_to_draw()):
                 for j, item in enumerate(row):
                     screen.blit(ImageSprites.sprites[item.image], (WIDTH - 37 * 5 - 10 + j * 37, 10 + i * 37))
+        # draw frames
+        if frame_draw > 0:
+            frame_draw -= 1
 
         # update frames
         if not pause:
-            if frame_draw > 0:
-                frame_draw -= 1
-
             if frame_shot > 0:
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS * 100)
+        clock.tick(TICKS)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
         pbar.update(1)
