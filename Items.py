@@ -6,8 +6,8 @@ def get_item(id_: int):
         return RuneOfSpeed()
     elif id_ == RuneOfHeart.id:
         return RuneOfHeart()
-    elif id_ == RuneOfArrow.id:
-        return RuneOfArrow()
+    elif id_ == WoodenBow.id:
+        return WoodenBow()
     elif id_ == RuneOfRange.id:
         return RuneOfRange()
     elif id_ == RuneOfRapidity.id:
@@ -62,12 +62,12 @@ class RuneOfHeart(Item):
         self.characteristics['max_hp'] = '+= 1'
 
 
-class RuneOfArrow(Item):
+class WoodenBow(Item):
     id = 2
 
     def __init__(self) -> None:
         super().__init__()
-        self.image = 'rune_of_arrow'
+        self.image = 'wooden_bow'
         self.characteristics['period'] = "-=1"
 
     def apply(self, player) -> None:
