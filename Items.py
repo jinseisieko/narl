@@ -8,8 +8,8 @@ def get_item(id_: int):
         return RuneOfHeart()
     elif id_ == WoodenBow.id:
         return WoodenBow()
-    elif id_ == RuneOfRange.id:
-        return RuneOfRange()
+    elif id_ == HuntingArrow.id:
+        return HuntingArrow()
     elif id_ == RuneOfRapidity.id:
         print(1)
         return RuneOfRapidity()
@@ -76,12 +76,12 @@ class WoodenBow(Item):
             exec(f"import math; player.period = math.ceil(player.period)")
 
 
-class RuneOfRange(Item):
+class HuntingArrow(Item):
     id = 3
 
     def __init__(self) -> None:
         super().__init__()
-        self.image = 'rune_of_range'
+        self.image = 'hunting_arrow'
         self.characteristics['projectile_range'] = '+= 5'
 
 
