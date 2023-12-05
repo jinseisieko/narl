@@ -34,4 +34,6 @@ sprites: dict = {
     'lollipop': pygame.image.load(r"image/items/lollipop.png"),
     'mini_volcano': pygame.image.load(r"image/items/mini_volcano.png"),
     'hat': pygame.image.load(r"image/items/hat.png"),
+    'mini_shark': pygame.image.load(r"image/items/mini_shark.png"),
+    'helmet': pygame.image.load(r"image/items/helmet.png"),
 }

@@ -38,6 +38,10 @@ def get_item(id_: int):
         return MiniVolcano()
     elif id_ == Hat.id:
         return Hat()
+    elif id_ == MiniShark.id:
+        return MiniShark()
+    elif id_ == Helmet.id:
+        return Helmet()
     else:
         raise Exception()
 
@@ -293,3 +297,31 @@ class Hat(Item):
         self.image = 'hat'
         self.characteristics['max_speed'] = '-= 0.3'
         self.characteristics['projectile_range'] = "+= 10"
+
+
+class MiniShark(Item):
+    id = 18
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'mini_shark'
+        self.characteristics['period'] = "-= 10"
+        self.characteristics['projectile_size'] = "*= 0.8"
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'projectile_size'):
+            exec(
+                f"import math;player.projectile_size = math.ceil(player.projectile_size)")
+
+
+class Helmet(Item):
+    id = 19
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'helmet'
+        self.characteristics['max_hp'] = "+= 1"
+        self.characteristics['max_speed'] = '-= 0.1'
+        self.characteristics['projectile_speed'] = '*= 0.94'
+
