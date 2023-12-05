@@ -26,6 +26,10 @@ def get_item(id_: int):
         return RedBall()
     elif id_ == Sunflower.id:
         return Sunflower()
+    elif id_ == OrangeSlice.id:
+        return OrangeSlice()
+    elif id_ == Dagger.id:
+        return Dagger()
     else:
         raise Exception()
 
@@ -196,3 +200,26 @@ class Sunflower(Item):
         super().__init__()
         self.image = 'sunflower'
         self.characteristics['projectile_damage'] = '+= 2'
+
+
+class OrangeSlice(Item):
+    id = 12
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "orange_slice"
+        self.characteristics['projectile_speed'] = '+= 0.1'
+        self.characteristics['max_hp'] = "+= 1"
+
+
+class Dagger(Item):
+    id = 13
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "dagger"
+        self.characteristics['projectile_speed'] = '+= 0.1'
+        self.characteristics['projectile_damage'] = '+= 3'
+
+
+

@@ -1,4 +1,6 @@
 """console logic"""
+import random
+
 import pygame
 
 from Constants import *
@@ -134,6 +136,14 @@ class Console:
 
             if object_ == "player" or object_ == "pl":
                 if command == "additem" or command == "addi":
-                    self.player.add_item(get_item(int(values[0])))
+                    count = 1
+                    if len(values) > 1:
+                        count = int(values[1])
+
+                    if values[0] == "r":
+                        for _ in range(count):
+                            self.player.add_item(get_item(random.randint(0, ITEMS_COUNT)))
+                    for _ in range(count):
+                        self.player.add_item(get_item(int(values[0])))
         except Exception:
             pass

@@ -23,10 +23,11 @@ sprites: dict = {
     'iron_bullet': pygame.image.load(r"image/items/iron_bullet.png"),
     'cigarette': pygame.image.load(r"image/items/cigarette.png"),
     'meteorite': pygame.image.load(r"image/items/meteorite.png"),
-
     'elderberry_stick': pygame.image.load(r"image/items/elderberry_stick.png"),
     'paddle': pygame.image.load(r"image/items/paddle.png"),
     'pae_shot': pygame.image.load(r"image/items/pae_shot.png"),
     'red_ball': pygame.image.load(r"image/items/red_ball.png"),
     'sunflower': pygame.image.load(r"image/items/sunflower.png"),
+    'orange_slice': pygame.image.load(r"image/items/orange_slice.png"),
+    'dagger': pygame.image.load(r"image/items/dagger.png"),
 }
