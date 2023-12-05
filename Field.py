@@ -26,11 +26,11 @@ class Field:
         self.screen_centre: tuple[float, float] = 0.0, 0.0
 
         self.background = pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
-
-        for i in range(FIELD_WIDTH // BACKGROUND_PICTURE_SIZE + 1):
-            for j in range(FIELD_HEIGHT // BACKGROUND_PICTURE_SIZE + 1):
-                self.background.blit(pygame.image.load(f"image/grasses/grass{random.randint(1, 4)}.png"),
-                                     (i * BACKGROUND_PICTURE_SIZE, j * BACKGROUND_PICTURE_SIZE))
+        self.background.fill((255, 255, 255))
+        # for i in range(FIELD_WIDTH // BACKGROUND_PICTURE_SIZE + 1):
+        #     for j in range(FIELD_HEIGHT // BACKGROUND_PICTURE_SIZE + 1):
+        #         self.background.blit(pygame.image.load(f"image/grasses/grass{random.randint(1, 4)}.png"),
+        #                              (i * BACKGROUND_PICTURE_SIZE, j * BACKGROUND_PICTURE_SIZE))
         self.field.blit(self.background, (0, 0))
 
     def draw(self, *groups: pygame.sprite.Group, player=None) -> None:

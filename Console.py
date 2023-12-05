@@ -1,4 +1,5 @@
 """console logic"""
+import math
 import random
 
 import pygame
@@ -105,16 +106,21 @@ class Console:
                         (10, 70))
             screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pe: {self.player.period}", True, BLACK),
                         (10, 85))
-            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pr: {self.player.projectile_range}", True, BLACK),
-                        (10, 100))
-            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psp: {self.player.projectile_speed}", True, BLACK),
-                        (10, 115))
-            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psi: {self.player.projectile_size}", True, BLACK),
-                        (10, 130))
-            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pd: {self.player.projectile_damage}", True, BLACK),
-                        (10, 145))
-            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psc: {self.player.projectile_scatter}", True, BLACK),
-                        (10, 160))
+            screen.blit(
+                pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pr: {self.player.projectile_range}", True, BLACK),
+                (10, 100))
+            screen.blit(
+                pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psp: {self.player.projectile_speed}", True, BLACK),
+                (10, 115))
+            screen.blit(
+                pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psi: {self.player.projectile_size}", True, BLACK),
+                (10, 130))
+            screen.blit(
+                pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pd: {self.player.projectile_damage}", True, BLACK),
+                (10, 145))
+            screen.blit(
+                pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psc: {self.player.projectile_scatter}", True, BLACK),
+                (10, 160))
 
     def open_console(self) -> None:
         self.text = ''
@@ -169,8 +175,40 @@ class Console:
 
                     if values[0] == "r":
                         for _ in range(count):
-                            self.player.add_item(get_item(random.randint(0, ITEMS_COUNT-1)))
+                            self.player.add_item(get_item(random.randint(0, ITEMS_COUNT - 1)))
                     for _ in range(count):
+                        self.player.add_item(get_item(int(values[0])))
+
+                if command == "inventory" or command == "inv":
+                    if values[0] == "clear" or values[0] == "cl":
+                        self.player.inventory.items.clear()
+                        self.player.max_speed = DEFAULT_PLAYER_SPEED
+                        self.player.acceleration = self.player.max_speed / ACCELERATION_SMOOTHNESS
+                        self.player.resistance_acceleration = self.player.max_speed / SLOWDOWN_SMOOTHNESS
+                        self.player.max_hp = DEFAULT_PLAYER_HP
+                        self.player.period = DEFAULT_PROJECTILE_PERIOD
+                        self.player.projectile_range = DEFAULT_PROJECTILE_RANGE
+                        self.player.projectile_speed = DEFAULT_PROJECTILE_SPEED
+                        self.player.projectile_size = DEFAULT_PROJECTILE_SIZE
+                        self.player.projectile_damage = DEFAULT_PROJECTILE_DAMAGE
+                        self.player.projectile_scatter = math.pi / 100
+
+                if command == "reset" or command == "res":
+                    self.player.inventory.items.clear()
+                    self.player.max_speed = DEFAULT_PLAYER_SPEED
+                    self.player.acceleration = self.player.max_speed / ACCELERATION_SMOOTHNESS
+                    self.player.resistance_acceleration = self.player.max_speed / SLOWDOWN_SMOOTHNESS
+                    self.player.max_hp = DEFAULT_PLAYER_HP
+                    self.player.period = DEFAULT_PROJECTILE_PERIOD
+                    self.player.projectile_range = DEFAULT_PROJECTILE_RANGE
+                    self.player.projectile_speed = DEFAULT_PROJECTILE_SPEED
+                    self.player.projectile_size = DEFAULT_PROJECTILE_SIZE
+                    self.player.projectile_damage = DEFAULT_PROJECTILE_DAMAGE
+                    self.player.projectile_scatter = math.pi / 100
+                    if values[0] == "r":
+                        for _ in range(int(values[1])):
+                            self.player.add_item(get_item(random.randint(0, ITEMS_COUNT - 1)))
+                    for _ in range(int(values[1])):
                         self.player.add_item(get_item(int(values[0])))
         except Exception:
             pass

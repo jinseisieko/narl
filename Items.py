@@ -42,6 +42,10 @@ def get_item(id_: int):
         return MiniShark()
     elif id_ == Helmet.id:
         return Helmet()
+    elif id_ == GreenRocket.id:
+        return GreenRocket()
+    elif id_ == RedRocket.id:
+        return RedRocket()
     else:
         raise Exception()
 
@@ -146,7 +150,7 @@ class Meteorite(Item):
         super().__init__()
         self.image = "meteorite"
         self.characteristics['projectile_speed'] = '*= 0.80'
-        self.characteristics['projectile_size'] = '+= 1'
+        self.characteristics['projectile_size'] = '+= 4'
 
 
 class ElderberryStick(Item):
@@ -325,3 +329,22 @@ class Helmet(Item):
         self.characteristics['max_speed'] = '-= 0.1'
         self.characteristics['projectile_speed'] = '*= 0.94'
 
+
+class GreenRocket(Item):
+    id = 20
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'green_rocket'
+        self.characteristics['projectile_damage'] = "+= 5"
+        self.characteristics['period'] = "+= 20"
+
+
+class RedRocket(Item):
+    id = 21
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'red_rocket'
+        self.characteristics['projectile_damage'] = "+= 10"
+        self.characteristics['period'] = "+= 50"
