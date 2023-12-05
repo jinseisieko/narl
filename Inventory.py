@@ -1,3 +1,4 @@
+from Constants import H
 from Items import Item, ShotTypeItem
 
 
@@ -18,8 +19,8 @@ class Inventory:
 
     def get_to_draw(self) -> list[str]:
         array_draw: list[str] = []
-        for i in range(len(self.items) // 5):
-            array_draw += [self.items[i * 5:i * 5 + 5]]
-        if len(self.items) % 5 != 0:
-            array_draw += [self.items[-(len(self.items) % 5):]]
+        for i in range(len(self.items) // H):
+            array_draw += [self.items[i * H:i * H + H]]
+        if len(self.items) % H != 0:
+            array_draw += [self.items[-(len(self.items) % H):]]
         return array_draw

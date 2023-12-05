@@ -2,8 +2,8 @@
 from ctypes import windll
 
 CHUNK_SIZE = 100
-CHUNK_N_X = 50
-CHUNK_N_Y = 50
+CHUNK_N_X = 80
+CHUNK_N_Y = 80
 
 FIELD_WIDTH: int = CHUNK_N_X * CHUNK_SIZE
 FIELD_HEIGHT: int = CHUNK_N_Y * CHUNK_SIZE
@@ -24,7 +24,9 @@ DEFAULT_FPS: int = 1
 DOUBLE_CLICK_INTERVAL: int = 200
 ACCELERATION_SMOOTHNESS: int = 25
 SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
-ITEMS_COUNT: int = 13
+
+ITEMS_COUNT: int = 18
+H: int = 6
 
 DEFAULT_PLAYER_SPEED: float = 4 * COEFFICIENT
 DEFAULT_PLAYER_HP: int = 10
@@ -49,6 +51,7 @@ BLACK: tuple[int, int, int] = (0, 0, 0)
 FONT_CONSOLE = (None, 27)
 FONT_PAUSE = (None, 46)
 FONT_FPS = (None, 27)
+FONT_CHARACTERISTICS = (None, 27)
 
 W: str = "W"
 A: str = "A"

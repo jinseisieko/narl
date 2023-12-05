@@ -30,6 +30,14 @@ def get_item(id_: int):
         return OrangeSlice()
     elif id_ == Dagger.id:
         return Dagger()
+    elif id_ == LastPlaceMedal.id:
+        return LastPlaceMedal()
+    elif id_ == Lollipop.id:
+        return Lollipop()
+    elif id_ == MiniVolcano.id:
+        return MiniVolcano()
+    elif id_ == Hat.id:
+        return Hat()
     else:
         raise Exception()
 
@@ -134,7 +142,7 @@ class Meteorite(Item):
         super().__init__()
         self.image = "meteorite"
         self.characteristics['projectile_speed'] = '*= 0.80'
-        self.characteristics['projectile_size'] = '*= 1.20'
+        self.characteristics['projectile_size'] = '+= 1'
 
 
 class ElderberryStick(Item):
@@ -144,7 +152,7 @@ class ElderberryStick(Item):
         super().__init__()
         self.image = "elderberry_stick"
         self.characteristics['period'] = "*= 0.5"
-        self.characteristics['projectile_speed'] = '+= 0.5'
+        self.characteristics['projectile_speed'] = '+= 0.75'
         self.characteristics['projectile_range'] = '+= 10'
         self.characteristics['projectile_damage'] = '+= 2'
 
@@ -222,4 +230,66 @@ class Dagger(Item):
         self.characteristics['projectile_damage'] = '+= 3'
 
 
+class LastPlaceMedal(Item):
+    id = 14
 
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "last_place_medal"
+        self.c: float = 2
+
+    def apply(self, player) -> None:
+        exec(
+            f"""from Constants import *
+import math
+c1 = abs(DEFAULT_PLAYER_SPEED - player.max_speed) / DEFAULT_PLAYER_SPEED * 3
+c2 = abs(DEFAULT_PROJECTILE_RANGE - player.projectile_range) / DEFAULT_PROJECTILE_RANGE
+c3 = abs(DEFAULT_PROJECTILE_SPEED - player.projectile_speed) / DEFAULT_PROJECTILE_SPEED * 4
+c4 = abs(DEFAULT_PROJECTILE_SIZE - player.projectile_size) / DEFAULT_PROJECTILE_SIZE * 6
+c5 = abs(DEFAULT_PROJECTILE_DAMAGE - player.projectile_damage) / DEFAULT_PROJECTILE_DAMAGE
+c = [c1, c2, c3, c4, c5].index(min([c1, c2, c3, c4, c5]))
+if c == 0:
+    player.max_speed *= {self.c}
+elif c == 1:
+    player.projectile_range *= {self.c}
+elif c == 2:
+    player.projectile_speed *= {self.c}
+elif c == 3:
+    player.projectile_size *= {self.c}
+elif c == 4:
+    player.projectile_damage *= {self.c}
+""")
+
+
+class Lollipop(Item):
+    id = 15
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "lollipop"
+        self.characteristics['projectile_range'] = "+= 8"
+
+
+class MiniVolcano(Item):
+    id = 16
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "mini_volcano"
+        self.characteristics['projectile_damage'] = "+= 1"
+        self.characteristics['period'] = "*= 1.1"
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class Hat(Item):
+    id = 17
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'hat'
+        self.characteristics['max_speed'] = '-= 0.3'
+        self.characteristics['projectile_range'] = "+= 10"

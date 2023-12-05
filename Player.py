@@ -192,3 +192,5 @@ class Player(pygame.sprite.Sprite):
         self.inventory.add_item(item)
         self.acceleration: float = self.max_speed / ACCELERATION_SMOOTHNESS
         self.resistance_acceleration: float = self.max_speed / SLOWDOWN_SMOOTHNESS
+
+        self.period = max(self.period, 1)

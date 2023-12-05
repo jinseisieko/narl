@@ -3,7 +3,7 @@ import pygame
 sprites: dict = {
     'player_nr': pygame.image.load(r"image/player/player_nr.png"),
     'player_pd': pygame.image.load(r"image/player/player_pd.png"),
-    'hat': pygame.image.load(r"image/player/hat.png"),
+    'phat': pygame.image.load(r"image/player/hat.png"),
     'default_projectile': None,
     'projectile30': pygame.image.load(r"image/projectiles/projectile30.png"),
     'cursor': pygame.image.load(r"image/cursor.png"),
@@ -30,4 +30,8 @@ sprites: dict = {
     'sunflower': pygame.image.load(r"image/items/sunflower.png"),
     'orange_slice': pygame.image.load(r"image/items/orange_slice.png"),
     'dagger': pygame.image.load(r"image/items/dagger.png"),
+    'last_place_medal': pygame.image.load(r"image/items/last_place_medal.png"),
+    'lollipop': pygame.image.load(r"image/items/lollipop.png"),
+    'mini_volcano': pygame.image.load(r"image/items/mini_volcano.png"),
+    'hat': pygame.image.load(r"image/items/hat.png"),
 }

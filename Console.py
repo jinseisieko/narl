@@ -21,6 +21,8 @@ class Console:
         self.rect_screen: bool = False
         self.center_screen: bool = False
         self.fps: bool = False
+        self.characteristic: bool = False
+
         self.player = player
 
         self.index_previous_commands: int = 0
@@ -94,7 +96,25 @@ class Console:
 
     def draw_in_screen(self, screen, clock):
         if self.fps:
-            screen.blit(pygame.font.Font(*FONT_FPS).render(str(clock.get_fps())[:6], True, self.color), (10, 40))
+            screen.blit(pygame.font.Font(*FONT_FPS).render(str(clock.get_fps())[:6], True, BLACK), (10, 40))
+
+        if self.characteristic:
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"sp: {self.player.max_speed}", True, BLACK),
+                        (10, 55))
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"mhp: {self.player.max_hp}", True, BLACK),
+                        (10, 70))
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pe: {self.player.period}", True, BLACK),
+                        (10, 85))
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pr: {self.player.projectile_range}", True, BLACK),
+                        (10, 100))
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psp: {self.player.projectile_speed}", True, BLACK),
+                        (10, 115))
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psi: {self.player.projectile_size}", True, BLACK),
+                        (10, 130))
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"pd: {self.player.projectile_damage}", True, BLACK),
+                        (10, 145))
+            screen.blit(pygame.font.Font(*FONT_CHARACTERISTICS).render(f"psc: {self.player.projectile_scatter}", True, BLACK),
+                        (10, 160))
 
     def open_console(self) -> None:
         self.text = ''
@@ -124,15 +144,22 @@ class Console:
                         self.fps = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.fps = False
+                if command == "characteristic" or command == "ch":
+                    if values[0].lower() == "true" or values[0].lower() == "1":
+                        self.characteristic = True
+                    elif values[0].lower() == "false" or values[0].lower() == "0":
+                        self.characteristic = False
                 if command == "all":
                     if values[0].lower() == "true" or values[0].lower() == "1":
                         self.center_screen = True
                         self.rect_screen = True
                         self.fps = True
+                        self.characteristic = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.center_screen = False
                         self.rect_screen = False
-                        self.fps = FONT_FPS
+                        self.fps = False
+                        self.characteristic = False
 
             if object_ == "player" or object_ == "pl":
                 if command == "additem" or command == "addi":
@@ -142,7 +169,7 @@ class Console:
 
                     if values[0] == "r":
                         for _ in range(count):
-                            self.player.add_item(get_item(random.randint(0, ITEMS_COUNT)))
+                            self.player.add_item(get_item(random.randint(0, ITEMS_COUNT-1)))
                     for _ in range(count):
                         self.player.add_item(get_item(int(values[0])))
         except Exception:
