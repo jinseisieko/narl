@@ -23,7 +23,7 @@ def calculate_soft_collision(player_data: np.zeros, enemy_data: np.zeros, projec
                 if enemy_first[8] == 0 or enemy_second[8] == 0:
                     break
 
-                size = max(enemy_first[6], enemy_second[6])
+                size = max(enemy_first[6], enemy_second[6]) /2
                 distance_x = enemy_first[0] - enemy_second[0]
                 distance_y = enemy_first[1] - enemy_second[1]
 
