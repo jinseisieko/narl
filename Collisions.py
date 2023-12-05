@@ -10,7 +10,7 @@ def calculate_soft_collision(player_data: np.zeros, enemy_data: np.zeros, projec
                              CHUNK_N_Y: int, REPELLING: float):
     """Soft collisions calculation"""
     enemies_new_data = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 9))
-    projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 9))
+    projectiles_positions = np.zeros((80, 80, 40, 9))
 
     # print(positions)
 
@@ -60,4 +60,4 @@ def calculate_soft_collision(player_data: np.zeros, enemy_data: np.zeros, projec
     #     for j in numba.prange(num_enemy_instances):
     #         pass
 
-    return player_data, enemies_new_data, projectiles_data
+    return player_data, enemy_data, projectiles_positions
