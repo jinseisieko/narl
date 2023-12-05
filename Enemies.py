@@ -42,8 +42,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self, array, positions: set[tuple[int, int]]) -> None:
         self.angle_calculation()
-        self.speed_calculation()
         self.coordinate_calculation()
+        self.speed_calculation()
 
         self.rect.x = round(self.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
         self.rect.y = round(self.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2

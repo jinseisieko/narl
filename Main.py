@@ -59,7 +59,7 @@ pause: bool = False
 frame_draw: int = 0
 frame_shot: int = 0
 
-last_click_time: dict[str, int] = {W: 0, A: 0, S: 0, D: 0, }
+last_click_time: dict[str, int] = {W: 0, A: 0, S: 0, D: 0}
 text_pause: pygame.Surface = pygame.font.Font(*FONT_PAUSE).render("pause", True, BLACK)
 
 pygame.mouse.set_visible(False)
@@ -138,7 +138,19 @@ with (tqdm() as pbar):
         if not pause:
             player_group.update()
             enemies.update(enemies_positions, positions)
+
             players_projectile.update(projectiles_positions)
+            positions_np = np.array(list(positions))
+            player_data, enemy_data, projectiles_data = calculate_soft_collision(0, enemies_positions,
+                                                                                 projectiles_positions, positions_np,
+                                                                                 CHUNK_N_X, CHUNK_N_Y, 20)
+
+            for pos in positions:
+                for i in range(len(enemy_data[pos[0]][pos[1]])):
+                    if enemy_data[pos[0]][pos[1]][i][8] == 0:
+                        continue
+                    object_ID[enemy_data[pos[0]][pos[1]][i][8]].dx = enemy_data[pos[0]][pos[1]][i][2]
+                    object_ID[enemy_data[pos[0]][pos[1]][i][8]].dy = enemy_data[pos[0]][pos[1]][i][3]
 
             positions_np = np.array(list(positions))
             player_data, enemy_data, projectiles_data = calculate_soft_collision(0, enemies_positions,
@@ -194,7 +206,7 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS)
+        clock.tick(TICKS * 100)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
         pbar.update(1)
