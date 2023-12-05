@@ -152,21 +152,8 @@ with (tqdm() as pbar):
                     object_ID[enemy_data[pos[0]][pos[1]][i][8]].dx = enemy_data[pos[0]][pos[1]][i][2]
                     object_ID[enemy_data[pos[0]][pos[1]][i][8]].dy = enemy_data[pos[0]][pos[1]][i][3]
 
-            positions_np = np.array(list(positions))
-            player_data, enemy_data, projectiles_data = calculate_soft_collision(0, enemies_positions,
-                                                                                 projectiles_positions, positions_np,
-                                                                                 CHUNK_N_X, CHUNK_N_Y, 20)
-
-            for pos in positions:
-                for i in range(len(enemy_data[pos[0]][pos[1]])):
-                    if enemy_data[pos[0]][pos[1]][i][8] == 0:
-                        continue
-                    object_ID[enemy_data[pos[0]][pos[1]][i][8]].x = enemy_data[pos[0]][pos[1]][i][0]
-                    object_ID[enemy_data[pos[0]][pos[1]][i][8]].y = enemy_data[pos[0]][pos[1]][i][1]
-
         if console_opening:
             console.update()
-
         # screen movement calculation
         field.move_screen_relative_player(player)
 
