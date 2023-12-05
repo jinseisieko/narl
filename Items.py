@@ -16,6 +16,16 @@ def get_item(id_: int):
         return Cigarette()
     elif id_ == Meteorite.id:
         return Meteorite()
+    elif id_ == ElderberryStick.id:
+        return ElderberryStick()
+    elif id_ == Paddle.id:
+        return Paddle()
+    elif id_ == PaeShot.id:
+        return PaeShot()
+    elif id_ == RedBall.id:
+        return RedBall()
+    elif id_ == Sunflower.id:
+        return Sunflower()
     else:
         raise Exception()
 
@@ -104,7 +114,7 @@ class Cigarette(Item):
         super().__init__()
         self.image = "cigarette"
         self.characteristics['period'] = "*= 0.90"
-        self.characteristics['speed'] = "+= 0.3"
+        self.characteristics['max_speed'] = "+= 0.2"
         self.characteristics['max_hp'] = "-= 2"
 
     def apply(self, player) -> None:
@@ -121,3 +131,68 @@ class Meteorite(Item):
         self.image = "meteorite"
         self.characteristics['projectile_speed'] = '*= 0.80'
         self.characteristics['projectile_size'] = '*= 1.20'
+
+
+class ElderberryStick(Item):
+    id = 7
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "elderberry_stick"
+        self.characteristics['period'] = "*= 0.5"
+        self.characteristics['projectile_speed'] = '+= 0.5'
+        self.characteristics['projectile_range'] = '+= 10'
+        self.characteristics['projectile_damage'] = '+= 2'
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class Paddle(Item):
+    id = 8
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "paddle"
+        self.characteristics['period'] = "*= 1.1"
+        self.characteristics['max_speed'] = '+= 0.3'
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class PaeShot(Item):
+    id = 9
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'pae_shot'
+        self.characteristics['period'] = "*= 0.95"
+        self.characteristics['projectile_range'] = '+= 100'
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class RedBall(Item):
+    id = 10
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'red_ball'
+        self.characteristics['projectile_speed'] = '+= 0.2'
+
+
+class Sunflower(Item):
+    id = 11
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'sunflower'
+        self.characteristics['projectile_damage'] = '+= 2'

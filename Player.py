@@ -1,4 +1,5 @@
 """class Player and additional functions"""
+import math
 import random
 
 import pygame.sprite
@@ -7,6 +8,7 @@ import Field
 from Inventory import Inventory
 from Items import Item
 from Projectiles import *
+from Projectiles import DefaultPlayerProjectile
 
 
 @numba.jit(nopython=True, fastmath=True)
@@ -119,6 +121,7 @@ class Player(pygame.sprite.Sprite):
         self.projectile_speed: float = DEFAULT_PROJECTILE_SPEED
         self.projectile_size: int = DEFAULT_PROJECTILE_SIZE
         self.projectile_damage: int = DEFAULT_PROJECTILE_DAMAGE
+        self.projectile_scatter: float = math.pi / 100
         self.projectile_name_sprite: str = DEFAULT_PROJECTILE_TYPE
         self.projectile_color: tuple[int, int, int] = RED
 
@@ -178,7 +181,7 @@ class Player(pygame.sprite.Sprite):
         if self.animation_frame > 0:
             self.animation_frame -= 1
 
-    def shot(self, ID: int, IDs: set) -> list:  # test
+    def default_shot(self, ID: int, IDs: set) -> DefaultPlayerProjectile:  # test
         cursor_pos = pygame.mouse.get_pos()
 
         return DefaultPlayerProjectile(self, (

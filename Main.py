@@ -124,7 +124,7 @@ with (tqdm() as pbar):
         if not pause:
             if shooting and frame_shot == 0:
                 frame_shot = player.period
-                projectile = player.shot(IDs.pop(), IDs)
+                projectile = player.default_shot(IDs.pop(), IDs)
 
                 object_ID[lastID] = projectile
                 players_projectile.add(projectile)
