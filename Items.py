@@ -46,6 +46,16 @@ def get_item(id_: int):
         return GreenRocket()
     elif id_ == RedRocket.id:
         return RedRocket()
+    elif id_ == IronClaw.id:
+        return IronClaw()
+    elif id_ == Gun.id:
+        return Gun()
+    elif id_ == Hammer.id:
+        return Hammer()
+    elif id_ == PlusOne.id:
+        return PlusOne()
+    elif id_ == Buckshot.id:
+        return Buckshot()
     else:
         raise Exception()
 
@@ -71,6 +81,13 @@ class ShotTypeItem:
         self.image: str = ''
         self.parent: str = "ShotTypeItem"
         self.characteristics: dict = {}
+
+    def apply(self, player) -> None:
+        """changes the player's characteristics, each characteristic should have getters and setters"""
+
+        for key, item in self.characteristics.items():
+            if hasattr(player, key):
+                exec(f"player.{key} {item}")
 
     def get_name(self) -> str:
         """return name for item definition"""
@@ -315,8 +332,7 @@ class MiniShark(Item):
     def apply(self, player) -> None:
         super().apply(player)
         if hasattr(player, 'projectile_size'):
-            exec(
-                f"import math;player.projectile_size = math.ceil(player.projectile_size)")
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
 
 
 class Helmet(Item):
@@ -348,3 +364,87 @@ class RedRocket(Item):
         self.image = 'red_rocket'
         self.characteristics['projectile_damage'] = "+= 10"
         self.characteristics['period'] = "+= 50"
+
+
+class IronClaw(Item):
+    id = 22
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'iron_claw'
+        self.characteristics['projectile_damage'] = "+= 5"
+        self.characteristics['max_speed'] = '-= 0.2'
+        self.characteristics['projectile_speed'] = '-= 0.1'
+
+
+class Gun(Item):
+    id = 23
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'gun'
+        self.characteristics['max_speed'] = '-= 0.5'
+        self.characteristics['period'] = "*= 0.60"
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class Hammer(Item):
+    id = 24
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'hammer'
+        self.characteristics['period'] = "*= 0.9"
+        self.characteristics['projectile_damage'] = "*= 1.1"
+        self.characteristics['projectile_speed'] = '*= 1.1'
+        self.characteristics['projectile_size'] = "*= 1.1"
+        self.characteristics['projectile_range'] = "*= 0.70"
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+        if hasattr(player, 'projectile_size'):
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
+
+        if hasattr(player, 'projectile_damage'):
+            exec("import math; player.projectile_damage = math.ceil(player.projectile_damage)")
+
+
+class PlusOne(Item):
+    id = 25
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'plus_one'
+        self.characteristics['period'] = "-= 1"
+        self.characteristics['max_speed'] = '+= 1'
+        self.characteristics['projectile_damage'] = "+= 1"
+        self.characteristics['projectile_speed'] = '+= 1'
+        self.characteristics['projectile_size'] = "+= 1"
+        self.characteristics['projectile_range'] = "+= 1"
+        self.characteristics['max_hp'] = "+= 1"
+
+
+class Buckshot(ShotTypeItem):
+    id = 26
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'buckshot'
+        self.characteristics['period'] = "*= 0.40"
+        self.characteristics['projectile_size'] = "*= 0.75"
+        # adds the scattering effect of sears
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+        if hasattr(player, 'projectile_size'):
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")

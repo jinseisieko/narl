@@ -121,12 +121,10 @@ class Player(pygame.sprite.Sprite):
         self.projectile_speed: float = DEFAULT_PROJECTILE_SPEED
         self.projectile_size: int = DEFAULT_PROJECTILE_SIZE
         self.projectile_damage: int = DEFAULT_PROJECTILE_DAMAGE
-        self.projectile_scatter: float = math.pi / 100
         self.projectile_name_sprite: str = DEFAULT_PROJECTILE_TYPE
         self.projectile_color: tuple[int, int, int] = RED
 
         self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
-        self.projectile_trajectory: list[float] = [0.] * self.projectile_ticks
 
         self.inventory: Inventory = Inventory(self)
 
@@ -141,6 +139,9 @@ class Player(pygame.sprite.Sprite):
         self.animation_duration: int = 30
 
         self.field.screen_centre = [self.rect.centerx, self.rect.centery]
+
+        # items values
+        self.buckshot_scatter = False #  It tells whether the player has a Buckshot item or not
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
@@ -188,9 +189,14 @@ class Player(pygame.sprite.Sprite):
             self.field.screen_centre[0] - WIDTH // 2 + cursor_pos[0],
             self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]), ID, IDs)
 
-    def add_item(self, item: Item):
-        self.inventory.add_item(item)
+    def recalculation_of_values(self) -> None:
         self.acceleration: float = self.max_speed / ACCELERATION_SMOOTHNESS
         self.resistance_acceleration: float = self.max_speed / SLOWDOWN_SMOOTHNESS
 
+        self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
+
         self.period = max(self.period, 1)
+
+    def add_item(self, item: Item) -> None:
+        self.inventory.add_item(item)
+        self.recalculation_of_values()

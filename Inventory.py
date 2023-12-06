@@ -16,6 +16,10 @@ class Inventory:
     def apply_item(self, item) -> None:
         if item.parent == "Item":
             item.apply(self.player)
+        elif item.parent == "ShotTypeItem":
+            item.apply(self.player)
+            if item.get_name() == "Buckshot":
+                self.player.buckshot_scatter = True
 
     def get_to_draw(self) -> list[str]:
         array_draw: list[str] = []

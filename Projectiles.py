@@ -1,5 +1,6 @@
 """classes Projectiles and additional functions"""
 import math
+import random
 
 import numba
 import pygame
@@ -55,18 +56,35 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.player_dy: float = self.player.dy
         self.damage: int = self.player.projectile_damage
         self.angle: float = calculate_angle(self.player.rect.centerx, self.player.rect.centery, target[0], target[1])
-        self.trajectory: list[float] = self.player.projectile_trajectory
+        self.trajectory: list[float] = [0.] * self.player.projectile_ticks
+        self.index_trajectory: int = 0
 
         self.dx: float
         self.dy: float
 
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player.dx, self.player.dy)
+        self.player_dx = self.player.dx
+        self.player_dy = self.player.dy
+
+        # items calculation
+        if player.buckshot_scatter:
+            self.trajectory[0] += random.uniform(-math.pi/10, math.pi/10)
+        print(self.trajectory)
 
     def coordinate_calculation(self):
         self.x, self.y, self.distant = coordinate_calculation(self.x, self.y, self.dx, self.dy, self.distant,
                                                               self.speed)
 
+    def speed_calculation(self):
+        self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player_dx, self.player_dy)
+
     def update(self, array):
+        print(self.angle)
+        self.angle += self.trajectory[self.index_trajectory]
+        self.index_trajectory += 1
+        print(self.angle)
+
+        self.speed_calculation()
         self.coordinate_calculation()
 
         self.rect.x = round(self.x)

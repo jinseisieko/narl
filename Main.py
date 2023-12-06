@@ -38,7 +38,7 @@ player_group.add(player)
 # field
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
-console = Console(10, 10, 200, 20, player)
+
 
 enemy: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
 enemies.add(enemy)
@@ -66,6 +66,7 @@ pygame.mouse.set_visible(False)
 
 time_draw: int = TICKS // FPS[DEFAULT_FPS]
 
+console = Console(10, 10, 200, 20, player, screen, field, clock)
 with (tqdm() as pbar):
     while running:
 
@@ -141,16 +142,16 @@ with (tqdm() as pbar):
 
             players_projectile.update(projectiles_positions)
             positions_np = np.array(list(positions))
-            player_data, enemy_data, projectiles_data = calculate_soft_collision(0, enemies_positions,
-                                                                                 projectiles_positions, positions_np,
-                                                                                 CHUNK_N_X, CHUNK_N_Y, 20)
-
-            for pos in positions:
-                for i in range(len(enemy_data[pos[0]][pos[1]])):
-                    if enemy_data[pos[0]][pos[1]][i][8] == 0:
-                        continue
-                    object_ID[enemy_data[pos[0]][pos[1]][i][8]].dx = enemy_data[pos[0]][pos[1]][i][2]
-                    object_ID[enemy_data[pos[0]][pos[1]][i][8]].dy = enemy_data[pos[0]][pos[1]][i][3]
+            # player_data, enemy_data, projectiles_data = calculate_soft_collision(0, enemies_positions,
+            #                                                                      projectiles_positions, positions_np,
+            #                                                                      CHUNK_N_X, CHUNK_N_Y, 20)
+            #
+            # for pos in positions:
+            #     for i in range(len(enemy_data[pos[0]][pos[1]])):
+            #         if enemy_data[pos[0]][pos[1]][i][8] == 0:
+            #             continue
+            #         object_ID[enemy_data[pos[0]][pos[1]][i][8]].dx = enemy_data[pos[0]][pos[1]][i][2]
+            #         object_ID[enemy_data[pos[0]][pos[1]][i][8]].dy = enemy_data[pos[0]][pos[1]][i][3]
 
         if console_opening:
             console.update()
@@ -167,14 +168,15 @@ with (tqdm() as pbar):
 
             screen.fill((0, 0, 0))
             field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
-            console.draw_in_field(field)
+            console.draw_in_field()
 
             screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
             screen.blit(ImageSprites.sprites['cursor'],
-                        (mouse_x, mouse_y))
-            console.draw_in_screen(screen, clock)
+                        (mouse_x - 16, mouse_y - 16))
+
+            console.draw_in_screen()
             if console_opening:
                 console.draw(screen)
             if pause:
@@ -193,7 +195,7 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS * 100)
+        clock.tick(TICKS)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
         pbar.update(1)

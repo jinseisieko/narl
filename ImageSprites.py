@@ -38,4 +38,9 @@ sprites: dict = {
     'helmet': pygame.image.load(r"image/items/helmet.png"),
     'green_rocket': pygame.image.load(r"image/items/green_rocket.png"),
     'red_rocket': pygame.image.load(r"image/items/red_rocket.png"),
+    'iron_claw': pygame.image.load(r"image/items/iron_claw.png"),
+    'gun': pygame.image.load(r"image/items/gun.png"),
+    'hammer': pygame.image.load(r"image/items/hammer.png"),
+    'plus_one': pygame.image.load(r"image/items/plus_one.png"),
+    'buckshot': pygame.image.load(r"image/items/buckshot.png"),
 }
