@@ -47,4 +47,6 @@ sprites: dict = {
     'pill': pygame.image.load(r"image/items/pill.png"),
     'gecko': pygame.image.load(r"image/items/gecko.png"),
     'butterfly': pygame.image.load(r"image/items/butterfly.png"),
+    'grave_shovel': pygame.image.load(r"image/items/grave_shovel.png"),
+    'casino': pygame.image.load(r"image/items/casino.png"),
 }

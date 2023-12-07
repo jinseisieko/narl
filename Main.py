@@ -186,7 +186,7 @@ with (tqdm() as pbar):
             for i, row in enumerate(player.inventory.get_to_draw()):
                 for j, item in enumerate(row):
                     screen.blit(ImageSprites.sprites[item.image], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
-        # draw frames
+        # draw frames 
         if frame_draw > 0:
             frame_draw -= 1
 

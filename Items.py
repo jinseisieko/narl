@@ -64,6 +64,10 @@ def get_item(id_: int):
         return Gecko()
     elif id_ == Butterfly.id:
         return Butterfly()
+    elif id_ == GraveShovel.id:
+        return GraveShovel()
+    elif id_ == Casino.id:
+        return Casino()
     else:
         raise Exception()
 
@@ -82,6 +86,18 @@ class Item:
             if hasattr(player, key):
                 exec(f"player.{key} {item}")
 
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+        if hasattr(player, 'projectile_size'):
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
+
+        if hasattr(player, 'projectile_damage'):
+            exec("import math; player.projectile_damage = math.ceil(player.projectile_damage)")
+
+        if hasattr(player, 'max_hp'):
+            exec("import math; player.max_hp = math.ceil(player.max_hp)")
+
 
 class ShotTypeItem:
     def __init__(self) -> None:
@@ -96,6 +112,18 @@ class ShotTypeItem:
         for key, item in self.characteristics.items():
             if hasattr(player, key):
                 exec(f"player.{key} {item}")
+
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+        if hasattr(player, 'projectile_size'):
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
+
+        if hasattr(player, 'projectile_damage'):
+            exec("import math; player.projectile_damage = math.ceil(player.projectile_damage)")
+
+        if hasattr(player, 'max_hp'):
+            exec("import math; player.max_hp = math.ceil(player.max_hp)")
 
     def get_name(self) -> str:
         """return name for item definition"""
@@ -128,11 +156,6 @@ class WoodenBow(Item):
         self.image = 'wooden_bow'
         self.characteristics['period'] = "-=4"
 
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
 
 class HuntingArrow(Item):
     id = 3
@@ -162,11 +185,6 @@ class Cigarette(Item):
         self.characteristics['max_speed'] = "+= 0.2"
         self.characteristics['max_hp'] = "-= 2"
 
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
 
 class Meteorite(Item):
     id = 6
@@ -189,11 +207,6 @@ class ElderberryStick(Item):
         self.characteristics['projectile_range'] = '+= 10'
         self.characteristics['projectile_damage'] = '+= 2'
 
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
 
 class Paddle(Item):
     id = 8
@@ -204,11 +217,6 @@ class Paddle(Item):
         self.characteristics['period'] = "*= 1.1"
         self.characteristics['max_speed'] = '+= 0.3'
 
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
 
 class PaeShot(Item):
     id = 9
@@ -218,11 +226,6 @@ class PaeShot(Item):
         self.image = 'pae_shot'
         self.characteristics['period'] = "*= 0.95"
         self.characteristics['projectile_range'] = '+= 100'
-
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
 
 
 class RedBall(Item):
@@ -292,6 +295,14 @@ elif c == 3:
 elif c == 4:
     player.projectile_damage *= {self.c}
 """)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+        if hasattr(player, 'projectile_size'):
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
+
+        if hasattr(player, 'projectile_damage'):
+            exec("import math; player.projectile_damage = math.ceil(player.projectile_damage)")
 
 
 class Lollipop(Item):
@@ -312,11 +323,6 @@ class MiniVolcano(Item):
         self.characteristics['projectile_damage'] = "+= 1"
         self.characteristics['period'] = "*= 1.1"
 
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
 
 class Hat(Item):
     id = 17
@@ -336,11 +342,6 @@ class MiniShark(Item):
         self.image = 'mini_shark'
         self.characteristics['period'] = "-= 10"
         self.characteristics['projectile_size'] = "*= 0.8"
-
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'projectile_size'):
-            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
 
 
 class Helmet(Item):
@@ -394,11 +395,6 @@ class Gun(Item):
         self.characteristics['max_speed'] = '-= 0.5'
         self.characteristics['period'] = "*= 0.60"
 
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
 
 class Hammer(Item):
     id = 24
@@ -411,17 +407,6 @@ class Hammer(Item):
         self.characteristics['projectile_speed'] = '*= 1.1'
         self.characteristics['projectile_size'] = "*= 1.1"
         self.characteristics['projectile_range'] = "*= 0.70"
-
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
-        if hasattr(player, 'projectile_size'):
-            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
-
-        if hasattr(player, 'projectile_damage'):
-            exec("import math; player.projectile_damage = math.ceil(player.projectile_damage)")
 
 
 class PlusOne(Item):
@@ -449,14 +434,6 @@ class Buckshot(ShotTypeItem):
         self.characteristics['projectile_size'] = "*= 0.75"
         # adds the scattering effect of sears
 
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
-
-        if hasattr(player, 'projectile_size'):
-            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
-
 
 class Wristwatch(Item):
     id = 27
@@ -465,11 +442,6 @@ class Wristwatch(Item):
         super().__init__()
         self.image = 'wristwatch'
         self.characteristics['period'] = "*= 0.95"
-
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
 
 
 class Pill(Item):
@@ -488,13 +460,8 @@ class Gecko(ShotTypeItem):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'gecko'
-        self.characteristics['period'] = "*= 0.80"
+        self.characteristics['projectile_range'] = "*= 1.5"
         # add arc trajectory
-
-    def apply(self, player) -> None:
-        super().apply(player)
-        if hasattr(player, 'period'):
-            exec(f"import math; player.period = math.ceil(player.period)")
 
 
 class Butterfly(Item):
@@ -505,19 +472,50 @@ class Butterfly(Item):
         self.image = 'butterfly'
         self.characteristics['projectile_size'] = "*= 1.05"
 
+
+class GraveShovel(Item):
+    id = 31
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'grave_shovel'
+        self.characteristics['projectile_damage'] = "+= 1"
+        self.characteristics['projectile_speed'] = '-= 0.1'
+
+
+class Casino(Item):
+    id = 32
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'casino'
+
     def apply(self, player) -> None:
         super().apply(player)
+        exec("""import random
+c = random.randint(0, 6)
+if c == 0:
+    player.max_speed += random.uniform(-player.max_speed / 2, player.max_speed / 2)
+elif c == 1:
+    player.projectile_range += random.uniform(-player.projectile_range / 2, player.projectile_range / 2)
+elif c == 2:
+    player.projectile_speed += random.uniform(-player.projectile_speed / 2, player.projectile_speed / 2)
+elif c == 3:
+    player.projectile_size += random.uniform(-player.projectile_size / 2, player.projectile_size / 2)
+elif c == 4:
+    player.projectile_damage += random.uniform(-player.projectile_damage / 2, player.projectile_damage / 2)
+elif c == 5:
+    player.period += random.uniform(-player.period / 2, player.period / 2)
+elif c == 6:
+    player.max_hp += random.uniform(-player.max_hp / 2, player.max_hp / 2)""")
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
         if hasattr(player, 'projectile_size'):
             exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
 
+        if hasattr(player, 'projectile_damage'):
+            exec("import math; player.projectile_damage = math.ceil(player.projectile_damage)")
 
-# class GraveShovel(Item):
-#     id = 31
-#
-#     def __init__(self) -> None:
-#         super().__init__()
-#         self.image = 'grave_shovel'
-#         self.
-
-
-
+        if hasattr(player, 'max_hp'):
+            exec("import math; player.max_hp = math.ceil(player.max_hp)")
