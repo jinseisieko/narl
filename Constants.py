@@ -2,8 +2,8 @@
 from ctypes import windll
 
 CHUNK_SIZE = 100
-CHUNK_N_X = 80
-CHUNK_N_Y = 80
+CHUNK_N_X = 50
+CHUNK_N_Y = 50
 
 FIELD_WIDTH: int = CHUNK_N_X * CHUNK_SIZE
 FIELD_HEIGHT: int = CHUNK_N_Y * CHUNK_SIZE

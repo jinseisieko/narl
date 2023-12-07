@@ -48,13 +48,13 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = round(self.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
         self.rect.y = round(self.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
 
-        i: int = int(math.floor(self.x / CHUNK_SIZE))
-        j: int = int(math.floor(self.y / CHUNK_SIZE))
-        if 0 <= i < CHUNK_N_X and 0 <= j < CHUNK_N_Y:
-            for k in range(len(array[i][j])):
-                if array[i][j][k][8] == 0:
-                    array[i][j][k] = [self.x, self.y, self.dx, self.dy, self.hp, self.damage, self.size, 0, self.ID]
-                    positions.add((i, j))
-                    break
-            else:
-                print(2)
+        # i: int = int(math.floor(self.x / CHUNK_SIZE))
+        # j: int = int(math.floor(self.y / CHUNK_SIZE))
+        # if 0 <= i < CHUNK_N_X and 0 <= j < CHUNK_N_Y:
+        #     for k in range(len(array[i][j])):
+        #         if array[i][j][k][8] == 0:
+        #             array[i][j][k] = [self.x, self.y, self.dx, self.dy, self.hp, self.damage, self.size, 0, self.ID]
+        #             positions.add((i, j))
+        #             break
+        #     else:
+        #         print(2)
