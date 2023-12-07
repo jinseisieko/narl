@@ -197,6 +197,7 @@ class Player(pygame.sprite.Sprite):
         self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
 
         self.period = max(self.period, 1)
+        self.max_speed = min(self.max_speed, 100)
 
     def add_item(self, item: Item) -> None:
         self.inventory.add_item(item)

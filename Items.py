@@ -62,6 +62,8 @@ def get_item(id_: int):
         return Pill()
     elif id_ == Gecko.id:
         return Gecko()
+    elif id_ == Butterfly.id:
+        return Butterfly()
     else:
         raise Exception()
 
@@ -106,7 +108,7 @@ class Lightning(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'lightning'
-        self.characteristics['max_speed'] = '+= 0.1'
+        self.characteristics['max_speed'] = '+= 0.2'
 
 
 class RuneOfHeart(Item):
@@ -124,7 +126,7 @@ class WoodenBow(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'wooden_bow'
-        self.characteristics['period'] = "-=1"
+        self.characteristics['period'] = "-=4"
 
     def apply(self, player) -> None:
         super().apply(player)
@@ -138,7 +140,7 @@ class HuntingArrow(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'hunting_arrow'
-        self.characteristics['projectile_range'] = '+= 5'
+        self.characteristics['projectile_range'] = '+= 10'
 
 
 class IronBullet(Item):
@@ -493,3 +495,29 @@ class Gecko(ShotTypeItem):
         super().apply(player)
         if hasattr(player, 'period'):
             exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class Butterfly(Item):
+    id = 30
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'butterfly'
+        self.characteristics['projectile_size'] = "*= 1.05"
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'projectile_size'):
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
+
+
+# class GraveShovel(Item):
+#     id = 31
+#
+#     def __init__(self) -> None:
+#         super().__init__()
+#         self.image = 'grave_shovel'
+#         self.
+
+
+
