@@ -67,9 +67,13 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.player_dy = self.player.dy
 
         # items calculation
-        if player.buckshot_scatter:
-            self.trajectory[0] += random.uniform(-math.pi/10, math.pi/10)
-        print(self.trajectory)
+        if player.buckshot_scatter_count != 0:
+            self.trajectory[0] += random.uniform((-math.pi / 15) * player.buckshot_scatter_count,
+                                                 (math.pi / 15) * player.buckshot_scatter_count)
+        if player.gecko_arc_trajectory_count != 0:
+            for _ in range(self.player.gecko_arc_trajectory_count):
+                for i in range(self.player.projectile_ticks):
+                    self.trajectory[i] += (math.pi / 50 * i ** 0.4) / (self.player.projectile_ticks / 10)
 
     def coordinate_calculation(self):
         self.x, self.y, self.distant = coordinate_calculation(self.x, self.y, self.dx, self.dy, self.distant,
@@ -79,10 +83,8 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player_dx, self.player_dy)
 
     def update(self, array):
-        print(self.angle)
         self.angle += self.trajectory[self.index_trajectory]
         self.index_trajectory += 1
-        print(self.angle)
 
         self.speed_calculation()
         self.coordinate_calculation()

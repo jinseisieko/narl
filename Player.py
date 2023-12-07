@@ -141,7 +141,8 @@ class Player(pygame.sprite.Sprite):
         self.field.screen_centre = [self.rect.centerx, self.rect.centery]
 
         # items values
-        self.buckshot_scatter = False #  It tells whether the player has a Buckshot item or not
+        self.buckshot_scatter_count: int = 0  # It tells whether the player has a Buckshot item or not
+        self.gecko_arc_trajectory_count: int = 0  # add arc trajectory
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
