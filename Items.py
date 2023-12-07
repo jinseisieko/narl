@@ -56,6 +56,12 @@ def get_item(id_: int):
         return PlusOne()
     elif id_ == Buckshot.id:
         return Buckshot()
+    elif id_ == Wristwatch.id:
+        return Wristwatch()
+    elif id_ == Pill.id:
+        return Pill()
+    elif id_ == Gecko.id:
+        return Gecko()
     else:
         raise Exception()
 
@@ -448,3 +454,42 @@ class Buckshot(ShotTypeItem):
 
         if hasattr(player, 'projectile_size'):
             exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
+
+
+class Wristwatch(Item):
+    id = 27
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'wristwatch'
+        self.characteristics['period'] = "*= 0.95"
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+
+class Pill(Item):
+    id = 28
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'pill'
+        self.characteristics['max_hp'] = "+= 1"
+        self.characteristics['max_speed'] = "+= 0.3"
+
+
+class Gecko(ShotTypeItem):
+    id = 29
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'gecko'
+        self.characteristics['period'] = "*= 0.80"
+        # add arc trajectory
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")

@@ -19,7 +19,9 @@ class Inventory:
         elif item.parent == "ShotTypeItem":
             item.apply(self.player)
             if item.get_name() == "Buckshot":
-                self.player.buckshot_scatter = True
+                self.player.buckshot_scatter_count += 1
+            elif item.get_name() == "Gecko":
+                self.player.gecko_arc_trajectory_count += 1
 
     def get_to_draw(self) -> list[str]:
         array_draw: list[str] = []

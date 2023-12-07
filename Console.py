@@ -144,7 +144,8 @@ class Console:
         self.player.projectile_speed = DEFAULT_PROJECTILE_SPEED
         self.player.projectile_size = DEFAULT_PROJECTILE_SIZE
         self.player.projectile_damage = DEFAULT_PROJECTILE_DAMAGE
-        self.player.buckshot_scatter = False
+        self.player.buckshot_scatter_count = 0
+        self.player.gecko_arc_trajectory_count = 0
 
     def input_command(self, command: str) -> None:
         try:

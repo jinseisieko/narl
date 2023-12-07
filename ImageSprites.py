@@ -43,4 +43,7 @@ sprites: dict = {
     'hammer': pygame.image.load(r"image/items/hammer.png"),
     'plus_one': pygame.image.load(r"image/items/plus_one.png"),
     'buckshot': pygame.image.load(r"image/items/buckshot.png"),
+    'wristwatch': pygame.image.load(r"image/items/wristwatch.png"),
+    'pill': pygame.image.load(r"image/items/pill.png"),
+    'gecko': pygame.image.load(r"image/items/gecko.png"),
 }
