@@ -38,8 +38,6 @@ player_group.add(player)
 # field
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
-
-
 enemy: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
 enemies.add(enemy)
 object_ID[lastID] = enemy
@@ -131,8 +129,11 @@ with (tqdm() as pbar):
                 players_projectile.add(projectile)
                 # all_sprites.add(projectile)
 
-        enemies_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 9))
-        projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 9))
+        # enemies_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 9))
+        # projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 9))
+
+        enemies_positions = 1
+        projectiles_positions = 1
         positions: set[tuple[int, int]] = set()
 
         # update
