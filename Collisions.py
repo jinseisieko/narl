@@ -17,12 +17,12 @@ class Chunks:
         self.chunks[last_ind[0]][last_ind[1]][1].remove(obj)
         self.chunks[new_ind[0]][new_ind[1]][1].append(obj)
 
-    def update(self):
+    def update(self) -> None:
         for i in range(CHUNK_N_Y):
             for j in range(CHUNK_N_X):
                 self.chunks[i][j][0] = True
 
-    def calculate_collisions(self, ind):
+    def calculate_collisions(self, ind) -> None:
         self.chunks[ind[0]][ind[1]][0] = False
         chunk = self.chunks[ind[0]][ind[1]][1]
 

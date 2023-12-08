@@ -70,16 +70,6 @@ class Enemy(pygame.sprite.Sprite):
         self.chunks.calculate_collisions(self.ind)
         self.normal_speed()
         self.coordinate_calculation()
-        # i: int = int(math.floor(self.x / CHUNK_SIZE))
-        # j: int = int(math.floor(self.y / CHUNK_SIZE))
-        # if 0 <= i < CHUNK_N_X and 0 <= j < CHUNK_N_Y:
-        #     for k in range(len(array[i][j])):
-        #         if array[i][j][k][8] == 0:
-        #             array[i][j][k] = [self.x, self.y, self.dx, self.dy, self.hp, self.damage, self.size, 0, self.ID]
-        #             positions.add((i, j))
-        #             break
-        #     else:
-        #         print(2)
 
     def get_name(self) -> str:
         return self.__class__.__name__
