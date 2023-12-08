@@ -88,11 +88,9 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
 class Player(pygame.sprite.Sprite):
     """class Player"""
 
-    def __init__(self, field: Field.Field, ID: int, IDs: set) -> None:
+    def __init__(self, field: Field.Field) -> None:
         super().__init__()
         self.field: Field.Field = field
-        self.ID: int = ID
-        self.IDs: set = IDs
 
         # values
         self.size: int = PLAYER_SIZE
@@ -183,12 +181,12 @@ class Player(pygame.sprite.Sprite):
         if self.animation_frame > 0:
             self.animation_frame -= 1
 
-    def default_shot(self, ID: int, IDs: set) -> DefaultPlayerProjectile:  # test
+    def default_shot(self) -> DefaultPlayerProjectile:  # test
         cursor_pos = pygame.mouse.get_pos()
 
         return DefaultPlayerProjectile(self, (
             self.field.screen_centre[0] - WIDTH // 2 + cursor_pos[0],
-            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]), ID, IDs)
+            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]))
 
     def recalculation_of_values(self) -> None:
         self.acceleration: float = self.max_speed / ACCELERATION_SMOOTHNESS

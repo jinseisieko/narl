@@ -8,28 +8,20 @@ from Constants import *
 class Chunks:
     def __init__(self) -> None:
         super().__init__()
-        self.chunks = [[[True, []] for _ in range(CHUNK_N_X)] for _ in range(CHUNK_N_Y)]
+        self.chunks = [[[] for _ in range(CHUNK_N_X)] for _ in range(CHUNK_N_Y)]
 
     def add(self, obj, ind) -> None:
-        self.chunks[ind[0]][ind[1]][1].append(obj)
+        self.chunks[ind[0]][ind[1]].append(obj)
 
     def move(self, obj, last_ind, new_ind) -> None:
-        self.chunks[last_ind[0]][last_ind[1]][1].remove(obj)
-        self.chunks[new_ind[0]][new_ind[1]][1].append(obj)
-
-    def update(self) -> None:
-        for i in range(CHUNK_N_Y):
-            for j in range(CHUNK_N_X):
-                self.chunks[i][j][0] = True
+        self.chunks[last_ind[0]][last_ind[1]].remove(obj)
+        self.chunks[new_ind[0]][new_ind[1]].append(obj)
 
     def calculate_collisions(self, ind) -> None:
-        self.chunks[ind[0]][ind[1]][0] = False
-        chunk = self.chunks[ind[0]][ind[1]][1]
+        chunk = self.chunks[ind[0]][ind[1]]
 
         for i, obj1 in enumerate(chunk):
-            for obj2 in chunk[i:]:
-                if obj2 is obj1:
-                    continue
+            for obj2 in chunk[i+1:]:
                 if obj1.get_name() == "Enemy" and obj2.get_name() == "Enemy":
                     if obj2.rect.colliderect(obj1.rect):
                         size_1 = obj1.size // 2

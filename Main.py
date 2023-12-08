@@ -31,7 +31,7 @@ IDs: set[int] = set()
 lastID = 0
 
 # player
-player: Player = Player(field, lastID, IDs)
+player: Player = Player(field)
 object_ID[lastID] = player
 lastID += 1
 player_group.add(player)
@@ -125,24 +125,15 @@ with (tqdm() as pbar):
         if not pause:
             if shooting and frame_shot == 0:
                 frame_shot = player.period
-                # projectile = player.default_shot(IDs.pop(), IDs)
+                projectile = player.default_shot()
 
-                # object_ID[lastID] = projectile
-                # players_projectile.add(projectile)
-                # all_sprites.add(projectile)
-
-        # enemies_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 9))
-        # projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 9))
-
-        enemies_positions = 1
-        projectiles_positions = 1
-        positions: set[tuple[int, int]] = set()
-
+                players_projectile.add(projectile)
+                all_sprites.add(projectile)
         # update
         if not pause:
             player_group.update()
+            players_projectile.update()
             enemies.update()
-            chunks.update()
 
         if console_opening:
             console.update()
@@ -186,7 +177,7 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS * 100)
+        clock.tick(TICKS)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
         pbar.update(1)
