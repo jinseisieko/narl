@@ -82,6 +82,9 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
     def speed_calculation(self):
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player_dx, self.player_dy)
 
+    def get_name(self) -> str:
+        return self.__class__.__name__
+
     def update(self, array):
         self.angle += self.trajectory[self.index_trajectory]
         self.index_trajectory += 1

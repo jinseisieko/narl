@@ -202,3 +202,7 @@ class Player(pygame.sprite.Sprite):
     def add_item(self, item: Item) -> None:
         self.inventory.add_item(item)
         self.recalculation_of_values()
+
+    def get_name(self) -> str:
+        return self.__class__.__name__
+

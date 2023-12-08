@@ -1,63 +1,99 @@
-"""Soft collisions calculation"""
+import math
 
-import numba
-import numpy as np
+import pygame
+
+from Constants import *
 
 
-@numba.jit(nopython=True, fastmath=True, parallel=True)
-def calculate_soft_collision(player_data: np.zeros, enemy_data: np.zeros, projectiles_data: np.zeros,
-                             positions: np.array, CHUNK_N_X: int,
-                             CHUNK_N_Y: int, REPELLING: float):
-    """Soft collisions calculation"""
-    enemies_new_data = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 9))
-    projectiles_positions = np.zeros((80, 80, 40, 9))
+class Chunks:
+    def __init__(self) -> None:
+        super().__init__()
+        self.chunks = [[[True, []] for _ in range(CHUNK_N_X)] for _ in range(CHUNK_N_Y)]
 
-    # print(positions)
+    def add(self, obj, ind) -> None:
+        self.chunks[ind[0]][ind[1]][1].append(obj)
 
-    for pos in positions:
-        enemy_chunk = enemy_data[pos[0]][pos[1]]
-        for i in numba.prange(len(enemy_chunk)):
-            for j in numba.prange(i + 1, len(enemy_chunk)):
-                enemy_first = enemy_chunk[i]
-                enemy_second = enemy_chunk[j]
-                if enemy_first[8] == 0 or enemy_second[8] == 0:
-                    break
+    def move(self, obj, last_ind, new_ind) -> None:
+        self.chunks[last_ind[0]][last_ind[1]][1].remove(obj)
+        self.chunks[new_ind[0]][new_ind[1]][1].append(obj)
 
-                size = max(enemy_first[6], enemy_second[6]) /2
-                distance_x = enemy_first[0] - enemy_second[0]
-                distance_y = enemy_first[1] - enemy_second[1]
+    def update(self):
+        for i in range(CHUNK_N_Y):
+            for j in range(CHUNK_N_X):
+                self.chunks[i][j][0] = True
 
-                opposite_ratio_x = 1 - distance_x / size
-                opposite_ratio_y = 1 - distance_y / size
+    def calculate_collisions(self, ind):
+        self.chunks[ind[0]][ind[1]][0] = False
+        chunk = self.chunks[ind[0]][ind[1]][1]
+        # try:
+        #     if self.chunks[ind[0] + 1][ind[1]][0]:
+        #         chunk += self.chunks[ind[0] + 1][ind[1]][1]
+        #         self.chunks[ind[0] + 1][ind[1]][0] = False
+        # except Exception as e:
+        #     print(e)
+        # try:
+        #     if self.chunks[ind[0] + 1][ind[1] + 1][0]:
+        #         chunk += self.chunks[ind[0] + 1][ind[1] + 1][1]
+        #         self.chunks[ind[0] + 1][ind[1] + 1][0] = False
+        # except Exception as e:
+        #     print(e)
+        # try:
+        #     if self.chunks[ind[0] + 1][ind[1] - 1][0]:
+        #         chunk += self.chunks[ind[0] + 1][ind[1] - 1][1]
+        #         self.chunks[ind[0] + 1][ind[1] - 1][0] = False
+        # except Exception as e:
+        #     print(e)
+        # try:
+        #     if self.chunks[ind[0]][ind[1] + 1][0]:
+        #         chunk += self.chunks[ind[0]][ind[1] + 1][1]
+        #         self.chunks[ind[0]][ind[1] + 1][0] = False
+        # except Exception as e:
+        #     print(e)
+        # try:
+        #     if self.chunks[ind[0]][ind[1] - 1][0]:
+        #         chunk += self.chunks[ind[0]][ind[1] - 1][1]
+        #         self.chunks[ind[0]][ind[1] - 1][0] = False
+        # except Exception as e:
+        #     print(e)
+        # try:
+        #     if self.chunks[ind[0] - 1][ind[1] + 1][0]:
+        #         chunk += self.chunks[ind[0] - 1][ind[1] + 1][1]
+        #         self.chunks[ind[0] - 1][ind[1] + 1][0] = False
+        # except Exception as e:
+        #     print(e)
+        # try:
+        #     if self.chunks[ind[0] - 1][ind[1]][0]:
+        #         chunk += self.chunks[ind[0] - 1][ind[1]][1]
+        #         self.chunks[ind[0] - 1][ind[1]][0] = False
+        # except Exception as e:
+        #     print(e)
+        # try:
+        #     if self.chunks[ind[0] - 1][ind[1] - 1][0]:
+        #         chunk += self.chunks[ind[0] - 1][ind[1] - 1][1]
+        #         self.chunks[ind[0] - 1][ind[1] - 1][0] = False
+        # except Exception as e:
+        #     print(e)
 
-                v1x = enemy_first[2]
-                v1y = enemy_first[3]
-
-                v2x = enemy_second[2]
-                v2y = enemy_second[3]
-
-                if abs(distance_x) < size and abs(distance_y) < size:
-                    # Update velocities based on soft collision
-
-                    v1x += REPELLING * distance_x
-                    v1y += REPELLING * distance_y
-
-                    v2x -= REPELLING * distance_x
-                    v2y -= REPELLING * distance_y
-
-                    enemies_new_data[pos[0]][pos[1]][i][2] += enemy_first[2] + v1x
-                    enemies_new_data[pos[0]][pos[1]][i][3] += enemy_first[3] * v1y
-
-                    enemies_new_data[pos[0]][pos[1]][j][2] += enemy_second[2] + v2x
-                    enemies_new_data[pos[0]][pos[1]][j][3] += enemy_second[3] + v2y
-
-                enemies_new_data[pos[0]][pos[1]][i][8] = enemy_first[8]
-                enemies_new_data[pos[0]][pos[1]][j][8] = enemy_second[8]
-
-    # num_enemies = len(enemy_data)
-    # for i in numba.prange(num_enemies):
-    #     num_enemy_instances = len(enemy_data[i])
-    #     for j in numba.prange(num_enemy_instances):
-    #         pass
-
-    return player_data, enemy_data, projectiles_positions
+        for obj1 in chunk:
+            for obj2 in chunk:
+                if obj2 is obj1:
+                    continue
+                if obj1.get_name() == "Enemy" and obj2.get_name() == "Enemy":
+                    if obj2.rect.colliderect(obj1.rect):
+                        size_1 = obj1.size // 2
+                        size_2 = obj2.size // 2
+                        real_dist = size_1 + size_2
+                        dist_x = obj1.x - obj2.x
+                        dist_y = obj1.y - obj2.y
+                        dist = math.hypot(dist_x, dist_y)
+                        if dist < real_dist:
+                            if dist_x == 0:
+                                obj2.x -= 1e-6
+                                continue
+                            if dist_y == 0:
+                                obj2.y -= 1e-6
+                                continue
+                            obj1.dx += real_dist / dist_x * COLLISIONS_REPELLING
+                            obj2.dx -= real_dist / dist_x * COLLISIONS_REPELLING
+                            obj1.dy += real_dist / dist_y * COLLISIONS_REPELLING
+                            obj2.dy -= real_dist / dist_y * COLLISIONS_REPELLING
