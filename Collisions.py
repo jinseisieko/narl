@@ -25,57 +25,9 @@ class Chunks:
     def calculate_collisions(self, ind):
         self.chunks[ind[0]][ind[1]][0] = False
         chunk = self.chunks[ind[0]][ind[1]][1]
-        # try:
-        #     if self.chunks[ind[0] + 1][ind[1]][0]:
-        #         chunk += self.chunks[ind[0] + 1][ind[1]][1]
-        #         self.chunks[ind[0] + 1][ind[1]][0] = False
-        # except Exception as e:
-        #     print(e)
-        # try:
-        #     if self.chunks[ind[0] + 1][ind[1] + 1][0]:
-        #         chunk += self.chunks[ind[0] + 1][ind[1] + 1][1]
-        #         self.chunks[ind[0] + 1][ind[1] + 1][0] = False
-        # except Exception as e:
-        #     print(e)
-        # try:
-        #     if self.chunks[ind[0] + 1][ind[1] - 1][0]:
-        #         chunk += self.chunks[ind[0] + 1][ind[1] - 1][1]
-        #         self.chunks[ind[0] + 1][ind[1] - 1][0] = False
-        # except Exception as e:
-        #     print(e)
-        # try:
-        #     if self.chunks[ind[0]][ind[1] + 1][0]:
-        #         chunk += self.chunks[ind[0]][ind[1] + 1][1]
-        #         self.chunks[ind[0]][ind[1] + 1][0] = False
-        # except Exception as e:
-        #     print(e)
-        # try:
-        #     if self.chunks[ind[0]][ind[1] - 1][0]:
-        #         chunk += self.chunks[ind[0]][ind[1] - 1][1]
-        #         self.chunks[ind[0]][ind[1] - 1][0] = False
-        # except Exception as e:
-        #     print(e)
-        # try:
-        #     if self.chunks[ind[0] - 1][ind[1] + 1][0]:
-        #         chunk += self.chunks[ind[0] - 1][ind[1] + 1][1]
-        #         self.chunks[ind[0] - 1][ind[1] + 1][0] = False
-        # except Exception as e:
-        #     print(e)
-        # try:
-        #     if self.chunks[ind[0] - 1][ind[1]][0]:
-        #         chunk += self.chunks[ind[0] - 1][ind[1]][1]
-        #         self.chunks[ind[0] - 1][ind[1]][0] = False
-        # except Exception as e:
-        #     print(e)
-        # try:
-        #     if self.chunks[ind[0] - 1][ind[1] - 1][0]:
-        #         chunk += self.chunks[ind[0] - 1][ind[1] - 1][1]
-        #         self.chunks[ind[0] - 1][ind[1] - 1][0] = False
-        # except Exception as e:
-        #     print(e)
 
-        for obj1 in chunk:
-            for obj2 in chunk:
+        for i, obj1 in enumerate(chunk):
+            for obj2 in chunk[i:]:
                 if obj2 is obj1:
                     continue
                 if obj1.get_name() == "Enemy" and obj2.get_name() == "Enemy":
