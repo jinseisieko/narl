@@ -55,7 +55,7 @@ class DefaultProjectile(pygame.sprite.Sprite):
         self.player_dy: float = self.player.dy
         self.damage: int = self.player.projectile_damage
         self.angle: float = calculate_angle(self.player.rect.centerx, self.player.rect.centery, target[0], target[1])
-        self.trajectory: list[float] = player.trajectory
+        self.trajectory: list[float] = player.trajectory.copy()
         self.index_trajectory: int = 0
 
         self.dx: float

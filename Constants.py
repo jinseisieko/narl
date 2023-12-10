@@ -5,7 +5,7 @@ import pygame
 
 pygame.init()
 
-CHUNK_SIZE = 200
+CHUNK_SIZE = 100
 CHUNK_N_X = 20
 CHUNK_N_Y = 20
 COLLISIONS_REPELLING = 1

@@ -26,7 +26,7 @@ class Console:
         self.characteristic: bool = False
         self.line_target: bool = False
         self.chunks_: bool = False
-        self.objects: bool = True
+        self.objects: bool = False
 
         self.player = player
         self.screen = screen
@@ -216,6 +216,11 @@ class Console:
                         self.chunks_ = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.chunks_ = False
+                if command == "objects" or command == "obj":
+                    if values[0].lower() == "true" or values[0].lower() == "1":
+                        self.objects = True
+                    elif values[0].lower() == "false" or values[0].lower() == "0":
+                        self.objects = False
                 if command == "all":
                     if values[0].lower() == "true" or values[0].lower() == "1":
                         self.center_screen = True
@@ -224,6 +229,7 @@ class Console:
                         self.characteristic = True
                         self.line_target = True
                         self.chunks_ = True
+                        self.objects = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.center_screen = False
                         self.rect_screen = False
@@ -231,6 +237,7 @@ class Console:
                         self.characteristic = False
                         self.line_target = False
                         self.chunks_ = False
+                        self.objects = False
 
             if object_ == "player" or object_ == "pl":
                 if command == "additem" or command == "addi":
