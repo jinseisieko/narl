@@ -11,12 +11,12 @@ from Projectiles import *
 from Projectiles import DefaultProjectile
 
 
-@numba.jit(nopython=True, fastmath=True)
+@numba.njit(nopython=True, fastmath=True)
 def calculate_dash(velocity: float, max_speed: float, to_direction: int, DASH_COEFFICIENT: float) -> float:
     return velocity * (1 - abs(to_direction)) + DASH_COEFFICIENT * max_speed * to_direction
 
 
-@numba.jit(nopython=True, fastmath=True)
+@numba.njit(nopython=True, fastmath=True)
 def field_boundary_collision(x: float, y: float, dx: float, dy: float, FIELD_WIDTH: int, FIELD_HEIGHT: int,
                              PLAYER_SIZE: int) -> tuple[float, float, float, float]:
     """function is designed to change coordinates when colliding with a boundary"""
@@ -38,7 +38,7 @@ def field_boundary_collision(x: float, y: float, dx: float, dy: float, FIELD_WID
     return x, y, dx, dy
 
 
-@numba.jit(nopython=True, fastmath=True)
+@numba.njit(nopython=True, fastmath=True)
 def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> float:
     limit: float = max(abs(speed), max_speed)
     if sign:
@@ -50,7 +50,7 @@ def calculate_speed(speed: float, max_speed: float, dv: float, sign: bool) -> fl
     return speed
 
 
-@numba.jit(nopython=True, fastmath=True)
+@numba.njit(nopython=True, fastmath=True)
 def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: float, acceleration: float,
                        resistance_acceleration: float,
                        upward_movement: bool, downward_movement: bool,

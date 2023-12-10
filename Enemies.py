@@ -1,10 +1,7 @@
 """classes Enemies and additional functions"""
-import math
-import random
 
 import pygame.sprite
 
-import ImageSprites
 from Collisions import Chunks
 from Constants import *
 
@@ -17,7 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         self.damage: int = DEFAULT_ENEMY_ENEMY_DAMAGE
         self.size = DEFAULT_ENEMY_ENEMY_SIZE
 
-        self.image = ImageSprites.sprites['enemy']
+        self.image = pygame.Surface((self.size, self.size))
         self.speed = DEFAULT_ENEMY_ENEMY_SPEED
 
         self.rect = self.image.get_rect()

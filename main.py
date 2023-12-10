@@ -154,7 +154,6 @@ with (tqdm() as pbar):
 
             if delay_shot < 0:
                 delay_shot = 0
-        print(delay_shot)
 
         pygame.display.flip()
         CLOCK.tick(FPS)

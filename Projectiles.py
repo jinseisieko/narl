@@ -10,13 +10,13 @@ from Collisions import Chunks
 from Constants import *
 
 
-@numba.jit(nopython=True, fastmath=True)
+@numba.njit(nopython=True, fastmath=True)
 def calculate_angle(x1: float, y1: float, cursor_x: float, cursor_y: float) -> float:
     """angle calculation is necessary for DefaultPlayerProjectile class"""
     return math.atan2(cursor_y - y1, cursor_x - x1)
 
 
-@numba.jit(nopython=True, fastmath=True)
+@numba.njit(nopython=True, fastmath=True)
 def calculate_speed(angle: float, speed: float, player_dx: float, player_dy: float) -> tuple[float, float]:
     """speed calculation is necessary for DefaultPlayerProjectile class"""
     return speed * math.cos(angle) + player_dx, speed * math.sin(angle) + player_dy
