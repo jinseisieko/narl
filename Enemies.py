@@ -6,6 +6,16 @@ import pygame.sprite
 from Collisions import Chunks
 from Constants import *
 
+class Storage:
+
+    def __init__(self, x, y, size) -> None:
+        super().__init__()
+        self.x, self.y = x, y
+        self.dx = 0
+        self.dy = 0
+        self.angle = 0
+        self.size = size
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, player, x: float, y: float, chunks: Chunks):
@@ -21,53 +31,48 @@ class Enemy(pygame.sprite.Sprite):
         self.image.fill(BLUE)
 
         self.rect = self.image.get_rect()
-        self.x = x - DEFAULT_ENEMY_ENEMY_SIZE // 2
-        self.y = y - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.storage = Storage(x - DEFAULT_ENEMY_ENEMY_SIZE // 2, y - DEFAULT_ENEMY_ENEMY_SIZE // 2, DEFAULT_ENEMY_ENEMY_SIZE)
 
         self.player = player
-        self.angle = 0
-        self.dx = 0.
-        self.dy = 0.
 
         self.chunks: Chunks = chunks
-        self.ind = [int(self.y // CHUNK_SIZE), int(self.x // CHUNK_SIZE)]
+        self.ind = [int(self.storage.y // CHUNK_SIZE), int(self.storage.x // CHUNK_SIZE)]
         self.last_ind = self.ind
-        self.chunks.add(self, self.ind)
+        self.chunks.add(self.storage, self.ind)
 
     def angle_calculation(self):
-        self.angle = math.atan2(self.player.y - self.y,
-                                self.player.x - self.x)
+        self.storage.angle = math.atan2(self.player.y - self.storage.y,
+                                self.player.x - self.storage.x)
 
     def speed_calculation(self):
-        self.dx += self.speed * math.cos(self.angle)
-        self.dy += self.speed * math.sin(self.angle)
+        self.storage.dx += self.speed * math.cos(self.storage.angle)
+        self.storage.dy += self.speed * math.sin(self.storage.angle)
 
     def normal_speed(self):
-        self.dx = min(self.speed, self.dx)
-        self.dy = min(self.speed, self.dy)
+        self.storage.dx = min(self.speed, self.storage.dx)
+        self.storage.dy = min(self.speed, self.storage.dy)
 
-        d = (self.dx ** 2 + self.dy ** 2) ** 0.5
+        d = (self.storage.dx ** 2 + self.storage.dy ** 2) ** 0.5
         if d > self.speed:
-            self.dx *= self.speed / d
-            self.dy *= self.speed / d
+            self.storage.dx *= self.speed / d
+            self.storage.dy *= self.speed / d
 
     def coordinate_calculation(self):
-        self.x += self.dx
-        self.y += self.dy
+        self.storage.x += self.storage.dx
+        self.storage.y += self.storage.dy
 
     def update(self) -> None:
         self.angle_calculation()
         self.speed_calculation()
 
-        self.rect.x = round(self.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
-        self.rect.y = round(self.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.rect.x = round(self.storage.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.rect.y = round(self.storage.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
 
-        self.ind = [int(self.y // CHUNK_SIZE), int(self.x // CHUNK_SIZE)]
+        self.ind = [int(self.storage.y // CHUNK_SIZE), int(self.storage.x // CHUNK_SIZE)]
         if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
-            self.chunks.move(self, self.last_ind, self.ind)
+            self.chunks.move(self.storage, self.last_ind, self.ind)
             self.last_ind = self.ind
 
-        self.chunks.calculate_collisions(self.ind)
         self.normal_speed()
         self.coordinate_calculation()
 

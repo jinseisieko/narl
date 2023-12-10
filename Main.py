@@ -48,7 +48,7 @@ enemies.add(enemy1)
 enemy2: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
 enemies.add(enemy2)
 
-for _ in range(400):
+for _ in range(1000):
     enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000), chunks)
     enemies.add(enemy2)
 # all_sprites.add(enemy)
@@ -134,6 +134,7 @@ with (tqdm() as pbar):
             player_group.update()
             players_projectile.update()
             enemies.update()
+            chunks.calculate_collisions()
 
         if console_opening:
             console.update()
@@ -177,7 +178,7 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS)
+        clock.tick(TICKS * 100)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
         pbar.update(1)
