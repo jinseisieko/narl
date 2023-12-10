@@ -4,6 +4,7 @@ import random
 import pygame
 
 from Constants import *
+from Enemies import Enemy
 from Items import get_item
 
 pygame.init()
@@ -13,7 +14,8 @@ class Console:
     """class Console"""
     font = pygame.font.Font(*FONT_CONSOLE)  # initialization in the class so that there is no pygame in the constants
 
-    def __init__(self, x: int, y: int, width: int, height: int, player, screen, field, clock) -> None:
+    def __init__(self, x: int, y: int, width: int, height: int, player, screen, field, clock, projectiles, enemies,
+                 player_group, chunks) -> None:
         self.rect: pygame.Rect = pygame.Rect(x, y, width, height)
         self.color: tuple[int, int, int] = BLACK
         self.text: str = ''
@@ -23,12 +25,18 @@ class Console:
         self.fps: bool = False
         self.characteristic: bool = False
         self.line_target: bool = False
-        self.chunks: bool = True
+        self.chunks_: bool = False
+        self.objects: bool = True
 
         self.player = player
         self.screen = screen
         self.field = field
         self.clock = clock
+        self.chunks = chunks
+
+        self.projectiles: pygame.sprite.Group = projectiles
+        self.enemies: pygame.sprite.Group = enemies
+        self.player_group: pygame.sprite.Group = player_group
 
         self.index_previous_commands: int = 0
         self.previous_commands: list[str] = ['']
@@ -99,7 +107,7 @@ class Console:
                              (self.field.screen_centre[0] - WIDTH, self.field.screen_centre[1] + HEIGHT),
                              (self.field.screen_centre[0] + WIDTH, self.field.screen_centre[1] - HEIGHT), 1)
 
-        if self.chunks:
+        if self.chunks_:
             for i in range(0, CHUNK_N_X):
                 pygame.draw.line(self.field.field, (255, 0, 255), (i * CHUNK_SIZE, 0), (i * CHUNK_SIZE, FIELD_HEIGHT),
                                  width=2)
@@ -139,6 +147,16 @@ class Console:
                              (self.player.rect.centerx - self.field.screen_centre[0] + WIDTH // 2,
                               self.player.rect.centery - self.field.screen_centre[1] + HEIGHT // 2),
                              (cursor_pos[0], cursor_pos[1]), width=2)
+
+        if self.objects:
+            self.screen.blit(pygame.font.Font(*FONT_COUNT_OBJECTS).render(f"enemies: {len(self.enemies)}", True, BLACK),
+                             (10, HEIGHT - 80))
+            self.screen.blit(
+                pygame.font.Font(*FONT_COUNT_OBJECTS).render(f"projectiles: {len(self.projectiles)}", True, BLACK),
+                (10, HEIGHT - 60))
+            self.screen.blit(
+                pygame.font.Font(*FONT_COUNT_OBJECTS).render(f"player_group: {len(self.player_group)}", True, BLACK),
+                (10, HEIGHT - 40))
 
     def open_console(self) -> None:
         self.text = ''
@@ -183,7 +201,7 @@ class Console:
                         self.fps = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.fps = False
-                if command == "characteristic" or command == "ch":
+                if command == "characteristic" or command == "cha":
                     if values[0].lower() == "true" or values[0].lower() == "1":
                         self.characteristic = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
@@ -193,6 +211,11 @@ class Console:
                         self.line_target = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.line_target = False
+                if command == "chunks" or command == "chu":
+                    if values[0].lower() == "true" or values[0].lower() == "1":
+                        self.chunks_ = True
+                    elif values[0].lower() == "false" or values[0].lower() == "0":
+                        self.chunks_ = False
                 if command == "all":
                     if values[0].lower() == "true" or values[0].lower() == "1":
                         self.center_screen = True
@@ -200,12 +223,14 @@ class Console:
                         self.fps = True
                         self.characteristic = True
                         self.line_target = True
+                        self.chunks_ = True
                     elif values[0].lower() == "false" or values[0].lower() == "0":
                         self.center_screen = False
                         self.rect_screen = False
                         self.fps = False
                         self.characteristic = False
                         self.line_target = False
+                        self.chunks_ = False
 
             if object_ == "player" or object_ == "pl":
                 if command == "additem" or command == "addi":
@@ -230,5 +255,13 @@ class Console:
                             self.player.add_item(get_item(random.randint(0, ITEMS_COUNT - 1)))
                     for _ in range(int(values[1])):
                         self.player.add_item(get_item(int(values[0])))
+
+            if object_ == "field" or object_ == "fd":
+                if command == "spawbot" or command == "sb":
+                    for _ in range(int(values[0])):
+                        enemy = Enemy(self.player, self.player.x + random.randint(-WIDTH // 2, WIDTH // 2),
+                                      self.player.y + random.randint(-WIDTH // 2, WIDTH // 2), self.chunks)
+                        self.enemies.add(enemy)
+
         except Exception as e:
             print(e)

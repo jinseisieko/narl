@@ -79,8 +79,8 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
     if leftward_movement:
         dx = calculate_speed(dx, max_speed, acceleration, True)
 
-    x += dx * dt * 100
-    y += dy * dt * 100
+    x += dx # * dt * 100
+    y += dy # * dt * 100
 
     return field_boundary_collision(x, y, dx, dy, FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
 
@@ -124,6 +124,7 @@ class Player(pygame.sprite.Sprite):
         self.projectile_color: tuple[int, int, int] = RED
 
         self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
+        self.trajectory: list[float] = [0.] * self.projectile_ticks
 
         self.inventory: Inventory = Inventory(self)
 
@@ -145,7 +146,6 @@ class Player(pygame.sprite.Sprite):
         self.red_gecko_arc_trajectory_count: int = 0  # add arc trajectory
 
     def movements(self) -> None:
-        print(CLOCK.get_fps())
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
                                                               self.acceleration, self.resistance_acceleration,
                                                               self.upward_movement, self.downward_movement,
@@ -196,6 +196,7 @@ class Player(pygame.sprite.Sprite):
         self.resistance_acceleration: float = self.max_speed / SLOWDOWN_SMOOTHNESS
 
         self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
+        self.trajectory: list[float] = [0.] * self.projectile_ticks
 
         self.period = max(self.period, 1)
         self.max_speed = min(self.max_speed, 100)
@@ -204,6 +205,14 @@ class Player(pygame.sprite.Sprite):
         min_gecko = min(self.red_gecko_arc_trajectory_count, self.green_gecko_arc_trajectory_count)
         self.green_gecko_arc_trajectory_count -= min_gecko
         self.red_gecko_arc_trajectory_count -= min_gecko
+
+        for i in range(self.projectile_ticks):
+            if self.green_gecko_arc_trajectory_count != 0:
+                self.trajectory[i] += ((math.pi / 50 * i ** 0.4) / (self.projectile_ticks / 10))*self.green_gecko_arc_trajectory_count
+
+            if self.red_gecko_arc_trajectory_count != 0:
+                self.trajectory[i] += -((math.pi / 50 * i ** 0.4) / (
+                        self.projectile_ticks / 10)) * self.red_gecko_arc_trajectory_count
 
     def add_item(self, item: Item) -> None:
         self.inventory.add_item(item)

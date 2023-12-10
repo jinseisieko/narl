@@ -55,7 +55,7 @@ class DefaultProjectile(pygame.sprite.Sprite):
         self.player_dy: float = self.player.dy
         self.damage: int = self.player.projectile_damage
         self.angle: float = calculate_angle(self.player.rect.centerx, self.player.rect.centery, target[0], target[1])
-        self.trajectory: list[float] = [0.] * self.player.projectile_ticks
+        self.trajectory: list[float] = player.trajectory
         self.index_trajectory: int = 0
 
         self.dx: float
@@ -85,14 +85,6 @@ class DefaultProjectile(pygame.sprite.Sprite):
         if player.buckshot_scatter_count != 0:
             self.trajectory[0] += random.uniform((-math.pi / 15) * player.buckshot_scatter_count,
                                                  (math.pi / 15) * player.buckshot_scatter_count)
-
-        for i in range(self.player.projectile_ticks):
-            if player.green_gecko_arc_trajectory_count != 0:
-                self.trajectory[i] += ((math.pi / 50 * i ** 0.4) / (self.player.projectile_ticks / 10))*self.player.green_gecko_arc_trajectory_count
-
-            if player.red_gecko_arc_trajectory_count != 0:
-                self.trajectory[i] += -((math.pi / 50 * i ** 0.4) / (
-                        self.player.projectile_ticks / 10)) * self.player.red_gecko_arc_trajectory_count
 
     def coordinate_calculation(self):
         self.x, self.y, self.distant = coordinate_calculation(self.x, self.y, self.dx, self.dy, self.distant,
@@ -156,6 +148,3 @@ class DefaultProjectile(pygame.sprite.Sprite):
         self.chunks.del_(self, self.ind3)
         self.chunks.del_(self, self.ind4)
         super().kill()
-
-
-

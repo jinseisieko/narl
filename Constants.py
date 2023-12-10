@@ -2,11 +2,12 @@
 from ctypes import windll
 
 import pygame
+
 pygame.init()
 
-CHUNK_SIZE = 100
-CHUNK_N_X = 10
-CHUNK_N_Y = 40
+CHUNK_SIZE = 200
+CHUNK_N_X = 20
+CHUNK_N_Y = 20
 COLLISIONS_REPELLING = 1
 
 FIELD_WIDTH: int = CHUNK_N_X * CHUNK_SIZE
@@ -21,7 +22,7 @@ MOVE_SCREEN_RECT_Y: int = HEIGHT // 8
 BACKGROUND_PICTURE_SIZE = 400
 
 PLAYER_SIZE: int = 50  # matches the size of the player's image
-FPS: int = 120# any integer from 30 to 120 that is a divisor of 120
+FPS: int = 120  # any integer from 30 to 120 that is a divisor of 120
 DOUBLE_CLICK_INTERVAL: int = 200
 ACCELERATION_SMOOTHNESS: int = 25
 SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
@@ -55,6 +56,7 @@ FONT_CONSOLE = (None, 27)
 FONT_PAUSE = (None, 46)
 FONT_FPS = (None, 27)
 FONT_CHARACTERISTICS = (None, 27)
+FONT_COUNT_OBJECTS = (None, 27)
 
 W: str = "W"
 A: str = "A"
@@ -69,7 +71,7 @@ DEFAULT_TYPE_ENEMY_DAMAGE: int = 0
 
 DEFAULT_ENEMY_ENEMY_SIZE: int = 40
 DEFAULT_ENEMY_ENEMY_HP: int = 0
-DEFAULT_ENEMY_ENEMY_SPEED: float = 4
+DEFAULT_ENEMY_ENEMY_SPEED: float = 1
 DEFAULT_ENEMY_ENEMY_DAMAGE: int = 0
 
-CLOCK  = pygame.time.Clock()
+CLOCK = pygame.time.Clock()

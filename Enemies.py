@@ -56,10 +56,13 @@ class Enemy(pygame.sprite.Sprite):
             self.dy *= self.speed / d
 
     def coordinate_calculation(self):
-        self.x += self.dx
-        self.y += self.dy
+        self.x += self.dx  # * (1/(CLOCK.get_fps()+1e-4)) * 100
+        self.y += self.dy  # * (1/(CLOCK.get_fps()+1e-4)) * 100
 
     def update(self) -> None:
+        self.x = max(0, min(FIELD_WIDTH - self.size, self.x))
+        self.y = max(0, min(FIELD_HEIGHT - self.size, self.y))
+
         self.ind = [int(self.y // CHUNK_SIZE), int(self.x // CHUNK_SIZE)]
         if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
             self.chunks.move(self, self.last_ind, self.ind)
@@ -70,8 +73,8 @@ class Enemy(pygame.sprite.Sprite):
         self.normal_speed()
         self.coordinate_calculation()
 
-        self.rect.x = round(self.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
-        self.rect.y = round(self.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.rect.x = round(self.x)  # - DEFAULT_ENEMY_ENEMY_SIZE // 2  *мне удобнее рассчитывать так
+        self.rect.y = round(self.y)  # - DEFAULT_ENEMY_ENEMY_SIZE // 2
 
     def get_name(self) -> str:
         return self.__class__.__name__

@@ -2,6 +2,7 @@
 import random
 import sys
 
+import pygame
 from tqdm import tqdm
 
 import ImageSprites
@@ -17,14 +18,10 @@ pygame.init()
 field: Field = Field()
 chunks: Chunks = Chunks()
 
-
 # groups
-all_sprites: pygame.sprite.Group = pygame.sprite.Group()
-players_projectile: pygame.sprite.Group = pygame.sprite.Group()
+projectiles: pygame.sprite.Group = pygame.sprite.Group()
 enemies: pygame.sprite.Group = pygame.sprite.Group()
-enemies_projectile: pygame.sprite.Group = pygame.sprite.Group()
 player_group: pygame.sprite.Group = pygame.sprite.Group()
-
 
 # player
 player: Player = Player(field, chunks)
@@ -33,17 +30,9 @@ player_group.add(player)
 # fieldw
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
-enemy: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
-enemies.add(enemy)
-
-enemy1: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
-enemies.add(enemy1)
-
-enemy2: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
-enemies.add(enemy2)
-
 for _ in range(0):
-    enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000), chunks)
+    enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000),
+                          chunks)
     enemies.add(enemy2)
 # all_sprites.add(enemy)
 
@@ -62,8 +51,7 @@ text_pause: pygame.Surface = pygame.font.Font(*FONT_PAUSE).render("pause", True,
 
 pygame.mouse.set_visible(False)
 
-
-console = Console(10, 10, 200, 20, player, screen, field, CLOCK)
+console = Console(10, 10, 200, 20, player, screen, field, CLOCK, projectiles, enemies, player_group, chunks)
 N = 0
 with (tqdm() as pbar):
     while running:
@@ -121,12 +109,11 @@ with (tqdm() as pbar):
                 frame_shot = player.period
                 projectile = player.default_shot()
 
-                players_projectile.add(projectile)
-                all_sprites.add(projectile)
+                projectiles.add(projectile)
         # update
         if not pause:
             player_group.update()
-            players_projectile.update()
+            projectiles.update()
             enemies.update()
             chunks.calculate_collisions()
 
@@ -142,7 +129,7 @@ with (tqdm() as pbar):
             1] - HEIGHT // 2
 
         screen.fill((0, 0, 0))
-        field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
+        field.draw(projectiles, player_group, enemies, player=player)
         console.draw_in_field()
 
         screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
@@ -167,7 +154,7 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        FPS = 5 + 40 * math.sin(N / 100 * 2 * math.pi) ** 2
+        # FPS = 5 + 40 * math.sin(N / 100 * 2 * math.pi) ** 2
         CLOCK.tick(FPS)
         pbar.update(1)
         N += 1
