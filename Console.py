@@ -145,7 +145,8 @@ class Console:
         self.player.projectile_size = DEFAULT_PROJECTILE_SIZE
         self.player.projectile_damage = DEFAULT_PROJECTILE_DAMAGE
         self.player.buckshot_scatter_count = 0
-        self.player.gecko_arc_trajectory_count = 0
+        self.player.green_gecko_arc_trajectory_count = 0
+        self.player.red_gecko_arc_trajectory_count = 0
 
     def input_command(self, command: str) -> None:
         try:
@@ -219,5 +220,5 @@ class Console:
                             self.player.add_item(get_item(random.randint(0, ITEMS_COUNT - 1)))
                     for _ in range(int(values[1])):
                         self.player.add_item(get_item(int(values[0])))
-        except Exception:
-            pass
+        except Exception as e:
+            print(e)

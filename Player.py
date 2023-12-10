@@ -142,7 +142,8 @@ class Player(pygame.sprite.Sprite):
 
         # items values
         self.buckshot_scatter_count: int = 0  # It tells whether the player has a Buckshot item or not
-        self.gecko_arc_trajectory_count: int = 0  # add arc trajectory
+        self.green_gecko_arc_trajectory_count: int = 0  # add arc trajectory
+        self.red_gecko_arc_trajectory_count: int = 0  # add arc trajectory
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
@@ -198,6 +199,11 @@ class Player(pygame.sprite.Sprite):
 
         self.period = max(self.period, 1)
         self.max_speed = min(self.max_speed, 100)
+        self.projectile_range = min(self.projectile_range, MAX_RANGE)
+
+        min_gecko = min(self.red_gecko_arc_trajectory_count, self.green_gecko_arc_trajectory_count)
+        self.green_gecko_arc_trajectory_count -= min_gecko
+        self.red_gecko_arc_trajectory_count -= min_gecko
 
     def add_item(self, item: Item) -> None:
         self.inventory.add_item(item)

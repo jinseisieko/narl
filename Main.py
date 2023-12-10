@@ -183,7 +183,7 @@ with (tqdm() as pbar):
             if pause:
                 screen.blit(text_pause, (WIDTH - text_pause.get_size()[0] - 10, 10))
 
-            for i, row in enumerate(player.inventory.get_to_draw()):
+            for i, row in enumerate(player.inventory.get_to_draw()[:WIDTH // 37 * H]):
                 for j, item in enumerate(row):
                     screen.blit(ImageSprites.sprites[item.image], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
         # draw frames 

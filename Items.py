@@ -60,14 +60,16 @@ def get_item(id_: int):
         return Wristwatch()
     elif id_ == Pill.id:
         return Pill()
-    elif id_ == Gecko.id:
-        return Gecko()
+    elif id_ == GreenGecko.id:
+        return GreenGecko()
     elif id_ == Butterfly.id:
         return Butterfly()
     elif id_ == GraveShovel.id:
         return GraveShovel()
     elif id_ == Casino.id:
         return Casino()
+    elif id_ == RedGecko.id:
+        return RedGecko()
     else:
         raise Exception()
 
@@ -454,12 +456,12 @@ class Pill(Item):
         self.characteristics['max_speed'] = "+= 0.3"
 
 
-class Gecko(ShotTypeItem):
+class GreenGecko(ShotTypeItem):
     id = 29
 
     def __init__(self) -> None:
         super().__init__()
-        self.image = 'gecko'
+        self.image = 'green_gecko'
         self.characteristics['projectile_range'] = "*= 1.5"
         # add arc trajectory
 
@@ -519,3 +521,13 @@ elif c == 6:
 
         if hasattr(player, 'max_hp'):
             exec("import math; player.max_hp = math.ceil(player.max_hp)")
+
+
+class RedGecko(ShotTypeItem):
+    id = 33
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'red_gecko'
+        self.characteristics['projectile_range'] = "*= 1.5"
+        # add arc trajectory
