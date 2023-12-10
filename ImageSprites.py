@@ -16,6 +16,7 @@ sprites: dict = {
     'texture_grass_6': pygame.image.load(r"image/texture_grass/texture_grass_6.png"),
     'texture_grass_7': pygame.image.load(r"image/texture_grass/texture_grass_7.png"),
     'texture_grass_8': pygame.image.load(r"image/texture_grass/texture_grass_8.png"),
+    'enemy': pygame.image.load("image/enemy.png"),
     'lightning': pygame.image.load(r"image/items/lightning.png"),
     'rune_of_heart': pygame.image.load(r"image/items/rune_of_heart.png"),
     'wooden_bow': pygame.image.load(r"image/items/wooden_bow.png"),
@@ -50,4 +51,8 @@ sprites: dict = {
     'grave_shovel': pygame.image.load(r"image/items/grave_shovel.png"),
     'casino': pygame.image.load(r"image/items/casino.png"),
     'red_gecko': pygame.image.load(r"image/items/red_gecko.png"),
+    'flower': pygame.image.load(r"image/items/flower.png"),
+    'syringe': pygame.image.load(r"image/items/syringe.png"),
+    'christmas_tree': pygame.image.load(r"image/items/christmas_tree.png"),
+    'decorated_christmas_tree': pygame.image.load(r"image/items/decorated_christmas_tree.png"),
 }

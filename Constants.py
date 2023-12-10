@@ -1,4 +1,5 @@
 """constants"""
+import math
 from ctypes import windll
 
 import pygame
@@ -6,8 +7,8 @@ import pygame
 pygame.init()
 
 CHUNK_SIZE = 100
-CHUNK_N_X = 20
-CHUNK_N_Y = 20
+CHUNK_N_X = 10
+CHUNK_N_Y = 10
 COLLISIONS_REPELLING = 1
 
 FIELD_WIDTH: int = CHUNK_N_X * CHUNK_SIZE
@@ -22,12 +23,13 @@ MOVE_SCREEN_RECT_Y: int = HEIGHT // 8
 BACKGROUND_PICTURE_SIZE = 400
 
 PLAYER_SIZE: int = 50  # matches the size of the player's image
-FPS: int = 120  # any integer from 30 to 120 that is a divisor of 120
+FPS: int = 10
+TICKS: int = 120
 DOUBLE_CLICK_INTERVAL: int = 200
 ACCELERATION_SMOOTHNESS: int = 25
 SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
 
-ITEMS_COUNT: int = 34
+ITEMS_COUNT: int = 38
 H: int = 7
 
 DEFAULT_PLAYER_SPEED: float = 4
@@ -35,7 +37,8 @@ DEFAULT_PLAYER_HP: int = 10
 DASH_DELAY: int = FPS * 2
 DASH_COEFFICIENT: float = 2.2
 
-MAX_RANGE = 15000
+MAX_RANGE = math.sqrt(FIELD_WIDTH ** 2 + FIELD_HEIGHT ** 2)
+MAX_SIZE = CHUNK_SIZE - 1
 
 DEFAULT_PROJECTILE_PERIOD: int = FPS  # не больше 20
 MAX_PROJECTILE_PERIOD = 0

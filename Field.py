@@ -11,10 +11,10 @@ from Constants import *
 def calculate_screen_movement(screen_centre_x: float, screen_centre_y: float, player_centerx: float,
                               player_centery: float,
                               player_max_speed: float, player_dx, player_dy, MOVE_SCREEN_RECT_X: int,
-                              MOVE_SCREEN_RECT_Y: int) -> tuple[float, float]:
+                              MOVE_SCREEN_RECT_Y: int, fps: float) -> tuple[float, float]:
     speed: float = max(player_max_speed, (player_dx ** 2 + player_dy ** 2) ** 0.5)
-    speed_x: float = speed * ((player_centerx - screen_centre_x) / MOVE_SCREEN_RECT_X)
-    speed_y: float = speed * ((player_centery - screen_centre_y) / MOVE_SCREEN_RECT_Y)
+    speed_x: float = speed * ((player_centerx - screen_centre_x) / MOVE_SCREEN_RECT_X) * TICKS / (fps + 1e-10)
+    speed_y: float = speed * ((player_centery - screen_centre_y) / MOVE_SCREEN_RECT_Y) * TICKS / (fps + 1e-10)
 
     return screen_centre_x + speed_x, screen_centre_y + speed_y
 
@@ -50,4 +50,4 @@ class Field:
     def move_screen_relative_player(self, player) -> None:
         self.screen_centre = calculate_screen_movement(*self.screen_centre, player.rect.centerx, player.rect.centery,
                                                        player.max_speed, player.dx, player.dy,
-                                                       MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y)
+                                                       MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, CLOCK.get_fps())

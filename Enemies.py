@@ -4,6 +4,7 @@ import random
 
 import pygame.sprite
 
+import ImageSprites
 from Collisions import Chunks
 from Constants import *
 
@@ -16,10 +17,8 @@ class Enemy(pygame.sprite.Sprite):
         self.damage: int = DEFAULT_ENEMY_ENEMY_DAMAGE
         self.size = DEFAULT_ENEMY_ENEMY_SIZE
 
-        self.image = pygame.Surface((DEFAULT_ENEMY_ENEMY_SIZE, DEFAULT_ENEMY_ENEMY_SIZE))
+        self.image = ImageSprites.sprites['enemy']
         self.speed = DEFAULT_ENEMY_ENEMY_SPEED
-
-        self.image.fill(BLUE)
 
         self.rect = self.image.get_rect()
         self.x = x - DEFAULT_ENEMY_ENEMY_SIZE // 2
@@ -56,8 +55,8 @@ class Enemy(pygame.sprite.Sprite):
             self.dy *= self.speed / d
 
     def coordinate_calculation(self):
-        self.x += self.dx  # * (1/(CLOCK.get_fps()+1e-4)) * 100
-        self.y += self.dy  # * (1/(CLOCK.get_fps()+1e-4)) * 100
+        self.x += self.dx * TICKS / (CLOCK.get_fps() + 1e-10)  # * (1/(CLOCK.get_fps()+1e-4)) * 100
+        self.y += self.dy * TICKS / (CLOCK.get_fps() + 1e-10)  # * (1/(CLOCK.get_fps()+1e-4)) * 100
 
     def update(self) -> None:
         self.x = max(0, min(FIELD_WIDTH - self.size, self.x))

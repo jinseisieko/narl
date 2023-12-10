@@ -55,11 +55,13 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
                        resistance_acceleration: float,
                        upward_movement: bool, downward_movement: bool,
                        rightward_movement: bool, leftward_movement: bool, FIELD_WIDTH: int, FIELD_HEIGHT: int,
-                       PLAYER_SIZE: int, dt: float) -> tuple[float, float, float, float]:
+                       PLAYER_SIZE: int, fps: float) -> tuple[float, float, float, float]:
     # d = (dx ** 2 + dy ** 2) ** 0.5
     # if d > max_speed:
     #     dx *= max_speed / d
     #     dy *= max_speed / d
+    if fps < 2:
+        return field_boundary_collision(x, y, dx, dy, FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
 
     if dx < 0:
         dx = min(0.0, dx + resistance_acceleration)
@@ -79,8 +81,8 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
     if leftward_movement:
         dx = calculate_speed(dx, max_speed, acceleration, True)
 
-    x += dx # * dt * 100
-    y += dy # * dt * 100
+    x += dx * TICKS / (fps + 1e-10)  # * dt * 100
+    y += dy * TICKS / (fps + 1e-10)  # * dt * 100
 
     return field_boundary_collision(x, y, dx, dy, FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
 
@@ -142,15 +144,16 @@ class Player(pygame.sprite.Sprite):
 
         # items values
         self.buckshot_scatter_count: int = 0  # It tells whether the player has a Buckshot item or not
-        self.green_gecko_arc_trajectory_count: int = 0  # add arc trajectory
-        self.red_gecko_arc_trajectory_count: int = 0  # add arc trajectory
+        self.green_gecko_count: int = 0  # add arc trajectory
+        self.red_gecko_count: int = 0  # add arc trajectory
+        self.scope_count: int = 0  # add arc trajectory
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
                                                               self.acceleration, self.resistance_acceleration,
                                                               self.upward_movement, self.downward_movement,
                                                               self.rightward_movement, self.leftward_movement,
-                                                              FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE, 1/(CLOCK.get_fps() + 1e-10))
+                                                              FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE, CLOCK.get_fps())
 
     def dash(self, to_x: int, to_y: int) -> None:
         if self.dash_timer == 0:
@@ -201,18 +204,20 @@ class Player(pygame.sprite.Sprite):
         self.period = max(self.period, 1)
         self.max_speed = min(self.max_speed, 100)
         self.projectile_range = min(self.projectile_range, MAX_RANGE)
+        self.projectile_size = min(self.projectile_size, MAX_SIZE)
 
-        min_gecko = min(self.red_gecko_arc_trajectory_count, self.green_gecko_arc_trajectory_count)
-        self.green_gecko_arc_trajectory_count -= min_gecko
-        self.red_gecko_arc_trajectory_count -= min_gecko
+        min_gecko = min(self.red_gecko_count, self.green_gecko_count)
+        self.green_gecko_count -= min_gecko
+        self.red_gecko_count -= min_gecko
 
         for i in range(self.projectile_ticks):
-            if self.green_gecko_arc_trajectory_count != 0:
-                self.trajectory[i] += ((math.pi / 50 * i ** 0.4) / (self.projectile_ticks / 10))*self.green_gecko_arc_trajectory_count
+            if self.green_gecko_count != 0:
+                self.trajectory[i] += ((math.pi / 50 * i ** 0.4) / (
+                        self.projectile_ticks / 10)) * self.green_gecko_count
 
-            if self.red_gecko_arc_trajectory_count != 0:
+            if self.red_gecko_count != 0:
                 self.trajectory[i] += -((math.pi / 50 * i ** 0.4) / (
-                        self.projectile_ticks / 10)) * self.red_gecko_arc_trajectory_count
+                        self.projectile_ticks / 10)) * self.red_gecko_count
 
     def add_item(self, item: Item) -> None:
         self.inventory.add_item(item)
@@ -220,4 +225,3 @@ class Player(pygame.sprite.Sprite):
 
     def get_name(self) -> str:
         return self.__class__.__name__
-

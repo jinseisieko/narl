@@ -22,11 +22,7 @@ def calculate_speed(angle: float, speed: float, player_dx: float, player_dy: flo
     return speed * math.cos(angle) + player_dx, speed * math.sin(angle) + player_dy
 
 
-@numba.jit(nopython=True, fastmath=True)
-def coordinate_calculation(x: float, y: float, dx: float, dy: float, distant: float, speed: float) -> tuple[
-    float, float, float]:
-    """coordinate calculation for projectile"""
-    return x + dx, y + dy, distant + speed
+
 
 
 class DefaultProjectile(pygame.sprite.Sprite):
@@ -87,8 +83,10 @@ class DefaultProjectile(pygame.sprite.Sprite):
                                                  (math.pi / 15) * player.buckshot_scatter_count)
 
     def coordinate_calculation(self):
-        self.x, self.y, self.distant = coordinate_calculation(self.x, self.y, self.dx, self.dy, self.distant,
-                                                              self.speed)
+        self.distant += self.speed * TICKS / (CLOCK.get_fps() + 1e-10)
+        self.x += self.dx * TICKS / (CLOCK.get_fps() + 1e-10)
+        self.y += self.dy * TICKS / (CLOCK.get_fps() + 1e-10)
+
 
     def speed_calculation(self):
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player_dx, self.player_dy)

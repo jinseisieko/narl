@@ -25,7 +25,7 @@ class Console:
         self.fps: bool = False
         self.characteristic: bool = False
         self.line_target: bool = False
-        self.chunks_: bool = False
+        self.chunks_: bool = True
         self.objects: bool = False
 
         self.player = player
@@ -173,8 +173,8 @@ class Console:
         self.player.projectile_size = DEFAULT_PROJECTILE_SIZE
         self.player.projectile_damage = DEFAULT_PROJECTILE_DAMAGE
         self.player.buckshot_scatter_count = 0
-        self.player.green_gecko_arc_trajectory_count = 0
-        self.player.red_gecko_arc_trajectory_count = 0
+        self.player.green_gecko_count = 0
+        self.player.red_gecko_count = 0
 
     def input_command(self, command: str) -> None:
         try:

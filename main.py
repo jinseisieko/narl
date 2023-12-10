@@ -43,8 +43,7 @@ console_opening: bool = False
 pause: bool = False
 
 # frames
-frame_draw: int = 0
-frame_shot: int = 0
+frame_shot: float = 0
 
 last_click_time: dict[str, int] = {W: 0, A: 0, S: 0, D: 0}
 text_pause: pygame.Surface = pygame.font.Font(*FONT_PAUSE).render("pause", True, BLACK)
@@ -52,7 +51,7 @@ text_pause: pygame.Surface = pygame.font.Font(*FONT_PAUSE).render("pause", True,
 pygame.mouse.set_visible(False)
 
 console = Console(10, 10, 200, 20, player, screen, field, CLOCK, projectiles, enemies, player_group, chunks)
-N = 0
+
 with (tqdm() as pbar):
     while running:
 
@@ -106,7 +105,7 @@ with (tqdm() as pbar):
         # add new obj
         if not pause:
             if shooting and frame_shot == 0:
-                frame_shot = player.period
+                frame_shot = (player.period * 10) / 1000
                 projectile = player.default_shot()
 
                 projectiles.add(projectile)
@@ -151,13 +150,13 @@ with (tqdm() as pbar):
         # update frames
         if not pause:
             if frame_shot > 0:
-                frame_shot -= 1
+                frame_shot -= 1/(CLOCK.get_fps() + 1e-10)
+
+            if frame_shot < 0:
+                frame_shot = 0
 
         pygame.display.flip()
-        # FPS = 5 + 40 * math.sin(N / 100 * 2 * math.pi) ** 2
         CLOCK.tick(FPS)
         pbar.update(1)
-        N += 1
-
 pygame.quit()
 sys.exit()

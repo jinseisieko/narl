@@ -70,6 +70,14 @@ def get_item(id_: int):
         return Casino()
     elif id_ == RedGecko.id:
         return RedGecko()
+    elif id_ == Flower.id:
+        return Flower()
+    elif id_ == Syringe.id:
+        return Syringe()
+    elif id_ == ChristmasTree.id:
+        return ChristmasTree()
+    elif id_ == DecoratedChristmasTree.id:
+        return DecoratedChristmasTree()
     else:
         raise Exception()
 
@@ -531,3 +539,53 @@ class RedGecko(ShotTypeItem):
         self.image = 'red_gecko'
         self.characteristics['projectile_range'] = "*= 1.5"
         # add arc trajectory
+
+
+class Flower(Item):
+    id = 34
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'flower'
+        self.characteristics['projectile_range'] = "-= 20"
+        self.characteristics['projectile_damage'] = "+= 1"
+
+
+class Syringe(Item):
+    id = 35
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'syringe'
+        self.characteristics['max_speed'] = "= 10"
+
+
+class ChristmasTree(Item):
+    id = 36
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'christmas_tree'
+        self.characteristics['projectile_range'] = "+= 20"
+
+
+class DecoratedChristmasTree(Item):
+    id = 37
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'decorated_christmas_tree'
+        self.characteristics['projectile_range'] = "+= 20"
+        self.characteristics['projectile_damage'] = "+= 1"
+
+
+class Scope(ShotTypeItem):
+    id = 38
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'scope'
+        self.characteristics['projectile_range'] = "+= 20"
+        # reduces bullet spread
+
+

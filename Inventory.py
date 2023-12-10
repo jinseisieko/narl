@@ -21,10 +21,10 @@ class Inventory:
             if item.get_name() == "Buckshot":
                 self.player.buckshot_scatter_count += 1
             elif item.get_name() == "GreenGecko":
-                print(1)
-                self.player.green_gecko_arc_trajectory_count += 1
+                self.player.green_gecko_count += 1
             elif item.get_name() == "RedGecko":
-                self.player.red_gecko_arc_trajectory_count += 1
+                self.player.red_gecko_count += 1
+            elif item.get_name() == "Scope": ...
 
     def get_to_draw(self) -> list[str]:
         array_draw: list[str] = []
