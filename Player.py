@@ -8,7 +8,7 @@ import Field
 from Inventory import Inventory
 from Items import Item
 from Projectiles import *
-from Projectiles import DefaultPlayerProjectile
+from Projectiles import DefaultProjectile
 
 
 @numba.jit(nopython=True, fastmath=True)
@@ -55,7 +55,7 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
                        resistance_acceleration: float,
                        upward_movement: bool, downward_movement: bool,
                        rightward_movement: bool, leftward_movement: bool, FIELD_WIDTH: int, FIELD_HEIGHT: int,
-                       PLAYER_SIZE: int) -> tuple[float, float, float, float]:
+                       PLAYER_SIZE: int, dt: float) -> tuple[float, float, float, float]:
     # d = (dx ** 2 + dy ** 2) ** 0.5
     # if d > max_speed:
     #     dx *= max_speed / d
@@ -79,8 +79,8 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
     if leftward_movement:
         dx = calculate_speed(dx, max_speed, acceleration, True)
 
-    x += dx
-    y += dy
+    x += dx * dt * 100
+    y += dy * dt * 100
 
     return field_boundary_collision(x, y, dx, dy, FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
 
@@ -88,9 +88,10 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
 class Player(pygame.sprite.Sprite):
     """class Player"""
 
-    def __init__(self, field: Field.Field) -> None:
+    def __init__(self, field: Field.Field, chunks) -> None:
         super().__init__()
         self.field: Field.Field = field
+        self.chunks = chunks
 
         # values
         self.size: int = PLAYER_SIZE
@@ -144,11 +145,12 @@ class Player(pygame.sprite.Sprite):
         self.red_gecko_arc_trajectory_count: int = 0  # add arc trajectory
 
     def movements(self) -> None:
+        print(CLOCK.get_fps())
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,
                                                               self.acceleration, self.resistance_acceleration,
                                                               self.upward_movement, self.downward_movement,
                                                               self.rightward_movement, self.leftward_movement,
-                                                              FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
+                                                              FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE, 1/(CLOCK.get_fps() + 1e-10))
 
     def dash(self, to_x: int, to_y: int) -> None:
         if self.dash_timer == 0:
@@ -182,12 +184,12 @@ class Player(pygame.sprite.Sprite):
         if self.animation_frame > 0:
             self.animation_frame -= 1
 
-    def default_shot(self) -> DefaultPlayerProjectile:  # test
+    def default_shot(self) -> DefaultProjectile:  # test
         cursor_pos = pygame.mouse.get_pos()
 
-        return DefaultPlayerProjectile(self, (
+        return DefaultProjectile(self, (
             self.field.screen_centre[0] - WIDTH // 2 + cursor_pos[0],
-            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]))
+            self.field.screen_centre[1] - HEIGHT // 2 + cursor_pos[1]), self.chunks)
 
     def recalculation_of_values(self) -> None:
         self.acceleration: float = self.max_speed / ACCELERATION_SMOOTHNESS

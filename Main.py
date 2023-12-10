@@ -17,7 +17,6 @@ pygame.init()
 field: Field = Field()
 chunks: Chunks = Chunks()
 
-clock = pygame.time.Clock()
 
 # groups
 all_sprites: pygame.sprite.Group = pygame.sprite.Group()
@@ -26,14 +25,9 @@ enemies: pygame.sprite.Group = pygame.sprite.Group()
 enemies_projectile: pygame.sprite.Group = pygame.sprite.Group()
 player_group: pygame.sprite.Group = pygame.sprite.Group()
 
-object_ID: dict[int] = dict()
-IDs: set[int] = set()
-lastID = 0
 
 # player
-player: Player = Player(field)
-object_ID[lastID] = player
-lastID += 1
+player: Player = Player(field, chunks)
 player_group.add(player)
 
 # fieldw
@@ -48,7 +42,7 @@ enemies.add(enemy1)
 enemy2: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
 enemies.add(enemy2)
 
-for _ in range(1000):
+for _ in range(0):
     enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000), chunks)
     enemies.add(enemy2)
 # all_sprites.add(enemy)
@@ -68,9 +62,9 @@ text_pause: pygame.Surface = pygame.font.Font(*FONT_PAUSE).render("pause", True,
 
 pygame.mouse.set_visible(False)
 
-time_draw: int = TICKS // FPS[DEFAULT_FPS]
 
-console = Console(10, 10, 200, 20, player, screen, field, clock)
+console = Console(10, 10, 200, 20, player, screen, field, CLOCK)
+N = 0
 with (tqdm() as pbar):
     while running:
 
@@ -143,34 +137,29 @@ with (tqdm() as pbar):
 
         # draw
         # ||| ! самый медленный код из всех ! |||
-        if frame_draw == 0:
-            frame_draw: int = time_draw
 
-            field_screen_centre_x, field_screen_centre_y = field.screen_centre[0] - WIDTH // 2, field.screen_centre[
-                1] - HEIGHT // 2
+        field_screen_centre_x, field_screen_centre_y = field.screen_centre[0] - WIDTH // 2, field.screen_centre[
+            1] - HEIGHT // 2
 
-            screen.fill((0, 0, 0))
-            field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
-            console.draw_in_field()
+        screen.fill((0, 0, 0))
+        field.draw(enemies_projectile, players_projectile, player_group, enemies, player=player)
+        console.draw_in_field()
 
-            screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
+        screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
 
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            screen.blit(ImageSprites.sprites['cursor'],
-                        (mouse_x - 16, mouse_y - 16))
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        screen.blit(ImageSprites.sprites['cursor'],
+                    (mouse_x - 16, mouse_y - 16))
 
-            console.draw_in_screen()
-            if console_opening:
-                console.draw(screen)
-            if pause:
-                screen.blit(text_pause, (WIDTH - text_pause.get_size()[0] - 10, 10))
+        console.draw_in_screen()
+        if console_opening:
+            console.draw(screen)
+        if pause:
+            screen.blit(text_pause, (WIDTH - text_pause.get_size()[0] - 10, 10))
 
-            for i, row in enumerate(player.inventory.get_to_draw()[:WIDTH // 37 * H]):
-                for j, item in enumerate(row):
-                    screen.blit(ImageSprites.sprites[item.image], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
-        # draw frames 
-        if frame_draw > 0:
-            frame_draw -= 1
+        for i, row in enumerate(player.inventory.get_to_draw()[:WIDTH // 37 * H]):
+            for j, item in enumerate(row):
+                screen.blit(ImageSprites.sprites[item.image], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
 
         # update frames
         if not pause:
@@ -178,10 +167,10 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS)
-        # print(player.x, player.y)
-        # print(player.rect.centerx, player.rect.centery, 2)
+        FPS = 5 + 40 * math.sin(N / 100 * 2 * math.pi) ** 2
+        CLOCK.tick(FPS)
         pbar.update(1)
+        N += 1
 
 pygame.quit()
 sys.exit()

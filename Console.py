@@ -23,7 +23,7 @@ class Console:
         self.fps: bool = False
         self.characteristic: bool = False
         self.line_target: bool = False
-        self.chunks: bool = False
+        self.chunks: bool = True
 
         self.player = player
         self.screen = screen

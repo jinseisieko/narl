@@ -6,6 +6,7 @@ import numba
 import pygame
 
 import ImageSprites
+from Collisions import Chunks
 from Constants import *
 
 
@@ -28,8 +29,8 @@ def coordinate_calculation(x: float, y: float, dx: float, dy: float, distant: fl
     return x + dx, y + dy, distant + speed
 
 
-class DefaultPlayerProjectile(pygame.sprite.Sprite):
-    def __init__(self, player, target: tuple[float, float]) -> None:
+class DefaultProjectile(pygame.sprite.Sprite):
+    def __init__(self, player, target: tuple[float, float], chunks) -> None:
         super().__init__()
         self.hp: int = 0
         self.damage: int = 0
@@ -60,9 +61,25 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.dx: float
         self.dy: float
 
+        self.name = "Projectile"
+
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player.dx, self.player.dy)
         self.player_dx = self.player.dx
         self.player_dy = self.player.dy
+
+        self.chunks: Chunks = chunks
+        self.ind1 = [int((self.y + (self.size / 2)) // CHUNK_SIZE), int((self.x + (self.size / 2)) // CHUNK_SIZE)]
+        self.last_ind1 = self.ind1
+        self.ind2 = [int((self.y - (self.size / 2)) // CHUNK_SIZE), int((self.x + (self.size / 2)) // CHUNK_SIZE)]
+        self.last_ind2 = self.ind2
+        self.ind3 = [int((self.y - (self.size / 2)) // CHUNK_SIZE), int((self.x - (self.size / 2)) // CHUNK_SIZE)]
+        self.last_ind3 = self.ind3
+        self.ind4 = [int((self.y + (self.size / 2)) // CHUNK_SIZE), int((self.x - (self.size / 2)) // CHUNK_SIZE)]
+        self.last_ind4 = self.ind4
+        self.chunks.add(self, self.ind1)
+        self.chunks.add(self, self.ind2)
+        self.chunks.add(self, self.ind3)
+        self.chunks.add(self, self.ind4)
 
         # items calculation
         if player.buckshot_scatter_count != 0:
@@ -88,6 +105,39 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         return self.__class__.__name__
 
     def update(self):
+        if self.x > FIELD_WIDTH - self.size:
+            self.kill()
+            return
+        if self.y > FIELD_HEIGHT - self.size:
+            self.kill()
+            return
+        if self.x < 0:
+            self.kill()
+            return
+        if self.y < 0:
+            self.kill()
+            return
+
+        self.ind1 = [int((self.y + (self.size / 2)) // CHUNK_SIZE), int((self.x + (self.size / 2)) // CHUNK_SIZE)]
+        if self.ind1[0] != self.last_ind1[0] or self.ind1[1] != self.last_ind1[1]:
+            self.chunks.move(self, self.last_ind1, self.ind1)
+            self.last_ind1 = self.ind1
+
+        self.ind2 = [int((self.y - (self.size / 2)) // CHUNK_SIZE), int((self.x + (self.size / 2)) // CHUNK_SIZE)]
+        if self.ind2[0] != self.last_ind2[0] or self.ind2[1] != self.last_ind2[1]:
+            self.chunks.move(self, self.last_ind2, self.ind2)
+            self.last_ind2 = self.ind2
+
+        self.ind3 = [int((self.y - (self.size / 2)) // CHUNK_SIZE), int((self.x - (self.size / 2)) // CHUNK_SIZE)]
+        if self.ind3[0] != self.last_ind3[0] or self.ind3[1] != self.last_ind3[1]:
+            self.chunks.move(self, self.last_ind3, self.ind3)
+            self.last_ind3 = self.ind3
+
+        self.ind4 = [int((self.y + (self.size / 2)) // CHUNK_SIZE), int((self.x - (self.size / 2)) // CHUNK_SIZE)]
+        if self.ind4[0] != self.last_ind4[0] or self.ind4[1] != self.last_ind4[1]:
+            self.chunks.move(self, self.last_ind4, self.ind4)
+            self.last_ind4 = self.ind4
+
         self.angle += self.trajectory[self.index_trajectory]
         self.index_trajectory += 1
 
@@ -99,4 +149,13 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
 
         if self.distant >= self.range:
             self.kill()
+
+    def kill(self) -> None:
+        self.chunks.del_(self, self.ind1)
+        self.chunks.del_(self, self.ind2)
+        self.chunks.del_(self, self.ind3)
+        self.chunks.del_(self, self.ind4)
+        super().kill()
+
+
 
