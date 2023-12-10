@@ -1,29 +1,29 @@
-import math
-
 import numba
-import pygame
 
 from Constants import *
 
 
-@numba.jit(nopython=True, fastmath=True)
-def calculate_Enemies(obj1dx, obj1dy, obj2dx, obj2dy, obj1size, obj2size, obj1x, obj1y, obj2x, obj2y):
+@numba.njit(nopython=True, fastmath=True)
+def calculate_Enemies(obj1size, obj2size, obj1x, obj1y, obj2x, obj2y, COLLISIONS_REPELLING):
     size_1 = obj1size // 2
     size_2 = obj2size // 2
     real_dist = size_1 + size_2
+    repelling_factor = COLLISIONS_REPELLING
+
     dist_x = obj1x - obj2x
     dist_y = obj1y - obj2y
-    dist = math.hypot(dist_x, dist_y)
-    if dist < real_dist:
-        if dist_x == 0:
-            return obj1dx, obj1dy, obj2dx, obj2dy, obj2x, obj2y
-        if dist_y == 0:
-            return obj1dx, obj1dy, obj2dx, obj2dy, obj2x, obj2y
-        obj1dx += real_dist / dist_x * COLLISIONS_REPELLING
-        obj2dx -= real_dist / dist_x * COLLISIONS_REPELLING
-        obj1dy += real_dist / dist_y * COLLISIONS_REPELLING
-        obj2dy -= real_dist / dist_y * COLLISIONS_REPELLING
-    return obj1dx, obj1dy, obj2dx, obj2dy, obj2x, obj2y
+    dist_sq = dist_x ** 2 + dist_y ** 2
+
+    if dist_sq < real_dist ** 2:
+        factor_x = (1 - abs(dist_y) / real_dist) * repelling_factor
+        factor_y = (1 - abs(dist_x) / real_dist) * repelling_factor
+
+        obj1x += factor_x * math.copysign(1, dist_x)
+        obj2x -= factor_x * math.copysign(1, dist_x)
+        obj1y += factor_y * math.copysign(1, dist_y)
+        obj2y -= factor_y * math.copysign(1, dist_y)
+
+    return obj2x, obj2y
 
 
 class Chunks:
@@ -48,12 +48,10 @@ class Chunks:
                 for i, obj1 in enumerate(chunk):
                     for obj2 in chunk[i + 1:]:
                         if obj1.name == "Enemy" and obj2.name == "Enemy":
-                            obj1.dx, obj1.dy, obj2.dx, obj2.dy, obj2.x, obj2.y = calculate_Enemies(obj1.dx, obj1.dy,
-                                                                                                   obj2.dx,
-                                                                                                   obj2.dy, obj1.size,
-                                                                                                   obj2.size,
-                                                                                                   obj1.x, obj1.y,
-                                                                                                   obj2.x, obj2.y)
+                            obj2.x, obj2.y = calculate_Enemies(obj1.size,
+                                                               obj2.size,
+                                                               obj1.x, obj1.y,
+                                                               obj2.x, obj2.y, COLLISIONS_REPELLING)
 
                         if obj1.name == "Projectile" and obj2.name == "Enemy" or obj1.name == "Enemy" and obj2.name == "Projectile":
                             if obj1.rect.colliderect(obj2.rect):
