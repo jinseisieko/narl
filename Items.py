@@ -164,7 +164,7 @@ class WoodenBow(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'wooden_bow'
-        self.characteristics['period'] = "-=4"
+        self.characteristics['period'] = "-=40"
 
 
 class HuntingArrow(Item):
@@ -350,7 +350,7 @@ class MiniShark(Item):
     def __init__(self) -> None:
         super().__init__()
         self.image = 'mini_shark'
-        self.characteristics['period'] = "-= 10"
+        self.characteristics['period'] = "-= 100"
         self.characteristics['projectile_size'] = "*= 0.8"
 
 
@@ -372,7 +372,7 @@ class GreenRocket(Item):
         super().__init__()
         self.image = 'green_rocket'
         self.characteristics['projectile_damage'] = "+= 5"
-        self.characteristics['period'] = "+= 20"
+        self.characteristics['period'] = "+= 200"
 
 
 class RedRocket(Item):
@@ -382,7 +382,7 @@ class RedRocket(Item):
         super().__init__()
         self.image = 'red_rocket'
         self.characteristics['projectile_damage'] = "+= 10"
-        self.characteristics['period'] = "+= 50"
+        self.characteristics['period'] = "+= 500"
 
 
 class IronClaw(Item):

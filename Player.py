@@ -64,22 +64,22 @@ def calculate_movement(x: float, y: float, dx: float, dy: float, max_speed: floa
         return field_boundary_collision(x, y, dx, dy, FIELD_WIDTH, FIELD_HEIGHT, PLAYER_SIZE)
 
     if dx < 0:
-        dx = min(0.0, dx + resistance_acceleration)
+        dx = min(0.0, dx + (resistance_acceleration * TICKS / (fps + 1e-10)))
     else:
-        dx = max(0.0, dx - resistance_acceleration)
+        dx = max(0.0, dx - (resistance_acceleration * TICKS / (fps + 1e-10)))
     if dy < 0:
-        dy = min(0.0, dy + resistance_acceleration)
+        dy = min(0.0, dy + (resistance_acceleration * TICKS / (fps + 1e-10)))
     else:
-        dy = max(0.0, dy - resistance_acceleration)
+        dy = max(0.0, dy - (resistance_acceleration * TICKS / (fps + 1e-10)))
 
     if upward_movement:
-        dy = calculate_speed(dy, max_speed, acceleration, True)
+        dy = calculate_speed(dy, max_speed, (acceleration * TICKS / (fps + 1e-10)), True)
     if downward_movement:
-        dy = calculate_speed(dy, max_speed, acceleration, False)
+        dy = calculate_speed(dy, max_speed, (acceleration * TICKS / (fps + 1e-10)), False)
     if rightward_movement:
-        dx = calculate_speed(dx, max_speed, acceleration, False)
+        dx = calculate_speed(dx, max_speed, (acceleration * TICKS / (fps + 1e-10)), False)
     if leftward_movement:
-        dx = calculate_speed(dx, max_speed, acceleration, True)
+        dx = calculate_speed(dx, max_speed, (acceleration * TICKS / (fps + 1e-10)), True)
 
     x += dx * TICKS / (fps + 1e-10)  # * dt * 100
     y += dy * TICKS / (fps + 1e-10)  # * dt * 100
@@ -159,7 +159,7 @@ class Player(pygame.sprite.Sprite):
         if self.dash_timer == 0:
             self.dx = calculate_dash(self.dx, self.max_speed, to_x, DASH_COEFFICIENT)
             self.dy = calculate_dash(self.dy, self.max_speed, to_y, DASH_COEFFICIENT)
-            self.dash_timer = DASH_DELAY
+            self.dash_timer = 2
 
     def update(self) -> None:
         # animation once per animation_frame ticks and animation_duration ticks duration
