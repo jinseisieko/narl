@@ -105,7 +105,7 @@ with (tqdm() as pbar):
         # add new obj
         if not pause:
             if shooting and frame_shot == 0:
-                frame_shot = (player.period * 10) / 1000
+                frame_shot = TICKS #(player.period * 10) / 1000
                 projectile = player.default_shot()
 
                 projectiles.add(projectile)
@@ -150,7 +150,7 @@ with (tqdm() as pbar):
         # update frames
         if not pause:
             if frame_shot > 0:
-                frame_shot -= 1/(CLOCK.get_fps() + 1e-10)
+                frame_shot -= 1 # /(CLOCK.get_fps() + 1e-10)
 
             if frame_shot < 0:
                 frame_shot = 0

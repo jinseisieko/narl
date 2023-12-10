@@ -7,8 +7,8 @@ import pygame
 pygame.init()
 
 CHUNK_SIZE = 100
-CHUNK_N_X = 10
-CHUNK_N_Y = 10
+CHUNK_N_X = 50
+CHUNK_N_Y = 50
 COLLISIONS_REPELLING = 1
 
 FIELD_WIDTH: int = CHUNK_N_X * CHUNK_SIZE
@@ -23,7 +23,7 @@ MOVE_SCREEN_RECT_Y: int = HEIGHT // 8
 BACKGROUND_PICTURE_SIZE = 400
 
 PLAYER_SIZE: int = 50  # matches the size of the player's image
-FPS: int = 10
+FPS: int = 120
 TICKS: int = 120
 DOUBLE_CLICK_INTERVAL: int = 200
 ACCELERATION_SMOOTHNESS: int = 25

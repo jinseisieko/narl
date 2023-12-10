@@ -25,7 +25,7 @@ class Console:
         self.fps: bool = False
         self.characteristic: bool = False
         self.line_target: bool = False
-        self.chunks_: bool = True
+        self.chunks_: bool = False
         self.objects: bool = False
 
         self.player = player
