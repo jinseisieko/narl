@@ -1,5 +1,6 @@
 """classes Enemies and additional functions"""
 import math
+import random
 
 import pygame.sprite
 
@@ -26,7 +27,7 @@ class Enemy(pygame.sprite.Sprite):
         self.size = DEFAULT_ENEMY_ENEMY_SIZE
 
         self.image = pygame.Surface((DEFAULT_ENEMY_ENEMY_SIZE, DEFAULT_ENEMY_ENEMY_SIZE))
-        self.speed = DEFAULT_ENEMY_ENEMY_SPEED
+        self.speed = DEFAULT_ENEMY_ENEMY_SPEED + random.uniform(-1/2, 1/2)
 
         self.image.fill(BLUE)
 

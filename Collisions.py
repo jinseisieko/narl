@@ -16,10 +16,8 @@ def calculate(obj1dx, obj1dy, obj2dx, obj2dy, obj1size, obj2size, obj1x, obj1y, 
     if dist < real_dist:
         if dist < real_dist:
             if dist_x == 0:
-                obj2x -= 1e-6
                 return obj1dx, obj1dy, obj2dx, obj2dy, obj2x, obj2y
             if dist_y == 0:
-                obj2y -= 1e-6
                 return obj1dx, obj1dy, obj2dx, obj2dy, obj2x, obj2y
             obj1dx += real_dist / dist_x * COLLISIONS_REPELLING
             obj2dx -= real_dist / dist_x * COLLISIONS_REPELLING

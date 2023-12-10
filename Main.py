@@ -178,7 +178,7 @@ with (tqdm() as pbar):
                 frame_shot -= 1
 
         pygame.display.flip()
-        clock.tick(TICKS * 100)
+        clock.tick(TICKS)
         # print(player.x, player.y)
         # print(player.rect.centerx, player.rect.centery, 2)
         pbar.update(1)
