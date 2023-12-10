@@ -1,60 +1,81 @@
 """classes Enemies and additional functions"""
 import math
+import random
 
 import pygame.sprite
 
+from Collisions import Chunks
 from Constants import *
+
+class Storage:
+
+    def __init__(self, x, y, size) -> None:
+        super().__init__()
+        self.x, self.y = x, y
+        self.dx = 0
+        self.dy = 0
+        self.angle = 0
+        self.size = size
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, player, x: float, y: float, ID: int, IDs: set):
+    def __init__(self, player, x: float, y: float, chunks: Chunks):
         super().__init__()
-        self.ID: int = ID
-        self.IDs: set = IDs
+
         self.hp: int = DEFAULT_ENEMY_ENEMY_HP
         self.damage: int = DEFAULT_ENEMY_ENEMY_DAMAGE
         self.size = DEFAULT_ENEMY_ENEMY_SIZE
 
         self.image = pygame.Surface((DEFAULT_ENEMY_ENEMY_SIZE, DEFAULT_ENEMY_ENEMY_SIZE))
-        self.speed = DEFAULT_ENEMY_ENEMY_SPEED
+        self.speed = DEFAULT_ENEMY_ENEMY_SPEED + random.uniform(-1/2, 1/2)
 
         self.image.fill(BLUE)
 
         self.rect = self.image.get_rect()
-        self.x = x - DEFAULT_ENEMY_ENEMY_SIZE // 2
-        self.y = y - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.storage = Storage(x - DEFAULT_ENEMY_ENEMY_SIZE // 2, y - DEFAULT_ENEMY_ENEMY_SIZE // 2, DEFAULT_ENEMY_ENEMY_SIZE)
 
         self.player = player
-        self.angle = 0
-        self.dx = 0.
-        self.dy = 0.
+
+        self.chunks: Chunks = chunks
+        self.ind = [int(self.storage.y // CHUNK_SIZE), int(self.storage.x // CHUNK_SIZE)]
+        self.last_ind = self.ind
+        self.chunks.add(self.storage, self.ind)
 
     def angle_calculation(self):
-        self.angle = math.atan2(self.player.y - self.y,
-                                self.player.x - self.x)
+        self.storage.angle = math.atan2(self.player.y - self.storage.y,
+                                self.player.x - self.storage.x)
 
     def speed_calculation(self):
-        self.dx, self.dy = self.speed * math.cos(self.angle), self.speed * math.sin(self.angle)
+        self.storage.dx += self.speed * math.cos(self.storage.angle)
+        self.storage.dy += self.speed * math.sin(self.storage.angle)
+
+    def normal_speed(self):
+        self.storage.dx = min(self.speed, self.storage.dx)
+        self.storage.dy = min(self.speed, self.storage.dy)
+
+        d = (self.storage.dx ** 2 + self.storage.dy ** 2) ** 0.5
+        if d > self.speed:
+            self.storage.dx *= self.speed / d
+            self.storage.dy *= self.speed / d
 
     def coordinate_calculation(self):
-        self.x += self.dx
-        self.y += self.dy
+        self.storage.x += self.storage.dx
+        self.storage.y += self.storage.dy
 
-    def update(self, array, positions: set[tuple[int, int]]) -> None:
+    def update(self) -> None:
         self.angle_calculation()
-        self.coordinate_calculation()
         self.speed_calculation()
 
-        self.rect.x = round(self.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
-        self.rect.y = round(self.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.rect.x = round(self.storage.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.rect.y = round(self.storage.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
 
-        # i: int = int(math.floor(self.x / CHUNK_SIZE))
-        # j: int = int(math.floor(self.y / CHUNK_SIZE))
-        # if 0 <= i < CHUNK_N_X and 0 <= j < CHUNK_N_Y:
-        #     for k in range(len(array[i][j])):
-        #         if array[i][j][k][8] == 0:
-        #             array[i][j][k] = [self.x, self.y, self.dx, self.dy, self.hp, self.damage, self.size, 0, self.ID]
-        #             positions.add((i, j))
-        #             break
-        #     else:
-        #         print(2)
+        self.ind = [int(self.storage.y // CHUNK_SIZE), int(self.storage.x // CHUNK_SIZE)]
+        if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
+            self.chunks.move(self.storage, self.last_ind, self.ind)
+            self.last_ind = self.ind
+
+        self.normal_speed()
+        self.coordinate_calculation()
+
+    def get_name(self) -> str:
+        return self.__class__.__name__

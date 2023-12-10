@@ -23,6 +23,7 @@ class Console:
         self.fps: bool = False
         self.characteristic: bool = False
         self.line_target: bool = False
+        self.chunks: bool = False
 
         self.player = player
         self.screen = screen
@@ -97,6 +98,15 @@ class Console:
             pygame.draw.line(self.field.field, (255, 255, 255),
                              (self.field.screen_centre[0] - WIDTH, self.field.screen_centre[1] + HEIGHT),
                              (self.field.screen_centre[0] + WIDTH, self.field.screen_centre[1] - HEIGHT), 1)
+
+        if self.chunks:
+            for i in range(0, CHUNK_N_X):
+                pygame.draw.line(self.field.field, (255, 0, 255), (i * CHUNK_SIZE, 0), (i * CHUNK_SIZE, FIELD_HEIGHT),
+                                 width=2)
+
+            for i in range(0, CHUNK_N_Y):
+                pygame.draw.line(self.field.field, (255, 0, 255), (0, i * CHUNK_SIZE), (FIELD_WIDTH, i * CHUNK_SIZE),
+                                 width=2)
 
     def draw_in_screen(self):
         if self.fps:

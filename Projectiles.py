@@ -29,10 +29,8 @@ def coordinate_calculation(x: float, y: float, dx: float, dy: float, distant: fl
 
 
 class DefaultPlayerProjectile(pygame.sprite.Sprite):
-    def __init__(self, player, target: tuple[float, float], ID: int, IDs: set) -> None:
+    def __init__(self, player, target: tuple[float, float]) -> None:
         super().__init__()
-        self.ID: int = ID
-        self.IDs: set = IDs
         self.hp: int = 0
         self.damage: int = 0
 
@@ -86,7 +84,10 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
     def speed_calculation(self):
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player_dx, self.player_dy)
 
-    def update(self, array):
+    def get_name(self) -> str:
+        return self.__class__.__name__
+
+    def update(self):
         self.angle += self.trajectory[self.index_trajectory]
         self.index_trajectory += 1
 
@@ -97,15 +98,5 @@ class DefaultPlayerProjectile(pygame.sprite.Sprite):
         self.rect.y = round(self.y)
 
         if self.distant >= self.range:
-            self.IDs.add(self.ID)
             self.kill()
 
-        # i: int = int(math.floor(self.x / CHUNK_SIZE))
-        # j: int = int(math.floor(self.y / CHUNK_SIZE))
-        # if 0 <= i < CHUNK_N_X and 0 <= j < CHUNK_N_Y:
-        #     for k in range(len(array[i][j])):
-        #         if array[i][j][k][8] == 0:
-        #             array[i][j][k] = [self.x, self.y, self.dx, self.dy, self.hp, self.damage, self.size, 0, self.ID]
-        #             break
-        #     else:
-        #         print(1)

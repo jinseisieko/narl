@@ -1,5 +1,5 @@
 """pygame main loop"""
-
+import random
 import sys
 
 from tqdm import tqdm
@@ -15,6 +15,7 @@ from Player import Player
 pygame.init()
 
 field: Field = Field()
+chunks: Chunks = Chunks()
 
 clock = pygame.time.Clock()
 
@@ -30,21 +31,26 @@ IDs: set[int] = set()
 lastID = 0
 
 # player
-player: Player = Player(field, lastID, IDs)
+player: Player = Player(field)
 object_ID[lastID] = player
 lastID += 1
 player_group.add(player)
 
-# field
+# fieldw
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
-enemy: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
+enemy: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
 enemies.add(enemy)
-object_ID[lastID] = enemy
-lastID += 1
-enemy1: Enemy = Enemy(player, player.x, player.y, lastID, IDs)
+
+enemy1: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
 enemies.add(enemy1)
-object_ID[lastID] = enemy1
+
+enemy2: Enemy = Enemy(player, player.x + random.randint(-100, 100), player.y + random.randint(-100, 100), chunks)
+enemies.add(enemy2)
+
+for _ in range(1000):
+    enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000), chunks)
+    enemies.add(enemy2)
 # all_sprites.add(enemy)
 
 # actions
@@ -115,44 +121,20 @@ with (tqdm() as pbar):
             if console:
                 console.handle_event(event)
 
-        if len(IDs) == 0:
-            lastID += 1
-            IDs.add(lastID)
-
         # add new obj
         if not pause:
             if shooting and frame_shot == 0:
                 frame_shot = player.period
-                projectile = player.default_shot(IDs.pop(), IDs)
+                projectile = player.default_shot()
 
-                object_ID[lastID] = projectile
                 players_projectile.add(projectile)
-                # all_sprites.add(projectile)
-
-        # enemies_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 20, 9))
-        # projectiles_positions = np.zeros((CHUNK_N_X, CHUNK_N_Y, 40, 9))
-
-        enemies_positions = 1
-        projectiles_positions = 1
-        positions: set[tuple[int, int]] = set()
-
+                all_sprites.add(projectile)
         # update
         if not pause:
             player_group.update()
-            enemies.update(enemies_positions, positions)
-
-            players_projectile.update(projectiles_positions)
-            positions_np = np.array(list(positions))
-            # player_data, enemy_data, projectiles_data = calculate_soft_collision(0, enemies_positions,
-            #                                                                      projectiles_positions, positions_np,
-            #                                                                      CHUNK_N_X, CHUNK_N_Y, 20)
-            #
-            # for pos in positions:
-            #     for i in range(len(enemy_data[pos[0]][pos[1]])):
-            #         if enemy_data[pos[0]][pos[1]][i][8] == 0:
-            #             continue
-            #         object_ID[enemy_data[pos[0]][pos[1]][i][8]].dx = enemy_data[pos[0]][pos[1]][i][2]
-            #         object_ID[enemy_data[pos[0]][pos[1]][i][8]].dy = enemy_data[pos[0]][pos[1]][i][3]
+            players_projectile.update()
+            enemies.update()
+            chunks.calculate_collisions()
 
         if console_opening:
             console.update()
