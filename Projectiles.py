@@ -22,9 +22,6 @@ def calculate_speed(angle: float, speed: float, player_dx: float, player_dy: flo
     return speed * math.cos(angle) + player_dx, speed * math.sin(angle) + player_dy
 
 
-
-
-
 class DefaultProjectile(pygame.sprite.Sprite):
     def __init__(self, player, target: tuple[float, float], chunks) -> None:
         super().__init__()
@@ -86,7 +83,6 @@ class DefaultProjectile(pygame.sprite.Sprite):
         self.distant += self.speed * TICKS / (CLOCK.get_fps() + 1e-10)
         self.x += self.dx * TICKS / (CLOCK.get_fps() + 1e-10)
         self.y += self.dy * TICKS / (CLOCK.get_fps() + 1e-10)
-
 
     def speed_calculation(self):
         self.dx, self.dy = calculate_speed(self.angle, self.speed, self.player_dx, self.player_dy)
