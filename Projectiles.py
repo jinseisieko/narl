@@ -87,13 +87,16 @@ class DefaultProjectile(pygame.sprite.Sprite):
     def add_angle_ITEMS(self):
         dangle = 0
         if self.index_trajectory == 0:
+            self.angle += random.uniform(-(math.pi * self.player.cactus_count),
+                                         (math.pi * self.player.cactus_count))
+
             dangle += random.uniform(-(math.pi / 25 * self.player.buckshot_scatter_count),
                                      (math.pi / 25 * self.player.buckshot_scatter_count))
 
-        dangle += -((math.pi / 100 * self.index_trajectory ** 0.4) / (
-                (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.red_gecko_count
+        dangle += -(((math.pi / 100 * (self.index_trajectory / 100) ** 0.4) / (
+                (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.red_gecko_count)
 
-        dangle += ((math.pi / 100 * self.index_trajectory ** 0.4) / (
+        dangle += ((math.pi / 100 * (self.index_trajectory / 100) ** 0.4) / (
                 (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.green_gecko_count
 
         dangle /= (1.3 * self.player.scope_count) + 1e-10
@@ -144,7 +147,7 @@ class DefaultProjectile(pygame.sprite.Sprite):
         if self.distant >= self.range:
             self.kill()
 
-        self.index_trajectory += 1
+        self.index_trajectory += (1 / (CLOCK.get_fps() + 1e-10)) * 1000
 
     def kill(self) -> None:
         self.chunks.del_(self, self.ind1)

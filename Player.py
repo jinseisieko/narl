@@ -144,6 +144,7 @@ class Player(pygame.sprite.Sprite):
         self.green_gecko_count: int = 0  # add arc trajectory
         self.red_gecko_count: int = 0  # add arc trajectory
         self.scope_count: int = 0  # add arc trajectory
+        self.cactus_count: int = 0  # add arc trajectory
 
     def movements(self) -> None:
         self.x, self.y, self.dx, self.dy = calculate_movement(self.x, self.y, self.dx, self.dy, self.max_speed,

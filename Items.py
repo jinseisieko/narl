@@ -84,6 +84,8 @@ def get_item(id_: int):
         return Tomato()
     elif id_ == Scissors.id:
         return Scissors()
+    elif id_ == Cactus.id:
+        return Cactus()
     else:
         raise Exception("not id")
 
@@ -616,3 +618,11 @@ class Scissors(Item):
         self.characteristics['projectile_range'] = "*= 0.80"
 
 
+class Cactus(ShotTypeItem):
+    id = 41
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'cactus'
+        self.characteristics['projectile_damage'] = "+= 1"
+        # add arc trajectory that can't be reduced

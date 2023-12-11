@@ -26,6 +26,8 @@ class Inventory:
                 self.player.red_gecko_count += 1
             elif item.get_name() == "Scope":
                 self.player.scope_count += 1
+            elif item.get_name() == "Cactus":
+                self.player.cactus_count += 1
 
     def get_to_draw(self) -> list[str]:
         array_draw: list[str] = []
