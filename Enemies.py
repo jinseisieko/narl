@@ -39,17 +39,8 @@ class Enemy(pygame.sprite.Sprite):
                                 self.player.x - self.x)
 
     def speed_calculation(self):
-        self.dx += self.speed * math.cos(self.angle)
-        self.dy += self.speed * math.sin(self.angle)
-
-    def normal_speed(self):
-        self.dx = min(self.speed, self.dx)
-        self.dy = min(self.speed, self.dy)
-
-        d = (self.dx ** 2 + self.dy ** 2) ** 0.5
-        if d > self.speed:
-            self.dx *= self.speed / d
-            self.dy *= self.speed / d
+        self.dx = self.speed * math.cos(self.angle)
+        self.dy = self.speed * math.sin(self.angle)
 
     def coordinate_calculation(self):
         self.x += self.dx * TICKS / (CLOCK.get_fps() + 1e-10)  # * (1/(CLOCK.get_fps()+1e-4)) * 100
@@ -66,7 +57,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.angle_calculation()
         self.speed_calculation()
-        self.normal_speed()
         self.coordinate_calculation()
 
         self.rect.x = round(self.x)  # - DEFAULT_ENEMY_ENEMY_SIZE // 2  *мне удобнее рассчитывать так

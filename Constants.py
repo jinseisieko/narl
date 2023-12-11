@@ -23,7 +23,7 @@ MOVE_SCREEN_RECT_Y: int = HEIGHT // 8
 BACKGROUND_PICTURE_SIZE = 400
 
 PLAYER_SIZE: int = 50  # matches the size of the player's image
-FPS: int = 12000
+FPS: int = 120
 TICKS: int = 120
 DOUBLE_CLICK_INTERVAL: int = 200
 ACCELERATION_SMOOTHNESS: int = 25

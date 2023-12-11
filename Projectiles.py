@@ -48,7 +48,6 @@ class DefaultProjectile(pygame.sprite.Sprite):
         self.player_dy: float = self.player.dy
         self.damage: int = self.player.projectile_damage
         self.angle: float = calculate_angle(self.player.rect.centerx, self.player.rect.centery, target[0], target[1])
-        self.trajectory: list[float] = player.trajectory.copy()
         self.index_trajectory: int = 0
 
         self.dx: float
@@ -74,11 +73,6 @@ class DefaultProjectile(pygame.sprite.Sprite):
         self.chunks.add(self, self.ind3)
         self.chunks.add(self, self.ind4)
 
-        # items calculation
-        if player.buckshot_scatter_count != 0:
-            self.trajectory[0] += random.uniform((-math.pi / 15) * player.buckshot_scatter_count,
-                                                 (math.pi / 15) * player.buckshot_scatter_count)
-
     def coordinate_calculation(self):
         self.distant += self.speed * TICKS / (CLOCK.get_fps() + 1e-10)
         self.x += self.dx * TICKS / (CLOCK.get_fps() + 1e-10)
@@ -89,6 +83,17 @@ class DefaultProjectile(pygame.sprite.Sprite):
 
     def get_name(self) -> str:
         return self.__class__.__name__
+
+    def add_angle_ITEMS(self):
+        if self.index_trajectory == 0:
+            self.angle += random.uniform(-(math.pi / 25 * self.player.buckshot_scatter_count),
+                                         (math.pi / 25 * self.player.buckshot_scatter_count))
+
+        self.angle += -((math.pi / 100 * self.index_trajectory ** 0.4) / (
+                (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.red_gecko_count
+
+        self.angle += ((math.pi / 100 * self.index_trajectory ** 0.4) / (
+                (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.green_gecko_count
 
     def update(self):
         if self.x > FIELD_WIDTH - self.size:
@@ -124,8 +129,7 @@ class DefaultProjectile(pygame.sprite.Sprite):
             self.chunks.move(self, self.last_ind4, self.ind4)
             self.last_ind4 = self.ind4
 
-        self.angle += self.trajectory[self.index_trajectory]
-        self.index_trajectory += 1
+        self.add_angle_ITEMS()
 
         self.speed_calculation()
         self.coordinate_calculation()
@@ -135,6 +139,8 @@ class DefaultProjectile(pygame.sprite.Sprite):
 
         if self.distant >= self.range:
             self.kill()
+
+        self.index_trajectory += 1
 
     def kill(self) -> None:
         self.chunks.del_(self, self.ind1)

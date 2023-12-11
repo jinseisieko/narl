@@ -125,9 +125,6 @@ class Player(pygame.sprite.Sprite):
         self.projectile_name_sprite: str = DEFAULT_PROJECTILE_TYPE
         self.projectile_color: tuple[int, int, int] = RED
 
-        self.projectile_ticks: int = math.ceil(self.projectile_range / self.projectile_speed) + 2
-        self.trajectory: list[float] = [0.] * self.projectile_ticks
-
         self.inventory: Inventory = Inventory(self)
 
         # additional values
@@ -164,7 +161,7 @@ class Player(pygame.sprite.Sprite):
     def update(self) -> None:
         # animation once per animation_frame ticks and animation_duration ticks duration
         if self.animation_frame == 0 or self.animation_number >= 1:
-            self.animation_frame = random.randint(35, 1000)
+            self.animation_frame = random.uniform(2, 4)
 
             self.animation_number = (self.animation_number + 1) % self.animation_duration
             if self.animation_number == 0:
@@ -182,10 +179,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = round(self.x) - PLAYER_SIZE // 2
         self.rect.y = round(self.y) - PLAYER_SIZE // 2
 
-        self.dash_timer = max(0, self.dash_timer - 1)
-
-        if self.animation_frame > 0:
-            self.animation_frame -= 1
+        self.dash_timer = max(0, self.dash_timer - (1 / (CLOCK.get_fps() + 1e-10)))
+        self.animation_frame = max(0, self.animation_frame - (1 / (CLOCK.get_fps() + 1e-10)))
 
     def default_shot(self) -> DefaultProjectile:  # test
         cursor_pos = pygame.mouse.get_pos()
