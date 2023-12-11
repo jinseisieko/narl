@@ -78,8 +78,14 @@ def get_item(id_: int):
         return ChristmasTree()
     elif id_ == DecoratedChristmasTree.id:
         return DecoratedChristmasTree()
+    elif id_ == Scope.id:
+        return Scope()
+    elif id_ == Tomato.id:
+        return Tomato()
+    elif id_ == Scissors.id:
+        return Scissors()
     else:
-        raise Exception()
+        raise Exception("not id")
 
 
 class Item:
@@ -587,5 +593,26 @@ class Scope(ShotTypeItem):
         self.image = 'scope'
         self.characteristics['projectile_range'] = "+= 20"
         # reduces bullet spread
+
+
+class Tomato(Item):
+    id = 39
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'tomato'
+        self.characteristics['projectile_damage'] = "-= 2"
+        self.characteristics['projectile_speed'] = '-= 0.1'
+        self.characteristics['projectile_size'] = "*= 1.05"
+
+
+class Scissors(Item):
+    id = 40
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'scissors'
+        self.characteristics['projectile_damage'] = "+= 2"
+        self.characteristics['projectile_range'] = "*= 0.80"
 
 

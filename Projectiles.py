@@ -85,15 +85,19 @@ class DefaultProjectile(pygame.sprite.Sprite):
         return self.__class__.__name__
 
     def add_angle_ITEMS(self):
+        dangle = 0
         if self.index_trajectory == 0:
-            self.angle += random.uniform(-(math.pi / 25 * self.player.buckshot_scatter_count),
-                                         (math.pi / 25 * self.player.buckshot_scatter_count))
+            dangle += random.uniform(-(math.pi / 25 * self.player.buckshot_scatter_count),
+                                     (math.pi / 25 * self.player.buckshot_scatter_count))
 
-        self.angle += -((math.pi / 100 * self.index_trajectory ** 0.4) / (
+        dangle += -((math.pi / 100 * self.index_trajectory ** 0.4) / (
                 (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.red_gecko_count
 
-        self.angle += ((math.pi / 100 * self.index_trajectory ** 0.4) / (
+        dangle += ((math.pi / 100 * self.index_trajectory ** 0.4) / (
                 (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.green_gecko_count
+
+        dangle /= (1.3 * self.player.scope_count) + 1e-10
+        self.angle += dangle
 
     def update(self):
         if self.x > FIELD_WIDTH - self.size:

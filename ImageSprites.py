@@ -55,4 +55,7 @@ sprites: dict = {
     'syringe': pygame.image.load(r"image/items/syringe.png"),
     'christmas_tree': pygame.image.load(r"image/items/christmas_tree.png"),
     'decorated_christmas_tree': pygame.image.load(r"image/items/decorated_christmas_tree.png"),
+    'scope': pygame.image.load(r"image/items/scope.png"),
+    'tomato': pygame.image.load(r"image/items/tomato.png"),
+    'scissors': pygame.image.load(r"image/items/scissors.png"),
 }
