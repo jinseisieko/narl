@@ -177,6 +177,7 @@ class Console:
         self.player.red_gecko_count = 0
         self.player.scope_count = 0
         self.player.cactus_count = 0
+        self.player.pokeball_count = 0
 
     def input_command(self, command: str) -> None:
         try:

@@ -59,4 +59,6 @@ sprites: dict = {
     'tomato': pygame.image.load(r"image/items/tomato.png"),
     'scissors': pygame.image.load(r"image/items/scissors.png"),
     'cactus': pygame.image.load(r"image/items/cactus.png"),
+    'imposter': pygame.image.load(r"image/items/imposter.png"),
+    'pokeball': pygame.image.load(r"image/items/pokeball.png"),
 }

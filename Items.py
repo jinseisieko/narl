@@ -86,6 +86,10 @@ def get_item(id_: int):
         return Scissors()
     elif id_ == Cactus.id:
         return Cactus()
+    elif id_ == Imposter.id:
+        return Imposter()
+    elif id_ == Pokeball.id:
+        return Pokeball()
     else:
         raise Exception("not id")
 
@@ -626,3 +630,66 @@ class Cactus(ShotTypeItem):
         self.image = 'cactus'
         self.characteristics['projectile_damage'] = "+= 1"
         # add arc trajectory that can't be reduced
+
+
+class Imposter(Item):
+    id = 42
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = 'imposter'
+
+    def apply(self, player) -> None:
+        super().apply(player)
+        exec("""import random
+c = random.randint(0, 6)
+if c == 0:
+    player.max_speed *= 2
+elif c == 1:
+    player.projectile_range *= 2
+elif c == 2:
+    player.projectile_speed *= 2
+elif c == 3:
+    player.projectile_size *= 2
+elif c == 4:
+    player.projectile_damage *= 2
+elif c == 5:
+    player.period *= 2
+elif c == 6:
+    player.max_hp *= 2
+
+c = random.randint(0, 6)
+if c == 0:
+    player.max_speed /= 2
+elif c == 1:
+    player.projectile_range /= 2
+elif c == 2:
+    player.projectile_speed /= 2
+elif c == 3:
+    player.projectile_size /= 2
+elif c == 4:
+    player.projectile_damage /= 2
+elif c == 5:
+    player.period /= 2
+elif c == 6:
+    player.max_hp /= 2""")
+        if hasattr(player, 'period'):
+            exec(f"import math; player.period = math.ceil(player.period)")
+
+        if hasattr(player, 'projectile_size'):
+            exec(f"import math; player.projectile_size = math.ceil(player.projectile_size)")
+
+        if hasattr(player, 'projectile_damage'):
+            exec("import math; player.projectile_damage = math.ceil(player.projectile_damage)")
+
+        if hasattr(player, 'max_hp'):
+            exec("import math; player.max_hp = math.ceil(player.max_hp)")
+
+
+class Pokeball(ShotTypeItem):
+    id = 43
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.image = "pokeball"
+        # random projectile size

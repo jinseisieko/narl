@@ -28,6 +28,8 @@ class Inventory:
                 self.player.scope_count += 1
             elif item.get_name() == "Cactus":
                 self.player.cactus_count += 1
+            elif item.get_name() == "Pokeball":
+                self.player.pokeball_count += 1
 
     def get_to_draw(self) -> list[str]:
         array_draw: list[str] = []

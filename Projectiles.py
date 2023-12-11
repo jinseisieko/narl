@@ -32,6 +32,9 @@ class DefaultProjectile(pygame.sprite.Sprite):
         self.player = player
 
         self.size: int = self.player.projectile_size
+        self.size += random.randint(-2 * self.player.pokeball_count, 2 * self.player.pokeball_count)
+        self.size = min(self.size, MAX_SIZE)
+        self.size = max(self.size, 1)
 
         self.image: pygame.Surface = pygame.Surface([self.size, self.size])
         self.color = self.player.projectile_color
@@ -93,13 +96,11 @@ class DefaultProjectile(pygame.sprite.Sprite):
             dangle += random.uniform(-(math.pi / 25 * self.player.buckshot_scatter_count),
                                      (math.pi / 25 * self.player.buckshot_scatter_count))
 
-        dangle += -(((math.pi / 100 * (self.index_trajectory / 100) ** 0.4) / (
-                (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.red_gecko_count)
+        dangle += math.pi / 10 * (self.index_trajectory / 1000) * self.player.green_gecko_count
 
-        dangle += ((math.pi / 100 * (self.index_trajectory / 100) ** 0.4) / (
-                (self.player.projectile_range / self.player.projectile_speed) / 10)) * self.player.green_gecko_count
-
-        dangle /= (1.3 * self.player.scope_count) + 1e-10
+        dangle += -(math.pi / 10 * (self.index_trajectory / 1000) * self.player.red_gecko_count)
+        if self.player.scope_count != 0:
+            dangle /= (1.3 * self.player.scope_count)
         self.angle += dangle
 
     def update(self):
