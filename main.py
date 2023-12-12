@@ -1,8 +1,10 @@
 """pygame main loop"""
 import sys
 
+import numpy as np
 from tqdm import tqdm
 
+import Enemies
 import ImageSprites
 from Collisions import *
 from Console import *
@@ -31,11 +33,16 @@ wave = Wave(enemies, player, chunks)
 # field
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
-for _ in range(1000):
+n_enemy: int = 1000
+enemy_data_arr = [0] * n_enemy
+
+for i in range(n_enemy):
     enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000),
-                          chunks)
+                          chunks, i)
+    enemy_data_arr[i] = [enemy2.x, enemy2.y]
     enemies.add(enemy2)
 # all_sprites.add(enemy)
+enemy_data_arr = np.array(enemy_data_arr)
 
 # actions
 running: bool = True
@@ -114,10 +121,13 @@ with (tqdm() as pbar):
         if not pause:
             player_group.update()
             projectiles.update()
-            enemies.update()
+
+            enemy_data_arr = Enemies.calculate_movement(player.x, player.y, enemy_data_arr, DEFAULT_ENEMY_ENEMY_SPEED,
+                                                        TICKS, CLOCK.get_fps())
+            enemies.update(enemy_data_arr)
+
             # wave.update(field.screen_centre)
             chunks.calculate_collisions()
-
 
         if console_opening:
             console.update()
