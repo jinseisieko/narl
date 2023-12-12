@@ -7,6 +7,10 @@ from Collisions import Chunks
 from Constants import *
 
 
+
+
+
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, player, x: float, y: float, chunks: Chunks):
         super().__init__()

@@ -1,8 +1,6 @@
 """pygame main loop"""
-import random
 import sys
 
-import pygame
 from tqdm import tqdm
 
 import ImageSprites
