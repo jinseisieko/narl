@@ -1,7 +1,6 @@
 import random
 
 import numba
-import pygame
 
 import ImageSprites
 from Constants import *
@@ -33,7 +32,7 @@ class Field:
                                      (i * BACKGROUND_PICTURE_SIZE, j * BACKGROUND_PICTURE_SIZE))
         self.field.blit(self.background, (0, 0))
 
-    def draw(self, *groups: pygame.sprite.Group, player=None) -> None:
+    def draw(self, groups: tuple, FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, PLAYER_SIZE, player) -> None:
         """draw groups in the sequence in which they are presented """
         x: int = max(0, min(FIELD_WIDTH - WIDTH, int(self.screen_centre[0]) - WIDTH // 2))
         y: int = max(0, min(FIELD_HEIGHT - HEIGHT, int(self.screen_centre[1]) - HEIGHT // 2))

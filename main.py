@@ -1,8 +1,6 @@
 """pygame main loop"""
-import random
 import sys
 
-import pygame
 from tqdm import tqdm
 
 import ImageSprites
@@ -133,7 +131,8 @@ with (tqdm() as pbar):
             1] - HEIGHT // 2
 
         screen.fill((0, 0, 0))
-        field.draw(projectiles, player_group, enemies, player=player)
+        field.draw((projectiles, player_group, enemies), FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, PLAYER_SIZE,
+                   player=player)
         console.draw_in_field()
 
         screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
@@ -161,7 +160,7 @@ with (tqdm() as pbar):
                 delay_shot = 0
 
         pygame.display.flip()
-        CLOCK.tick(FPS)
+        CLOCK.tick(FPS * 1000)
         pbar.update(1)
 pygame.quit()
 sys.exit()
