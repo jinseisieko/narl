@@ -15,8 +15,8 @@ def calculate_Enemies(obj1size, obj2size, obj1x, obj1y, obj2x, obj2y, COLLISIONS
     dist_sq = dist_x ** 2 + dist_y ** 2
 
     if dist_sq < real_dist ** 2:
-        factor_x = (1 - abs(dist_y) / real_dist) * repelling_factor
-        factor_y = (1 - abs(dist_x) / real_dist) * repelling_factor
+        factor_x = (1 - abs(dist_x) / real_dist) * repelling_factor
+        factor_y = (1 - abs(dist_y) / real_dist) * repelling_factor
 
         obj1x += factor_x * math.copysign(1, dist_x)
         obj2x -= factor_x * math.copysign(1, dist_x)
@@ -53,7 +53,17 @@ class Chunks:
                                                                obj1.x, obj1.y,
                                                                obj2.x, obj2.y, COLLISIONS_REPELLING)
 
-                        if obj1.name == "Projectile" and obj2.name == "Enemy" or obj1.name == "Enemy" and obj2.name == "Projectile":
+                        if obj1.name == "Projectile" and obj2.name == "Enemy":
                             if obj1.rect.colliderect(obj2.rect):
                                 obj1.kill()
+                                obj2.hp -= obj1.damage
+                                if obj2.hp < 0:
+                                    obj2.kill()
+
+                        if obj1.name == "Enemy" and obj2.name == "Projectile":
+                            if obj1.rect.colliderect(obj2.rect):
                                 obj2.kill()
+                                obj1.hp -= obj2.damage
+                                if obj1.hp < 0:
+                                    obj1.kill()
+
