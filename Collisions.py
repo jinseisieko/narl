@@ -29,14 +29,16 @@ class Chunks:
         self.chunks = [[[] for _ in range(CHUNK_N_X)] for _ in range(CHUNK_N_Y)]
 
     def add(self, obj, ind) -> None:
-        self.chunks[ind[0]][ind[1]].append(obj)
+        if not (obj in self.chunks[ind[0]][ind[1]]):
+            self.chunks[ind[0]][ind[1]].append(obj)
 
     def del_(self, obj, ind) -> None:
         if obj in self.chunks[ind[0]][ind[1]]:
             self.chunks[ind[0]][ind[1]].remove(obj)
 
     def move(self, obj, last_ind, new_ind) -> None:
-        self.chunks[last_ind[0]][last_ind[1]].remove(obj)
+        if obj in self.chunks[last_ind[0]][last_ind[1]]:
+            self.chunks[last_ind[0]][last_ind[1]].remove(obj)
         self.chunks[new_ind[0]][new_ind[1]].append(obj)
 
     def calculate_collisions(self) -> None:

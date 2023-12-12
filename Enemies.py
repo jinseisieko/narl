@@ -76,7 +76,6 @@ class Enemy(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, 0, self.right_eye_rect)
 
     def update(self) -> None:
-
         self.x = max(0, min(FIELD_WIDTH - self.half_size, self.x))
         self.y = max(0, min(FIELD_HEIGHT - self.half_size, self.y))
 

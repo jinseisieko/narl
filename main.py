@@ -115,7 +115,7 @@ with (tqdm() as pbar):
             player_group.update()
             projectiles.update()
             enemies.update()
-            wave.update(field.screen_centre)
+            # wave.update(field.screen_centre)
             chunks.calculate_collisions()
 
 
