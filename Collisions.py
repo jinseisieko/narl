@@ -3,7 +3,7 @@ import numba
 from Constants import *
 
 
-@numba.njit(nopython=True, fastmath=True)
+@numba.njit(fastmath=True)
 def calculate_Enemies(obj1size, obj2size, obj1x, obj1y, obj2x, obj2y, COLLISIONS_REPELLING):
     size_1 = obj1size // 2
     size_2 = obj2size // 2

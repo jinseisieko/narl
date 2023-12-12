@@ -7,7 +7,7 @@ import ImageSprites
 from Constants import *
 
 
-@numba.jit(nopython=True, fastmath=True)
+@numba.njit(fastmath=True)
 def calculate_screen_movement(screen_centre_x: float, screen_centre_y: float, player_centerx: float,
                               player_centery: float,
                               player_max_speed: float, player_dx, player_dy, MOVE_SCREEN_RECT_X: int,
