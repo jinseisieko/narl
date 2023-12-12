@@ -1,14 +1,27 @@
 """classes Enemies and additional functions"""
-import random
-
+import numba
+import numpy as np
 import pygame.sprite
 
 from Collisions import Chunks
 from Constants import *
 
 
+@numba.njit(fastmath=True, nogil=True)
+def calculate_movement(player_x: float, player_y: float, x, y, speed: float, TICKS: int, fps: float):
+    angle = np.arctan2(player_y - y, player_x - x)
+
+    dx = speed * np.cos(angle)
+    dy = speed * np.sin(angle)
+    if fps != 0:
+        x += dx * TICKS / (fps + 1e-10)
+        y += dy * TICKS / (fps + 1e-10)
+
+    return x, y
+
+
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, player, x: float, y: float, chunks: Chunks):
+    def __init__(self, player, x: float, y: float, chunks: Chunks, i: int = 1):
         super().__init__()
 
         self.hp: int = DEFAULT_ENEMY_ENEMY_HP
@@ -48,22 +61,7 @@ class Enemy(pygame.sprite.Sprite):
         self.ind: list[int, int] = [int(self.y // CHUNK_SIZE), int(self.x // CHUNK_SIZE)]
         self.last_ind: list[int, int] = self.ind
         self.chunks.add(self, self.ind)
-
-        self.rect.x = round(self.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
-        self.rect.y = round(self.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
-
-    def angle_calculation(self):
-        self.angle = math.atan2(self.player.y - self.y,
-                                self.player.x - self.x)
-
-    def speed_calculation(self):
-        self.dx = self.speed * math.cos(self.angle)
-        self.dy = self.speed * math.sin(self.angle)
-
-    def coordinate_calculation(self):
-        if CLOCK.get_fps() != 0:
-            self.x += self.dx * TICKS / (CLOCK.get_fps())
-            self.y += self.dy * TICKS / (CLOCK.get_fps())
+        self.i = i
 
     def get_damage(self, damage):
         self.hp -= damage
@@ -76,17 +74,17 @@ class Enemy(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, 0, self.right_eye_rect)
 
     def update(self) -> None:
+        # self.x, self.y = arr[self.i]
+
         self.x = max(0, min(FIELD_WIDTH - self.half_size, self.x))
         self.y = max(0, min(FIELD_HEIGHT - self.half_size, self.y))
 
-        self.ind = [int(self.y // CHUNK_SIZE), int(self.x // CHUNK_SIZE)]
+        self.ind = [int(self.y / CHUNK_SIZE), int(self.x / CHUNK_SIZE)]
         if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
             self.chunks.move(self, self.last_ind, self.ind)
-        self.last_ind = self.ind
+            self.last_ind = self.ind
 
-        self.angle_calculation()
-        self.speed_calculation()
-        self.coordinate_calculation()
+        self.x, self.y = calculate_movement(self.player.x, self.player.y, self.x, self.y, self.speed, TICKS, CLOCK.get_fps())
 
         self.rect.x = self.x - self.half_size
         self.rect.y = self.y - self.half_size

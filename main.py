@@ -31,7 +31,7 @@ wave = Wave(enemies, player, chunks)
 # field
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
-for _ in range(0):
+for _ in range(1000):
     enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000),
                           chunks)
     enemies.add(enemy2)
