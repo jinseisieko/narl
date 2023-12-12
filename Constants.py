@@ -78,3 +78,5 @@ DEFAULT_ENEMY_ENEMY_SPEED: float = 4
 DEFAULT_ENEMY_ENEMY_DAMAGE: int = 0
 
 CLOCK = pygame.time.Clock()
+
+MAX_ENEMIES: int = 100

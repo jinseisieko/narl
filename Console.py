@@ -1,5 +1,6 @@
 """console logic"""
 import random
+import pyperclip
 
 import pygame
 
@@ -42,6 +43,9 @@ class Console:
         self.previous_commands: list[str] = ['']
 
     def handle_event(self, event) -> None:
+        if pygame.key.get_pressed()[pygame.K_LCTRL] and pygame.key.get_pressed()[pygame.K_v]:
+            self.text += pyperclip.paste()
+            return
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 if self.previous_commands[-1] != self.text:
@@ -82,7 +86,7 @@ class Console:
                 self.text += event.unicode
                 self.index_previous_commands = 0
 
-            self.txt_surface = self.font.render(self.text, True, self.color)
+        self.txt_surface = self.font.render(self.text, True, self.color)
 
     def update(self) -> None:
         width = max(200, self.txt_surface.get_width() + 10)

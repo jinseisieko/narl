@@ -12,6 +12,7 @@ from Constants import *
 from Enemies import Enemy
 from Field import Field
 from Player import Player
+from Waves import Wave
 
 pygame.init()
 
@@ -27,7 +28,9 @@ player_group: pygame.sprite.Group = pygame.sprite.Group()
 player: Player = Player(field, chunks)
 player_group.add(player)
 
-# fieldw
+wave = Wave(enemies, player, chunks)
+
+# field
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
 for _ in range(0):
@@ -114,7 +117,9 @@ with (tqdm() as pbar):
             player_group.update()
             projectiles.update()
             enemies.update()
+            wave.update(field.screen_centre)
             chunks.calculate_collisions()
+
 
         if console_opening:
             console.update()

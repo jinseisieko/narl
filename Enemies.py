@@ -13,15 +13,11 @@ class Enemy(pygame.sprite.Sprite):
 
         self.hp: int = DEFAULT_ENEMY_ENEMY_HP
         self.damage: int = DEFAULT_ENEMY_ENEMY_DAMAGE
-        self.size: int = DEFAULT_ENEMY_ENEMY_SIZE
+        self.size: int = DEFAULT_ENEMY_ENEMY_SIZE + 10
         self.hp: int = DEFAULT_ENEMY_ENEMY_HP
         self.mhp: int = self.hp
 
         self.image = pygame.Surface((self.size, self.size))
-        self.image.fill([random.randint(5, 200) for _ in range(3)])
-        pygame.draw.rect(self.image, 0, (0, 0, self.size, self.size), width=4)
-        pygame.draw.rect(self.image, 0, (self.size // 4, self.size // 3, self.size // 7, self.size // 5), width=4)
-        pygame.draw.rect(self.image, 0, (self.size // 5 * 3, self.size // 3, self.size // 7, self.size // 5), width=4)
         self.speed: float = DEFAULT_ENEMY_ENEMY_SPEED
 
         self.rect = self.image.get_rect()
@@ -41,6 +37,9 @@ class Enemy(pygame.sprite.Sprite):
         self.last_ind: list[int, int] = self.ind
         self.chunks.add(self, self.ind)
 
+        self.rect.x = round(self.x) - DEFAULT_ENEMY_ENEMY_SIZE // 2
+        self.rect.y = round(self.y) - DEFAULT_ENEMY_ENEMY_SIZE // 2
+
     def angle_calculation(self):
         self.angle = math.atan2(self.player.y - self.y,
                                 self.player.x - self.x)
@@ -50,8 +49,9 @@ class Enemy(pygame.sprite.Sprite):
         self.dy = self.speed * math.sin(self.angle)
 
     def coordinate_calculation(self):
-        self.x += self.dx * TICKS / (CLOCK.get_fps() + 1e-10)
-        self.y += self.dy * TICKS / (CLOCK.get_fps() + 1e-10)
+        if CLOCK.get_fps() != 0:
+            self.x += self.dx * TICKS / (CLOCK.get_fps())
+            self.y += self.dy * TICKS / (CLOCK.get_fps())
 
     def update(self) -> None:
         self.image.fill((255, math.ceil(255 / self.mhp * self.hp), math.ceil(255 / self.mhp * self.hp)))
