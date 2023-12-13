@@ -1,26 +1,39 @@
 import numba
+import numpy as np
 
 from Constants import *
 
 
 @numba.njit(fastmath=True)
-def calculate_Enemies(obj1size, obj2size, obj1x, obj1y, obj2x, obj2y, COLLISIONS_REPELLING):
-    real_dist = (obj1size >> 1) + (obj2size >> 1)
+def calculate_Enemies(enemy_data, chunks_data, COLLISIONS_REPELLING):
+    for i in range(len(chunks_data)):
+        data_i = enemy_data[i]
+        for j in range(len(data_i)):
+            data_j = data_i[j]
+            for k in range(len(data_j)):
+                Id1 = data_j[k]
+                x1, y1, half_size1 = enemy_data[Id1]
+                for a in range(k + 1, len(data_j)):
+                    Id2 = data_j[k]
+                    x2, y2, half_size2 = enemy_data[Id2]
 
-    dist_x = obj1x - obj2x
-    dist_y = obj1y - obj2y
-    dist_sq = dist_x ** 2 + dist_y ** 2
+                    real_dist = half_size1 ** 2 + half_size2 ** 2
 
-    if dist_sq < real_dist ** 2:
-        factor_x = (1 - abs(dist_x) / real_dist) * COLLISIONS_REPELLING
-        factor_y = (1 - abs(dist_y) / real_dist) * COLLISIONS_REPELLING
+                    dist_x = x1 - x2
+                    dist_y = y1 - y2
+                    dist_sq = dist_x ** 2 + dist_y ** 2
 
-        obj1x += factor_x * math.copysign(1, dist_x)
-        obj2x -= factor_x * math.copysign(1, dist_x)
-        obj1y += factor_y * math.copysign(1, dist_y)
-        obj2y -= factor_y * math.copysign(1, dist_y)
+                    if dist_sq < real_dist:
+                        factor_x = (1 - abs(dist_x) / real_dist) * COLLISIONS_REPELLING
+                        factor_y = (1 - abs(dist_y) / real_dist) * COLLISIONS_REPELLING
 
-    return obj2x, obj2y
+                        x1 += factor_x * math.copysign(1, dist_x)
+                        x2 -= factor_x * math.copysign(1, dist_x)
+                        y1 += factor_y * math.copysign(1, dist_y)
+                        y2 -= factor_y * math.copysign(1, dist_y)
+
+                enemy_data[Id1] = np.array([x1, y1, half_size1])
+    return enemy_data
 
 
 class Chunks:

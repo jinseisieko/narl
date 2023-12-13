@@ -4,6 +4,7 @@ import sys
 import numpy as np
 from tqdm import tqdm
 
+import Collisions
 import Enemies
 import ImageSprites
 from Collisions import *
@@ -34,12 +35,12 @@ wave = Wave(enemies, player, chunks)
 screen: pygame.Surface = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.NOFRAME)
 
 n_enemy: int = 1000
-enemy_data_arr = [0] * n_enemy
+enemy_data_arr = [[0, 0, 0]] * (n_enemy + 1)
 
-for i in range(n_enemy):
+for i in range(1, n_enemy + 1):
     enemy2: Enemy = Enemy(player, player.x + random.randint(-1000, 1000), player.y + random.randint(-1000, 1000),
                           chunks, i)
-    enemy_data_arr[i] = [enemy2.x, enemy2.y]
+    enemy_data_arr[i] = [enemy2.x, enemy2.y, enemy2.size // 2] # size - const
     enemies.add(enemy2)
 # all_sprites.add(enemy)
 enemy_data_arr = np.array(enemy_data_arr)
@@ -122,12 +123,14 @@ with (tqdm() as pbar):
             player_group.update()
             projectiles.update()
 
-            enemy_data_arr = Enemies.calculate_movement(player.x, player.y, enemy_data_arr, DEFAULT_ENEMY_ENEMY_SPEED,
-                                                        TICKS, CLOCK.get_fps())
+            enemy_data_arr, chunks = Enemies.calculate_movement(player.x, player.y, enemy_data_arr, DEFAULT_ENEMY_ENEMY_SPEED,
+                                                        TICKS, CLOCK.get_fps(), CHUNK_SIZE, FIELD_WIDTH, FIELD_HEIGHT)
+
+            enemy_data_arr = Collisions.calculate_Enemies(enemy_data_arr, chunks, COLLISIONS_REPELLING)
             enemies.update(enemy_data_arr)
 
             # wave.update(field.screen_centre)
-            chunks.calculate_collisions()
+            # chunks.calculate_collisions()
 
         if console_opening:
             console.update()

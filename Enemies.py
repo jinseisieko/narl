@@ -8,9 +8,17 @@ from Constants import *
 
 
 @numba.njit(fastmath=True, nogil=True, parallel=True)
-def calculate_movement(player_x: float, player_y: float, enemy_data: np.array, speed: float, TICKS: int, fps: float):
-    for i in numba.prange(len(enemy_data)):
-        x, y = enemy_data[i]
+def calculate_movement(player_x: float, player_y: float, enemy_data: np.array, speed: float, TICKS: int, fps: float, CHUNK_SIZE, FIELD_WIDTH, FIELD_HEIGHT):
+    chunks = np.zeros((CHUNK_SIZE, CHUNK_SIZE, 20))
+    for i in numba.prange(1, len(enemy_data)):
+        x, y, half_size = enemy_data[i]
+
+        x = max(0, min(FIELD_WIDTH - half_size, x))
+        y = max(0, min(FIELD_HEIGHT - half_size, y))
+
+        ind = int(y / CHUNK_SIZE), int(x / CHUNK_SIZE)
+        chunks[*ind][np.where(chunks[*ind] == 0)] = i
+
         angle = np.arctan2(player_y - y, player_x - x)
 
         dx = speed * np.cos(angle)
@@ -21,7 +29,7 @@ def calculate_movement(player_x: float, player_y: float, enemy_data: np.array, s
 
         enemy_data[i] = np.array([x, y])
 
-    return enemy_data
+    return enemy_data, chunks
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -80,13 +88,12 @@ class Enemy(pygame.sprite.Sprite):
     def update(self, arr) -> None:
         self.x, self.y = arr[self.i]
 
-        self.x = max(0, min(FIELD_WIDTH - self.half_size, self.x))
-        self.y = max(0, min(FIELD_HEIGHT - self.half_size, self.y))
-
-        self.ind = [int(self.y / CHUNK_SIZE), int(self.x / CHUNK_SIZE)]
-        if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
-            self.chunks.move(self, self.last_ind, self.ind)
-            self.last_ind = self.ind
+        #self.x = max(0, min(FIELD_WIDTH - self.half_size, self.x))
+        #self.y = max(0, min(FIELD_HEIGHT - self.half_size, self.y))
+        #self.ind = [int(self.y / CHUNK_SIZE), int(self.x / CHUNK_SIZE)]
+        #if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
+        #    self.chunks.move(self, self.last_ind, self.ind)
+        #    self.last_ind = self.ind
 
 
         self.rect.x = self.x - self.half_size
