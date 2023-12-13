@@ -5,13 +5,13 @@ from Constants import *
 
 @numba.njit(fastmath=True)
 def calculate_Enemies(obj1size, obj2size, obj1x, obj1y, obj2x, obj2y, COLLISIONS_REPELLING):
-    real_dist = (obj1size >> 1) + (obj2size >> 1)
+    real_dist = obj1size ** 2 + obj2size ** 2
 
     dist_x = obj1x - obj2x
     dist_y = obj1y - obj2y
     dist_sq = dist_x ** 2 + dist_y ** 2
 
-    if dist_sq < real_dist ** 2:
+    if dist_sq < real_dist:
         factor_x = (1 - abs(dist_x) / real_dist) * COLLISIONS_REPELLING
         factor_y = (1 - abs(dist_y) / real_dist) * COLLISIONS_REPELLING
 
@@ -20,7 +20,7 @@ def calculate_Enemies(obj1size, obj2size, obj1x, obj1y, obj2x, obj2y, COLLISIONS
         obj1y += factor_y * math.copysign(1, dist_y)
         obj2y -= factor_y * math.copysign(1, dist_y)
 
-    return obj2x, obj2y
+    return obj2x, obj2y, obj1x, obj1y
 
 
 class Chunks:
@@ -47,10 +47,10 @@ class Chunks:
                 for i, obj1 in enumerate(chunk):
                     for obj2 in chunk[i + 1:]:
                         if obj1.name == "Enemy" and obj2.name == "Enemy":
-                            obj2.x, obj2.y = calculate_Enemies(obj1.size,
-                                                               obj2.size,
-                                                               obj1.x, obj1.y,
-                                                               obj2.x, obj2.y, COLLISIONS_REPELLING)
+                            obj2.x, obj2.y, obj1.x, obj1.y = calculate_Enemies(obj1.size,
+                                                                               obj2.size,
+                                                                               obj1.x, obj1.y,
+                                                                               obj2.x, obj2.y, COLLISIONS_REPELLING)
 
                         if obj1.name == "Projectile" and obj2.name == "Enemy":
                             if obj1.rect.colliderect(obj2.rect):
