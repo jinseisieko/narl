@@ -7,21 +7,25 @@ from Collisions import Chunks
 from Constants import *
 
 
-@numba.njit(fastmath=True, nogil=True)
-def calculate_movement(player_x: float, player_y: float, x, y, speed: float, TICKS: int, fps: float):
-    angle = np.arctan2(player_y - y, player_x - x)
+@numba.njit(fastmath=True, nogil=True, parallel=True)
+def calculate_movement(player_x: float, player_y: float, enemy_data: np.array, speed: float, TICKS: int, fps: float):
+    for i in numba.prange(len(enemy_data)):
+        x, y = enemy_data[i]
+        angle = np.arctan2(player_y - y, player_x - x)
 
-    dx = speed * np.cos(angle)
-    dy = speed * np.sin(angle)
-    if fps != 0:
-        x += dx * TICKS / (fps + 1e-10)
-        y += dy * TICKS / (fps + 1e-10)
+        dx = speed * np.cos(angle)
+        dy = speed * np.sin(angle)
+        if fps != 0:
+            x += dx * TICKS / (fps + 1e-10)
+            y += dy * TICKS / (fps + 1e-10)
 
-    return x, y
+        enemy_data[i] = np.array([x, y])
+
+    return enemy_data
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, player, x: float, y: float, chunks: Chunks, i: int = 1):
+    def __init__(self, player, x: float, y: float, chunks: Chunks, i: int):
         super().__init__()
 
         self.hp: int = DEFAULT_ENEMY_ENEMY_HP
@@ -73,8 +77,8 @@ class Enemy(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, 0, self.left_eye_rect)
             pygame.draw.rect(self.image, 0, self.right_eye_rect)
 
-    def update(self) -> None:
-        # self.x, self.y = arr[self.i]
+    def update(self, arr) -> None:
+        self.x, self.y = arr[self.i]
 
         self.x = max(0, min(FIELD_WIDTH - self.half_size, self.x))
         self.y = max(0, min(FIELD_HEIGHT - self.half_size, self.y))
@@ -84,7 +88,6 @@ class Enemy(pygame.sprite.Sprite):
             self.chunks.move(self, self.last_ind, self.ind)
             self.last_ind = self.ind
 
-        self.x, self.y = calculate_movement(self.player.x, self.player.y, self.x, self.y, self.speed, TICKS, CLOCK.get_fps())
 
         self.rect.x = self.x - self.half_size
         self.rect.y = self.y - self.half_size
