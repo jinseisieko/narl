@@ -124,7 +124,7 @@ with (tqdm() as pbar):
             projectiles.update()
 
             enemy_data_arr, chunks = Enemies.calculate_movement(player.x, player.y, enemy_data_arr, DEFAULT_ENEMY_ENEMY_SPEED,
-                                                        TICKS, CLOCK.get_fps(), CHUNK_SIZE, FIELD_WIDTH, FIELD_HEIGHT)
+                                                        TICKS, CLOCK.get_fps(), CHUNK_SIZE, CHUNK_N_X, CHUNK_N_Y, FIELD_WIDTH, FIELD_HEIGHT)
 
             enemy_data_arr = Collisions.calculate_Enemies(enemy_data_arr, chunks, COLLISIONS_REPELLING)
             enemies.update(enemy_data_arr)

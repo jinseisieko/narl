@@ -8,8 +8,9 @@ from Constants import *
 
 
 @numba.njit(fastmath=True, nogil=True, parallel=True)
-def calculate_movement(player_x: float, player_y: float, enemy_data: np.array, speed: float, TICKS: int, fps: float, CHUNK_SIZE, FIELD_WIDTH, FIELD_HEIGHT):
-    chunks = np.zeros((CHUNK_SIZE, CHUNK_SIZE, 20))
+def calculate_movement(player_x: float, player_y: float, enemy_data: np.array, speed: float, TICKS: int, fps: float,
+                       CHUNK_SIZE, CHUNK_N_X, CHUNK_N_Y, FIELD_WIDTH, FIELD_HEIGHT):
+    chunks = np.zeros((CHUNK_N_Y, CHUNK_N_X, 20))
     for i in numba.prange(1, len(enemy_data)):
         x, y, half_size = enemy_data[i]
 
@@ -27,7 +28,7 @@ def calculate_movement(player_x: float, player_y: float, enemy_data: np.array, s
             x += dx * TICKS / (fps + 1e-10)
             y += dy * TICKS / (fps + 1e-10)
 
-        enemy_data[i] = np.array([x, y])
+        enemy_data[i] = np.array([x, y, half_size])
 
     return enemy_data, chunks
 
@@ -86,15 +87,14 @@ class Enemy(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, 0, self.right_eye_rect)
 
     def update(self, arr) -> None:
-        self.x, self.y = arr[self.i]
+        self.x, self.y, _ = arr[self.i]
 
-        #self.x = max(0, min(FIELD_WIDTH - self.half_size, self.x))
-        #self.y = max(0, min(FIELD_HEIGHT - self.half_size, self.y))
-        #self.ind = [int(self.y / CHUNK_SIZE), int(self.x / CHUNK_SIZE)]
-        #if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
+        # self.x = max(0, min(FIELD_WIDTH - self.half_size, self.x))
+        # self.y = max(0, min(FIELD_HEIGHT - self.half_size, self.y))
+        # self.ind = [int(self.y / CHUNK_SIZE), int(self.x / CHUNK_SIZE)]
+        # if self.ind[0] != self.last_ind[0] or self.ind[1] != self.last_ind[1]:
         #    self.chunks.move(self, self.last_ind, self.ind)
         #    self.last_ind = self.ind
-
 
         self.rect.x = self.x - self.half_size
         self.rect.y = self.y - self.half_size

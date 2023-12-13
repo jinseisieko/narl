@@ -4,20 +4,21 @@ import numpy as np
 from Constants import *
 
 
-@numba.njit(fastmath=True)
+@numba.njit(fastmath=True, nogil=True, parallel=True)
 def calculate_Enemies(enemy_data, chunks_data, COLLISIONS_REPELLING):
-    for i in range(len(chunks_data)):
-        data_i = enemy_data[i]
-        for j in range(len(data_i)):
+    for i in numba.prange(len(chunks_data)):
+        data_i = chunks_data[i]
+        for j in numba.prange(len(data_i)):
             data_j = data_i[j]
-            for k in range(len(data_j)):
-                Id1 = data_j[k]
+            for k in numba.prange(len(data_j)):
+                Id1 = int(data_j[k])
                 x1, y1, half_size1 = enemy_data[Id1]
-                for a in range(k + 1, len(data_j)):
-                    Id2 = data_j[k]
+                for a in numba.prange(k + 1, len(data_j)):
+                    Id2 = int(data_j[k])
                     x2, y2, half_size2 = enemy_data[Id2]
 
                     real_dist = half_size1 ** 2 + half_size2 ** 2
+                    real_dist = np.sqrt(real_dist)
 
                     dist_x = x1 - x2
                     dist_y = y1 - y2
