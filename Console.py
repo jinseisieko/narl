@@ -6,7 +6,7 @@ import pygame
 
 from Constants import *
 from Enemies import Enemy
-from Items import get_item
+from Inventory import get_item
 
 pygame.init()
 

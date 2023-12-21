@@ -1,12 +1,10 @@
 """class Player and additional functions"""
-import math
-import random
 
 import pygame.sprite
 
 import Field
 from Inventory import Inventory
-from Items import Item
+from Inventory.Items import Item
 from Projectiles import *
 from Projectiles import DefaultProjectile
 
