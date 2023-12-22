@@ -1,4 +1,4 @@
-from Inventory.Exception.ExceptionPrototype import ExceptionPrototype
+from InventoryClasses.Exception.ExceptionPrototype import ExceptionPrototype
 
 
 class ExceptionRepeatingName(ExceptionPrototype):
