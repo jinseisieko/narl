@@ -2,6 +2,46 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QTextEdit, QPushButton, QDialog, \
     QHBoxLayout, QListWidget, QMessageBox, QSplitter
 
+string_readonly_code_textedit = """
+x
+
+y
+
+size_x
+
+size_y
+
+hp
+
+vx
+
+vy
+
+max_velocity
+
+slowdown
+
+acceleration
+
+max_hp
+
+armor
+
+delay
+
+armor_piercing
+
+bullet_size_x
+
+bullet_size_y
+
+bullet_damage
+
+critical_coefficient
+
+critical_chance
+
+scatter"""
 
 class NewItemDialog(QDialog):
     def __init__(self, parent=None):
@@ -57,36 +97,49 @@ class MyApp(QWidget):
         self.renewal_multiply_list.itemClicked.connect(self.remove_item)
         self.renewal_super_list.itemClicked.connect(self.remove_item)
 
+        self.readonly_code_label = QLabel("readonly")
+        self.readonly_code_textedit = QTextEdit()
+        self.readonly_code_textedit.setReadOnly(True)
+        self.readonly_code_textedit.setText(string_readonly_code_textedit)
+
         main_layout = QHBoxLayout()
 
-        left_layout = QVBoxLayout()
-        left_layout.addWidget(self.name_label)
-        left_layout.addWidget(self.name_lineedit)
-        left_layout.addWidget(self.renewal_plus_label)
-        left_layout.addWidget(self.renewal_plus_list)
-        left_layout.addWidget(self.renewal_plus_button)
-        left_layout.addWidget(self.renewal_multiply_label)
-        left_layout.addWidget(self.renewal_multiply_list)
-        left_layout.addWidget(self.renewal_multiply_button)
-        left_layout.addWidget(self.renewal_super_label)
-        left_layout.addWidget(self.renewal_super_list)
-        left_layout.addWidget(self.renewal_super_button)
-        left_layout.addWidget(self.press_button_button)
+        general_layout = QVBoxLayout()
+        general_layout.addWidget(self.name_label)
+        general_layout.addWidget(self.name_lineedit)
+        general_layout.addWidget(self.renewal_plus_label)
+        general_layout.addWidget(self.renewal_plus_list)
+        general_layout.addWidget(self.renewal_plus_button)
+        general_layout.addWidget(self.renewal_multiply_label)
+        general_layout.addWidget(self.renewal_multiply_list)
+        general_layout.addWidget(self.renewal_multiply_button)
+        general_layout.addWidget(self.renewal_super_label)
+        general_layout.addWidget(self.renewal_super_list)
+        general_layout.addWidget(self.renewal_super_button)
+        general_layout.addWidget(self.press_button_button)
 
-        right_layout = QVBoxLayout()
-        right_layout.addWidget(self.code_label)
-        right_layout.addWidget(self.code_textedit)
+        code_layout = QVBoxLayout()
+        code_layout.addWidget(self.code_label)
+        code_layout.addWidget(self.code_textedit)
+
+        readonly_layout = QVBoxLayout()
+        readonly_layout.addWidget(self.readonly_code_label)
+        readonly_layout.addWidget(self.readonly_code_textedit)
 
         splitter = QSplitter()
-        left_widget = QWidget()
-        left_widget.setLayout(left_layout)
-        right_widget = QWidget()
-        right_widget.setLayout(right_layout)
-        splitter.addWidget(left_widget)
-        splitter.addWidget(right_widget)
+        general_widget = QWidget()
+        general_widget.setLayout(general_layout)
+        code_widget = QWidget()
+        code_widget.setLayout(code_layout)
+        readonly_widget = QWidget()
+        readonly_widget.setLayout(readonly_layout)
+        splitter.addWidget(readonly_widget)
+        splitter.addWidget(general_widget)
+        splitter.addWidget(code_widget)
 
         splitter.setStretchFactor(0, 1)
-        splitter.setStretchFactor(1, 2)
+        splitter.setStretchFactor(1, 1)
+        splitter.setStretchFactor(2, 2)
 
         main_layout.addWidget(splitter)
 
