@@ -1,4 +1,7 @@
+import os
+import sqlite3
 import sys
+import json
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QTextEdit, QPushButton, QDialog, \
     QHBoxLayout, QListWidget, QMessageBox, QSplitter
 
@@ -42,6 +45,7 @@ critical_coefficient
 critical_chance
 
 scatter"""
+
 
 class NewItemDialog(QDialog):
     def __init__(self, parent=None):
@@ -183,17 +187,41 @@ class MyApp(QWidget):
         item2_items = [self.renewal_multiply_list.item(i).text() for i in range(self.renewal_multiply_list.count())]
         item3_items = [self.renewal_super_list.item(i).text() for i in range(self.renewal_super_list.count())]
 
-        return {
-            "renewal_plus": item1_items,
-            "renewal_multiply": item2_items,
-            "renewal_super": item3_items
-        }
+        return item1_items, item2_items, item3_items
 
     def get_code(self):
         return self.code_textedit.toPlainText()
 
     def press_button(self):
-        ...
+        def convert_array_to_dict_int(array):
+            result_dict = {}
+            for item in array:
+                key, value = item.split(" ")
+                result_dict[key] = int(value)
+            return result_dict
+
+        def convert_array_to_dict_str(array):
+            result_dict = {}
+            for item in array:
+                key, value = item.split(" ")
+                result_dict[key] = value
+            return result_dict
+
+        name = self.get_name()
+        code = self.get_code()
+        renewal_plus, renewal_multiply, renewal_super = self.get_items()
+        renewal_plus = json.dumps(convert_array_to_dict_int(renewal_plus))
+        renewal_multiply = json.dumps(convert_array_to_dict_int(renewal_multiply))
+        renewal_super = json.dumps(convert_array_to_dict_str(renewal_super))
+
+        result = f"('{name}', '{renewal_plus}', '{renewal_multiply}', '{renewal_super}', '{code}')\n"
+        with open(r"..\ItemDatabase\all.txt", "a", encoding="utf-8") as file:
+            file.write("Insert: " + result)
+
+        con = sqlite3.connect(r"..\ItemDatabase\original.db")
+        cur = con.cursor()
+        cur.execute(f"INSERT INTO items VALUES {result}")
+        con.commit()
 
 
 if __name__ == "__main__":
