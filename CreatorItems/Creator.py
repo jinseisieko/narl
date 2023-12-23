@@ -50,7 +50,7 @@ class MyApp(QWidget):
         self.code_label = QLabel("code:")
         self.code_textedit = QTextEdit()
 
-        self.press_button_button = QPushButton("Press Button")
+        self.press_button_button = QPushButton("Compile")
         self.press_button_button.clicked.connect(self.press_button)
 
         self.renewal_plus_list.itemClicked.connect(self.remove_item)
@@ -85,9 +85,14 @@ class MyApp(QWidget):
         splitter.addWidget(left_widget)
         splitter.addWidget(right_widget)
 
+        splitter.setStretchFactor(0, 1)
+        splitter.setStretchFactor(1, 2)
+
         main_layout.addWidget(splitter)
 
         self.setLayout(main_layout)
+
+        self.resize(1300, 900)
 
     def remove_item(self, item):
         list_widget = self.sender()
