@@ -1,5 +1,5 @@
-from InventoryClasses.Exception.ExceptionDataScarcity import ExceptionDataScarcity
-from InventoryClasses.Exception.ExceptionNotUnannounced import ExceptionNotUnannounced
+from Inventory.Exception.ExceptionDataScarcity import ExceptionDataScarcity
+from Inventory.Exception.ExceptionNotUnannounced import ExceptionNotUnannounced
 
 
 class Item:

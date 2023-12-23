@@ -1,8 +1,8 @@
-from InventoryClasses.Exception.ExceptionNotFoundName import ExceptionNotFoundName
-from InventoryClasses.Exception.ExceptionRepeatingName import ExceptionRepeatingName
+from Inventory.Exception.ExceptionNotFoundName import ExceptionNotFoundName
+from Inventory.Exception.ExceptionRepeatingName import ExceptionRepeatingName
 import copy
 
-from InventoryClasses.Items.Item import Item
+from Inventory.Items.Item import Item
 
 
 class ItemsPrototypes:

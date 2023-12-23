@@ -1,4 +1,4 @@
-from InventoryClasses.Exception.ExceptionPrototype import ExceptionPrototype
+from Inventory.Exception.ExceptionPrototype import ExceptionPrototype
 
 
 class ExceptionDataScarcity(ExceptionPrototype):

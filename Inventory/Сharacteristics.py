@@ -2,7 +2,7 @@ import json
 
 import numpy as np
 import sqlite3 as sql
-from InventoryClasses.Items.ItemsPrototypes import ItemsPrototypes
+from Inventory.Items.ItemsPrototypes import ItemsPrototypes
 
 size = 0
 speed = 1
@@ -19,7 +19,7 @@ chance_critical_damage = 11
 scatter = 12
 
 
-class Inventory:
+class Characteristics:
     def __init__(self, mods: (list, None) = None) -> None:
         super().__init__()
 
@@ -49,5 +49,5 @@ class Inventory:
 
 
 if __name__ == '__main__':
-    a = Inventory()
+    a = Characteristics()
     print(a.itemsPrototypes.catalog)
