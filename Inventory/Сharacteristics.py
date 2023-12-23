@@ -72,8 +72,9 @@ class Characteristics:
                                                                              critical_chance],
                                                                          scatter=self.characteristics[scatter])
 
-        for key, value in new_characteristics.values():
-            self.characteristics[key] = value
+        for key, value in new_characteristics.items():
+            print(key, value)
+            exec(f"self.characteristics[{key}] = {value}")
 
     def init_prototype(self, db_names: list) -> None:
         for name_db in db_names:
@@ -89,5 +90,5 @@ class Characteristics:
 
 if __name__ == '__main__':
     a = Characteristics()
+    a.apply("apple")
     print(a.characteristics)
-
