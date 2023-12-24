@@ -41,16 +41,12 @@ with (tqdm() as pbar):
         press = pg.key.get_pressed()
         if press[pg.K_w]:
             direction[1] -= 1
-            print(1, direction)
         if press[pg.K_s]:
             direction[1] += 1
-            print(2, direction)
         if press[pg.K_a]:
             direction[0] -= 1
-            print(3, direction)
         if press[pg.K_d]:
             direction[0] += 1
-            print(4, direction)
 
         calc_player_movement(matrix, direction, dt())
         field.move_screen_relative_player(matrix, dt())
