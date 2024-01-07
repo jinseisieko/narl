@@ -8,7 +8,7 @@ MAX_OBSTACLES: np.int_ = np.int_(200)
 enemies = np.tile(np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0], dtype=np.float_), (MAX_ENTITIES, 1))
 bullets = np.tile(np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1], dtype=np.float_), (MAX_BULLETS, 1))
 obstacles = np.tile(np.array([-300, -300, 0, 0], dtype=np.float_), (MAX_OBSTACLES, 1))
-player = np.zeros(21, dtype=np.float_)
+player = np.zeros(22, dtype=np.float_)
 
 entity_ids = set(range(MAX_ENTITIES))
 bullet_ids = set(range(MAX_BULLETS))
@@ -63,7 +63,6 @@ def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float
 
     player[..., 6] = vx
     player[..., 7] = vy
-
     player[..., 0] += player[..., 6] * dt
     player[..., 1] += player[..., 7] * dt
 
@@ -82,7 +81,9 @@ def calc_collisions(entity: np.ndarray, COLLISIONS_REPELLING: np.float_, dt: np.
     dist_y: np.ndarray
     dist: np.ndarray
 
-    real_dist, dist_x, dist_y = calc_dist(entity, entity)
+    real_dist = entity[..., 2] + entity[..., 2][..., np.newaxis]
+    dist_x = entity[..., 0] - entity[..., 0][..., np.newaxis]
+    dist_y = entity[..., 1] - entity[..., 1][..., np.newaxis]
 
     dist = np.hypot(dist_x, dist_y)
 
@@ -106,12 +107,14 @@ def calc_damage(entity: np.ndarray, bullets: np.ndarray) -> None:
     real_dist: np.ndarray
     dist_x: np.ndarray
     dist_y: np.ndarray
-    real_dist, dist_x, dist_y = calc_dist(entity, bullets)
+
+    real_dist = entity[..., 2] + bullets[..., 2][..., np.newaxis]
+    dist_x = entity[..., 0] - bullets[..., 0][..., np.newaxis]
+    dist_y = entity[..., 1] - bullets[..., 1][..., np.newaxis]
 
     dist = np.hypot(dist_x, dist_y)
 
     bullet_indices = np.unique(np.where(dist < real_dist)[0])
-    b = np.where(dist < real_dist, 1, 0)
     indices = np.argmax(np.where(dist < real_dist, 1, 0), axis=1)[bullet_indices]
     indices, damage = np.unique(indices, return_counts=True)
     entity[indices, 4] -= damage
@@ -126,10 +129,10 @@ def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False
     dist_x: np.ndarray
     dist_y: np.ndarray
 
-    real_dist_x: np.ndarray = entity[..., 2] + obstacles[..., 2][..., np.newaxis]
-    real_dist_y: np.ndarray = entity[..., 3] + obstacles[..., 3][..., np.newaxis]
-    dist_x: np.ndarray = entity[..., 0] - obstacles[..., 0][..., np.newaxis]
-    dist_y: np.ndarray = entity[..., 1] - obstacles[..., 1][..., np.newaxis]
+    real_dist_x = entity[..., 2] + obstacles[..., 2][..., np.newaxis]
+    real_dist_y = entity[..., 3] + obstacles[..., 3][..., np.newaxis]
+    dist_x = entity[..., 0] - obstacles[..., 0][..., np.newaxis]
+    dist_y = entity[..., 1] - obstacles[..., 1][..., np.newaxis]
 
     angle: np.ndarray = np.arctan2(dist_y, dist_x)
     ind_x: np.ndarray = np.array(np.where(
