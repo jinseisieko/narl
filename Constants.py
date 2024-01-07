@@ -1,58 +1,47 @@
 """constants"""
-import math
-from ctypes import windll
+import tkinter as tk
 
+import numpy as np
 import pygame
 
 pygame.init()
 
-CHUNK_SIZE = 100
-CHUNK_N_X = 50
-CHUNK_N_Y = 50
-COLLISIONS_REPELLING = 0.2
+FIELD_WIDTH: np.int_ = 5000
+FIELD_HEIGHT: np.int_ = 5000
+WIDTH: np.int_ = tk.Tk().winfo_screenwidth()
+HEIGHT: np.int_ = tk.Tk().winfo_screenheight()
+MOVE_SCREEN_RECT_X: np.int_ = WIDTH // 8
+MOVE_SCREEN_RECT_Y: np.int_ = HEIGHT // 8
 
-FIELD_WIDTH: int = CHUNK_N_X * CHUNK_SIZE
-FIELD_HEIGHT: int = CHUNK_N_Y * CHUNK_SIZE
+BACKGROUND_PICTURE_SIZE: np.int_ = 400
 
-WIDTH: int = windll.user32.GetSystemMetrics(0)
-HEIGHT: int = windll.user32.GetSystemMetrics(1)
-
-MOVE_SCREEN_RECT_X: int = WIDTH // 8
-MOVE_SCREEN_RECT_Y: int = HEIGHT // 8
-
-BACKGROUND_PICTURE_SIZE = 400
-
-PLAYER_SIZE: int = 50  # matches the size of the player's image
-FPS: int = 120
-TICKS: int = 120
-DOUBLE_CLICK_INTERVAL: int = 200
-ACCELERATION_SMOOTHNESS: int = 25
-SLOWDOWN_SMOOTHNESS: int = ACCELERATION_SMOOTHNESS * 2
+FPS: np.int_ = 120
 
 ITEMS_COUNT: int = 44
 H: int = 7
 
-DEFAULT_PLAYER_SPEED: float = 4
-DEFAULT_PLAYER_HP: int = 10
-DASH_DELAY: int = FPS * 2
-DASH_COEFFICIENT: float = 2.2
+PLAYER_HALF_SIZE: np.int_ = 40  # matches the size of the player's image
+PLAYER_MAX_VELOCITY = np.float_(500)
+PLAYER_SLOWDOWN: np.float_ = np.float_(600)
+PLAYER_ACCELERATION: np.float_ = np.float_(1500)
+PLAYER_MAX_HP: np.int_ = 10
+PLAYER_ARMOR: np.float_ = np.float_(0)
+PLAYER_DELAY: np.float_ = np.float_(0.01)
+PLAYER_ARMOR_PIERCING: np.float_ = np.float_(0)
+PLAYER_BULLET_SIZE_X: np.float_ = np.float_(10)
+PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)
+PLAYER_BULLET_DAMAGE: np.float_ = np.float_(1)
+PLAYER_CRITICAL_COEFFICIENT: np.float_ = np.float_(0)
+PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0)
+PLAYER_SCATTER: np.float_ = np.float_(0)
+PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(5)
+PLAYER_BULLET_VELOCITY: np.float_ = np.float_(500)
 
-MAX_RANGE = math.sqrt(FIELD_WIDTH ** 2 + FIELD_HEIGHT ** 2)
-MAX_SIZE = CHUNK_SIZE - 1
-
-DEFAULT_PROJECTILE_PERIOD: int = 1000
-MAX_PROJECTILE_PERIOD: int = 0
-DEFAULT_PROJECTILE_SPEED: float = 5
-DEFAULT_PROJECTILE_RANGE: float = 250
-DEFAULT_PROJECTILE_DAMAGE: int = 1
-DEFAULT_PROJECTILE_SIZE: int = 15
-DEFAULT_PROJECTILE_TYPE: str = "default_projectile"
-
-RED: tuple[int, int, int] = (255, 0, 0)
-GREEN: tuple[int, int, int] = (0, 255, 0)
-BLUE: tuple[int, int, int] = (0, 0, 255)
-GRAY: tuple[int, int, int] = (200, 200, 200)
-BLACK: tuple[int, int, int] = (0, 0, 0)
+RED: tuple[np.int_, np.int_, np.int_] = (255, 0, 0)
+GREEN: tuple[np.int_, np.int_, np.int_] = (0, 255, 0)
+BLUE: tuple[np.int_, np.int_, np.int_] = (0, 0, 255)
+GRAY: tuple[np.int_, np.int_, np.int_] = (200, 200, 200)
+BLACK: tuple[np.int_, np.int_, np.int_] = (0, 0, 0)
 
 # fonts
 FONT_CONSOLE = (None, 27)
@@ -61,22 +50,15 @@ FONT_FPS = (None, 27)
 FONT_CHARACTERISTICS = (None, 27)
 FONT_COUNT_OBJECTS = (None, 27)
 
-W: str = "W"
-A: str = "A"
-S: str = "S"
-D: str = "D"
-
-# вместо TYPE писарь реальное название типа врага
-DEFAULT_TYPE_ENEMY_SIZE: int = 0
-DEFAULT_TYPE_ENEMY_HP: int = 0
-DEFAULT_TYPE_ENEMY_SPEED: float = 0
-DEFAULT_TYPE_ENEMY_DAMAGE: int = 0
-
-DEFAULT_ENEMY_ENEMY_SIZE: int = 40
-DEFAULT_ENEMY_ENEMY_HP: int = 10
-DEFAULT_ENEMY_ENEMY_SPEED: float = 4
-DEFAULT_ENEMY_ENEMY_DAMAGE: int = 0
+ENEMY_SIZE_X: np.int_ = 25
+ENEMY_SIZE_Y: np.int_ = 25
+ENEMY_HP: np.int_ = 10
+ENEMY_DAMAGE: np.int_ = 1
+ENEMY_MAX_VELOCITY: np.int_ = 300
+COLLISIONS_REPELLING: np.float_ = np.float_(300)
 
 CLOCK = pygame.time.Clock()
 
-MAX_ENEMIES: int = 100
+MAX_ENEMIES: np.int_ = np.int_(100)
+MAX_BULLETS: np.int_ = np.int_(200)
+MAX_OBSTACLES: np.int_ = np.int_(100)

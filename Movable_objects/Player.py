@@ -1,6 +1,7 @@
 import pygame as pg
 
 from Inventory.Сharacteristics import Characteristics
+from Collisions.Collisions import player
 
 X = 0
 Y = 1
@@ -17,7 +18,8 @@ class Player:
         self.image: str = image
         self.field = field
         self.characteristics = Characteristics()
-        self.matrix = self.characteristics.characteristics
+        self.matrix = player
+        self.matrix[...] = self.characteristics.characteristics
         self.image = pg.Surface((2 * self.matrix[..., 2][0], 2 * self.matrix[..., 3][0]))
         self.image.fill((0, 0, 255))
 
