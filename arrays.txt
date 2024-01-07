@@ -1,0 +1,80 @@
+entity
+[[x]
+ [y]
+ [size_x]
+ [size_y]]
+
+movable_entity <- entity (id == 0 is player)
+[[hp]
+ [damage]
+ [vx]
+ [vy]]
+
+enemy
+[[x]
+ [y]
+ [size_x]
+ [size_y]
+ [hp]
+ [damage]
+ [vx]
+ [vy]
+ [kill]
+ [max_velocity]]
+
+player
+[x
+ y
+ size_x
+ size_y
+ hp
+ damage (---)
+ vx
+ vy
+ max_velocity
+ slowdown
+ acceleration
+ max_hp
+ armor
+ delay
+ armor_piercing
+ bullet_size_x
+ bullet_size_y
+ bullet_damage
+ critical_coefficient
+ critical_chance
+ scatter]
+
+bullet
+[[x]
+ [y]
+ [size_x]
+ [size_y]
+ [hp]
+ [damage]
+ [vx]
+ [vy]
+ [kill]
+ [pass_time]
+ [live_time]]
+
+obstacles <- entity
+[[x]
+ [y]
+ [size_x]
+ [size_y]
+ [cos]]
+
+calculations: (one by one)
+
+synchronization(player, movable_entity)
+
+(start at the end of the cycle)
+
+1 calc_enemy_direction(enemy, movable_entity)
+2 calc_movements(movable_entity)
+3 calc_collisions(movable_entity)
+4 calc_obstacles(obstacles, movable_entity)
+5 calc_damage(movable_entity)
+
+(end as soon as possible)
