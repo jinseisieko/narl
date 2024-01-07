@@ -39,7 +39,8 @@ class Characteristics:
         else:
             self.mods: list = mods
 
-        self.characteristics: np.array = np.zeros(22)
+        self.characteristics: np.array = np.array([[1000, 1000, 40, 40, 0, 0, 0, 0, 500, 600, 1500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5]],
+                               dtype=np.float_)
         self.item_names: list = []
         self.itemsPrototypes = ItemsPrototypes()
         self.init_prototype(["original.db"] + self.mods)
@@ -81,7 +82,7 @@ class Characteristics:
 
     def init_prototype(self, db_names: list) -> None:
         for name_db in db_names:
-            con = sql.connect(f"ItemDatabase/{name_db}")
+            con = sql.connect(f"Inventory/ItemDatabase/{name_db}")
             cur = con.cursor()
             for name_, renewal_plus_, renewal_multiply_, renewal_super_, code_ in cur.execute(
                     """SELECT * FROM items"""):
@@ -91,7 +92,3 @@ class Characteristics:
                 self.itemsPrototypes.add(name_, renewal_plus, renewal_multiply, renewal_super, code_)
 
 
-if __name__ == '__main__':
-    a = Characteristics()
-    a.apply("apple")
-    print(a.characteristics)
