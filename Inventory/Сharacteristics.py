@@ -39,46 +39,47 @@ class Characteristics:
         else:
             self.mods: list = mods
 
-        self.characteristics: np.array = np.array([[1000, 1000, 40, 40, 0, 0, 0, 0, 500, 600, 1500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5]],
-                               dtype=np.float_)
+        self.characteristics: np.array = np.array(
+            [[1000, 1000, 40, 40, 0, 0, 0, 0, 500, 600, 1500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5]],
+            dtype=np.float_)
         self.item_names: list = []
         self.itemsPrototypes = ItemsPrototypes()
         self.init_prototype(["original.db"] + self.mods)
 
     def apply(self, name: str) -> None:
-        new_characteristics: dict = self.itemsPrototypes.get(name).apply(x=self.characteristics[x],
-                                                                         y=self.characteristics[y],
-                                                                         size_x=self.characteristics[size_x],
-                                                                         size_y=self.characteristics[size_y],
-                                                                         hp=self.characteristics[hp],
-                                                                         vx=self.characteristics[vx],
-                                                                         vy=self.characteristics[vy],
-                                                                         max_velocity=self.characteristics[
+        new_characteristics: dict = self.itemsPrototypes.get(name).apply(x=self.characteristics[0][x],
+                                                                         y=self.characteristics[0][y],
+                                                                         size_x=self.characteristics[0][size_x],
+                                                                         size_y=self.characteristics[0][size_y],
+                                                                         hp=self.characteristics[0][hp],
+                                                                         _=self.characteristics[0][_],
+                                                                         vx=self.characteristics[0][vx],
+                                                                         vy=self.characteristics[0][vy],
+                                                                         max_velocity=self.characteristics[0][
                                                                              max_velocity],
-                                                                         slowdown=self.characteristics[slowdown],
-                                                                         acceleration=self.characteristics[
+                                                                         slowdown=self.characteristics[0][slowdown],
+                                                                         acceleration=self.characteristics[0][
                                                                              acceleration],
-                                                                         max_hp=self.characteristics[max_hp],
-                                                                         armor=self.characteristics[armor],
-                                                                         delay=self.characteristics[delay],
-                                                                         armor_piercing=self.characteristics[
+                                                                         max_hp=self.characteristics[0][max_hp],
+                                                                         armor=self.characteristics[0][armor],
+                                                                         delay=self.characteristics[0][delay],
+                                                                         armor_piercing=self.characteristics[0][
                                                                              armor_piercing],
-                                                                         bullet_size_x=self.characteristics[
+                                                                         bullet_size_x=self.characteristics[0][
                                                                              bullet_size_x],
-                                                                         bullet_size_y=self.characteristics[
+                                                                         bullet_size_y=self.characteristics[0][
                                                                              bullet_size_y],
-                                                                         bullet_damage=self.characteristics[
+                                                                         bullet_damage=self.characteristics[0][
                                                                              bullet_damage],
-                                                                         critical_coefficient=self.characteristics[
+                                                                         critical_coefficient=self.characteristics[0][
                                                                              critical_coefficient],
-                                                                         critical_chance=self.characteristics[
+                                                                         critical_chance=self.characteristics[0][
                                                                              critical_chance],
-                                                                         scatter=self.characteristics[scatter],
-                                                                         life_time=self.characteristics[life_time])
+                                                                         scatter=self.characteristics[0][scatter],
+                                                                         life_time=self.characteristics[0][life_time])
 
         for key, value in new_characteristics.items():
-            print(key, value)
-            exec(f"self.characteristics[{key}] = {value}")
+            exec(f"self.characteristics[0][{key}] = {value}")
 
     def init_prototype(self, db_names: list) -> None:
         for name_db in db_names:
@@ -90,5 +91,3 @@ class Characteristics:
                 renewal_multiply = json.loads(renewal_multiply_)
                 renewal_super = json.loads(renewal_super_)
                 self.itemsPrototypes.add(name_, renewal_plus, renewal_multiply, renewal_super, code_)
-
-

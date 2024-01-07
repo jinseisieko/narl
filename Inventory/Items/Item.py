@@ -28,12 +28,12 @@ class Item:
 
         for name_field, value in self.renewal_plus.items():
             if not (name_field in kwargs):
-                raise ExceptionDataScarcity(name_field, f"'{name_field}' needs")
+                raise ExceptionDataScarcity(name_field, f"'{name_field}' needs, name item: {self.name}")
             kwargs[name_field] += value
 
         for name_field, value in self.renewal_multiply.items():
             if not (name_field in kwargs):
-                raise ExceptionDataScarcity(name_field, f"'{name_field}' needs")
+                raise ExceptionDataScarcity(name_field, f"'{name_field}' needs, name item: {self.name}")
             if type(kwargs[name_field]) is int:
                 kwargs[name_field] *= value
                 kwargs[name_field] = int(kwargs[name_field])
@@ -42,10 +42,11 @@ class Item:
 
         for name_field, value in self.renewal_super.items():
             if not (name_field in kwargs):
-                raise ExceptionDataScarcity(name_field, f"'{name_field}' needs")
+                raise ExceptionDataScarcity(name_field, f"'{name_field}' needs, name item: {self.name}")
             kwargs[name_field] = value
 
         player = kwargs
+        print(player)
         exec(self.code)
 
         return kwargs
