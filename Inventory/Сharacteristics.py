@@ -1,7 +1,8 @@
 import json
+import sqlite3 as sql
 
 import numpy as np
-import sqlite3 as sql
+
 from Inventory.Items.ItemsPrototypes import ItemsPrototypes
 
 # name value in array
@@ -26,6 +27,7 @@ bullet_damage = 17
 critical_coefficient = 18
 critical_chance = 19
 scatter = 20
+life_time = 21
 
 
 class Characteristics:
@@ -37,7 +39,7 @@ class Characteristics:
         else:
             self.mods: list = mods
 
-        self.characteristics: np.array = np.zeros(21)
+        self.characteristics: np.array = np.zeros(22)
         self.item_names: list = []
         self.itemsPrototypes = ItemsPrototypes()
         self.init_prototype(["original.db"] + self.mods)
@@ -70,7 +72,8 @@ class Characteristics:
                                                                              critical_coefficient],
                                                                          critical_chance=self.characteristics[
                                                                              critical_chance],
-                                                                         scatter=self.characteristics[scatter])
+                                                                         scatter=self.characteristics[scatter],
+                                                                         life_time=self.characteristics[life_time])
 
         for key, value in new_characteristics.items():
             print(key, value)
