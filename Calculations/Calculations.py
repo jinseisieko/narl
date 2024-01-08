@@ -1,16 +1,5 @@
 import numpy as np
 
-from Constants import MAX_ENEMIES, MAX_BULLETS, MAX_OBSTACLES, PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y
-
-enemies = np.tile(np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0], dtype=np.float_), (MAX_ENEMIES, 1))
-bullets = np.tile(np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1], dtype=np.float_), (MAX_BULLETS, 1))
-obstacles = np.tile(np.array([-300, -300, 0, 0], dtype=np.float_), (MAX_OBSTACLES, 1))
-player = np.array([[1000, 1000, 40, 40, 0, 0, 0, 0, 500, 600, 1500, 0, 0, 0, 0, PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, 0, 0, 0, 0, 5]], dtype=np.float_)
-
-entity_ids = set(range(MAX_ENEMIES))
-bullet_ids = set(range(MAX_BULLETS))
-obstacles_ids = set(range(MAX_OBSTACLES))
-
 
 def calc_enemy_direction(entity: np.ndarray, x: np.float_, y: np.float_) -> None:
     k = 10

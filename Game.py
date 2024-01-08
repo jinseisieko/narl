@@ -1,6 +1,7 @@
 """Game class"""
 import ImageSprites
-from Collisions.Collisions import *
+from Calculations.Calculations import *
+from Calculations.Data import *
 from Constants import *
 from Field import Field
 from Functions.Functions import *
@@ -24,7 +25,6 @@ class Game:
         self.dt: np.float_ = np.float_(0)
         self.running: bool = True
         self.time_passed: np.float_ = np.float_(0)
-        self.delay: np.float_ = PLAYER_DELAY
         self.shooting: bool = False
         self.COLLISIONS_REPELLING = COLLISIONS_REPELLING
 
@@ -67,8 +67,8 @@ class Game:
                 self.running: bool = False
                 quit()
 
-            if pg.key.get_pressed()[pg.K_y]:
-                self.player.characteristics.apply("tast1")
+            # if pg.key.get_pressed()[pg.K_y]:
+            #     self.player.characteristics.apply("tast1")
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -80,25 +80,25 @@ class Game:
     def shoot(self):
         if self.shooting:
             if self.time_passed == 0:
-                player_pos = player[..., :2][0]
+                player_pos = player[0, :2]
                 mouse_pos = np.array(pg.mouse.get_pos()) + self.field.screen_centre - np.array([WIDTH, HEIGHT]) / 2
                 angle = np.arctan2(*(mouse_pos - player_pos)[::-1])
-                data = [player_pos[0], player_pos[1], player[0, 15], PLAYER_BULLET_SIZE_Y, 1,
-                        PLAYER_BULLET_DAMAGE,
-                        PLAYER_BULLET_VELOCITY * np.cos(angle) + player[..., 6][0],
-                        PLAYER_BULLET_VELOCITY * np.sin(angle) + player[..., 7][0], 0, 0, 5]
+                data = [player_pos[0], player_pos[1], player[0, 15], player[0, 16], 1,
+                        player[0, 17],
+                        player[0, 22] * np.cos(angle) + player[0, 6],
+                        player[0, 22] * np.sin(angle) + player[0, 7], 0, 0, 5]
                 if len(bullet_ids):
                     index = bullet_ids.pop()
                     self.bullet_set.add(
                         DefaultBullet(data, bullets, index, "green", self.field, bullet_ids))
                 else:
                     print("bullet error")
-                self.time_passed = self.delay
+                self.time_passed = player[0, 13]
 
     def calc_calculations(self):
         calc_player_movement(player, set_direction(pg.key.get_pressed()), self.dt)
 
-        calc_enemy_direction(enemies, *player[..., 0:2][0])
+        calc_enemy_direction(enemies, *player[0, 0:2])
         calc_movements(enemies, self.dt)
         calc_bullet_movements(bullets, self.dt)
 

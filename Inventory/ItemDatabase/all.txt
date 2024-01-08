@@ -1,18 +1,1 @@
-Insert: ('apple', '{"hp": 1}', '{}', '{}', '')
-Insert: ('test1', '{"x": 100}', '{}', '{}', '')
-Insert: ('terst2', '{}', '{}', '{}', 'print("Я тебя взломал")')
-Insert: ('max_velocity_test', '{"max_velocity": 1000}', '{}', '{}', '')
-Insert: ('test3', '{"fdasf": 1}', '{"gggd": 1}', '{"ewrewr": "4"}', '')
-Insert: ('test4', '{}', '{}', '{"x": "10"}', '')
-Insert: ('test5', '{}', '{}', '{"x": "1000"}', '')
-Insert: ('test6', '{}', '{}', '{}', 'import random
-player[x] = random.randint(600, 1400)')
-Insert: ('test7', '{}', '{}', '{}', 'import random
-player['x'] = random.randint(600, 1400)')
-Insert: ('test9', '{}', '{}', '{}', 'import random
-player["x"] = random.randint(600, 1400)')
-Insert: ('bullet_size_test', '{"bullet_size_x": 1, "bullet_size_y": 1}', '{}', '{}', '')
-Insert: ('acceleration_test', '{"acceleration": 1000000}', '{}', '{}', '')
-Insert: ('aboba', '{"bullet_size_x": 10}', '{}', '{}', '')
-Insert: ('aboba', '{"bullet_size_x": 10}', '{}', '{}', '')
-Insert: ('tast1', '{}', '{}', '{"delay": "10"}', '')
+

@@ -1,7 +1,12 @@
-import os
 import sqlite3
 import sys
 import json
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QTextEdit, QPushButton, QDialog, \
+    QHBoxLayout, QListWidget, QMessageBox, QSplitter
+import json
+import sqlite3
+import sys
+
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QTextEdit, QPushButton, QDialog, \
     QHBoxLayout, QListWidget, QMessageBox, QSplitter
 
@@ -44,7 +49,13 @@ critical_coefficient
 
 critical_chance
 
-scatter"""
+scatter
+
+bullet_life_time
+
+bullet_velocity
+
+damage_delay"""
 
 
 class NewItemDialog(QDialog):

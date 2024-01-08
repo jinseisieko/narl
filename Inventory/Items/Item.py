@@ -46,7 +46,6 @@ class Item:
             kwargs[name_field] = value
 
         player = kwargs
-        print(player)
         exec(self.code)
 
         return kwargs

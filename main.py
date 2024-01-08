@@ -4,10 +4,10 @@ import sys
 import numpy as np
 from tqdm import tqdm
 
-import Collisions
+import Calculations
 import Enemies
 import ImageSprites
-from Collisions import *
+from Calculations import *
 from Console import *
 from Constants import *
 from Enemies import Enemy
@@ -126,7 +126,7 @@ with (tqdm() as pbar):
             enemy_data_arr, chunks = Enemies.calculate_movement(player.x, player.y, enemy_data_arr, DEFAULT_ENEMY_ENEMY_SPEED,
                                                         TICKS, CLOCK.get_fps(), CHUNK_SIZE, CHUNK_N_X, CHUNK_N_Y, FIELD_WIDTH, FIELD_HEIGHT)
 
-            enemy_data_arr = Collisions.calculate_Enemies(enemy_data_arr, chunks, COLLISIONS_REPELLING)
+            enemy_data_arr = Calculations.calculate_Enemies(enemy_data_arr, chunks, COLLISIONS_REPELLING)
             enemies.update(enemy_data_arr)
 
             # wave.update(field.screen_centre)

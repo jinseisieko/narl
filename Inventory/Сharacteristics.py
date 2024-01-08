@@ -3,8 +3,8 @@ import sqlite3 as sql
 
 import numpy as np
 
+from Calculations.Data import player
 from Inventory.Items.ItemsPrototypes import ItemsPrototypes
-from Collisions.Collisions import player
 
 # name value in array
 x = 0
@@ -28,7 +28,9 @@ bullet_damage = 17
 critical_coefficient = 18
 critical_chance = 19
 scatter = 20
-life_time = 21
+bullet_life_time = 21
+bullet_velocity = 22
+damage_delay = 23
 
 
 class Characteristics:
@@ -75,7 +77,12 @@ class Characteristics:
                                                                          critical_chance=self.characteristics[0][
                                                                              critical_chance],
                                                                          scatter=self.characteristics[0][scatter],
-                                                                         life_time=self.characteristics[0][life_time])
+                                                                         bullet_life_time=self.characteristics[0][
+                                                                             bullet_life_time],
+                                                                         bullet_velocity=self.characteristics[0][
+                                                                             bullet_velocity],
+                                                                         damage_delay=self.characteristics[0][
+                                                                             damage_delay])
 
         for key, value in new_characteristics.items():
             exec(f"self.characteristics[0][{key}] = {value}")

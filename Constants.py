@@ -20,7 +20,8 @@ FPS: np.int_ = 120
 ITEMS_COUNT: int = 44
 H: int = 7
 
-PLAYER_HALF_SIZE: np.int_ = 40  # matches the size of the player's image
+PLAYER_HALF_SIZE_X: np.int_ = 40  # matches the size of the player's image
+PLAYER_HALF_SIZE_Y: np.int_ = 40  # matches the size of the player's image
 PLAYER_MAX_VELOCITY = np.float_(500)
 PLAYER_SLOWDOWN: np.float_ = np.float_(600)
 PLAYER_ACCELERATION: np.float_ = np.float_(1500)
@@ -36,6 +37,7 @@ PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0)
 PLAYER_SCATTER: np.float_ = np.float_(0)
 PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(5)
 PLAYER_BULLET_VELOCITY: np.float_ = np.float_(500)
+PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.5)
 
 RED: tuple[np.int_, np.int_, np.int_] = (255, 0, 0)
 GREEN: tuple[np.int_, np.int_, np.int_] = (0, 255, 0)
@@ -60,5 +62,5 @@ COLLISIONS_REPELLING: np.float_ = np.float_(300)
 CLOCK = pygame.time.Clock()
 
 MAX_ENEMIES: np.int_ = np.int_(100)
-MAX_BULLETS: np.int_ = np.int_(200)
+MAX_BULLETS: np.int_ = np.int_(300)
 MAX_OBSTACLES: np.int_ = np.int_(100)
