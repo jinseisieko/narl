@@ -83,7 +83,7 @@ class Game:
                 player_pos = player[..., :2][0]
                 mouse_pos = np.array(pg.mouse.get_pos()) + self.field.screen_centre - np.array([WIDTH, HEIGHT]) / 2
                 angle = np.arctan2(*(mouse_pos - player_pos)[::-1])
-                data = [player_pos[0], player_pos[1], PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, 1,
+                data = [player_pos[0], player_pos[1], player[0, 15], PLAYER_BULLET_SIZE_Y, 1,
                         PLAYER_BULLET_DAMAGE,
                         PLAYER_BULLET_VELOCITY * np.cos(angle) + player[..., 6][0],
                         PLAYER_BULLET_VELOCITY * np.sin(angle) + player[..., 7][0], 0, 0, 5]
