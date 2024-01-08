@@ -1,141 +1,51 @@
-"""pg main loop"""
-import sys
-from Collisions.Collisions import *
-from tqdm import tqdm
+import random
 
-import ImageSprites
+import numba
 
 from Constants import *
-from Field import Field
-from Functions.Functions import *
-from Movable_objects.Enemies import *
-from Movable_objects.Obstacles import *
-from Movable_objects.Player import *
 
-pg.init()
 
-field: Field = Field()
+@numba.njit(fastmath=True)
+def calculate_screen_movement(screen_centre_x: float, screen_centre_y: float, player_centerx: float,
+                              player_centery: float,
+                              player_max_speed: float, player_dx, player_dy, MOVE_SCREEN_RECT_X: int,
+                              MOVE_SCREEN_RECT_Y: int, dt: float) -> tuple[float, float]:
+    speed: float = max(player_max_speed, (player_dx ** 2 + player_dy ** 2) ** 0.5)
+    speed_x: float = speed * ((player_centerx - screen_centre_x) / MOVE_SCREEN_RECT_X) * dt
+    speed_y: float = speed * ((player_centery - screen_centre_y) / MOVE_SCREEN_RECT_Y) * dt
 
-player: Player = Player("a", field)
-matrix = player.matrix
+    return screen_centre_x + speed_x, screen_centre_y + speed_y
 
-screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME)
 
-enemy_set = set([
-    Enemy(np.array([1100 + 10 * i, 1000 + 20 * i * (-1) ** i, 25, 25, 10, 1, 0, 0, 0, 300]), enemies, entity_ids.pop(),
-          "black", field,
-          entity_ids) for i in range(len(entity_ids))])
+class Field:
+    def __init__(self) -> None:
+        # values
+        self.field: pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
+        self.screen_centre: tuple[float, float] = 0.0, 0.0
 
-bullet_set = set()
+        self.background = pygame.surface = pygame.Surface((FIELD_WIDTH, FIELD_HEIGHT))
+        self.background.fill((255, 255, 255))
+        for i in range(FIELD_WIDTH // BACKGROUND_PICTURE_SIZE + 1):
+            for j in range(FIELD_HEIGHT // BACKGROUND_PICTURE_SIZE + 1):
+                self.background.blit(pygame.image.load(f"image/grasses/grass{random.randint(1, 4)}.png"),
+                                     (i * BACKGROUND_PICTURE_SIZE, j * BACKGROUND_PICTURE_SIZE))
+        self.field.blit(self.background, (0, 0))
 
-obstacle_set = set()
-obstacle_set.add(
-    Obstacle(np.array([FIELD_WIDTH / 2, 0, FIELD_WIDTH, 100]), obstacles, obstacles_ids.pop(), "red", field,
-             obstacles_ids))
-obstacle_set.add(
-    Obstacle(np.array([FIELD_WIDTH / 2, FIELD_HEIGHT, FIELD_WIDTH, 100]), obstacles, obstacles_ids.pop(), "red", field,
-             obstacles_ids))
-obstacle_set.add(
-    Obstacle(np.array([0, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT]), obstacles, obstacles_ids.pop(), "red", field,
-             obstacles_ids))
-obstacle_set.add(
-    Obstacle(np.array([FIELD_WIDTH, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT]), obstacles, obstacles_ids.pop(), "red", field,
-             obstacles_ids))
-obstacle_set |= set([
-    Obstacle(np.array([0 + 100 * i, 0 + 200 * i, 10, 60]), obstacles, obstacles_ids.pop(), "yellow", field,
-             obstacles_ids)
-    for i in range(10)])
+    def draw(self) -> None:
+        """draw groups in the sequence in which they are presented """
+        x: int = max(0, min(FIELD_WIDTH - WIDTH, int(self.screen_centre[0]) - WIDTH // 2))
+        y: int = max(0, min(FIELD_HEIGHT - HEIGHT, int(self.screen_centre[1]) - HEIGHT // 2))
 
-pg.mouse.set_visible(False)
+        subsurface_rect: pygame.Rect = pygame.Rect(x, y, WIDTH, HEIGHT)
+        self.field.blit(self.background, (x, y), subsurface_rect)
 
-running: bool = True
-time_passed = 0
-delay = 0.01
-shooting = False
-with (tqdm() as pbar):
-    while running:
+        # for group in groups:
+        #     group.draw(self.field)
 
-        dt: np.float_ = DT(CLOCK)
-        direction = np.array([0, 0])
-        for event in pg.event.get():
-            if event.type == pg.QUIT or pg.key.get_pressed()[pg.K_DELETE]:
-                running = False
-                quit()
+        # self.field.blit(ImageSprites.sprites["phat"],
+        #                 (player.rect.x + PLAYER_SIZE // 2 - PLAYER_SIZE // 4, player.rect.y - 15))
 
-            if event.type == pg.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    shooting = True
-            if event.type == pg.MOUSEBUTTONUP:
-                if event.button == 1:
-                    shooting = False
-
-        time_passed = max(time_passed - dt, 0)
-
-        if shooting:
-            if time_passed == 0:
-                player_pos = matrix[..., :2][0]
-                mouse_pos = np.array(pg.mouse.get_pos()) + matrix[..., :2][0] - np.array([WIDTH, HEIGHT]) / 2
-                angle = np.arctan2(*(mouse_pos - player_pos)[::-1])
-                data = [player_pos[0], player_pos[1], 10, 10, 1, 1, 500 * np.cos(angle) + matrix[..., 6][0],
-                        500 * np.sin(angle) + matrix[..., 7][0], 0, 0, 5]
-                if len(bullet_ids):
-                    index = bullet_ids.pop()
-                    bullet_set.add(
-                        DefaultBullet(data, bullets, index, "green", field, bullet_ids))
-                else:
-                    print("bullet error")
-                time_passed = delay
-
-        calc_player_movement(matrix, set_direction(pg.key.get_pressed()), dt)
-
-        calc_enemy_direction(enemies, *matrix[..., 0:2][0])
-        calc_movements(enemies, dt)
-        calc_bullet_movements(bullets, dt)
-
-        calc_collisions(enemies, np.float_(300), dt)
-        calc_obstacles(enemies, obstacles)
-        calc_obstacles(bullets, obstacles, True)
-        calc_obstacles(matrix, obstacles)
-
-        calc_damage(enemies, bullets)
-
-        field.move_screen_relative_player(matrix, dt)
-
-        # draw
-        # ||| ! самый медленный код из всех ! |||
-        screen.fill((0, 0, 0))
-        field.draw()
-        player.draw()
-        point = pg.Surface((10, 10))
-        point.fill("red")
-        field.field.blit(point, matrix[..., :2][0])
-        for x in set(enemy_set):
-            if x.matrix[x.Id, 8] == 1:
-                enemy_set.remove(x)
-                x.kill()
-            else:
-                x.draw()
-
-        for x in set(bullet_set):
-            if x.matrix[x.Id, 8] == 1:
-                bullet_set.remove(x)
-                x.kill()
-            else:
-                x.draw()
-
-        for x in obstacle_set:
-            x.draw()
-
-        field_screen_centre_x, field_screen_centre_y = field.screen_centre[0] - WIDTH // 2, field.screen_centre[
-            1] - HEIGHT // 2
-        screen.blit(field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
-        pg.draw.circle(screen, "white", (WIDTH // 2, HEIGHT // 2), 5)
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        screen.blit(ImageSprites.sprites['cursor'],
-                    (mouse_x - 16, mouse_y - 16))
-
-        pg.display.flip()
-        CLOCK.tick(FPS * 1000)
-        pbar.update(1)
-pg.quit()
-sys.exit()
+    def move_screen_relative_player(self, player, dt) -> None:
+        self.screen_centre = calculate_screen_movement(*self.screen_centre, player[..., 0][0],
+                                                       player[..., 1][0], player[..., 8][0], player[..., 6][0],
+                                                       player[..., 7][0], MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, dt)

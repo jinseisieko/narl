@@ -67,6 +67,9 @@ class Game:
                 self.running: bool = False
                 quit()
 
+            if pg.key.get_pressed()[pg.K_y]:
+                self.player.characteristics.apply("aboba")
+
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.shooting: bool = True
@@ -75,12 +78,13 @@ class Game:
                     self.shooting = False
 
     def shoot(self):
+        print(player)
         if self.shooting:
             if self.time_passed == 0:
                 player_pos = player[..., :2][0]
                 mouse_pos = np.array(pg.mouse.get_pos()) + player[..., :2][0] - np.array([WIDTH, HEIGHT]) / 2
                 angle = np.arctan2(*(mouse_pos - player_pos)[::-1])
-                data = [player_pos[0], player_pos[1], PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, 1,
+                data = [player_pos[0], player_pos[1], player[0, 15], PLAYER_BULLET_SIZE_Y, 1,
                         PLAYER_BULLET_DAMAGE,
                         PLAYER_BULLET_VELOCITY * np.cos(angle) + player[..., 6][0],
                         PLAYER_BULLET_VELOCITY * np.sin(angle) + player[..., 7][0], 0, 0, 5]

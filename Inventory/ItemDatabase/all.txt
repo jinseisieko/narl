@@ -13,3 +13,5 @@ Insert: ('test9', '{}', '{}', '{}', 'import random
 player["x"] = random.randint(600, 1400)')
 Insert: ('bullet_size_test', '{"bullet_size_x": 1, "bullet_size_y": 1}', '{}', '{}', '')
 Insert: ('acceleration_test', '{"acceleration": 1000000}', '{}', '{}', '')
+Insert: ('aboba', '{"bullet_size_x": 10}', '{}', '{}', '')
+Insert: ('aboba', '{"bullet_size_x": 10}', '{}', '{}', '')

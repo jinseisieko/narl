@@ -1,16 +1,7 @@
 import pygame as pg
 
-from Inventory.Сharacteristics import Characteristics
 from Collisions.Collisions import player
-
-X = 0
-Y = 1
-SIZE_X = 2
-SIZE_Y = 3
-VX = 4
-VY = 5
-HP = 6
-DAMAGE = 7
+from Inventory.Сharacteristics import Characteristics
 
 
 class Player:

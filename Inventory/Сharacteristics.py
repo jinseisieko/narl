@@ -4,6 +4,7 @@ import sqlite3 as sql
 import numpy as np
 
 from Inventory.Items.ItemsPrototypes import ItemsPrototypes
+from Collisions.Collisions import player
 
 # name value in array
 x = 0
@@ -39,9 +40,7 @@ class Characteristics:
         else:
             self.mods: list = mods
 
-        self.characteristics: np.array = np.array(
-            [[1000, 1000, 40, 40, 0, 0, 0, 0, 500, 600, 1500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5]],
-            dtype=np.float_)
+        self.characteristics: np.array = player
         self.item_names: list = []
         self.itemsPrototypes = ItemsPrototypes()
         self.init_prototype(["original.db"] + self.mods)
