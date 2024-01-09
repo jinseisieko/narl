@@ -11,7 +11,7 @@ class PlayerInd:
     size_x = 2
     size_y = 3
     hp = 4
-    _ = 5
+    ___ = 5
     vx = 6
     vy = 7
     max_velocity = 8
@@ -40,7 +40,6 @@ class Console:
         self.color: tuple[int, int, int] = (0, 0, 0)
 
         self.text: str = ''
-
         self.txt_surface: pg.Surface = self.font.render(self.text, True, self.color)
         self.consoleValues: ConsoleValues = ConsoleValues()
 
@@ -120,7 +119,30 @@ class Console:
 
     def input_command(self, command: str) -> None:
         player_object_name = ["player", "pl"]
-        player_command_set_x_name = ["x", "setx"]
+        player_command_set_x_name = ["x", "set_x"]
+        player_command_set_y_name = ["y", "set_y"]
+        player_command_set_size_x_name = ["size_x"]
+        player_command_set_size_y_name = ["size_y"]
+        player_command_set_hp_name = ["hp", "set_hp"]
+        player_command_set___name = ["_", "set__"]
+        player_command_set_vx_name = ["vx", "set_vx"]
+        player_command_set_vy_name = ["vy", "set_vy"]
+        player_command_set_max_velocity_name = ["max_velocity", "set_max_velocity"]
+        player_command_set_slowdown_name = ["slowdown", "set_slowdown"]
+        player_command_set_acceleration_name = ["acceleration", "set_acceleration"]
+        player_command_set_max_hp_name = ["max_hp", "set_max_hp"]
+        player_command_set_armor_name = ["armor", "set_armor"]
+        player_command_set_delay_name = ["delay", "set_delay"]
+        player_command_set_armor_piercing_name = ["armor_piercing", "set_armor_piercing"]
+        player_command_set_bullet_size_x_name = ["bullet_size_x", "set_bullet_size_x"]
+        player_command_set_bullet_size_y_name = ["bullet_size_y", "set_bullet_size_y"]
+        player_command_set_bullet_damage_name = ["bullet_damage", "set_bullet_damage"]
+        player_command_set_critical_coefficient_name = ["critical_coefficient", "set_critical_coefficient"]
+        player_command_set_critical_chance_name = ["critical_chance", "set_critical_chance"]
+        player_command_set_scatter_name = ["scatter", "set_scatter"]
+        player_command_set_bullet_life_time_name = ["bullet_life_time", "set_bullet_life_time"]
+        player_command_set_bullet_velocity_name = ["bullet_velocity", "set_bullet_velocity"]
+        player_command_set_damage_delay_name = ["damage_delay", "set_damage_delay"]
 
         structure_command = command.split()
 
@@ -131,8 +153,214 @@ class Console:
                 if object_ in player_object_name:
                     if name in player_command_set_x_name:
                         try:
-                            x_ = int(value)
-                            self.game.player.characteristics.characteristics[0][PlayerInd.x] = x_
+                            x_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.x] = x_
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_y_name:
+                        try:
+                            y_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.y] = y_
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_size_x_name:
+                        try:
+                            size_x_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.size_x] = size_x_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_size_y_name:
+                        try:
+                            size_y_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.size_y] = size_y_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_hp_name:
+                        try:
+                            hp_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.hp] = hp_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set___name:
+                        try:
+                            __ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.___] = __
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_vx_name:
+                        try:
+                            vx_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.vx] = vx_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_vy_name:
+                        try:
+                            vy_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.vy] = vy_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_max_velocity_name:
+                        try:
+                            max_velocity_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.max_velocity] = max_velocity_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_slowdown_name:
+                        try:
+                            slowdown_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.slowdown] = slowdown_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_acceleration_name:
+                        try:
+                            acceleration_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.acceleration] = acceleration_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_max_hp_name:
+                        try:
+                            max_hp_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.max_hp] = max_hp_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_armor_name:
+                        try:
+                            armor_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.armor] = armor_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_delay_name:
+                        try:
+                            delay_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.delay] = delay_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_armor_piercing_name:
+                        try:
+                            armor_piercing_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.armor_piercing] = armor_piercing_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_bullet_size_x_name:
+                        try:
+                            bullet_size_x_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.bullet_size_x] = bullet_size_x_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_bullet_size_y_name:
+                        try:
+                            bullet_size_y_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.bullet_size_y] = bullet_size_y_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_bullet_damage_name:
+                        try:
+                            bullet_damage_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.bullet_damage] = bullet_damage_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_critical_coefficient_name:
+                        try:
+                            critical_coefficient_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.bullet_damage] = critical_coefficient_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_critical_chance_name:
+                        try:
+                            critical_chance_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.critical_chance] = critical_chance_
+
+                        except ValueError:
+                            ...
+                    elif name in player_command_set_scatter_name:
+                        try:
+                            scatter_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.scatter] = scatter_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_bullet_life_time_name:
+                        try:
+                            bullet_life_time_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.bullet_life_time] = bullet_life_time_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_bullet_velocity_name:
+                        try:
+                            bullet_velocity_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.bullet_velocity] = bullet_velocity_
+
+                        except ValueError:
+                            ...
+
+                    elif name in player_command_set_damage_delay_name:
+                        try:
+                            damage_delay_ = float(value)
+                            self.game.player.characteristics.characteristics[0][
+                                PlayerInd.damage_delay] = damage_delay_
+
                         except ValueError:
                             ...
 

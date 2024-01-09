@@ -1,4 +1,5 @@
 """Game class"""
+import numpy as np
 
 import ImageSprites
 from Calculations.Calculations import *
@@ -78,6 +79,7 @@ class Game:
 
     def draw_console(self):
         if self.console_:
+            self.console.update()
             self.console.draw_in_screen(self.screen)
             self.console.draw_in_field(self.field.field)
 
@@ -90,8 +92,8 @@ class Game:
                 self.running: bool = False
                 quit()
 
-            if self.key_pressed[pg.K_y]:
-                self.player.characteristics.apply("aboba")
+            # if self.key_pressed[pg.K_y]:
+            #     self.player.characteristics.apply("aboba")
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
