@@ -23,7 +23,7 @@ def calc_bullet_movements(bullet: np.ndarray, dt: np.float_):
     bullet[..., 9] += dt
 
     indices = np.where(bullet[..., 9] >= bullet[..., 10])
-    bullet[indices] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0, 1])
+    bullet[indices] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 
 
 def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float_) -> None:
@@ -81,7 +81,7 @@ def calc_collisions(entity: np.ndarray, COLLISIONS_REPELLING: np.float_, dt: np.
     entity[..., 1] += np.sum(delta_y, axis=0)  # * np.random.uniform(0.6, 1, size=entity[..., 1].shape)
 
 
-def calc_damage(entity: np.ndarray, bullets: np.ndarray) -> None:
+def calc_damage(entity: np.ndarray, bullets: np.ndarray, player: np.ndarray) -> None:
     real_dist_x: np.ndarray
     real_dist_y: np.ndarray
     dist_x: np.ndarray
@@ -94,12 +94,18 @@ def calc_damage(entity: np.ndarray, bullets: np.ndarray) -> None:
 
     dist = np.abs(dist_x / real_dist_x) + np.abs(dist_y / real_dist_y)
     bullet_indices = np.unique(np.where((np.abs(dist_x) < real_dist_x) & (np.abs(dist_y) < real_dist_y))[0])
+    if len(bullet_indices):
+        pass
     indices = np.argmin(dist, axis=1)[bullet_indices]
-    damage = np.bincount(indices)
-    entity[indices, 4] -= bullets[bullet_indices, 5] * damage[indices]
+    counter = np.bincount(indices)[indices]
 
-    entity[np.where(entity[..., 4] <= 0)] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0])
-    bullets[bullet_indices] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0, 1])
+    damage = bullets[bullet_indices, 5] * counter
+    damage = np.where(np.random.rand(*damage.shape) <= player[0, 19], damage * player[0, 18], damage)
+    damage = np.maximum(0, damage - np.maximum(0, entity[indices, 10] - bullets[bullet_indices, 11] * counter))
+    entity[indices, 4] -= damage
+
+    entity[np.where(entity[..., 4] <= 0)] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0, 0])
+    bullets[bullet_indices] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 
 
 def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False) -> None:

@@ -1,5 +1,4 @@
 """Game class"""
-import numpy as np
 
 import ImageSprites
 from Calculations.Calculations import *
@@ -28,7 +27,8 @@ class Game:
         self.console = Console(self, 10, 10)
 
         self.default_enemy_data = np.array(
-            [1100, 1000, 2 * ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY],
+            [1100, 1000, 2 * ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
+             ENEMY_ARMOR],
             dtype=np.float_)
 
         self.dt: np.float_ = np.float_(0)
@@ -114,11 +114,11 @@ class Game:
                 if self.time_passed == 0:
                     player_pos = player[0, :2]
                     mouse_pos = np.array(pg.mouse.get_pos()) + self.field.screen_centre - np.array([WIDTH, HEIGHT]) / 2
-                    angle = np.arctan2(*(mouse_pos - player_pos)[::-1])
+                    angle = np.arctan2(*(mouse_pos - player_pos)[::-1]) + player[0, 20] * (np.random.random() - 0.5) * 2
                     data = [player_pos[0], player_pos[1], player[0, 15], player[0, 16], 1,
                             player[0, 17],
                             player[0, 22] * np.cos(angle) + player[0, 6],
-                            player[0, 22] * np.sin(angle) + player[0, 7], 0, 0, 5]
+                            player[0, 22] * np.sin(angle) + player[0, 7], 0, 0, player[0, 21], player[0, 14]]
                     if len(bullet_ids):
                         index = bullet_ids.pop()
                         self.bullet_set.add(
@@ -140,7 +140,7 @@ class Game:
             calc_obstacles(bullets, obstacles)
             calc_obstacles(player, obstacles)
 
-            calc_damage(enemies, bullets)
+            calc_damage(enemies, bullets, player)
 
             self.field.move_screen_relative_player(player, self.dt)
 

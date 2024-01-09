@@ -1,11 +1,13 @@
 """pg main loop"""
 import sys
+import warnings
 
 from tqdm import tqdm
 
 from Game import *
 
 pg.init()
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 Game = Game()
 Game.make_borders()
 Game.create_enemies()
@@ -13,7 +15,6 @@ Game.create_obstacles()
 
 with (tqdm() as pbar):
     while Game.running:
-
         Game.change_pseudo_constants()
         Game.check_events()
         Game.shoot()
@@ -25,4 +26,3 @@ with (tqdm() as pbar):
 
 pg.quit()
 sys.exit()
-
