@@ -31,7 +31,7 @@ PLAYER_DELAY: np.float_ = np.float_(0.01)
 PLAYER_ARMOR_PIERCING: np.float_ = np.float_(0)
 PLAYER_BULLET_SIZE_X: np.float_ = np.float_(10)
 PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)
-PLAYER_BULLET_DAMAGE: np.float_ = np.float_(1)
+PLAYER_BULLET_DAMAGE: np.float_ = np.float_(2)
 PLAYER_CRITICAL_COEFFICIENT: np.float_ = np.float_(0)
 PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0)
 PLAYER_SCATTER: np.float_ = np.float_(0)
@@ -57,7 +57,7 @@ ENEMY_SIZE_Y: np.int_ = 25
 ENEMY_HP: np.int_ = 10
 ENEMY_DAMAGE: np.int_ = 1
 ENEMY_MAX_VELOCITY: np.int_ = 300
-COLLISIONS_REPELLING: np.float_ = np.float_(300)
+COLLISIONS_REPELLING: np.float_ = np.float_(25)
 
 CLOCK = pygame.time.Clock()
 
