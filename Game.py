@@ -28,7 +28,7 @@ class Game:
         self.console = Console(self, 10, 10)
 
         self.default_enemy_data = np.array(
-            [1100, 1000, 2 * ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY],
+            [1100, 1000, ENEMY_SIZE_X,  ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY],
             dtype=np.float_)
 
         self.dt: np.float_ = np.float_(0)
@@ -78,6 +78,7 @@ class Game:
 
     def draw_console(self):
         if self.console_:
+            self.console.update()
             self.console.draw_in_screen(self.screen)
             self.console.draw_in_field(self.field.field)
 
@@ -90,8 +91,8 @@ class Game:
                 self.running: bool = False
                 quit()
 
-            if self.key_pressed[pg.K_y]:
-                self.player.characteristics.apply("aboba")
+            # if self.key_pressed[pg.K_y]:
+            #     self.player.characteristics.apply("aboba")
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:

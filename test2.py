@@ -13,7 +13,6 @@ Game.create_obstacles()
 
 with (tqdm() as pbar):
     while Game.running:
-
         Game.change_pseudo_constants()
         Game.check_events()
         Game.shoot()
@@ -25,4 +24,3 @@ with (tqdm() as pbar):
 
 pg.quit()
 sys.exit()
-
