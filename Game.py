@@ -1,9 +1,9 @@
 """Game class"""
-import numpy as np
 
 import ImageSprites
 from Calculations.Calculations import *
 from Calculations.Data import *
+from Console.Console import Console
 from Constants import *
 from Field import Field
 from Functions.Functions import *
@@ -14,21 +14,32 @@ from Movable_objects.Player import *
 
 class Game:
     def __init__(self):
+        pg.mouse.set_visible(False)
+
         self.field: Field = Field()
         self.player: Player = Player("a", self.field)
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME)
-        pg.mouse.set_visible(False)
+
         self.enemy_set: set = set()
         self.bullet_set: set = set()
         self.obstacle_set: set = set()
+
+        self.console = Console(self, 10, 10)
+
         self.default_enemy_data = np.array(
             [1100, 1000, ENEMY_SIZE_X, 1 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY],
             dtype=np.float_)
+
         self.dt: np.float_ = np.float_(0)
-        self.running: bool = True
         self.time_passed: np.float_ = np.float_(0)
+
+        self.running: bool = True
         self.shooting: bool = False
+        self.console_: bool = False
+        self.pause: bool = False
+
         self.COLLISIONS_REPELLING = COLLISIONS_REPELLING
+        self.key_pressed: (list, None) = None
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
         self.enemy_set = set([Enemy(np.array(
@@ -62,14 +73,23 @@ class Game:
     def change_pseudo_constants(self):
         self.dt = DT(CLOCK)
         self.time_passed = max(self.time_passed - self.dt, 0)
+        self.key_pressed = pg.key.get_pressed()
+
+    def draw_console(self):
+        if self.console_:
+            self.console.draw_in_screen(self.screen)
+            self.console.draw_in_field(self.field.field)
+
+            self.console.draw(self.screen)
 
     def check_events(self):
         for event in pg.event.get():
-            if event.type == pg.QUIT or pg.key.get_pressed()[pg.K_DELETE]:
+
+            if event.type == pg.QUIT or self.key_pressed[pg.K_DELETE]:
                 self.running: bool = False
                 quit()
 
-            if pg.key.get_pressed()[pg.K_y]:
+            if self.key_pressed[pg.K_y]:
                 self.player.characteristics.apply("aboba")
 
             if event.type == pg.MOUSEBUTTONDOWN:
@@ -79,39 +99,49 @@ class Game:
                 if event.button == 1:
                     self.shooting = False
 
+            if event.type == pg.KEYDOWN:
+                self.console.handle_event(event)
+                if event.key == pg.K_F1:
+                    self.console_ = not self.console_
+                    self.pause = self.console_
+                    if self.console_:
+                        self.console.open_console()
+
     def shoot(self):
-        if self.shooting:
-            if self.time_passed == 0:
-                player_pos = player[0, :2]
-                mouse_pos = np.array(pg.mouse.get_pos()) + self.field.screen_centre - np.array([WIDTH, HEIGHT]) / 2
-                angle = np.arctan2(*(mouse_pos - player_pos)[::-1])
-                data = [player_pos[0], player_pos[1], player[0, 15], player[0, 16], 1,
-                        player[0, 17],
-                        player[0, 22] * np.cos(angle) + player[0, 6],
-                        player[0, 22] * np.sin(angle) + player[0, 7], 0, 0, 5]
-                if len(bullet_ids):
-                    index = bullet_ids.pop()
-                    self.bullet_set.add(
-                        DefaultBullet(data, bullets, index, "green", self.field, bullet_ids))
-                else:
-                    print("bullet error")
-                self.time_passed = player[0, 13]
+        if not self.pause:
+            if self.shooting:
+                if self.time_passed == 0:
+                    player_pos = player[0, :2]
+                    mouse_pos = np.array(pg.mouse.get_pos()) + self.field.screen_centre - np.array([WIDTH, HEIGHT]) / 2
+                    angle = np.arctan2(*(mouse_pos - player_pos)[::-1])
+                    data = [player_pos[0], player_pos[1], player[0, 15], player[0, 16], 1,
+                            player[0, 17],
+                            player[0, 22] * np.cos(angle) + player[0, 6],
+                            player[0, 22] * np.sin(angle) + player[0, 7], 0, 0, 5]
+                    if len(bullet_ids):
+                        index = bullet_ids.pop()
+                        self.bullet_set.add(
+                            DefaultBullet(data, bullets, index, "green", self.field, bullet_ids))
+                    else:
+                        print("bullet error")
+                    self.time_passed = player[0, 13]
 
     def calc_calculations(self):
-        calc_player_movement(player, set_direction(pg.key.get_pressed()), self.dt)
+        if not self.pause:
+            calc_player_movement(player, set_direction(self.key_pressed), self.dt)
 
-        calc_enemy_direction(enemies, *player[0, 0:2])
-        calc_movements(enemies, self.dt)
-        calc_bullet_movements(bullets, self.dt)
+            calc_enemy_direction(enemies, *player[0, 0:2])
+            calc_movements(enemies, self.dt)
+            calc_bullet_movements(bullets, self.dt)
 
-        calc_collisions_test(enemies, np.float_(25), self.dt)
-        calc_obstacles(enemies, obstacles)
-        calc_obstacles(bullets, obstacles, True)
-        calc_obstacles(player, obstacles)
+            calc_collisions_test(enemies, np.float_(25), self.dt)
+            calc_obstacles(enemies, obstacles)
+            calc_obstacles(bullets, obstacles, True)
+            calc_obstacles(player, obstacles)
 
-        calc_damage_test(enemies, bullets)
+            calc_damage_test(enemies, bullets)
 
-        self.field.move_screen_relative_player(player, self.dt)
+            self.field.move_screen_relative_player(player, self.dt)
 
     def draw_or_kill(self):
         self.player.draw()
@@ -134,6 +164,7 @@ class Game:
 
     def draw(self):
         self.screen.fill(0)
+
         self.field.draw()
         self.draw_or_kill()
         field_screen_centre_x, field_screen_centre_y = self.field.screen_centre[0] - WIDTH // 2, \
@@ -145,6 +176,7 @@ class Game:
         self.screen.blit(ImageSprites.sprites['cursor'],
                          (mouse_x - 16, mouse_y - 16))
 
-    def end_cycle(self):
+    @staticmethod
+    def end_cycle():
         pg.display.flip()
         CLOCK.tick(FPS * 1000)
