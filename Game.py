@@ -22,7 +22,7 @@ class Game:
         self.bullet_set: set = set()
         self.obstacle_set: set = set()
         self.default_enemy_data = np.array(
-            [1100, 1000, ENEMY_SIZE_X, 1 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY],
+            [1100, 1000, 2 * ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY],
             dtype=np.float_)
         self.dt: np.float_ = np.float_(0)
         self.running: bool = True
@@ -104,12 +104,12 @@ class Game:
         calc_movements(enemies, self.dt)
         calc_bullet_movements(bullets, self.dt)
 
-        calc_collisions_test(enemies, np.float_(25), self.dt)
+        calc_collisions(enemies, self.COLLISIONS_REPELLING, self.dt)
         calc_obstacles(enemies, obstacles)
-        calc_obstacles(bullets, obstacles, True)
+        calc_obstacles(bullets, obstacles)
         calc_obstacles(player, obstacles)
 
-        calc_damage_test(enemies, bullets)
+        calc_damage(enemies, bullets)
 
         self.field.move_screen_relative_player(player, self.dt)
 
