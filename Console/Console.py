@@ -53,10 +53,6 @@ class Console:
         self.height: int = self.txt_surface.get_height()
 
     def handle_event(self, event) -> None:
-        if self.game.key_pressed[pg.K_LCTRL] and self.game.key_pressed[pg.K_v]:
-            self.text += pyperclip.paste()
-            return
-
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_RETURN:
                 if self.previous_commands[-1] != self.text:
@@ -66,7 +62,10 @@ class Console:
 
                 self.text = ''
                 self.index_previous_commands = 0
-
+            elif event.key == pg.K_LCTRL:
+                pass
+            elif event.key == pg.K_v and self.game.key_pressed[pg.K_LCTRL]:
+                self.text += pyperclip.paste()
             elif event.key == pg.K_BACKSPACE:
                 self.text = self.text[:-1]
                 self.index_previous_commands = 0
@@ -94,6 +93,7 @@ class Console:
                 self.text = ''
 
             else:
+                print(event)
                 self.text += event.unicode
                 self.index_previous_commands = 0
 
