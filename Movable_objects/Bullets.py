@@ -1,4 +1,5 @@
 """classes Projectiles and additional functions"""
+from Image import Image
 from Movable_objects.Entity import *
 
 
@@ -6,6 +7,13 @@ class DefaultBullet(Entity):
     def __init__(self, data: np.array, matrix: np.ndarray, Id: int, image: str, field,
                  free_Ids: set):
         super().__init__(data, matrix, Id, image, field, free_Ids)
+
+        self.image: Image = Image(int(self.matrix[self.Id, 2]), int(self.matrix[self.Id, 3]), r"image/test_bullet.png")
+
+    def draw(self) -> None:
+        self.field.field.blit(self.image.img, (
+            self.matrix[self.Id, X] - self.matrix[self.Id, SIZE_X],
+            self.matrix[self.Id, Y] - self.matrix[self.Id, SIZE_Y]))
 
 # @numba.njit(fastmath=True)
 # def calculate_angle(x1: float, y1: float, cursor_x: float, cursor_y: float) -> float:

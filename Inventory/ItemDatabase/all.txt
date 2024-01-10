@@ -1,1 +1,9 @@
 
+Insert: ('test123321', '{}', '{}', '{}', 'from Interaction.Interaction import *
+print_1()')
+
+
+from Interaction.Interaction import *
+print_1()Insert: ('ffffff', '{}', '{}', '{}', 'from Interaction.Interaction import Interaction
+i = Interaction()
+i.aboba()')

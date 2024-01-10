@@ -32,7 +32,7 @@ class PlayerInd:
     damage_delay = 23
 
 
-class Console:
+class ConsoleInter:
     font = pg.font.Font(None, 27)  # initialization in the class so that there is no pygame in the constants
 
     def __init__(self, game, x, y) -> None:
@@ -93,7 +93,6 @@ class Console:
                 self.text = ''
 
             else:
-                print(event)
                 self.text += event.unicode
                 self.index_previous_commands = 0
 
@@ -110,6 +109,8 @@ class Console:
 
     def open_console(self) -> None:
         self.text = ''
+        self.txt_surface = self.font.render(self.text, True, self.color)
+
 
     def draw_in_field(self, field: pg.Surface) -> None:
         ...
@@ -386,8 +387,8 @@ class Console:
     # pygame.init()
     #
     #
-    # class Console:
-    #     """class Console"""
+    # class ConsoleInter:
+    #     """class ConsoleInter"""
     #     font = pygame.font.Font(*FONT_CONSOLE)  # initialization in the class so that there is no pygame in the constants
     #
     #     def __init__(self, x: int, y: int, width: int, height: int, player, screen, field, clock, projectiles, enemies,

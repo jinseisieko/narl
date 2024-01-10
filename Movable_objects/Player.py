@@ -1,5 +1,4 @@
-import pygame as pg
-
+from Image import Image
 from Inventory.Сharacteristics import Characteristics
 
 
@@ -9,9 +8,9 @@ class Player:
         self.field = field
         self.characteristics = Characteristics()
         self.matrix = self.characteristics.characteristics
-        self.image = pg.Surface((2 * self.matrix[0, 2], 2 * self.matrix[0, 3]))
-        self.image.fill((0, 0, 255))
+        self.image = Image(self.matrix[0][2], self.matrix[0][3], self.image)
+        print(self.matrix[0][2], self.matrix[0][3])
 
     def draw(self) -> None:
-        self.field.field.blit(self.image, (
+        self.field.field.blit(self.image.img, (
             self.matrix[0, 0] - self.matrix[0, 2], self.matrix[0, 1] - self.matrix[0, 3]))

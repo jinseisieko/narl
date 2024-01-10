@@ -58,7 +58,7 @@ ENEMY_HP: np.int_ = 10  # int
 ENEMY_DAMAGE: np.int_ = 1  # int
 ENEMY_MAX_VELOCITY: np.float_ = np.float_(300)  # pixels / second
 ENEMY_ARMOR: np.int_ = 3  # int
-COLLISIONS_REPELLING: np.float_ = np.float_(25)  # pixels / second
+COLLISIONS_REPELLING: np.float_ = np.float_(4)
 
 CLOCK = pygame.time.Clock()
 

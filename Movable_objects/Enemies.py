@@ -1,10 +1,17 @@
 """classes Enemy"""
+from Image import Image
 from Movable_objects.Entity import *
 
 
 class Enemy(Entity):
     def __init__(self, data: np.array, matrix: np.ndarray, Id: int, image: str, field, free_Ids: set):
         super().__init__(data, matrix, Id, image, field, free_Ids)
+        self.image: Image = Image(int(self.matrix[self.Id, 2]), int(self.matrix[self.Id, 3]), r"image/test_enemy.png")
+
+    def draw(self) -> None:
+        self.field.field.blit(self.image.img, (
+            self.matrix[self.Id, X] - self.matrix[self.Id, SIZE_X],
+            self.matrix[self.Id, Y] - self.matrix[self.Id, SIZE_Y]))
 
 # class Enemy(pygame.sprite.Sprite):
 #     def __init__(self, player, x: float, y: float, chunks: Chunks, i: int):

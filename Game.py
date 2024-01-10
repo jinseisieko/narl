@@ -1,10 +1,9 @@
-"""Game class"""
-import numpy as np
+"""game class"""
 
 import ImageSprites
 from Calculations.Calculations import *
 from Calculations.Data import *
-from Console.Console import Console
+from Console.ConsoleInter import ConsoleInter
 from Constants import *
 from Field import Field
 from Functions.Functions import *
@@ -16,19 +15,19 @@ from Movable_objects.Player import *
 class Game:
     def __init__(self):
         pg.mouse.set_visible(False)
+        self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 
         self.field: Field = Field()
-        self.player: Player = Player("a", self.field)
-        self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME)
+        self.player: Player = Player(r"image\test_player.png", self.field)
 
         self.enemy_set: set = set()
         self.bullet_set: set = set()
         self.obstacle_set: set = set()
 
-        self.console = Console(self, 10, 10)
+        self.console = ConsoleInter(self, 10, 10)
 
         self.default_enemy_data = np.array(
-            [1100, 1000, 2 * ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
+            [1100, 1000, ENEMY_SIZE_X, ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
              ENEMY_ARMOR],
             dtype=np.float_)
 
@@ -42,6 +41,11 @@ class Game:
 
         self.COLLISIONS_REPELLING = COLLISIONS_REPELLING
         self.key_pressed: (list, None) = None
+
+        self.FPS = FPS
+
+        global GAME
+        GAME = self
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
         self.enemy_set = set([Enemy(np.array(
@@ -92,8 +96,8 @@ class Game:
                 self.running: bool = False
                 quit()
 
-            # if self.key_pressed[pg.K_y]:
-            #     self.player.characteristics.apply("aboba")
+            if self.key_pressed[pg.K_y]:
+                self.player.characteristics.apply("ffffff")
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -179,7 +183,12 @@ class Game:
         self.screen.blit(ImageSprites.sprites['cursor'],
                          (mouse_x - 16, mouse_y - 16))
 
-    @staticmethod
-    def end_cycle():
+    def end_cycle(self):
         pg.display.flip()
-        CLOCK.tick(FPS * 1000)
+        CLOCK.tick(self.FPS)
+
+
+GAME = Game()
+GAME.make_borders()
+GAME.create_enemies()
+GAME.create_obstacles()
