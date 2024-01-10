@@ -52,13 +52,13 @@ FONT_FPS = (None, 27)
 FONT_CHARACTERISTICS = (None, 27)
 FONT_COUNT_OBJECTS = (None, 27)
 
-ENEMY_SIZE_X: np.int_ = 25  # pixels
-ENEMY_SIZE_Y: np.int_ = 25  # pixels
-ENEMY_HP: np.int_ = 10  # int
-ENEMY_DAMAGE: np.int_ = 1  # int
+ENEMY_SIZE_X: np.float_ = np.float_(25)  # pixels
+ENEMY_SIZE_Y: np.float_ = np.float_(25)  # pixels
+ENEMY_HP: np.float_ = np.float_(10)  # int
+ENEMY_DAMAGE: np.float_ = np.float_(1)  # int
 ENEMY_MAX_VELOCITY: np.float_ = np.float_(300)  # pixels / second
-ENEMY_ARMOR: np.int_ = 3  # int
-COLLISIONS_REPELLING: np.float_ = np.float_(4)
+ENEMY_ARMOR: np.float_ = np.float_(3)  # int
+COLLISIONS_REPELLING: np.float_ = np.float_(25)  # pixels / second
 
 CLOCK = pygame.time.Clock()
 

@@ -147,6 +147,7 @@ class Game:
             calc_obstacles(player, obstacles)
 
             calc_damage(enemies, bullets, player)
+            calc_player_damage(enemies, player, self.dt)
 
             self.field.move_screen_relative_player(player, self.dt)
 
