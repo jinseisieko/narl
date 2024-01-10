@@ -138,3 +138,20 @@ def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False
     if kill:
         indices: np.ndarray = np.where((np.abs(dist_x) < real_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
         entity[indices, :10] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0])
+
+
+def calc_player_damage(entity: np.ndarray, player: np.ndarray, dt: np.float_):
+    real_dist_x = entity[..., 2] + player[..., 2][..., np.newaxis]
+    real_dist_y = entity[..., 3] + player[..., 3][..., np.newaxis]
+    dist_x = entity[..., 0] - player[..., 0][..., np.newaxis]
+    dist_y = entity[..., 1] - player[..., 1][..., np.newaxis]
+    player[..., 24] -= dt
+
+    if player[0, 24] <= 0:
+        indices = np.where((np.abs(dist_x) < real_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
+        indices = np.resize(indices, np.max(indices.shape[0]))
+        player[0, 4] -= np.maximum(0, np.sum(entity[indices, 5], axis=0) - player[0, 12])
+        player[..., 24] = player[..., 23]
+
+    if player[0, 4] <= 0:
+        exit()
