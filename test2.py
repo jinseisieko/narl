@@ -18,6 +18,7 @@ with (tqdm() as pbar):
         game.calc_calculations()
         game.draw()
         game.draw_console()
+        game.draw_interface()
         game.end_cycle()
         pbar.update(1)
 
