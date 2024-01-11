@@ -22,4 +22,5 @@ scatter = 20
 bullet_life_time = 21
 bullet_velocity = 22
 damage_delay = 23
-time_wait = 24
+time_wait_damage = 24
+time_wait_shot = 25

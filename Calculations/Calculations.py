@@ -14,17 +14,14 @@ def calc_enemy_direction(entity: np.ndarray, x: np.float_, y: np.float_) -> None
 
 
 def calc_movements(objects: np.ndarray, dt: np.float_) -> None:
-    objects[..., 0] += objects[..., 6] * dt
-    objects[..., 1] += objects[..., 7] * dt
+    objects[..., 0:2] += objects[..., 6:7] * dt
 
 
 def calc_bullet_movements(bullet: np.ndarray, dt: np.float_):
-    bullet[..., 0] += bullet[..., 6] * dt
-    bullet[..., 1] += bullet[..., 7] * dt
+    bullet[..., 0:2] += bullet[..., 6:8] * dt
     bullet[..., 9] += dt
 
-    indices = np.where(bullet[..., 9] >= bullet[..., 10])
-    bullet[indices] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
+    bullet[np.where(bullet[..., 9] >= bullet[..., 10])] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 
 
 def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float_) -> None:
@@ -156,6 +153,30 @@ def calc_player_damage(entity: np.ndarray, player: np.ndarray, dt: np.float_):
 
     if player[0, 4] <= 0:
         exit()
+
+
+def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray, Id: np.ndarray,
+                  dt: np.float_):
+    mouse_pos = mouse_pos + field[0:2] - field[8:10] / 2
+    angle = np.arctan2(player[0, 1] - mouse_pos[1], player[0, 0] - mouse_pos[0]) \
+            + player[0, 20] * (np.random.random() * 2 - 1)
+
+    quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
+    quotient = np.minimum(quotient, Id.shape[0])
+    arange = np.arange(quotient)
+
+    data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17], \
+                             player[0, 22] * np.cos(angle) + player[0, 6], \
+                             player[0, 22] * np.sin(angle) + player[0, 7], \
+                             0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (arange, 1))
+
+    data[arange, 0:2] += data[arange, 6:8]
+
+    indices = Id.resize(quotient)
+
+    bullets[indices] = data[arange]
+
+    return indices
 
 
 @njit(fastmath=True)
