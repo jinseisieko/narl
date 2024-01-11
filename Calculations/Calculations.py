@@ -1,4 +1,5 @@
 import numpy as np
+from numba import njit
 
 
 def calc_enemy_direction(entity: np.ndarray, x: np.float_, y: np.float_) -> None:
@@ -130,8 +131,8 @@ def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False
     delta_x: np.ndarray = np.maximum(0, (real_dist_x - np.abs(dist_x))) * np.copysign(1, dist_x)
     delta_y: np.ndarray = np.maximum(0, (real_dist_y - np.abs(dist_y))) * np.copysign(1, dist_y)
 
-    entity[ind_x[1], 0] += delta_x[*ind_x]
-    entity[ind_y[1], 1] += delta_y[*ind_y]
+    entity[ind_x[1], 0] += delta_x[ind_x[0], ind_x[1]]
+    entity[ind_y[1], 1] += delta_y[ind_y[0], ind_y[1]]
     entity[ind_x[1], 6] = 0
     entity[ind_y[1], 7] = 0
 
@@ -155,3 +156,10 @@ def calc_player_damage(entity: np.ndarray, player: np.ndarray, dt: np.float_):
 
     if player[0, 4] <= 0:
         exit()
+
+
+@njit(fastmath=True)
+def calc_cameraman(player: np.ndarray, filed: np.ndarray, dt: np.float_):
+    speed = np.maximum(player[0, 8], np.hypot(player[0, 6], player[0, 7]))
+    filed[0:2] += speed * ((player[0, 0:2] - filed[0:2]) / filed[2:4]) * dt
+    filed[4:6] = np.clip(filed[0:2] - filed[8:10] / 2, 0, filed[6:8] - filed[8:10])

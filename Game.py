@@ -17,7 +17,7 @@ class Game:
         pg.mouse.set_visible(False)
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 
-        self.field: Field = Field()
+        self.field: Field = Field(field)
         self.player: Player = Player(r"image\test_player.png", self.field)
 
         self.enemy_set: set = set()
@@ -27,7 +27,7 @@ class Game:
         self.console = ConsoleInter(self, 10, 10)
 
         self.default_enemy_data = np.array(
-            [1100, 1000, ENEMY_SIZE_X, ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
+            [1100, 1000, ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
              ENEMY_ARMOR],
             dtype=np.float_)
 
@@ -72,9 +72,10 @@ class Game:
                      "red", self.field, obstacles_ids))
 
     def create_obstacles(self):
-        self.obstacle_set |= set([Obstacle(np.array([0 + 100 * i, 0 + 200 * i, 10, 60]), obstacles, obstacles_ids.pop(),
-                                           "yellow", self.field, obstacles_ids)
-                                  for i in range(10)])
+        self.obstacle_set |= set(
+            [Obstacle(np.array([0 + 100 * i, 0 + 200 * i, 200, 600]), obstacles, obstacles_ids.pop(),
+                      "yellow", self.field, obstacles_ids)
+             for i in range(10)])
 
     def change_pseudo_constants(self):
         self.dt = DT(CLOCK)
@@ -119,7 +120,7 @@ class Game:
             if self.shooting:
                 if self.time_passed == 0:
                     player_pos = player[0, :2]
-                    mouse_pos = np.array(pg.mouse.get_pos()) + self.field.screen_centre - np.array([WIDTH, HEIGHT]) / 2
+                    mouse_pos = np.array(pg.mouse.get_pos()) + self.field.data[0:2] - self.field.data[8:10] / 2
                     angle = np.arctan2(*(mouse_pos - player_pos)[::-1]) + player[0, 20] * (np.random.random() - 0.5) * 2
                     data = [player_pos[0], player_pos[1], player[0, 15], player[0, 16], 1,
                             player[0, 17],
@@ -149,7 +150,7 @@ class Game:
             calc_damage(enemies, bullets, player)
             calc_player_damage(enemies, player, self.dt)
 
-            self.field.move_screen_relative_player(player, self.dt)
+            calc_cameraman(player, field, self.dt)
 
     def draw_or_kill(self):
         self.player.draw()
@@ -175,9 +176,7 @@ class Game:
 
         self.field.draw()
         self.draw_or_kill()
-        field_screen_centre_x, field_screen_centre_y = self.field.screen_centre[0] - WIDTH // 2, \
-                                                       self.field.screen_centre[
-                                                           1] - HEIGHT // 2
+        field_screen_centre_x, field_screen_centre_y = self.field.data[0:2] - self.field.data[8:10] / 2
         self.screen.blit(self.field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
         pg.draw.circle(self.screen, "white", (WIDTH // 2, HEIGHT // 2), 5)
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -186,7 +185,7 @@ class Game:
 
     def end_cycle(self):
         pg.display.flip()
-        CLOCK.tick(self.FPS)
+        CLOCK.tick(self.FPS * 1000)
 
 
 GAME = Game()
