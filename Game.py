@@ -7,6 +7,7 @@ from Console.ConsoleInter import ConsoleInter
 from Constants import *
 from Field import Field
 from Functions.Functions import *
+from Interface.Interface import Interface
 from Movable_objects.Enemies import *
 from Movable_objects.Obstacles import *
 from Movable_objects.Player import *
@@ -47,6 +48,8 @@ class Game:
         global GAME
         GAME = self
 
+        self.interface = Interface(player)
+
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
         self.enemy_set = set([Enemy(np.array(
             [self.default_enemy_data[0] + 10 * i, self.default_enemy_data[1] + 20 * i * (-1) ** i,
@@ -86,9 +89,13 @@ class Game:
         if self.console_:
             self.console.update()
             self.console.draw_in_screen(self.screen)
-            self.console.draw_in_field(self.field.field)
+            self.console.draw_in_field(self.field.fwield)
 
             self.console.draw(self.screen)
+
+    def draw_interface(self):
+        self.interface.calc()
+        self.interface.draw(self.screen)
 
     def check_events(self):
         for event in pg.event.get():
