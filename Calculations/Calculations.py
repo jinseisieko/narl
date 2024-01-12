@@ -14,7 +14,7 @@ def calc_enemy_direction(entity: np.ndarray, x: np.float_, y: np.float_) -> None
 
 
 def calc_movements(objects: np.ndarray, dt: np.float_) -> None:
-    objects[..., 0:2] += objects[..., 6:7] * dt
+    objects[..., 0:2] += objects[..., 6:8] * dt
 
 
 def calc_bullet_movements(bullet: np.ndarray, dt: np.float_):
