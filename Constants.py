@@ -34,8 +34,8 @@ PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_DAMAGE: np.float_ = np.float_(2)  # int
 PLAYER_CRITICAL_COEFFICIENT: np.float_ = np.float_(2)  # any
 PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0.8)  # from 0 to 1
-PLAYER_SCATTER: np.float_ = np.float_(0.2)  # radians
-PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(1)  # seconds
+PLAYER_SCATTER: np.float_ = np.float_(1)  # radians
+PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(2)  # seconds
 PLAYER_BULLET_VELOCITY: np.float_ = np.float_(1000)  # pixels/second
 PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.5)  # seconds
 

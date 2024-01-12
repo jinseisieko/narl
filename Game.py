@@ -124,22 +124,13 @@ class Game:
 
     def shoot(self):
         if not self.pause:
+            player[0, 25] = min(player[0, 13], player[0, 25] + self.dt)
             if self.shooting:
-                if self.time_passed == 0:
-                    player_pos = player[0, :2]
-                    mouse_pos = np.array(pg.mouse.get_pos()) + self.field.data[0:2] - self.field.data[8:10] / 2
-                    angle = np.arctan2(*(mouse_pos - player_pos)[::-1]) + player[0, 20] * (np.random.random() - 0.5) * 2
-                    data = [player_pos[0], player_pos[1], player[0, 15], player[0, 16], 1,
-                            player[0, 17],
-                            player[0, 22] * np.cos(angle) + player[0, 6],
-                            player[0, 22] * np.sin(angle) + player[0, 7], 0, 0, player[0, 21], player[0, 14]]
-                    if len(bullet_ids):
-                        index = bullet_ids.pop()
-                        self.bullet_set.add(
-                            DefaultBullet(data, bullets, index, "green", self.field, bullet_ids))
-                    else:
-                        print("bullet error")
-                    self.time_passed = player[0, 13]
+                Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
+                                   self.dt)
+                for x in Id:
+                    self.bullet_set.add(DefaultBullet(bullets, x, "green", self.field, bullet_ids))
+                    bullet_ids.remove(x)
 
     def calc_calculations(self):
         if not self.pause:

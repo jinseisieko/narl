@@ -131,7 +131,6 @@ def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False
     entity[ind_x[1], 0] += delta_x[ind_x[0], ind_x[1]]
     entity[ind_y[1], 1] += delta_y[ind_y[0], ind_y[1]]
 
-
     if kill:
         indices: np.ndarray = np.where((np.abs(dist_x) < real_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
         entity[indices, :10] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0])
@@ -163,25 +162,28 @@ def calc_player_damage(entity: np.ndarray, player: np.ndarray, dt: np.float_):
 def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray, Id: np.ndarray,
                   dt: np.float_):
     mouse_pos = mouse_pos + field[0:2] - field[8:10] / 2
-    angle = np.arctan2(player[0, 1] - mouse_pos[1], player[0, 0] - mouse_pos[0]) \
-            + player[0, 20] * (np.random.random() * 2 - 1)
+    angle = np.arctan2(mouse_pos[1] - player[0, 1], mouse_pos[0] - player[0, 0]) \
+            + player[0, 20] * (np.random.random() - 0.5) * 2
 
     quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
-    quotient = np.minimum(quotient, Id.shape[0])
-    arange = np.arange(quotient)
+    quotient = np.int_(np.minimum(quotient, Id.shape[0]))
+    arange = np.arange(quotient, dtype=np.int_)
 
-    data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17], \
-                             player[0, 22] * np.cos(angle) + player[0, 6], \
-                             player[0, 22] * np.sin(angle) + player[0, 7], \
-                             0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (arange, 1))
+    if arange.shape[0] > 0:
+        arange = arange[0]
+        data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17], \
+                                 player[0, 22] * np.cos(angle) + player[0, 6], \
+                                 player[0, 22] * np.sin(angle) + player[0, 7], \
+                                 0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (arange + 1, 1))
 
-    data[arange, 0:2] += data[arange, 6:8]
+        data[arange, 0:2] += data[arange, 6:8] * dt
 
-    indices = Id.resize(quotient)
+        indices = np.resize(Id, quotient)
 
-    bullets[indices] = data[arange]
+        bullets[indices] = data[arange]
 
-    return indices
+        return indices
+    return np.array([])
 
 
 @njit(fastmath=True)

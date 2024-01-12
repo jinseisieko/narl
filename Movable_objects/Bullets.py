@@ -4,9 +4,9 @@ from Movable_objects.Entity import *
 
 
 class DefaultBullet(Entity):
-    def __init__(self, data: np.array, matrix: np.ndarray, Id: int, image: str, field,
+    def __init__(self, matrix: np.ndarray, Id: int, image: str, field,
                  free_Ids: set):
-        super().__init__(data, matrix, Id, image, field, free_Ids)
+        super().__init__(matrix, Id, image, field, free_Ids)
 
         self.image: Image = Image(int(self.matrix[self.Id, 2]), int(self.matrix[self.Id, 3]), r"image/test_bullet.png")
 

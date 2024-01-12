@@ -12,12 +12,10 @@ DAMAGE = 7
 
 
 class Entity:
-    def __init__(self, data: np.array, matrix: np.ndarray, Id: int, image: str, field,
-                 free_Ids: set) -> None:
+    def __init__(self, matrix: np.ndarray, Id: int, image: str, field, free_Ids: set) -> None:
         self.matrix: np.ndarray = matrix
         self.Id: int = Id
-        self.matrix[Id] = data
-        self.image: pg.Surface = pg.Surface((2 * data[2], 2 * data[3]))
+        self.image: pg.Surface = pg.Surface((2 * matrix[Id, 2], 2 * matrix[Id, 3]))
         self.image.fill(image)
         self.field = field
         self.free_Ids = free_Ids
