@@ -106,7 +106,7 @@ def calc_damage(entity: np.ndarray, bullets: np.ndarray, player: np.ndarray) -> 
     bullets[bullet_indices] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 
 
-def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False) -> None:
+def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False, bounce: bool = False) -> None:
     real_dist_x: np.ndarray
     real_dist_y: np.ndarray
     dist_x: np.ndarray
@@ -130,12 +130,17 @@ def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False
 
     entity[ind_x[1], 0] += delta_x[ind_x[0], ind_x[1]]
     entity[ind_y[1], 1] += delta_y[ind_y[0], ind_y[1]]
-    entity[ind_x[1], 6] = 0
-    entity[ind_y[1], 7] = 0
+
 
     if kill:
         indices: np.ndarray = np.where((np.abs(dist_x) < real_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
         entity[indices, :10] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0])
+    if bounce:
+        entity[ind_x[1], 6] *= -1
+        entity[ind_y[1], 7] *= -1
+    else:
+        entity[ind_x[1], 6] = 0
+        entity[ind_y[1], 7] = 0
 
 
 def calc_player_damage(entity: np.ndarray, player: np.ndarray, dt: np.float_):
