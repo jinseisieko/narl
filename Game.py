@@ -151,7 +151,7 @@ class Game:
 
             calc_collisions(enemies, self.COLLISIONS_REPELLING, self.dt)
             calc_obstacles(enemies, obstacles)
-            calc_obstacles(bullets, obstacles, bounce=True)
+            calc_obstacles(bullets, obstacles, bounce=bool(player[0, 26]))
             calc_obstacles(player, obstacles)
 
             calc_damage(enemies, bullets, player)
