@@ -2,12 +2,14 @@
 import pygame as pg
 
 from Constants import *
+from Inventory.ItemImages.InitializationOfObjectImages import images
 from PlayerIndexes import *
 
 
 class Interface:
-    def __init__(self, player):
-        self.player = player
+    def __init__(self, game):
+        self.game = game
+        self.player = self.game.player.characteristics.characteristics
         self.ratio_hp = self.player[0][hp] / self.player[0][max_hp]
 
         self.font = pg.font.Font(None, FONT_SIZE_CHARACTERISTICS)
@@ -38,3 +40,11 @@ class Interface:
             screen.blit(self.font.render(str(self.player[0][j]), True, "black"),
                         (COORD_CHARACTERISTICS_INTERFACE_X,
                          COORD_CHARACTERISTICS_INTERFACE_Y + INDENT_CHARACTERISTICS_INTERFACE * i))
+
+        # items
+        array_draw = self.game.player.characteristics.array_draw
+        for i, row in enumerate(array_draw):
+            for j, name in enumerate(row):
+                if not (name in images):
+                    name = 'no-image'
+                screen.blit(images[name], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))

@@ -1,10 +1,11 @@
 """game class"""
-
+import pygame as pg
+from Constants import *
+screen = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 import ImageSprites
 from Calculations.Calculations import *
 from Calculations.Data import *
 from Console.ConsoleInter import ConsoleInter
-from Constants import *
 from Field import Field
 from Functions.Functions import *
 from Interface.Interface import Interface
@@ -16,8 +17,7 @@ from Movable_objects.Player import *
 class Game:
     def __init__(self):
         pg.mouse.set_visible(False)
-        self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
-
+        self.screen: pg.Surface = screen
         self.field: Field = Field(field)
         self.player: Player = Player(r"image\test_player.png", self.field)
 
@@ -48,7 +48,7 @@ class Game:
         global GAME
         GAME = self
 
-        self.interface = Interface(player)
+        self.interface = Interface(self)
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
         self.enemy_set = set([Enemy(np.array(
@@ -105,7 +105,7 @@ class Game:
                 quit()
 
             if self.key_pressed[pg.K_y]:
-                self.player.characteristics.apply("sadf", 1)
+                self.player.add_item("test", 1)
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:

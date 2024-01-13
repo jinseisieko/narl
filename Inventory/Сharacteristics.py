@@ -4,6 +4,7 @@ import sqlite3 as sql
 import numpy as np
 
 from Calculations.Data import player
+from Constants import H
 from Inventory.Items.ItemsPrototypes import ItemsPrototypes
 
 from PlayerIndexes import *
@@ -20,10 +21,17 @@ class Characteristics:
 
         self.characteristics: np.array = player
         self.item_names: list = []
+        self.array_draw: list = []
         self.itemsPrototypes = ItemsPrototypes()
         self.init_prototype(["original.db"] + self.mods)
 
     def apply(self, name: str, rang: int) -> None:
+        self.item_names.append(name)
+        self.array_draw: list[str] = []
+        for i in range(len(self.item_names) // H):
+            self.array_draw += [self.item_names[i * H:i * H + H]]
+        if len(self.item_names) % H != 0:
+            self.array_draw += [self.item_names[-(len(self.item_names) % H):]]
         new_characteristics: dict = self.itemsPrototypes.get(name, rang).apply(x=self.characteristics[0][x],
                                                                                y=self.characteristics[0][y],
                                                                                size_x=self.characteristics[0][size_x],
