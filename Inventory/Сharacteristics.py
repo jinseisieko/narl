@@ -6,7 +6,7 @@ import numpy as np
 from Calculations.Data import player
 from Inventory.Items.ItemsPrototypes import ItemsPrototypes
 
-from PlayerIndexs import *
+from PlayerIndexes import *
 
 
 class Characteristics:

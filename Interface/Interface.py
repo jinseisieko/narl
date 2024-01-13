@@ -2,7 +2,7 @@
 import pygame as pg
 
 from Constants import *
-from PlayerIndexs import *
+from PlayerIndexes import *
 
 
 class Interface:
