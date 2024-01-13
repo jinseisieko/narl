@@ -3,7 +3,6 @@ from Inventory.Сharacteristics import Characteristics
 from PlayerIndexes import *
 
 
-
 class Player:
     def __init__(self, image: str, field) -> None:
         self.image: str = image

@@ -1,6 +1,8 @@
 """game class"""
 import pygame as pg
+
 from Constants import *
+
 screen = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 import ImageSprites
 from Calculations.Calculations import *
