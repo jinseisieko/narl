@@ -105,7 +105,7 @@ class Game:
                 quit()
 
             if self.key_pressed[pg.K_y]:
-                self.player.characteristics.apply("ffffff")
+                self.player.characteristics.apply("sadf", 1)
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
