@@ -67,9 +67,10 @@ class Characteristics:
         for name_db in db_names:
             con = sql.connect(f"Inventory/ItemDatabase/{name_db}")
             cur = con.cursor()
-            for name_, renewal_plus_, renewal_multiply_, renewal_super_, code_ in cur.execute(
-                    """SELECT * FROM items"""):
-                renewal_plus = json.loads(renewal_plus_)
-                renewal_multiply = json.loads(renewal_multiply_)
-                renewal_super = json.loads(renewal_super_)
-                self.itemsPrototypes.add(name_, renewal_plus, renewal_multiply, renewal_super, code_)
+            for i in range(1, 4):
+                for name_, renewal_plus_, renewal_multiply_, renewal_super_, code_ in cur.execute(
+                        f"""SELECT * FROM rang{i}"""):
+                    renewal_plus = json.loads(renewal_plus_)
+                    renewal_multiply = json.loads(renewal_multiply_)
+                    renewal_super = json.loads(renewal_super_)
+                    self.itemsPrototypes.add(name_, i, renewal_plus, renewal_multiply, renewal_super, code_)
