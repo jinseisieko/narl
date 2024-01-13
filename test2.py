@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 game = GAME
 
 
-with (tqdm() as pbar):
+with tqdm() as pbar:
     while game.running:
         game.change_pseudo_constants()
         game.check_events()

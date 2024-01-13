@@ -89,7 +89,7 @@ class Game:
         if self.console_:
             self.console.update()
             self.console.draw_in_screen(self.screen)
-            self.console.draw_in_field(self.field.fwield)
+            self.console.draw_in_field(self.field.field)
 
             self.console.draw(self.screen)
 
