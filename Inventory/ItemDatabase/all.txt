@@ -7,3 +7,7 @@ from Interaction.Interaction import *
 print_1()Insert: ('ffffff', '{}', '{}', '{}', 'from Interaction.Interaction import Interaction
 i = Interaction()
 i.aboba()')
+Insert: ('test', '{"x": 1}', '{}', '{}', '')
+Insert: ('asdf', '{"x": 1}', '{}', '{}', '')
+Insert: ('sadf', '{"x": 1}', '{}', '{}', '')
+Insert: ('sadf', '{"x": 1}', '{}', '{}', '')
