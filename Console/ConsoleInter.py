@@ -10,7 +10,7 @@ from PlayerIndexes import *
 class ConsoleInter:
     font = pg.font.Font(None, 27)  # initialization in the class so that there is no pygame in the constants
 
-    def __init__(self, game, x, y) -> None:
+    def __init__(self, game, x_, y_) -> None:
         self.game = game
         self.color: tuple[int, int, int] = (0, 0, 0)
 
@@ -21,8 +21,8 @@ class ConsoleInter:
         self.index_previous_commands: int = 0
         self.previous_commands: list[str] = ['']
 
-        self.x: int = x
-        self.y: int = y
+        self.x: int = x_
+        self.y: int = y_
 
         self.width: int = max(200, self.txt_surface.get_width() + 10)
         self.height: int = self.txt_surface.get_height()
