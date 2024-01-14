@@ -111,7 +111,7 @@ class Game:
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    self.shooting: bool = True
+                    self.shooting = True
             if event.type == pg.MOUSEBUTTONUP:
                 if event.button == 1:
                     self.shooting = False
@@ -123,6 +123,13 @@ class Game:
                     self.pause = self.console_
                     if self.console_:
                         self.console.open_console()
+                if event.key == pg.K_SPACE:
+                    self.shooting = True
+
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_SPACE:
+                    self.shooting = False
+
 
     def shoot(self):
         if not self.pause:
