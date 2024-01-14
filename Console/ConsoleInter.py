@@ -3,6 +3,7 @@ import pygame as pg
 import pyperclip
 
 from Console.ConsoleValues import ConsoleValues
+from Inventory.Exception.ExceptionNotFoundName import ExceptionNotFoundName
 
 
 class PlayerInd:
@@ -143,6 +144,7 @@ class ConsoleInter:
         player_command_set_bullet_life_time_name = ["bullet_life_time", "set_bullet_life_time"]
         player_command_set_bullet_velocity_name = ["bullet_velocity", "set_bullet_velocity"]
         player_command_set_damage_delay_name = ["damage_delay", "set_damage_delay"]
+        player_command_add_item = ["add"]
 
         structure_command = command.split()
 
@@ -367,9 +369,19 @@ class ConsoleInter:
 
                     except ValueError:
                         ...
+                elif name in player_command_add_item:
+                    try:
+                        name = value
+                        rank = self.game.player.characteristics.getitem.get_rank(name)
+                        self.game.player.characteristics.apply(name, rank)
 
-        else: ...
-
+                    except ValueError:
+                        ...
+                    except ExceptionNotFoundName:
+                        ...
+        else:
+            ...
+        self.game.player.update_characteristics()
 #
 # import random
 # import pyperclip

@@ -27,7 +27,7 @@ class Game:
         self.bullet_set: set = set()
         self.obstacle_set: set = set()
 
-        self.console = ConsoleInter(self, 10, 10)
+        self.console = ConsoleInter(self, 100, 10)
 
         self.default_enemy_data = np.array(
             [1100, 1000, ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
@@ -107,7 +107,7 @@ class Game:
                 quit()
 
             if self.key_pressed[pg.K_y]:
-                self.player.add_item("test", 1)
+                self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5))
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:

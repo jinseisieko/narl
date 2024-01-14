@@ -38,6 +38,8 @@ PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(2)  # seconds
 PLAYER_BULLET_VELOCITY: np.float_ = np.float_(1000)  # pixels/second
 PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.5)  # seconds
 
+PLAYER_SLOWDOWN_FACTOR = 0.7
+
 RED: tuple[np.int_, np.int_, np.int_] = (255, 0, 0)
 GREEN: tuple[np.int_, np.int_, np.int_] = (0, 255, 0)
 BLUE: tuple[np.int_, np.int_, np.int_] = (0, 0, 255)

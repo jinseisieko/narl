@@ -81,8 +81,8 @@ class MyApp(QWidget):
         self.name_label = QLabel("Name:")
         self.name_lineedit = QLineEdit()
 
-        self.rang_label = QLabel("rang:")
-        self.rang_lineedit = QLineEdit()
+        self.rank_label = QLabel("rank:")
+        self.rank_lineedit = QLineEdit()
 
         self.renewal_plus_label = QLabel("renewal_plus:")
         self.renewal_plus_list = QListWidget()
@@ -120,8 +120,8 @@ class MyApp(QWidget):
         general_layout = QVBoxLayout()
         general_layout.addWidget(self.name_label)
         general_layout.addWidget(self.name_lineedit)
-        general_layout.addWidget(self.rang_label)
-        general_layout.addWidget(self.rang_lineedit)
+        general_layout.addWidget(self.rank_label)
+        general_layout.addWidget(self.rank_lineedit)
         general_layout.addWidget(self.renewal_plus_label)
         general_layout.addWidget(self.renewal_plus_list)
         general_layout.addWidget(self.renewal_plus_button)
@@ -208,7 +208,7 @@ class MyApp(QWidget):
             result_dict = {}
             for item in array:
                 key, value = item.split(" ")
-                result_dict[key] = int(value)
+                result_dict[key] = float(value)
             return result_dict
 
         def convert_array_to_dict_str(array):
@@ -231,7 +231,7 @@ class MyApp(QWidget):
 
         con = sqlite3.connect(r"..\ItemDatabase\original.db")
         cur = con.cursor()
-        cur.execute("""CREATE TABLE IF NOT EXISTS rang1 (
+        cur.execute("""CREATE TABLE IF NOT EXISTS rank1 (
     name TEXT UNIQUE,
     renewal_plus TEXT,
     renewal_multiply TEXT,
@@ -239,7 +239,7 @@ class MyApp(QWidget):
     code TEXT
 );""")
 
-        cur.execute("""CREATE TABLE IF NOT EXISTS rang2 (
+        cur.execute("""CREATE TABLE IF NOT EXISTS rank2 (
     name TEXT UNIQUE,
     renewal_plus TEXT,
     renewal_multiply TEXT,
@@ -247,15 +247,15 @@ class MyApp(QWidget):
     code TEXT
 );""")
 
-        cur.execute("""CREATE TABLE IF NOT EXISTS rang3 (
+        cur.execute("""CREATE TABLE IF NOT EXISTS rank3 (
     name TEXT UNIQUE,
     renewal_plus TEXT,
     renewal_multiply TEXT,
     renewal_super TEXT,
     code TEXT
 );""")
-        print(f"rang{self.rang_lineedit.text().strip()}")
-        cur.execute(f"INSERT INTO rang{self.rang_lineedit.text().strip()} VALUES {result}")
+        print(f"rank{self.rank_lineedit.text().strip()}")
+        cur.execute(f"INSERT INTO rank{self.rank_lineedit.text().strip()} VALUES {result}")
         con.commit()
 
 

@@ -5,8 +5,8 @@ import numpy as np
 
 from Calculations.Data import player
 from Constants import H
+from Inventory.GetItem import GetItems
 from Inventory.Items.ItemsPrototypes import ItemsPrototypes
-
 from PlayerIndexes import *
 
 
@@ -23,16 +23,17 @@ class Characteristics:
         self.item_names: list = []
         self.array_draw: list = []
         self.itemsPrototypes = ItemsPrototypes()
+        self.getitem = GetItems()
         self.init_prototype(["original.db"] + self.mods)
 
-    def apply(self, name: str, rang: int) -> None:
+    def apply(self, name: str, rank: int) -> None:
         self.item_names.append(name)
         self.array_draw: list[str] = []
         for i in range(len(self.item_names) // H):
             self.array_draw += [self.item_names[i * H:i * H + H]]
         if len(self.item_names) % H != 0:
             self.array_draw += [self.item_names[-(len(self.item_names) % H):]]
-        new_characteristics: dict = self.itemsPrototypes.get(name, rang).apply(x=self.characteristics[0][x],
+        new_characteristics: dict = self.itemsPrototypes.get(name, rank).apply(x=self.characteristics[0][x],
                                                                                y=self.characteristics[0][y],
                                                                                size_x=self.characteristics[0][size_x],
                                                                                size_y=self.characteristics[0][size_y],
@@ -78,8 +79,9 @@ class Characteristics:
             cur = con.cursor()
             for i in range(1, 4):
                 for name_, renewal_plus_, renewal_multiply_, renewal_super_, code_ in cur.execute(
-                        f"""SELECT * FROM rang{i}"""):
+                        f"""SELECT * FROM rank{i}"""):
                     renewal_plus = json.loads(renewal_plus_)
                     renewal_multiply = json.loads(renewal_multiply_)
                     renewal_super = json.loads(renewal_super_)
                     self.itemsPrototypes.add(name_, i, renewal_plus, renewal_multiply, renewal_super, code_)
+                    self.getitem.add(name_, i)
