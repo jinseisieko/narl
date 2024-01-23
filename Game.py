@@ -192,7 +192,7 @@ class Game:
 
     def end_cycle(self):
         pg.display.flip()
-        CLOCK.tick(self.FPS * 1000)
+        CLOCK.tick(self.FPS)
 
 
 GAME = Game()

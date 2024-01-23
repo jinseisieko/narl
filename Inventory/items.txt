@@ -1,12 +1,23 @@
+rank: 1
+
 яблоко (apple) rank: 1
 +1 hp
 +1 max_hp
+
+ботинок (boot) rank: 1
++100 acceleration
+
+rank: 2
 
 камень (stone) rank: 2
 +3 size_x
 +3 size_y
 +3 armor
 
+rank: 3
+
 огонь (fire) rank: 3
 -0.1 delay
 +150 bullet_velocity
+
+
