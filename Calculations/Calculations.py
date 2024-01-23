@@ -176,7 +176,7 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
                                  player[0, 22] * np.sin(angle) + player[0, 7], \
                                  0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (arange + 1, 1))
 
-        data[arange, 0:2] += data[arange, 6:8] * dt
+        data[arange, 0:2] += data[arange, 6:8] * dt * arange
 
         indices = np.resize(Id, quotient)
 
@@ -184,6 +184,10 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
 
         return indices
     return np.array([])
+
+
+def calc_waves(player: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray):
+    pass
 
 
 @njit(fastmath=True)

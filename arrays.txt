@@ -67,6 +67,33 @@ obstacles <- entity
  [size_y]
  [cos]]
 
+
+filed
+[[player_center_x]
+ [player_center_y]
+ [move_screen_rect_x]
+ [move_screen_rect_y]
+ [draw_x]
+ [draw_y]
+ [field_width]
+ [field_height]
+ [screen_width]
+ [screen_height]
+ [spawn_line]
+ [kill_line]]
+
+wave
+[[number]
+ [spawn_delay]
+ [spawn_passed]
+ [enemies]
+ [max_enemies]
+ [min_able_type]
+ [max_able_type]
+ [need_to_kill]
+ [killed]]
+
+
 calculations: (one by one)
 
 synchronization(player, movable_entity)
