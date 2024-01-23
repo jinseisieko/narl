@@ -1,7 +1,7 @@
-from Inventory.Exception.ExceptionNotFoundName import ExceptionNotFoundName
-from Inventory.Exception.ExceptionRepeatingName import ExceptionRepeatingName
 import copy
 
+from Inventory.Exception.ExceptionNotFoundName import ExceptionNotFoundName
+from Inventory.Exception.ExceptionRepeatingName import ExceptionRepeatingName
 from Inventory.Items.Item import Item
 
 
@@ -11,58 +11,61 @@ class ItemsPrototypes:
     def __init__(self) -> None:
         """init"""
         super().__init__()
-        self.catalog_rang_1: dict = {}
-        self.catalog_rang_2: dict = {}
-        self.catalog_rang_3: dict = {}
+        self.catalog_rank_1: dict = {}
+        self.catalog_rank_2: dict = {}
+        self.catalog_rank_3: dict = {}
 
-    def add_rang_1(self, name, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str) -> None:
+    def add_rank_1(self, name, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str) -> Item:
         """method for adding an object"""
-        if name in self.catalog_rang_1:
+        if name in self.catalog_rank_1:
             raise ExceptionRepeatingName('this name already exists in the directory')
+        item = Item(name=name, renewal_plus=renewal_plus, renewal_multiply=renewal_multiply,
+                    renewal_super=renewal_super, code=code)
+        self.catalog_rank_1[name] = item
+        return item
 
-        self.catalog_rang_1[name] = Item(name=name, renewal_plus=renewal_plus, renewal_multiply=renewal_multiply,
-                                         renewal_super=renewal_super, code=code)
-
-    def add_rang_2(self, name, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str) -> None:
+    def add_rank_2(self, name, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str) -> Item:
         """method for adding an object"""
-        if name in self.catalog_rang_2:
+        if name in self.catalog_rank_2:
             raise ExceptionRepeatingName('this name already exists in the directory')
+        item = Item(name=name, renewal_plus=renewal_plus, renewal_multiply=renewal_multiply,
+                    renewal_super=renewal_super, code=code)
+        self.catalog_rank_2[name] = item
+        return item
 
-        self.catalog_rang_2[name] = Item(name=name, renewal_plus=renewal_plus, renewal_multiply=renewal_multiply,
-                                         renewal_super=renewal_super, code=code)
-
-    def add_rang_3(self, name, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str) -> None:
+    def add_rank_3(self, name, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str) -> Item:
         """method for adding an object"""
-        if name in self.catalog_rang_3:
+        if name in self.catalog_rank_3:
             raise ExceptionRepeatingName('this name already exists in the directory')
+        item = Item(name=name, renewal_plus=renewal_plus, renewal_multiply=renewal_multiply,
+                    renewal_super=renewal_super, code=code)
+        self.catalog_rank_3[name] = item
+        return item
 
-        self.catalog_rang_3[name] = Item(name=name, renewal_plus=renewal_plus, renewal_multiply=renewal_multiply,
-                                         renewal_super=renewal_super, code=code)
+    def add(self, name, rank, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str):
+        if rank == 1:
+            return self.add_rank_1(name, renewal_plus, renewal_multiply, renewal_super, code)
+        if rank == 2:
+            return self.add_rank_2(name, renewal_plus, renewal_multiply, renewal_super, code)
+        if rank == 3:
+            return self.add_rank_3(name, renewal_plus, renewal_multiply, renewal_super, code)
 
-    def add(self, name, rang, renewal_plus: dict, renewal_multiply: dict, renewal_super: dict, code: str):
-        if rang == 1:
-            self.add_rang_1(name, renewal_plus, renewal_multiply, renewal_super, code)
-        if rang == 2:
-            self.add_rang_2(name, renewal_plus, renewal_multiply, renewal_super, code)
-        if rang == 3:
-            self.add_rang_3(name, renewal_plus, renewal_multiply, renewal_super, code)
-
-    def get(self, name, rang) -> Item:
+    def get(self, name, rank) -> Item:
         """a method for retrieving an object based on a given object"""
-        if rang == 1:
-            if not (name in self.catalog_rang_1):
-                raise ExceptionNotFoundName('this name is not found in the catalog')
+        if rank == 1:
+            if not (name in self.catalog_rank_1):
+                raise ExceptionNotFoundName(f'this name is not found in the catalog_rank_1: {name}')
 
-            return copy.deepcopy(self.catalog_rang_1[name])
+            return copy.deepcopy(self.catalog_rank_1[name])
 
-        if rang == 2:
-            if not (name in self.catalog_rang_2):
-                raise ExceptionNotFoundName('this name is not found in the catalog')
+        if rank == 2:
+            if not (name in self.catalog_rank_2):
+                raise ExceptionNotFoundName(f'this name is not found in the catalog_rank_2: {name}')
 
-            return copy.deepcopy(self.catalog_rang_2[name])
+            return copy.deepcopy(self.catalog_rank_2[name])
 
-        if rang == 3:
-            if not (name in self.catalog_rang_3):
-                raise ExceptionNotFoundName('this name is not found in the catalog')
+        if rank == 3:
+            if not (name in self.catalog_rank_3):
+                raise ExceptionNotFoundName(f'this name is not found in the catalog_rank_3: {name}')
 
-            return copy.deepcopy(self.catalog_rang_3[name])
+            return copy.deepcopy(self.catalog_rank_3[name])

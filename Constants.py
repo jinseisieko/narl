@@ -28,17 +28,19 @@ PLAYER_SLOWDOWN: np.float_ = np.float_(600)  # pixels / second ** 2
 PLAYER_ACCELERATION: np.float_ = np.float_(1500)  # pixels / second ** 2
 PLAYER_MAX_HP: np.int_ = 100  # int
 PLAYER_ARMOR: np.float_ = np.float_(0)  # int
-PLAYER_DELAY: np.float_ = np.float_(0.01)  # seconds
+PLAYER_DELAY: np.float_ = np.float_(1)  # seconds
 PLAYER_ARMOR_PIERCING: np.float_ = np.float_(2)  # int
 PLAYER_BULLET_SIZE_X: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_DAMAGE: np.float_ = np.float_(2)  # int
 PLAYER_CRITICAL_COEFFICIENT: np.float_ = np.float_(2)  # any
 PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0.8)  # from 0 to 1
-PLAYER_SCATTER: np.float_ = np.float_(1)  # radians
+PLAYER_SCATTER: np.float_ = np.float_(0.03)  # radians
 PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(2)  # seconds
 PLAYER_BULLET_VELOCITY: np.float_ = np.float_(1000)  # pixels/second
 PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.5)  # seconds
+
+PLAYER_SLOWDOWN_FACTOR = PLAYER_SLOWDOWN / PLAYER_ACCELERATION
 
 RED: tuple[np.int_, np.int_, np.int_] = (255, 0, 0)
 GREEN: tuple[np.int_, np.int_, np.int_] = (0, 255, 0)

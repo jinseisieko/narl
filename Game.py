@@ -27,7 +27,7 @@ class Game:
         self.bullet_set: set = set()
         self.obstacle_set: set = set()
 
-        self.console = ConsoleInter(self, 10, 10)
+        self.console = ConsoleInter(self, 100, 10)
 
         self.default_enemy_data = np.array(
             [1100, 1000, ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
@@ -107,11 +107,11 @@ class Game:
                 quit()
 
             if self.key_pressed[pg.K_y]:
-                self.player.add_item("test", 1)
+                self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5))
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    self.shooting: bool = True
+                    self.shooting = True
             if event.type == pg.MOUSEBUTTONUP:
                 if event.button == 1:
                     self.shooting = False
@@ -123,6 +123,13 @@ class Game:
                     self.pause = self.console_
                     if self.console_:
                         self.console.open_console()
+                if event.key == pg.K_SPACE:
+                    self.shooting = True
+
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_SPACE:
+                    self.shooting = False
+
 
     def shoot(self):
         if not self.pause:
@@ -185,7 +192,7 @@ class Game:
 
     def end_cycle(self):
         pg.display.flip()
-        CLOCK.tick(self.FPS * 1000)
+        CLOCK.tick(self.FPS)
 
 
 GAME = Game()

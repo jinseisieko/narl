@@ -37,7 +37,7 @@ class Interface:
 
         # characteristics
         for i, j in enumerate(self.index_needed_characteristics):
-            screen.blit(self.font.render(str(self.player[0][j]), True, "black"),
+            screen.blit(self.font.render(str(self.player[0][j])[:7], True, "black"),
                         (COORD_CHARACTERISTICS_INTERFACE_X,
                          COORD_CHARACTERISTICS_INTERFACE_Y + INDENT_CHARACTERISTICS_INTERFACE * i))
 
