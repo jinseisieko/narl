@@ -21,7 +21,7 @@ class Game:
         pg.mouse.set_visible(False)
         self.screen: pg.Surface = screen
         self.field: Field = Field(field)
-        self.player: Player = Player(r"image\test_player.png", self.field)
+        self.player: Player = Player(r"image\12323451235.png", self.field)
 
         self.enemy_set: set = set()
         self.bullet_set: set = set()
