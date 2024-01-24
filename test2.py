@@ -14,7 +14,6 @@ with tqdm() as pbar:
     while game.running:
         game.change_pseudo_constants()
         game.check_events()
-        game.shoot()
         game.calc_calculations()
         game.draw()
         game.draw_console()

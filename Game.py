@@ -141,6 +141,8 @@ class Game:
                     self.bullet_set.add(DefaultBullet(bullets, x, "green", self.field, bullet_ids))
                     bullet_ids.remove(x)
 
+
+
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.key_pressed), self.dt)
@@ -148,6 +150,7 @@ class Game:
             calc_enemy_direction(enemies, *player[0, 0:2])
             calc_movements(enemies, self.dt)
             calc_bullet_movements(bullets, self.dt)
+            self.shoot()
 
             calc_collisions(enemies, self.COLLISIONS_REPELLING, self.dt)
             calc_obstacles(enemies, obstacles)

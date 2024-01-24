@@ -167,26 +167,28 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
 
     quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
     quotient = np.int_(np.minimum(quotient, Id.shape[0]))
-    arange = np.arange(quotient, dtype=np.int_)
+    arng = np.arange(quotient, dtype=np.int_)
 
-    if arange.shape[0] > 0:
-        arange = arange[0]
+    if arng.shape[0] > 0:
+        arange = arng.shape[0]
         data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17], \
                                  player[0, 22] * np.cos(angle) + player[0, 6], \
                                  player[0, 22] * np.sin(angle) + player[0, 7], \
-                                 0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (arange + 1, 1))
+                                 0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (arange, 1))
 
-        data[arange, 0:2] += data[arange, 6:8] * dt * arange
+        rng = np.tile(arng[..., np.newaxis], (1, 2))
+        data[arng, 0:2] += data[arng, 6:8] * player[..., 13] * rng
 
         indices = np.resize(Id, quotient)
 
-        bullets[indices] = data[arange]
+        bullets[indices] = data[arng]
 
         return indices
     return np.array([])
 
 
 def calc_waves(player: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray):
+
     pass
 
 
