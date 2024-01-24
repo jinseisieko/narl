@@ -9,10 +9,10 @@ class TitleScreen:
         self.background = pg.Surface((WIDTH, HEIGHT))
         self.background.fill("green")
         self.buttons = []
-        self.text1 = pygame.font.Font(None, 100).render("Nanotechnology:", None, "#2792B7")
+        self.text1 = pygame.font.Font(None, 100).render("Nightmare:", None, "#2792B7")
         self.text_rect1 = self.text1.get_rect()
         self.text_rect1.center = np.array([WIDTH / 2, HEIGHT / 2 - 300])
-        self.text2 = pygame.font.Font(None, 100).render("Arena of Reality and Lies", None, "#2792B7")
+        self.text2 = pygame.font.Font(None, 100).render("Area of Reality and Lies", None, "#2792B7")
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 2 - 200])
 
