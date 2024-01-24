@@ -3,7 +3,8 @@ import sys
 import warnings
 
 from tqdm import tqdm
-from Game import *
+import pygame as pg
+from States.Game import GAME
 
 pg.init()
 warnings.filterwarnings("ignore", category=RuntimeWarning)

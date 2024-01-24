@@ -68,7 +68,9 @@ class Characteristics:
                                                                                bullet_velocity=self.characteristics[0][
                                                                                    bullet_velocity],
                                                                                damage_delay=self.characteristics[0][
-                                                                                   damage_delay])
+                                                                                   damage_delay],
+                                                                               bullet_bouncing=self.characteristics[0][
+                                                                                   bullet_bouncing])
 
         for key, value in new_characteristics.items():
             exec(f"self.characteristics[0][{key}] = {value}")

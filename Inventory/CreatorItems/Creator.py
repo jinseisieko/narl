@@ -50,7 +50,9 @@ bullet_life_time
 
 bullet_velocity
 
-damage_delay"""
+damage_delay
+
+bullet_bouncing"""
 
 
 class NewItemDialog(QDialog):

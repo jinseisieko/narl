@@ -2,7 +2,7 @@
 import pygame as pg
 
 from Constants import *
-from Inventory.ItemImages.InitializationOfObjectImages import images
+from Inventory.ItemImages.InitializationOfObjectImages import get_images
 from PlayerIndexes import *
 
 
@@ -45,6 +45,6 @@ class Interface:
         array_draw = self.game.player.characteristics.array_draw
         for i, row in enumerate(array_draw):
             for j, name in enumerate(row):
-                if not (name in images):
+                if not (name in get_images()):
                     name = 'no-image'
-                screen.blit(images[name], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
+                screen.blit(get_images()[name], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
