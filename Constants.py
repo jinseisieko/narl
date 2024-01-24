@@ -17,7 +17,7 @@ KILL_LINE = 200
 
 BACKGROUND_PICTURE_SIZE: np.int_ = 400
 
-FPS: np.int_ = 20
+FPS: np.int_ = 120
 
 H: int = 7
 

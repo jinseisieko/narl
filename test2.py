@@ -9,16 +9,9 @@ pg.init()
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 game = GAME
 
-
 with tqdm() as pbar:
     while game.running:
-        game.change_pseudo_constants()
-        game.check_events()
-        game.calc_calculations()
-        game.draw()
-        game.draw_console()
-        game.draw_interface()
-        game.end_cycle()
+        game.play()
         pbar.update(1)
 
 pg.quit()

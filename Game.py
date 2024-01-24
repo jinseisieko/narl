@@ -9,6 +9,8 @@ from Calculations.Calculations import *
 from Calculations.Data import *
 from Console.ConsoleInter import ConsoleInter
 from Field import Field
+from TitleScreen import TitleScreen
+from Buttons import StartButton, ExitButton
 from Functions.Functions import *
 from Interface.Interface import Interface
 from Movable_objects.Enemies import *
@@ -18,9 +20,12 @@ from Movable_objects.Player import *
 
 class Game:
     def __init__(self):
-        pg.mouse.set_visible(False)
+        self.state = 0
         self.screen: pg.Surface = screen
         self.field: Field = Field(field)
+        self.title_screen: TitleScreen = TitleScreen(self.screen)
+        self.title_screen.buttons.append(StartButton(self.title_screen.background))
+        self.title_screen.buttons.append(ExitButton(self.title_screen.background))
         self.player: Player = Player(r"image\test_player.png", self.field)
 
         self.enemy_set: set = set()
@@ -51,6 +56,24 @@ class Game:
         GAME = self
 
         self.interface = Interface(self)
+
+    def play(self):
+        self.change_pseudo_constants()
+        self.check_events()
+        if self.state:
+            self.calc_calculations()
+            self.draw()
+            self.draw_console()
+            self.draw_interface()
+        else:
+            self.title_screen.draw()
+        self.end_cycle()
+
+    def start_game(self):
+        self.state = 1
+        self.make_borders()
+        self.create_enemies()
+        self.create_obstacles()
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
         self.enemy_set = set([Enemy(np.array(
@@ -84,7 +107,6 @@ class Game:
 
     def change_pseudo_constants(self):
         self.dt = DT(CLOCK)
-        self.time_passed = max(self.time_passed - self.dt, 0)
         self.key_pressed = pg.key.get_pressed()
 
     def draw_console(self):
@@ -105,31 +127,40 @@ class Game:
             if event.type == pg.QUIT or self.key_pressed[pg.K_DELETE]:
                 self.running: bool = False
                 quit()
+            if self.state:
+                if self.key_pressed[pg.K_y]:
+                    self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5))
 
-            if self.key_pressed[pg.K_y]:
-                self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5))
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        self.shooting = True
+                if event.type == pg.MOUSEBUTTONUP:
+                    if event.button == 1:
+                        self.shooting = False
 
-            if event.type == pg.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    self.shooting = True
-            if event.type == pg.MOUSEBUTTONUP:
-                if event.button == 1:
-                    self.shooting = False
+                if event.type == pg.KEYDOWN:
+                    self.console.handle_event(event)
+                    if event.key == pg.K_F1:
+                        self.console_ = not self.console_
+                        self.pause = self.console_
+                        if self.console_:
+                            self.console.open_console()
+                    if event.key == pg.K_SPACE:
+                        self.shooting = True
 
-            if event.type == pg.KEYDOWN:
-                self.console.handle_event(event)
-                if event.key == pg.K_F1:
-                    self.console_ = not self.console_
-                    self.pause = self.console_
-                    if self.console_:
-                        self.console.open_console()
-                if event.key == pg.K_SPACE:
-                    self.shooting = True
-
-            if event.type == pg.KEYUP:
-                if event.key == pg.K_SPACE:
-                    self.shooting = False
-
+                if event.type == pg.KEYUP:
+                    if event.key == pg.K_SPACE:
+                        self.shooting = False
+            else:
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        mouse_pos = np.array(pg.mouse.get_pos())
+                        if self.title_screen.buttons[0].update(mouse_pos):
+                            self.state = 1
+                            self.start_game()
+                            pg.mouse.set_visible(False)
+                        if self.title_screen.buttons[1].update(mouse_pos):
+                            self.running = 0
 
     def shoot(self):
         if not self.pause:
@@ -140,8 +171,6 @@ class Game:
                 for x in Id:
                     self.bullet_set.add(DefaultBullet(bullets, x, "green", self.field, bullet_ids))
                     bullet_ids.remove(x)
-
-
 
     def calc_calculations(self):
         if not self.pause:
@@ -199,6 +228,3 @@ class Game:
 
 
 GAME = Game()
-GAME.make_borders()
-GAME.create_enemies()
-GAME.create_obstacles()
