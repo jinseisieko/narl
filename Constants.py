@@ -12,6 +12,8 @@ WIDTH: np.int_ = tk.Tk().winfo_screenwidth()
 HEIGHT: np.int_ = tk.Tk().winfo_screenheight()
 MOVE_SCREEN_RECT_X: np.int_ = WIDTH // 8
 MOVE_SCREEN_RECT_Y: np.int_ = HEIGHT // 8
+SPAWN_LINE = 100
+KILL_LINE = 200
 
 BACKGROUND_PICTURE_SIZE: np.int_ = 400
 
@@ -26,7 +28,7 @@ PLAYER_SLOWDOWN: np.float_ = np.float_(600)  # pixels / second ** 2
 PLAYER_ACCELERATION: np.float_ = np.float_(1500)  # pixels / second ** 2
 PLAYER_MAX_HP: np.int_ = 100  # int
 PLAYER_ARMOR: np.float_ = np.float_(0)  # int
-PLAYER_DELAY: np.float_ = np.float_(1)  # seconds
+PLAYER_DELAY: np.float_ = np.float_(0.01)  # seconds
 PLAYER_ARMOR_PIERCING: np.float_ = np.float_(2)  # int
 PLAYER_BULLET_SIZE_X: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)  # pixels
