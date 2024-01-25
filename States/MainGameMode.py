@@ -143,7 +143,7 @@ class MainGameMode(InterfaceState):
         if not self.pause:
             wave[2] = min(wave[1], wave[2] + self.game.dt)
             if self.spawning:
-                Id = calc_waves(wave, enemies, field, np.array(list(entity_ids)), self.game.dt, types)
+                Id = calc_waves(player, wave, enemies, field, np.array(list(entity_ids)), self.game.dt, types)
                 for x in Id:
                     self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
                     entity_ids.remove(x)

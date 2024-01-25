@@ -186,7 +186,7 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
     return np.array([])
 
 
-def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,
+def calc_waves(player, wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,
                dt: np.float_, types: np.ndarray):
     quotient, wave[2] = np.divmod(wave[2] + dt, wave[1])
     if quotient > 0:
@@ -206,6 +206,7 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
                           np.clip(field[1] - field[9] / 2 - field[10], 0, field[7]),
                           np.clip(field[1] + field[9] / 2 + field[10], 0, field[7])), dtype=np.int_)
 
+
         able_inds = np.union1d(np.where(lines > 0),
                                np.union1d(np.where(lines[0:2] < field[6]), np.where(lines[2:4] < field[7])))
         inds = np.random.choice(able_inds, size=amount)
@@ -218,15 +219,15 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
 
         if inds_x.shape[0] > 0:
             a = able_segments[inds[inds_x]]
-            data[inds_x, 0] = np.random.randint(able_segments[inds[inds_x]][0][0], able_segments[inds[inds_x]][0][1],
+            data[inds_x, 1] = np.random.randint(able_segments[inds[inds_x]][0][0], able_segments[inds[inds_x]][0][1],
                                                 size=inds_x.shape[0])
-            data[inds_x, 1] = lines[inds[inds_x]]
+            data[inds_x, 0] = lines[inds[inds_x]]
 
         if inds_y.shape[0] > 0:
             a = able_segments[inds[inds_y]]
-            data[inds_y, 1] = np.random.randint(able_segments[inds[inds_y]][0][0], able_segments[inds[inds_y]][0][1],
+            data[inds_y, 0] = np.random.randint(able_segments[inds[inds_y]][0][0], able_segments[inds[inds_y]][0][1],
                                                 size=inds_y.shape[0])
-            data[inds_y, 0] = lines[inds[inds_y]]
+            data[inds_y, 1] = lines[inds[inds_y]]
 
         indices = np.resize(Id, amount)
 
