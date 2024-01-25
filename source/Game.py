@@ -28,8 +28,10 @@ class Game:
         GAME = self
 
         pg.mixer.music.load("../resource/music/chipichipichapachapa.mp3")
-        pg.mixer.music.play(loops=-1)
-        pg.mixer.music.set_volume(0.2)
+        pg.mixer.music.play()
+        pg.mixer.music.queue("../resource/music/Y2mate.mx - Bruh sound effect (128 kbps).mp3", loops=-1)
+        pg.mixer.music.queue("../resource/music/Y2mate.mx - Metal pipe falling sound effect but it’s more violent (128 kbps).mp3", loops=-1)
+        pg.mixer.music.set_volume(1)
 
     def change_pseudo_constants(self):
         self.dt = DT(CLOCK)

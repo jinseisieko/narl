@@ -7,7 +7,7 @@ class TitleScreen:
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
 
-        self.video = Video("../resource/video/chipichipichapachapa.avi")
+        self.video = Video("../resource/video/Caramella-Girls-Caramelldansen-_Official-English-Version_.avi")
 
         self.buttons = {}
 
