@@ -7,7 +7,6 @@ import pygame as pg
 from source.Game import GAME
 
 pg.init()
-warnings.filterwarnings("ignore", category=RuntimeWarning)
 game = GAME
 
 with tqdm() as pbar:
