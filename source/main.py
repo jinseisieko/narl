@@ -1,6 +1,5 @@
 """pg main loop"""
 import sys
-import warnings
 
 from tqdm import tqdm
 import pygame as pg
