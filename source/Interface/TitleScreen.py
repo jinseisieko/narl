@@ -33,6 +33,8 @@ class TitleScreen:
 
     def update(self):
         self.video.update(self.background)
+        if not self.video.active:
+            self.video.repeat()
 
     def draw_buttons(self, screen):
         for x in self.buttons.values():

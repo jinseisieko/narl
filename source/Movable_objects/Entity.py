@@ -16,7 +16,6 @@ class Entity:
         self.matrix: np.ndarray = matrix
         self.Id: int = Id
         self.image: pg.Surface = pg.Surface((2 * matrix[Id, 2], 2 * matrix[Id, 3]))
-        self.image.fill(image)
         self.field = field
         self.free_Ids = free_Ids
 

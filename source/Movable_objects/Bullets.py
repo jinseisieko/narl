@@ -9,7 +9,7 @@ class DefaultBullet(Entity):
                  free_Ids: set):
         super().__init__(matrix, Id, image, field, free_Ids)
 
-        self.image: Image = Image(int(self.matrix[self.Id, 2]), int(self.matrix[self.Id, 3]), get_images_for_game()["test_bullet"])
+        self.image: Image = Image(int(self.matrix[self.Id, 2]), int(self.matrix[self.Id, 3]), get_images_for_game()[image])
 
     def draw(self) -> None:
         self.field.field.blit(self.image.img, (

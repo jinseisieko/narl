@@ -130,7 +130,7 @@ class MainGameMode(InterfaceState):
                 Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
                                    self.game.dt)
                 for x in Id:
-                    self.bullet_set.add(DefaultBullet(bullets, x, "green", self.field, bullet_ids))
+                    self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
                     bullet_ids.remove(x)
 
     def spawn(self):

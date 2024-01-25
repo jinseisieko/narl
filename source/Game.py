@@ -20,7 +20,7 @@ class Game:
         init_images_for_game()
         self.state: InterfaceState = MainMenu(self.screen, self)
 
-        self.dt = 1 / FPS
+        self.dt = 0
         self.key_pressed: (list, None) = None
         self.running = True
 
