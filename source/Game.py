@@ -27,6 +27,10 @@ class Game:
         global GAME
         GAME = self
 
+        pg.mixer.music.load("../resource/music/chipichipichapachapa.mp3")
+        pg.mixer.music.play(loops=-1)
+        pg.mixer.music.set_volume(0.2)
+
     def change_pseudo_constants(self):
         self.dt = DT(CLOCK)
         self.key_pressed = pg.key.get_pressed()
