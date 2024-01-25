@@ -4,7 +4,6 @@ from source.Console.ConsoleInter import ConsoleInter
 from source.Field import Field
 from source.Functions.Functions import set_direction
 from source.Image.InitializationForGame import get_images_for_game
-from source.ImageSprites import sprites
 from source.Interface.Interface import Interface
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
@@ -189,7 +188,7 @@ class MainGameMode(InterfaceState):
         field_screen_centre_x, field_screen_centre_y = self.field.data[0:2] - self.field.data[8:10] / 2
         self.screen.blit(self.field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        self.screen.blit(sprites['cursor'],
+        self.screen.blit(get_images_for_game()['cursor'],
                          (mouse_x - 16, mouse_y - 16))
 
     def update(self):

@@ -37,7 +37,7 @@ PLAYER_CRITICAL_COEFFICIENT: np.float_ = np.float_(2)  # any
 PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0.8)  # from 0 to 1
 PLAYER_SCATTER: np.float_ = np.float_(np.pi)  # radians
 PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(2)  # seconds
-PLAYER_BULLET_VELOCITY: np.float_ = np.float_(1000)  # pixels/second
+PLAYER_BULLET_VELOCITY: np.float_ = np.float_(10000)  # pixels/second
 PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.5)  # seconds
 
 PLAYER_SLOWDOWN_FACTOR = PLAYER_SLOWDOWN / PLAYER_ACCELERATION
