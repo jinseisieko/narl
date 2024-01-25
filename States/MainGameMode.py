@@ -30,12 +30,13 @@ class MainGameMode(InterfaceState):
 
         self.default_enemy_data = np.array(
             [1100, 1000, ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
-             ENEMY_ARMOR],
+             ENEMY_ARMOR, 0, 0],
             dtype=np.float_)
 
         self.time_passed: np.float_ = np.float_(0)
 
         self.shooting: bool = False
+        self.spawning: bool = False
         self.console_: bool = False
         self.pause: bool = False
 
@@ -54,11 +55,12 @@ class MainGameMode(InterfaceState):
         self.create_obstacles()
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
-        self.enemy_set = set([Enemy(np.array(
-            [self.default_enemy_data[0] + 10 * i, self.default_enemy_data[1] + 20 * i * (-1) ** i,
-             *self.default_enemy_data[2:]]),
-            enemies, entity_ids.pop(), "black", self.field, entity_ids)
-            for i in range(number)])
+        for i in range(number):
+            Id = entity_ids.pop()
+            enemies[Id] = np.array(
+                [self.default_enemy_data[0] + 10 * i, self.default_enemy_data[1] + 20 * i * (-1) ** i,
+                 *self.default_enemy_data[2:]])
+            self.enemy_set.add(Enemy(enemies, Id, "black", self.field, entity_ids))
 
     def make_borders(self):
         self.obstacle_set.add(
@@ -106,6 +108,9 @@ class MainGameMode(InterfaceState):
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.shooting = True
+                if event.button == 3:
+                    self.spawning = True
+
             if event.type == pg.MOUSEBUTTONUP:
                 if event.button == 1:
                     self.shooting = False
@@ -134,6 +139,15 @@ class MainGameMode(InterfaceState):
                     self.bullet_set.add(DefaultBullet(bullets, x, "green", self.field, bullet_ids))
                     bullet_ids.remove(x)
 
+    def spawn(self):
+        if not self.pause:
+            wave[2] = min(wave[1], wave[2] + self.game.dt)
+            if self.spawning:
+                Id = calc_waves(wave, enemies, field, np.array(list(entity_ids)), self.game.dt, types)
+                for x in Id:
+                    self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
+                    entity_ids.remove(x)
+
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.game.key_pressed), self.game.dt)
@@ -142,6 +156,7 @@ class MainGameMode(InterfaceState):
             calc_movements(enemies, self.game.dt)
             calc_bullet_movements(bullets, self.game.dt)
             self.shoot()
+            self.spawn()
 
             calc_collisions(enemies, COLLISIONS_REPELLING, self.game.dt)
             calc_obstacles(enemies, obstacles)

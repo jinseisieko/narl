@@ -102,7 +102,7 @@ def calc_damage(entity: np.ndarray, bullets: np.ndarray, player: np.ndarray) -> 
     damage = np.maximum(0, damage - np.maximum(0, entity[indices, 10] - bullets[bullet_indices, 11] * counter))
     entity[indices, 4] -= damage
 
-    entity[np.where(entity[..., 4] <= 0)] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0, 0])
+    entity[np.where(entity[..., 4] <= 0)] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0])
     bullets[bullet_indices] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 
 
@@ -166,30 +166,74 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
             + player[0, 20] * (np.random.random() - 0.5) * 2
 
     quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
-    quotient = np.int_(np.minimum(quotient, Id.shape[0]))
-    arng = np.arange(quotient, dtype=np.int_)
+    amount = np.int_(np.minimum(quotient, Id.shape[0]))
+    arange = np.arange(amount, dtype=np.int_)
 
-    if arng.shape[0] > 0:
-        arange = arng.shape[0]
+    if amount > 0:
         data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17], \
                                  player[0, 22] * np.cos(angle) + player[0, 6], \
                                  player[0, 22] * np.sin(angle) + player[0, 7], \
-                                 0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (arange, 1))
+                                 0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (amount, 1))
 
-        rng = np.tile(arng[..., np.newaxis], (1, 2))
-        data[arng, 0:2] += data[arng, 6:8] * player[..., 13] * rng
+        rng = np.tile(arange[..., np.newaxis], (1, 2))
+        data[..., 0:2] += data[..., 6:8] * player[..., 13] * rng
 
-        indices = np.resize(Id, quotient)
+        indices = np.resize(Id, amount)
 
-        bullets[indices] = data[arng]
+        bullets[indices] = data
 
         return indices
     return np.array([])
 
 
-def calc_waves(player: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray):
+def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,
+               dt: np.float_, types: np.ndarray):
+    quotient, wave[2] = np.divmod(wave[2] + dt, wave[1])
+    if quotient > 0:
+        pass
+    a = wave[4] - wave[3]
+    b = Id.shape[0]
+    amount = np.int_(np.minimum(quotient, np.minimum(wave[4] - wave[3], Id.shape[0])))
+    arange = np.arange(amount, dtype=np.int_)
 
-    pass
+    if amount > 0:
+        data = np.tile(np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_),
+                       (amount, 1))
+        data[..., 2:13] = types[np.random.randint(0, 4, size=amount)][0:11]
+
+        lines = np.array((np.clip(field[0] - field[8] / 2 - field[10], 0, field[6]),
+                          np.clip(field[0] + field[8] / 2 + field[10], 0, field[6]),
+                          np.clip(field[1] - field[9] / 2 - field[10], 0, field[7]),
+                          np.clip(field[1] + field[9] / 2 + field[10], 0, field[7])), dtype=np.int_)
+
+        able_inds = np.union1d(np.where(lines > 0),
+                               np.union1d(np.where(lines[0:2] < field[6]), np.where(lines[2:4] < field[7])))
+        inds = np.random.choice(able_inds, size=amount)
+        able_segments = np.array([[lines[2], lines[3]],
+                                  [lines[2], lines[3]],
+                                  [lines[0], lines[1]],
+                                  [lines[0], lines[1]], ])
+        inds_x = np.where(inds == 0 or inds == 1)[0]
+        inds_y = np.where(inds == 2 or inds == 3)[0]
+
+        if inds_x.shape[0] > 0:
+            a = able_segments[inds[inds_x]]
+            data[inds_x, 0] = np.random.randint(able_segments[inds[inds_x]][0][0], able_segments[inds[inds_x]][0][1],
+                                                size=inds_x.shape[0])
+            data[inds_x, 1] = lines[inds[inds_x]]
+
+        if inds_y.shape[0] > 0:
+            a = able_segments[inds[inds_y]]
+            data[inds_y, 1] = np.random.randint(able_segments[inds[inds_y]][0][0], able_segments[inds[inds_y]][0][1],
+                                                size=inds_y.shape[0])
+            data[inds_y, 0] = lines[inds[inds_y]]
+
+        indices = np.resize(Id, amount)
+
+        enemy[indices] = data
+
+        return indices
+    return np.array([])
 
 
 @njit(fastmath=True)

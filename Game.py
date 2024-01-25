@@ -33,7 +33,7 @@ class Game:
 
         self.default_enemy_data = np.array(
             [1100, 1000, ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
-             ENEMY_ARMOR],
+             ENEMY_ARMOR, 0, 0],
             dtype=np.float_)
 
         self.dt: np.float_ = np.float_(0)

@@ -4,9 +4,8 @@ from Movable_objects.Entity import *
 
 
 class Enemy(Entity):
-    def __init__(self, data: np.array, matrix: np.ndarray, Id: int, image: str, field, free_Ids: set):
+    def __init__(self, matrix: np.ndarray, Id: int, image: str, field, free_Ids: set):
         super().__init__(matrix, Id, image, field, free_Ids)
-        self.matrix[Id] = data
         self.image: Image = Image(int(self.matrix[self.Id, 2]), int(self.matrix[self.Id, 3]), r"image/test_enemy.png")
 
     def draw(self) -> None:

@@ -21,7 +21,9 @@ enemy
  [vy]
  [kill]
  [max_velocity]
- [armor]]
+ [armor]
+ [random_coefficient]
+ [type]]
 
 player
 [x
