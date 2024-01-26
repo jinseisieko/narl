@@ -104,6 +104,7 @@ class MainGameMode(InterfaceState):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.shooting = True
+                self.player.animate_damage_play()
             if event.button == 3:
                 self.spawning = True
 

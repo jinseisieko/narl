@@ -1,3 +1,5 @@
+import pygame.font
+
 from source.Interface.Buttons import *
 from source.Interface.Video import Video
 
@@ -7,23 +9,26 @@ class TitleScreen:
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
 
-        self.video = Video("../resource/video/Caramella-Girls-Caramelldansen-_Official-English-Version_.avi")
+        self.video = Video("../resource/video/gameplay1.mov")
 
         self.buttons = {}
 
-        self.text1 = pygame.font.Font(None, 100).render("Nightmare:", True, "#2792B7")
+        self.font1 = pygame.font.Font('../resource/fonts/EightBits.ttf', 150)
+        self.font2 = pygame.font.Font('../resource/fonts/EightBits.ttf', 90)
+
+        self.text1 = self.font1.render("Nightmare:", 0, "#000000", )
         self.text_rect1 = self.text1.get_rect()
         self.text_rect1.center = np.array([WIDTH / 2, HEIGHT / 3 - 250])
 
-        self.text2 = pygame.font.Font(None, 100).render("Area of Reality and Lies", True, "#2792B7")
+        self.text2 = self.font1.render("Area of Reality and Lies", True, "#000000")
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 3 - 150])
 
-        self.buttons["ContinueButton"] = ContinueButton(self.background)
-        self.buttons["StartButton"] = StartButton(self.background)
-        self.buttons["ArcadeButton"] = ArcadeButton(self.background)
-        self.buttons["SettingsButton"] = SettingsButton(self.background)
-        self.buttons["ExitButton"] = ExitButton(self.background)
+        self.buttons["ContinueButton"] = ContinueButton(self.background, font=self.font2)
+        self.buttons["StartButton"] = StartButton(self.background, font=self.font2)
+        self.buttons["ArcadeButton"] = ArcadeButton(self.background, font=self.font2)
+        self.buttons["SettingsButton"] = SettingsButton(self.background, font=self.font2)
+        self.buttons["ExitButton"] = ExitButton(self.background, font=self.font2)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
