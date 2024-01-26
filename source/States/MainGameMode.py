@@ -162,18 +162,21 @@ class MainGameMode(InterfaceState):
             calc_cameraman(player, field, self.game.dt)
 
     def draw_or_kill(self):
-        self.player.draw()
-        for x in set(self.enemy_set):
-            if x.matrix[x.Id, 8] == 1:
-                self.enemy_set.remove(x)
+        for x in self.bullet_set.copy():
+            if x.matrix[x.Id, 8] > 0:
+                self.bullet_set.remove(x)
                 x.kill()
             else:
                 x.draw()
 
-        for x in set(self.bullet_set):
-            if x.matrix[x.Id, 8] == 1:
-                self.bullet_set.remove(x)
+        self.player.draw()
+
+        for x in self.enemy_set.copy():
+            if x.matrix[x.Id, 8] > 0:
+                self.enemy_set.remove(x)
                 x.kill()
+                # sn = pg.mixer.Sound("../resource/music/chipichipichapachapa.mp3")
+                # sn.play()
             else:
                 x.draw()
 
