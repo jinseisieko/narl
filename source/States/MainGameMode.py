@@ -56,6 +56,7 @@ class MainGameMode(InterfaceState):
         self.game.fps = FPS
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
+        return
         for i in range(number):
             Id = entity_ids.pop()
             enemies[Id] = np.array(
@@ -145,12 +146,12 @@ class MainGameMode(InterfaceState):
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.game.key_pressed), self.game.dt)
+            self.spawn()
 
             calc_enemy_direction(enemies, *player[0, 0:2])
             calc_movements(enemies, self.game.dt)
             calc_bullet_movements(bullets, self.game.dt)
             self.shoot()
-            self.spawn()
 
             calc_collisions(enemies, COLLISIONS_REPELLING, self.game.dt)
             calc_obstacles(enemies, obstacles)
