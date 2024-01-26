@@ -153,11 +153,13 @@ def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_):
     if player[0, 24] <= 0:
         indices = np.where((np.abs(dist_x) < real_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
         indices = np.resize(indices, np.max(indices.shape[0]))
-        player[0, 4] -= np.maximum(0, np.sum(enemies[indices, 5], axis=0) - player[0, 12])
+        damage = np.maximum(0, np.sum(enemies[indices, 5], axis=0) - player[0, 12])
+        player[0, 4] -= damage
         player[..., 24] = player[..., 23]
-
-    if player[0, 4] <= 0:
-        exit()
+        if player[0, 4] <= 0:
+            exit()
+        return damage > 0
+    return 0
 
 
 def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray, Id: np.ndarray,
@@ -231,6 +233,7 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
         enemy[indices] = data
         return indices
     return np.array([])
+
 
 def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
     max_dist_x = field[8] / 2 + field[11]

@@ -104,7 +104,6 @@ class MainGameMode(InterfaceState):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.shooting = True
-                self.player.animate_damage_play()
             if event.button == 3:
                 self.spawning = True
 
@@ -141,6 +140,10 @@ class MainGameMode(InterfaceState):
                 self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
                 entity_ids.remove(x)
 
+    def damage_player(self):
+        if calc_player_damage(enemies, player, self.game.dt):
+            self.player.animate_damage_play()
+
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.game.key_pressed), self.game.dt)
@@ -158,7 +161,7 @@ class MainGameMode(InterfaceState):
             calc_obstacles(player, obstacles)
 
             calc_damage(enemies, bullets, player)
-            calc_player_damage(enemies, player, self.game.dt)
+            self.damage_player()
 
             calc_cameraman(player, field, self.game.dt)
 
