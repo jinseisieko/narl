@@ -187,7 +187,7 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
     return np.array([])
 
 
-def calc_waves(player, wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,
+def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,
                dt: np.float_, types: np.ndarray):
     quotient, wave[2] = np.divmod(wave[2] + dt, wave[1])
     if quotient > 0:
@@ -198,7 +198,9 @@ def calc_waves(player, wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, I
         data = np.tile(np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_),
                        (amount, 1))
         data[..., 2:13] = types[np.random.randint(0, 4, size=amount)]
-        data[..., 2:11] *= (1 - data[..., 11] + data[..., 11] * 2 * np.random.rand(amount, 9))
+        data[..., 2:11] *= (
+                1 - np.tile(data[..., 11][..., np.newaxis], (1, 9)) + np.tile(data[..., 11][..., np.newaxis],
+                                                                              (1, 9)) * 2 * np.random.rand(amount, 9))
 
         lines = np.array((np.clip(field[0] - field[8] / 2 - field[10], 0, field[6]),
                           np.clip(field[0] + field[8] / 2 + field[10], 0, field[6]),
@@ -229,7 +231,6 @@ def calc_waves(player, wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, I
         enemy[indices] = data
         return indices
     return np.array([])
-
 
 def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
     max_dist_x = field[8] / 2 + field[11]
