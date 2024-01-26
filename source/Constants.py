@@ -12,8 +12,8 @@ WIDTH: np.int_ = tk.Tk().winfo_screenwidth()
 HEIGHT: np.int_ = tk.Tk().winfo_screenheight()
 MOVE_SCREEN_RECT_X: np.int_ = WIDTH // 8
 MOVE_SCREEN_RECT_Y: np.int_ = HEIGHT // 8
-SPAWN_LINE = 100
-KILL_LINE = 200
+SPAWN_LINE = 50
+KILL_LINE = 100
 
 BACKGROUND_PICTURE_SIZE: np.int_ = 400
 
@@ -26,13 +26,13 @@ PLAYER_HALF_SIZE_Y: np.int_ = 40  # pixels
 PLAYER_MAX_VELOCITY = np.float_(500)  # pixels / second
 PLAYER_SLOWDOWN: np.float_ = np.float_(600)  # pixels / second ** 2
 PLAYER_ACCELERATION: np.float_ = np.float_(1500)  # pixels / second ** 2
-PLAYER_MAX_HP: np.int_ = 100 # int
+PLAYER_MAX_HP: np.int_ = 1009999999999 # int
 PLAYER_ARMOR: np.float_ = np.float_(0)  # int
 PLAYER_DELAY: np.float_ = np.float_(0.01)  # seconds
 PLAYER_ARMOR_PIERCING: np.float_ = np.float_(2)  # int
 PLAYER_BULLET_SIZE_X: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)  # pixels
-PLAYER_BULLET_DAMAGE: np.float_ = np.float_(2)  # int
+PLAYER_BULLET_DAMAGE: np.float_ = np.float_(20)  # int
 PLAYER_CRITICAL_COEFFICIENT: np.float_ = np.float_(1.1)  # any
 PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0.1)  # from 0 to 1
 PLAYER_SCATTER: np.float_ = np.float_(0.3)  # radians

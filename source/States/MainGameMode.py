@@ -56,7 +56,6 @@ class MainGameMode(InterfaceState):
         self.game.fps = FPS
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
-        return
         for i in range(number):
             Id = entity_ids.pop()
             enemies[Id] = np.array(
@@ -125,23 +124,21 @@ class MainGameMode(InterfaceState):
                 self.shooting = False
 
     def shoot(self):
-        if not self.pause:
-            player[0, 25] = min(player[0, 13], player[0, 25] + self.game.dt)
-            if self.shooting:
-                Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
-                                   self.game.dt)
-                for x in Id:
-                    self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
-                    bullet_ids.remove(x)
+        player[0, 25] = min(player[0, 13], player[0, 25] + self.game.dt)
+        if self.shooting:
+            Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
+                               self.game.dt)
+            for x in Id:
+                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
+                bullet_ids.remove(x)
 
     def spawn(self):
-        if not self.pause:
-            wave[2] = min(wave[1], wave[2] + self.game.dt)
-            if self.spawning:
-                Id = calc_waves(player, wave, enemies, field, np.array(list(entity_ids)), self.game.dt, types)
-                for x in Id:
-                    self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
-                    entity_ids.remove(x)
+        wave[2] = min(wave[1], wave[2] + self.game.dt)
+        if self.spawning:
+            Id = calc_waves(player, wave, enemies, field, np.array(list(entity_ids)), self.game.dt, types)
+            for x in Id:
+                self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
+                entity_ids.remove(x)
 
     def calc_calculations(self):
         if not self.pause:
@@ -151,6 +148,7 @@ class MainGameMode(InterfaceState):
             calc_enemy_direction(enemies, *player[0, 0:2])
             calc_movements(enemies, self.game.dt)
             calc_bullet_movements(bullets, self.game.dt)
+            calc_killing_enemies(enemies, field)
             self.shoot()
 
             calc_collisions(enemies, COLLISIONS_REPELLING, self.game.dt)

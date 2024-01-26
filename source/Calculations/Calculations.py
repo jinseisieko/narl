@@ -21,7 +21,8 @@ def calc_bullet_movements(bullet: np.ndarray, dt: np.float_):
     bullet[..., 0:2] += bullet[..., 6:8] * dt
     bullet[..., 9] += dt
 
-    bullet[np.where(bullet[..., 9] >= bullet[..., 10])] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
+    bullet[np.where(bullet[..., 9] >= bullet[..., 10])] = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+                                                                   dtype=np.float_)
 
 
 def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float_) -> None:
@@ -102,8 +103,8 @@ def calc_damage(entity: np.ndarray, bullets: np.ndarray, player: np.ndarray) -> 
     damage = np.maximum(0, damage - np.maximum(0, entity[indices, 10] - bullets[bullet_indices, 11] * counter))
     entity[indices, 4] -= damage
 
-    entity[np.where(entity[..., 4] <= 0)] = np.array([-100, -100, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0])
-    bullets[bullet_indices] = np.array([-200, -200, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
+    entity[np.where(entity[..., 4] <= 0)] = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_)
+    bullets[bullet_indices] = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_)
 
 
 def calc_obstacles(entity: np.ndarray, obstacles: np.ndarray, kill: bool = False, bounce: bool = False) -> None:
@@ -232,6 +233,22 @@ def calc_waves(player, wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, I
 
         return indices
     return np.array([])
+
+
+def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
+    max_dist_x = field[8] / 2 + field[11]
+    max_dist_y = field[9] / 2 + field[11]
+
+    dist_x = enemy[..., 0] - field[..., 0]
+    dist_y = enemy[..., 1] - field[..., 1]
+
+    a = np.where((np.abs(dist_x) >= max_dist_x) | (np.abs(dist_y) >= max_dist_y))[0]
+    b = np.where(enemy[..., 8] > 0)[0]
+
+    indices = np.setdiff1d(np.where((np.abs(dist_x) >= max_dist_x) | (np.abs(dist_y) >= max_dist_y))[0],
+                           np.where(enemy[..., 8] > 0)[0])
+
+    enemy[indices] = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_)
 
 
 @njit(fastmath=True)
