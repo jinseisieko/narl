@@ -1,3 +1,5 @@
+import pyganim as pga
+
 from source.Constants import PLAYER_SLOWDOWN_FACTOR
 from source.Image.Image import Image
 from source.Inventory.Сharacteristics import Characteristics
@@ -10,9 +12,16 @@ class Player:
         self.characteristics = Characteristics()
         self.matrix = self.characteristics.characteristics
         self.image = Image(self.matrix[0][2], self.matrix[0][3], image)
+        self.animate_damage = pga.PygAnimation((("../resource/image/playerImages/damage1.png", 100),
+                                                ("../resource/image/playerImages/damage2.png", 100),
+                                                ("../resource/image/playerImages/damage3.png", 100),
+                                                ("../resource/image/playerImages/damage4.png", 100),
+                                                ("../resource/image/playerImages/damage5.png", 100)), loop=0)
 
     def draw(self) -> None:
         self.field.field.blit(self.image.img, (
+            self.matrix[0, 0] - self.matrix[0, 2], self.matrix[0, 1] - self.matrix[0, 3]))
+        self.animate_damage.blit(self.field.field, (
             self.matrix[0, 0] - self.matrix[0, 2], self.matrix[0, 1] - self.matrix[0, 3]))
 
     def add_item(self, name: str, rank: int) -> None:
@@ -23,3 +32,6 @@ class Player:
         self.image.resize(self.matrix[0][size_x], self.matrix[0][size_y])
         self.matrix[0][delay] = max(0.01, self.matrix[0][delay])
         self.matrix[0][slowdown] = self.matrix[0][acceleration] * PLAYER_SLOWDOWN_FACTOR
+
+    def animate_damage_play(self):
+        self.animate_damage.play()
