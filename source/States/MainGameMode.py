@@ -51,7 +51,6 @@ class MainGameMode(InterfaceState):
     def start(self):
         pg.mouse.set_visible(False)
         self.make_borders()
-        self.create_enemies()
         self.create_obstacles()
         self.game.fps = FPS
 
@@ -143,6 +142,9 @@ class MainGameMode(InterfaceState):
     def damage_player(self):
         if calc_player_damage(enemies, player, self.game.dt):
             self.player.animate_damage_play()
+            sn = pg.mixer.Sound("../resource/music/player_damage.mp3")
+            sn.set_volume(0.3)
+            sn.play()
 
     def calc_calculations(self):
         if not self.pause:
@@ -179,8 +181,10 @@ class MainGameMode(InterfaceState):
             if x.matrix[x.Id, 8] > 0:
                 self.enemy_set.remove(x)
                 x.kill()
-                # sn = pg.mixer.Sound("../resource/music/chipichipichapachapa.mp3")
-                # sn.play()
+                if x.matrix[x.Id, 8] != 5:
+                    sn = pg.mixer.Sound("../resource/music/enemy_damage2.mp3")
+                    sn.set_volume(0.2)
+                    sn.play()
             else:
                 x.draw()
 
