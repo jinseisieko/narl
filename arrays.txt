@@ -93,7 +93,8 @@ wave
  [min_able_type]
  [max_able_type]
  [need_to_kill]
- [killed]]
+ [killed]
+ [level]]
 
 
 calculations: (one by one)

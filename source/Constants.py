@@ -26,7 +26,7 @@ PLAYER_HALF_SIZE_Y: np.int_ = 40  # pixels
 PLAYER_MAX_VELOCITY = np.float_(500)  # pixels / second
 PLAYER_SLOWDOWN: np.float_ = np.float_(600)  # pixels / second ** 2
 PLAYER_ACCELERATION: np.float_ = np.float_(1500)  # pixels / second ** 2
-PLAYER_MAX_HP: np.int_ = 1009999999999 # int
+PLAYER_MAX_HP: np.int_ = 1009999999999  # int
 PLAYER_ARMOR: np.float_ = np.float_(0)  # int
 PLAYER_DELAY: np.float_ = np.float_(0.01)  # seconds
 PLAYER_ARMOR_PIERCING: np.float_ = np.float_(2)  # int
@@ -79,3 +79,9 @@ COORD_CHARACTERISTICS_INTERFACE_X = 40
 COORD_CHARACTERISTICS_INTERFACE_Y = 10
 FONT_SIZE_CHARACTERISTICS = 35
 INDENT_CHARACTERISTICS_INTERFACE = 25
+
+MUSIC_FOR_LEVEL = {
+    0: ["Komiku_-_13_-_Fight_run_breath_deeply(chosic.com).mp3", "keys-of-moon-under-the-sun(chosic.com).mp3",
+        "arthur-vyncke-cherry-metal(chosic.com).mp3", "Adventures-in-Adventureland(chosic.com).mp3",
+        "Adventures-in-Adventureland(chosic.com).mp3"]
+}

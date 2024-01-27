@@ -10,6 +10,7 @@ from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
 from source.Movable_objects.Player import *
 from source.States.InterfaceState import InterfaceState
+from source.Sounds.Music import *
 
 
 class MainGameMode(InterfaceState):
@@ -27,6 +28,8 @@ class MainGameMode(InterfaceState):
         self.obstacle_set: set = set()
 
         self.console = ConsoleInter(self, 100, 10)
+
+        self.background_music = BackgroundMusic(wave)
 
         self.default_enemy_data = np.array(
             [1100, 1000, ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
@@ -53,6 +56,7 @@ class MainGameMode(InterfaceState):
         self.make_borders()
         self.create_obstacles()
         self.game.fps = FPS
+        self.background_music.update_music_list()
 
     def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
         for i in range(number):
@@ -201,8 +205,12 @@ class MainGameMode(InterfaceState):
         self.screen.blit(get_images_for_game()['cursor'],
                          (mouse_x - 16, mouse_y - 16))
 
+    def play_music(self):
+        self.background_music.play()
+
     def update(self):
         self.calc_calculations()
         self.draw()
         self.draw_console()
         self.draw_interface()
+        self.play_music()
