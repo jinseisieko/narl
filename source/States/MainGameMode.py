@@ -53,6 +53,7 @@ class MainGameMode(InterfaceState):
 
     def start(self):
         pg.mouse.set_visible(False)
+        self.pause = False
         self.make_borders()
         self.create_obstacles()
         self.game.fps = FPS
@@ -122,6 +123,9 @@ class MainGameMode(InterfaceState):
                     self.console.open_console()
             if event.key == pg.K_SPACE:
                 self.shooting = True
+            if event.key == pg.K_ESCAPE:
+                self.pause = True
+                self.game.change_state("Pause")
         if event.type == pg.KEYUP:
             if event.key == pg.K_SPACE:
                 self.shooting = False

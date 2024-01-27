@@ -7,6 +7,7 @@ from source.Image.InitializationForItems import init_images_for_items
 from source.States.InterfaceState import InterfaceState
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
+from source.States.Pause import Pause
 
 
 class Game:
@@ -54,6 +55,12 @@ class Game:
     def change_state(self, name):
         if name == "MainGameMode":
             self.state = MainGameMode(self.screen, self)
+        if name == "MainMenu":
+            self.state = MainMenu(self.screen, self)
+        if name == "Pause":
+            self.state = Pause(self.screen, self)
+
+
 
 
 GAME = None

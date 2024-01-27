@@ -28,14 +28,14 @@ PLAYER_SLOWDOWN: np.float_ = np.float_(600)  # pixels / second ** 2
 PLAYER_ACCELERATION: np.float_ = np.float_(1500)  # pixels / second ** 2
 PLAYER_MAX_HP: np.int_ = 1009999999999  # int
 PLAYER_ARMOR: np.float_ = np.float_(0)  # int
-PLAYER_DELAY: np.float_ = np.float_(0.01)  # seconds
+PLAYER_DELAY: np.float_ = np.float_(0.0001)  # seconds
 PLAYER_ARMOR_PIERCING: np.float_ = np.float_(2)  # int
 PLAYER_BULLET_SIZE_X: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_DAMAGE: np.float_ = np.float_(20)  # int
 PLAYER_CRITICAL_COEFFICIENT: np.float_ = np.float_(1.1)  # any
 PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0.1)  # from 0 to 1
-PLAYER_SCATTER: np.float_ = np.float_(0.3)  # radians
+PLAYER_SCATTER: np.float_ = np.float_(np.pi)  # radians
 PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(2)  # seconds
 PLAYER_BULLET_VELOCITY: np.float_ = np.float_(1000)  # pixels/second
 PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.6)  # seconds
@@ -81,7 +81,7 @@ FONT_SIZE_CHARACTERISTICS = 35
 INDENT_CHARACTERISTICS_INTERFACE = 25
 
 MUSIC_FOR_LEVEL = {
-    0: ["Komiku_-_13_-_Fight_run_breath_deeply(chosic.com).mp3", "keys-of-moon-under-the-sun(chosic.com).mp3",
+    0: ["Caramella-Girls-Caramelldansen-_Official-English-Version_.mp3", "keys-of-moon-under-the-sun(chosic.com).mp3",
         "arthur-vyncke-cherry-metal(chosic.com).mp3", "Adventures-in-Adventureland(chosic.com).mp3",
         "Adventures-in-Adventureland(chosic.com).mp3"]
 }
