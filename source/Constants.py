@@ -17,7 +17,7 @@ KILL_LINE = 100
 
 BACKGROUND_PICTURE_SIZE: np.int_ = 400
 
-FPS: np.int_ = 12000000
+FPS: np.int_ = 20
 
 H: int = 7
 
@@ -38,7 +38,7 @@ PLAYER_CRITICAL_CHANCE: np.float_ = np.float_(0.1)  # from 0 to 1
 PLAYER_SCATTER: np.float_ = np.float_(0.3)  # radians
 PLAYER_BULLET_LIVE_TIME: np.float_ = np.float_(2)  # seconds
 PLAYER_BULLET_VELOCITY: np.float_ = np.float_(1000)  # pixels/second
-PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.5)  # seconds
+PLAYER_DAMAGE_DELAY: np.float_ = np.float_(0.6)  # seconds
 
 PLAYER_SLOWDOWN_FACTOR = PLAYER_SLOWDOWN / PLAYER_ACCELERATION
 

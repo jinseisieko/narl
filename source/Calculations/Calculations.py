@@ -59,6 +59,8 @@ def calc_collisions(enemies: np.ndarray, COLLISIONS_REPELLING: np.float_, dt: np
     dist_y: np.ndarray
     dist: np.ndarray
 
+    COLLISIONS_REPELLING = COLLISIONS_REPELLING * (1 / dt) / 120
+
     real_dist_x = enemies[..., 2] + enemies[..., 2][..., np.newaxis]
     real_dist_y = enemies[..., 3] + enemies[..., 3][..., np.newaxis]
     dist_x = enemies[..., 0] - enemies[..., 0][..., np.newaxis]
@@ -164,19 +166,22 @@ def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_):
 
 def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray, Id: np.ndarray,
                   dt: np.float_):
-    mouse_pos = mouse_pos + field[0:2] - field[8:10] / 2
-    angle = np.arctan2(mouse_pos[1] - player[0, 1], mouse_pos[0] - player[0, 0]) \
-            + player[0, 20] * (np.random.random() - 0.5) * 2
-
     quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
     amount = np.int_(np.minimum(quotient, Id.shape[0]))
     arange = np.arange(amount, dtype=np.int_)
 
     if amount > 0:
-        data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17], \
-                                 player[0, 22] * np.cos(angle) + player[0, 6], \
-                                 player[0, 22] * np.sin(angle) + player[0, 7], \
+        data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17],
+                                 0,
+                                 0,
                                  0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (amount, 1))
+
+        mouse_pos = mouse_pos + field[0:2] - field[8:10] / 2
+        angle = np.arctan2(mouse_pos[1] - player[0, 1], mouse_pos[0] - player[0, 0]) \
+                + player[0, 20] * (np.random.random(amount) - 0.5) * 2
+
+        data[..., 6] = player[0, 22] * np.cos(angle[...]) + player[0, 6]
+        data[..., 7] = player[0, 22] * np.sin(angle[...]) + player[0, 7]
 
         rng = np.tile(arange[..., np.newaxis], (1, 2))
         data[..., 0:2] += data[..., 6:8] * player[..., 13] * rng
