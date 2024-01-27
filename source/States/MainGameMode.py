@@ -105,7 +105,7 @@ class MainGameMode(InterfaceState):
             if event.button == 1:
                 self.shooting = True
             if event.button == 3:
-                self.spawning = True
+                self.spawning = not (self.spawning and True)
 
         if event.type == pg.MOUSEBUTTONUP:
             if event.button == 1:
