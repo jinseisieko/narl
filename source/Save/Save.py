@@ -9,7 +9,7 @@ def save():
     get_data(data, sets)
 
     with DB.atomic():
-        Save.create(data=data, sets=sets)
+        Save.create(data=str(data), sets=str(sets))
 
 
 def load():
