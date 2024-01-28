@@ -137,7 +137,6 @@ class MainGameMode(InterfaceState, Data):
             self.console.handle_event(event)
             if event.key == pg.K_F1:
                 self.console_ = not self.console_
-                save()
                 self.pause = self.console_
                 if self.console_:
                     self.console.open_console()

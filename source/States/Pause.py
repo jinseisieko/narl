@@ -4,6 +4,7 @@ import pygame as pg
 from source.Interface.PauseTitle import PauseTitle
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
+from source.Save.Save import save
 
 
 class Pause(InterfaceState):
@@ -30,5 +31,5 @@ class Pause(InterfaceState):
                     self.data.start()
                     self.game.set_state(self.data)
                 if self.title_pause.buttons["ExitMenuButton"].update(mouse_pos):
-                    ...
+                    save()
                     self.game.change_state("MainMenu")
