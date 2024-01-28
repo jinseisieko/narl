@@ -1,8 +1,8 @@
 import numpy as np
 import pygame as pg
 
-from source.States.InterfaceState import InterfaceState
 from source.Interface.TitleScreen import TitleScreen
+from source.States.InterfaceState import InterfaceState
 
 
 class MainMenu(InterfaceState):
@@ -25,6 +25,9 @@ class MainMenu(InterfaceState):
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
+                sn1 = pg.mixer.Sound("../resource/music/click.mp3")
+                sn1.set_volume(0.2)
+                sn1.play()
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_screen.buttons["ContinueButton"].update(mouse_pos):
                     self.game.change_state("MainGameMode")

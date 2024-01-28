@@ -30,7 +30,6 @@ class MainGameMode(InterfaceState, Data):
         self.start_level(level)
         self.screen: pg.Surface = screen
 
-
         self.player: Player = Player(get_images_for_game()["test_player"], self.field)
 
         self.enemy_set: set = set()
@@ -57,8 +56,6 @@ class MainGameMode(InterfaceState, Data):
 
         self.interface = Interface(self)
         self.begin()
-
-
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
@@ -116,9 +113,6 @@ class MainGameMode(InterfaceState, Data):
             if event.button == 3:
                 self.spawning = not (self.spawning and True)
 
-        if event.type == pg.MOUSEBUTTONUP:
-            if event.button == 1:
-                self.shooting = False
         if event.type == pg.KEYDOWN:
             self.console.handle_event(event)
             if event.key == pg.K_F1:
@@ -193,10 +187,11 @@ class MainGameMode(InterfaceState, Data):
         for x in self.enemy_set.copy():
             if x.matrix[x.Id, 8] > 0:
                 wave[3] -= 1
-                wave[8] += 1
                 self.enemy_set.remove(x)
                 x.kill()
                 if x.matrix[x.Id, 8] != 5:
+                    wave[8] += 1
+                    player[0, 28] += 1
                     sn = pg.mixer.Sound("../resource/music/enemy_damage2.mp3")
                     sn.set_volume(0.2)
                     sn.play()
@@ -219,10 +214,20 @@ class MainGameMode(InterfaceState, Data):
     def play_music(self):
         self.background_music.play()
 
+    def end_calculations(self):
+        if calc_creation_wave(wave, self.level.difficulty):
+            sn1 = pg.mixer.Sound("../resource/music/new_wave.mp3")
+            sn1.set_volume(1)
+            sn1.play()
+        if calc_player_level(player):
+            sn1 = pg.mixer.Sound("../resource/music/levelup.mp3")
+            sn1.set_volume(1)
+            sn1.play()
+
     def update(self):
         self.calc_calculations()
         self.draw()
         self.draw_console()
         self.draw_interface()
-        calc_creation_wave(wave, self.level.difficulty)
+        self.end_calculations()
         # self.play_music()

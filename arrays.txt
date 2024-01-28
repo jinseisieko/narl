@@ -46,7 +46,17 @@ player
  bullet_damage
  critical_coefficient
  critical_chance
- scatter]
+ scatter
+ bullet_life_time
+ bullet_velocity
+ damage_delay
+ time_wait_damage
+ time_wait_shot
+ bullet_bouncing
+ player_level
+ player_exp
+ need_exp
+ ]
 
 bullet
 [[x]

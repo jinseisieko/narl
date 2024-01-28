@@ -25,3 +25,6 @@ damage_delay = 23
 time_wait_damage = 24
 time_wait_shot = 25
 bullet_bouncing = 26
+player_level = 27
+player_exp = 28
+need_exp = 29
