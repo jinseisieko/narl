@@ -10,6 +10,7 @@ from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
 from source.Movable_objects.Player import *
+from source.Save.Save import save, load
 from source.Sounds.Music import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
@@ -59,6 +60,9 @@ class MainGameMode(InterfaceState, Data):
         self.begin()
 
         self.last_screen = self.screen.copy()
+        print(entity_ids)
+        load()
+        print(entity_ids)
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
@@ -122,6 +126,7 @@ class MainGameMode(InterfaceState, Data):
             self.console.handle_event(event)
             if event.key == pg.K_F1:
                 self.console_ = not self.console_
+                save()
                 self.pause = self.console_
                 if self.console_:
                     self.console.open_console()

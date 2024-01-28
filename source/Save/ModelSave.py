@@ -1,6 +1,6 @@
 from peewee import *
 
-db_name = "pw.sqlite.db"
+db_name = "../resource/db/saves/db.db"
 DB = SqliteDatabase(db_name)
 
 
@@ -10,4 +10,9 @@ class BaseModel(Model):
 
 
 class Save(BaseModel):
-    player_tb = CharField()
+    data = CharField()
+    sets = CharField()
+
+
+if not Save.table_exists():
+    DB.create_tables([Save])
