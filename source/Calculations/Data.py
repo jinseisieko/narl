@@ -1,8 +1,12 @@
 from source.Constants import *
 
-enemies = np.tile(np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_), (MAX_ENEMIES, 1))
-bullets = np.tile(np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_), (MAX_BULLETS, 1))
-obstacles = np.tile(np.array([-3000, -3000, 0, 0], dtype=np.float_), (MAX_OBSTACLES, 1))
+default_enemy = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_)
+default_bullet = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_)
+default_obstacle = np.array([-3000, -3000, 0, 0], dtype=np.float_)
+
+enemies = np.tile(default_enemy, (MAX_ENEMIES, 1))
+bullets = np.tile(default_bullet, (MAX_BULLETS, 1))
+obstacles = np.tile(default_obstacle, (MAX_OBSTACLES, 1))
 player = np.array([[1000, 1000, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0, PLAYER_MAX_VELOCITY,
                     PLAYER_SLOWDOWN, PLAYER_ACCELERATION, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_DELAY,
                     PLAYER_ARMOR_PIERCING, PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, PLAYER_BULLET_DAMAGE,

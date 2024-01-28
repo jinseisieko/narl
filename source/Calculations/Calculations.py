@@ -17,12 +17,11 @@ def calc_movements(objects: np.ndarray, dt: np.float_) -> None:
     objects[..., 0:2] += objects[..., 6:8] * dt
 
 
-def calc_bullet_movements(bullet: np.ndarray, dt: np.float_):
+def calc_bullet_movements(bullet: np.ndarray, dt: np.float_, default_data: np.ndarray):
     bullet[..., 0:2] += bullet[..., 6:8] * dt
     bullet[..., 9] += dt
 
-    bullet[np.where(bullet[..., 9] >= bullet[..., 10])] = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-                                                                   dtype=np.float_)
+    bullet[np.where(bullet[..., 9] >= bullet[..., 10])] = default_data
 
 
 def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float_) -> None:
@@ -82,7 +81,8 @@ def calc_collisions(enemies: np.ndarray, COLLISIONS_REPELLING: np.float_, dt: np
     enemies[..., 1] += np.sum(delta_y, axis=0)  # * np.random.uniform(0.6, 1, size=enemies[..., 1].shape)
 
 
-def calc_damage(enemies: np.ndarray, bullets: np.ndarray, player: np.ndarray) -> None:
+def calc_damage(enemies: np.ndarray, bullets: np.ndarray, player: np.ndarray, default_enemy_data: np.ndarray,
+                default_bullet_data: np.ndarray) -> None:
     max_dist_x: np.ndarray
     real_dist_y: np.ndarray
     dist_x: np.ndarray
@@ -105,12 +105,12 @@ def calc_damage(enemies: np.ndarray, bullets: np.ndarray, player: np.ndarray) ->
     damage = np.maximum(0, damage - np.maximum(0, enemies[indices, 10] - bullets[bullet_indices, 11] * counter))
     enemies[indices, 4] -= damage
 
-    enemies[np.setdiff1d(np.where(enemies[..., 4] <= 0), np.where(enemies[..., 8] > 0))] = np.array(
-        [-1000, -1000, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0], dtype=np.float_)
-    bullets[bullet_indices] = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_)
+    enemies[np.setdiff1d(np.where(enemies[..., 4] <= 0), np.where(enemies[..., 8] > 0))] = default_enemy_data
+    bullets[bullet_indices] = default_bullet_data
 
 
-def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, kill: bool = False, bounce: bool = False) -> None:
+def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, default_data: np.ndarray, kill: bool = False,
+                   bounce: bool = False) -> None:
     max_dist_x: np.ndarray
     real_dist_y: np.ndarray
     dist_x: np.ndarray
@@ -140,7 +140,7 @@ def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, kill: bool = Fal
         entities[ind_y[1], 7] *= -1
     elif kill:
         indices: np.ndarray = np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
-        entities[indices] = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_)
+        entities[indices] = default_data
     else:
         entities[ind_x[1], 6] = 0
         entities[ind_y[1], 7] = 0
@@ -242,7 +242,7 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
     return np.array([])
 
 
-def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
+def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray, default_data: np.ndarray):
     max_dist_x = field[8] / 2 + field[11]
     max_dist_y = field[9] / 2 + field[11]
 
@@ -252,7 +252,8 @@ def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
     indices = np.setdiff1d(np.where((np.abs(dist_x) >= max_dist_x) | (np.abs(dist_y) >= max_dist_y))[0],
                            np.where(enemy[..., 8] > 0)[0])
 
-    enemy[indices] = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0], dtype=np.float_)
+    enemy[indices] = default_data
+    enemy[indices, 8] = 5
 
 
 def calc_creation_wave(wave, difficulty):
@@ -270,7 +271,7 @@ def calc_creation_wave(wave, difficulty):
 def calc_player_level(player: np.ndarray):
     if player[0, 29] <= player[0, 28]:
         player[0, 27] += 1
-        player[0, 29] -= 1
+        player[0, 29] *= 1.1
         player[0, 28] = 0
         return 1
     return 0

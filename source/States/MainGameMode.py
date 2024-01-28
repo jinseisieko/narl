@@ -1,3 +1,5 @@
+import numpy as np
+
 from source.Calculations.Calculations import *
 from source.Calculations.Data import *
 from source.Console.ConsoleInter import ConsoleInter
@@ -57,12 +59,11 @@ class MainGameMode(InterfaceState, Data):
         self.FPS = FPS
 
         self.interface = Interface(self)
-        self.begin()
 
         self.last_screen = self.screen.copy()
-        print(entity_ids)
+
         load()
-        print(entity_ids)
+        self.begin()
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
@@ -72,31 +73,37 @@ class MainGameMode(InterfaceState, Data):
         pg.mouse.set_visible(False)
         self.pause = False
         self.make_borders()
-        self.create_obstacles()
         self.game.fps = FPS
         self.background_music.update_music_list()
+        for x in set(range(0, MAX_ENEMIES)) - entity_ids:
+            self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
+        for x in set(range(0, MAX_BULLETS)) - bullet_ids:
+            self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
+        for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
+            self.obstacle_set.add(Obstacle(obstacles, x, "red", self.field, obstacles_ids))
 
     def make_borders(self):
+        obstacles[0] = np.array([FIELD_WIDTH / 2, - 100, FIELD_WIDTH, 100])
+        obstacles[1] = np.array([FIELD_WIDTH / 2, FIELD_HEIGHT + 100, FIELD_WIDTH, 100])
+        obstacles[2] = np.array([- 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
+        obstacles[3] = np.array([FIELD_WIDTH + 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
         self.obstacle_set.add(
-            Obstacle(np.array([FIELD_WIDTH / 2, - 100, FIELD_WIDTH, 100]), obstacles, obstacles_ids.pop(), "red",
-                     self.field,
-                     obstacles_ids))
+            Obstacle(obstacles, 0, "red", self.field, obstacles_ids))
         self.obstacle_set.add(
-            Obstacle(np.array([FIELD_WIDTH / 2, FIELD_HEIGHT + 100, FIELD_WIDTH, 100]), obstacles, obstacles_ids.pop(),
-                     "red",
-                     self.field, obstacles_ids))
+            Obstacle(obstacles, 1, "red", self.field, obstacles_ids))
         self.obstacle_set.add(
-            Obstacle(np.array([- 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT]), obstacles, obstacles_ids.pop(), "red",
-                     self.field,
-                     obstacles_ids))
+            Obstacle(obstacles, 2, "red", self.field, obstacles_ids))
         self.obstacle_set.add(
-            Obstacle(np.array([FIELD_WIDTH + 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT]), obstacles, obstacles_ids.pop(),
-                     "red", self.field, obstacles_ids))
+            Obstacle(obstacles, 3, "red", self.field, obstacles_ids))
+        obstacles_ids.discard(0)
+        obstacles_ids.discard(1)
+        obstacles_ids.discard(2)
+        obstacles_ids.discard(3)
 
     def create_obstacles(self):
         self.obstacle_set |= set(
-            [Obstacle(np.array([0 + 100 * i, 0 + 200 * i, 200, 600]), obstacles, obstacles_ids.pop(),
-                      "#00000000", self.field, obstacles_ids)
+            [Obstacle(obstacles, obstacles_ids.pop(), "black", self.field, obstacles_ids,
+                      data=np.array([0 + 100 * i, 0 + 200 * i, 200, 600]))
              for i in range(10)])
 
     def draw_console(self):
@@ -173,16 +180,16 @@ class MainGameMode(InterfaceState, Data):
 
             calc_enemy_direction(enemies, *player[0, 0:2])
             calc_movements(enemies, self.game.dt)
-            calc_bullet_movements(bullets, self.game.dt)
-            calc_killing_enemies(enemies, field)
+            calc_bullet_movements(bullets, self.game.dt, default_bullet)
+            calc_killing_enemies(enemies, field, default_enemy)
             self.shoot()
 
             calc_collisions(enemies, COLLISIONS_REPELLING, self.game.dt)
-            calc_obstacles(enemies, obstacles)
-            calc_obstacles(bullets, obstacles, kill=True, bounce=bool(player[0, 26]))
-            calc_obstacles(player, obstacles)
+            calc_obstacles(enemies, obstacles, default_enemy)
+            calc_obstacles(bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
+            calc_obstacles(player, obstacles, np.array([]))
 
-            calc_damage(enemies, bullets, player)
+            calc_damage(enemies, bullets, player, default_enemy, default_bullet)
             self.damage_player()
 
             calc_cameraman(player, field, self.game.dt)
