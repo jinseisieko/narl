@@ -248,7 +248,7 @@ class MainGameMode(InterfaceState, Data):
         if calc_player_level(player):
             self.pause = True
             self.game.set_state(NewItem(self.screen, self.game, self, self.last_screen))
-            sn1 = pg.mixer.Sound("../resource/music/levelup.mp3")
+            sn1 = pg.mixer.Sound("../resource/music/castle_levelup.mp3")
             sn1.set_volume(1)
             sn1.play()
 
