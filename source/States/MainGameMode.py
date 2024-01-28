@@ -1,10 +1,11 @@
 from source.Calculations.Calculations import *
 from source.Calculations.Data import *
 from source.Console.ConsoleInter import ConsoleInter
-from source.Field import Field
+from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Image.InitializationForGame import get_images_for_game
 from source.Interface.Interface import Interface
+from source.Levels.Level import Level
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
@@ -21,13 +22,14 @@ class MainGameMode(InterfaceState, Data):
         self.pause = False
         pg.mouse.set_visible(False)
 
-    def __init__(self, screen, game) -> None:
+    def __init__(self, screen, game, level=Level()) -> None:
         super().__init__(screen, game)
         self.type = "MainGameMode"
+        self.level = level
 
         self.screen: pg.Surface = screen
 
-        self.field: Field = Field(field)
+        self.field: Field = Field(field, level.background)
         self.player: Player = Player(get_images_for_game()["test_player"], self.field)
 
         self.enemy_set: set = set()
@@ -51,9 +53,6 @@ class MainGameMode(InterfaceState, Data):
         self.pause: bool = False
 
         self.FPS = FPS
-
-        global GAME
-        GAME = self
 
         self.interface = Interface(self)
         self.begin()
@@ -86,7 +85,7 @@ class MainGameMode(InterfaceState, Data):
     def create_obstacles(self):
         self.obstacle_set |= set(
             [Obstacle(np.array([0 + 100 * i, 0 + 200 * i, 200, 600]), obstacles, obstacles_ids.pop(),
-                      "yellow", self.field, obstacles_ids)
+                      "#00000000", self.field, obstacles_ids)
              for i in range(10)])
 
     def draw_console(self):
@@ -219,4 +218,4 @@ class MainGameMode(InterfaceState, Data):
         self.draw()
         self.draw_console()
         self.draw_interface()
-        self.play_music()
+        # self.play_music()
