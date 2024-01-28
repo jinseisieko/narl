@@ -159,7 +159,7 @@ def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_):
         damage = np.maximum(0, np.sum(enemies[indices, 5], axis=0) - player[0, 12])
         player[0, 4] -= damage
         if player[0, 4] <= 0:
-            exit()
+            return 2
         if damage > 0:
             player[..., 24] = player[..., 23]
             return 1

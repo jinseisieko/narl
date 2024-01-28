@@ -5,7 +5,7 @@ from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Image.InitializationForGame import get_images_for_game
 from source.Interface.Interface import Interface
-from source.Levels.Level import Level, Level1, Level2
+from source.Levels.Level import Level1, Level2
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
@@ -15,6 +15,7 @@ from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
 from source.States.NewItem import NewItem
 from source.States.Pause import Pause
+from source.States.ScreenOfDeath import ScreenOfDeath
 
 
 class MainGameMode(InterfaceState, Data):
@@ -151,11 +152,14 @@ class MainGameMode(InterfaceState, Data):
                 entity_ids.remove(x)
 
     def damage_player(self):
-        if calc_player_damage(enemies, player, self.game.dt):
+        res = calc_player_damage(enemies, player, self.game.dt)
+        if res == 1:
             self.player.animate_damage_play()
             sn = pg.mixer.Sound("../resource/music/player_damage.mp3")
             sn.set_volume(0.3)
             sn.play()
+        elif res == 2:
+            self.game.set_state(ScreenOfDeath(self.screen, self.game, self.last_screen))
 
     def calc_calculations(self):
         if not self.pause:

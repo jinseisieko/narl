@@ -1,23 +1,48 @@
 ======== rank: 1 ========
-
----яблоко (apple) rank: 1
+---
+яблоко (apple)
 +1 hp
-+1 max_hp
-
----ботинок (boot) rank: 1
-+100 acceleration
-
+---
+ботинок (boot)
++50 max_velocity
++50 acceleration
+---
+книга (book)
++0.05 critical_chance
+---
+осколок стекла (glass_shard)
++0.1 critical_coefficient
+---
+кирпич (brick)
++1 bullet_damage
+---
 ======== rank: 2 ========
-
----камень (stone) rank: 2
-+3 size_x
-+3 size_y
-+3 armor
-
+---
+броня (armor)
++2 size_x
++2 size_y
++2 armor
+---
+пистолет (pistol)
++50 bullet_velocity
+-2% delay
++1 armor_piercing
++1 bullet_damage
+---
+дробовик (shotgun)
++0.05 scatter
++1 bullet_damage
+-2 bullet_size_x
+-2 bullet_size_y
 ======== rank: 3 ========
-
----огонь (fire) rank: 3
+---
+огонь (fire)
 -0.1 delay
 +150 bullet_velocity
+---
+отскок (rebound)
+=1 bullet_bouncing
+
+
 
 

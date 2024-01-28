@@ -68,8 +68,8 @@ class ExitButton(Button):
 
 
 class ExitMenuButton(Button):
-    def __init__(self, font=None):
-        super().__init__("Exit", np.array([WIDTH / 2, HEIGHT / 3 + 150]), np.array([150, 50]), font=font)
+    def __init__(self, font=None, w_h=np.array([WIDTH / 2, HEIGHT / 3 + 150])):
+        super().__init__("Exit", w_h, np.array([150, 50]), font=font)
 
 
 class ItemButton(ImageButton):
