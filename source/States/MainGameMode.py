@@ -5,7 +5,7 @@ from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Image.InitializationForGame import get_images_for_game
 from source.Interface.Interface import Interface
-from source.Levels.Level import Level
+from source.Levels.Level import Level, Level1, Level2
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
@@ -22,7 +22,7 @@ class MainGameMode(InterfaceState, Data):
         self.pause = False
         pg.mouse.set_visible(False)
 
-    def __init__(self, screen, game, level=Level()) -> None:
+    def __init__(self, screen, game, level=Level2()) -> None:
         super().__init__(screen, game)
         self.type = "MainGameMode"
         self.level = level
