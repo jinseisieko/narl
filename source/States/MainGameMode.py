@@ -192,7 +192,7 @@ class MainGameMode(InterfaceState, Data):
 
         for x in self.enemy_set.copy():
             if x.matrix[x.Id, 8] > 0:
-                wave[3] += 1
+                wave[3] -= 1
                 wave[8] += 1
                 self.enemy_set.remove(x)
                 x.kill()
@@ -201,9 +201,6 @@ class MainGameMode(InterfaceState, Data):
                     sn.set_volume(0.2)
                     sn.play()
             else:
-                global t
-                print(t)
-                t += 1
                 x.draw()
 
         for x in self.obstacle_set:
