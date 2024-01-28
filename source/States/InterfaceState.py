@@ -17,5 +17,5 @@ class InterfaceState(ABC):
         ...
 
     @abstractmethod
-    def start(self):
+    def begin(self):
         ...

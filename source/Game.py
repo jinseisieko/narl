@@ -52,15 +52,16 @@ class Game:
         self.state.update()
         self.end_cycle()
 
-    def change_state(self, name):
+    def change_state(self, name, data=None):
         if name == "MainGameMode":
             self.state = MainGameMode(self.screen, self)
         if name == "MainMenu":
             self.state = MainMenu(self.screen, self)
         if name == "Pause":
-            self.state = Pause(self.screen, self)
+            self.state = Pause(self.screen, self, last_=data)
 
-
+    def set_state(self, class_):
+        self.state = class_
 
 
 GAME = None

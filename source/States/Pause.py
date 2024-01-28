@@ -1,21 +1,23 @@
-from source.Interface.PauseTitle import PauseTitle
-from source.States.InterfaceState import InterfaceState
-import pygame as pg
 import numpy as np
+import pygame as pg
+
+from source.Interface.PauseTitle import PauseTitle
+from source.States.InterfaceData import Data
+from source.States.InterfaceState import InterfaceState
 
 
 class Pause(InterfaceState):
-    def __init__(self, screen, game) -> None:
+    def __init__(self, screen, game, last_: Data) -> None:
         super().__init__(screen, game)
-
+        self.data = last_
         self.title_pause = PauseTitle(self.screen)
-        self.start()
+        self.begin()
 
     def update(self):
         self.title_pause.update()
         self.title_pause.draw()
 
-    def start(self):
+    def begin(self):
         pg.mouse.set_visible(True)
 
     def check_events(self, event):
@@ -23,6 +25,8 @@ class Pause(InterfaceState):
             if event.button == 1:
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_pause.buttons["ContinueButton"].update(mouse_pos):
-                    self.game.change_state("MainGameMode")
+                    self.data.start()
+                    self.game.set_state(self.data)
                 if self.title_pause.buttons["ExitMenuButton"].update(mouse_pos):
+                    ...
                     self.game.change_state("MainMenu")

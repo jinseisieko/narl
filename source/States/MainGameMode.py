@@ -9,11 +9,18 @@ from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
 from source.Movable_objects.Player import *
-from source.States.InterfaceState import InterfaceState
 from source.Sounds.Music import *
+from source.States.InterfaceData import Data
+from source.States.InterfaceState import InterfaceState
+
+t = 0
 
 
-class MainGameMode(InterfaceState):
+class MainGameMode(InterfaceState, Data):
+    def start(self):
+        self.pause = False
+        pg.mouse.set_visible(False)
+
     def __init__(self, screen, game) -> None:
         super().__init__(screen, game)
         self.type = "MainGameMode"
@@ -49,23 +56,15 @@ class MainGameMode(InterfaceState):
         GAME = self
 
         self.interface = Interface(self)
-        self.start()
+        self.begin()
 
-    def start(self):
+    def begin(self):
         pg.mouse.set_visible(False)
         self.pause = False
         self.make_borders()
         self.create_obstacles()
         self.game.fps = FPS
         self.background_music.update_music_list()
-
-    def create_enemies(self, number: np.int_ = MAX_ENEMIES) -> None:
-        for i in range(number):
-            Id = entity_ids.pop()
-            enemies[Id] = np.array(
-                [self.default_enemy_data[0] + 10 * i, self.default_enemy_data[1] + 20 * i * (-1) ** i,
-                 *self.default_enemy_data[2:]])
-            self.enemy_set.add(Enemy(enemies, Id, "black", self.field, entity_ids))
 
     def make_borders(self):
         self.obstacle_set.add(
@@ -125,7 +124,7 @@ class MainGameMode(InterfaceState):
                 self.shooting = True
             if event.key == pg.K_ESCAPE:
                 self.pause = True
-                self.game.change_state("Pause")
+                self.game.change_state("Pause", self)
         if event.type == pg.KEYUP:
             if event.key == pg.K_SPACE:
                 self.shooting = False
@@ -194,6 +193,9 @@ class MainGameMode(InterfaceState):
                     sn.set_volume(0.2)
                     sn.play()
             else:
+                global t
+                print(t)
+                t += 1
                 x.draw()
 
         for x in self.obstacle_set:

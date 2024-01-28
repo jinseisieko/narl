@@ -7,7 +7,7 @@ from source.Interface.TitleScreen import TitleScreen
 
 class MainMenu(InterfaceState):
 
-    def start(self):
+    def begin(self):
         pg.mouse.set_visible(True)
         self.game.fps = self.title_screen.video.fps
 
@@ -16,7 +16,7 @@ class MainMenu(InterfaceState):
 
         self.title_screen: TitleScreen = TitleScreen(self.screen)
 
-        self.start()
+        self.begin()
 
     def update(self):
         self.title_screen.update()
