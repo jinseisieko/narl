@@ -228,10 +228,10 @@ class MyApp(QWidget):
         renewal_super = json.dumps(convert_array_to_dict_str(renewal_super))
 
         result = f"('{name}', '{renewal_plus}', '{renewal_multiply}', '{renewal_super}', '{code}')\n"
-        with open(r"../../../resource/bd/ItemDatabase/all.txt", "a", encoding="utf-8") as file:
+        with open(r"../../../resource/db/ItemDatabase/all.txt", "a", encoding="utf-8") as file:
             file.write("Insert: " + result)
 
-        con = sqlite3.connect(r"../../../resource/bd/ItemDatabase/original.db")
+        con = sqlite3.connect(r"../../../resource/db/ItemDatabase/original.db")
         cur = con.cursor()
         cur.execute("""CREATE TABLE IF NOT EXISTS rank1 (
     name TEXT UNIQUE,
