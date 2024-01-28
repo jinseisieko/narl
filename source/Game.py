@@ -1,4 +1,5 @@
 import pygame as pg
+from pygame import Surface
 
 from source.Constants import *
 from source.Functions.Functions import DT
@@ -59,11 +60,10 @@ class Game:
         if name == "MainMenu":
             self.state = MainMenu(self.screen, self)
         if name == "Pause":
-            self.state = Pause(self.screen, self, last_=data)
+            self.state = Pause(self.screen, self, last_=data, last_frame=Surface((0, 0)))
 
     def set_state(self, class_):
         self.state = class_
-
 
 
 GAME = None

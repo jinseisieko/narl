@@ -7,11 +7,12 @@ from source.States.InterfaceState import InterfaceState
 
 
 class Pause(InterfaceState):
-    def __init__(self, screen, game, last_: Data) -> None:
+
+    def __init__(self, screen, game, last_: Data, last_frame) -> None:
         super().__init__(screen, game)
         self.type = "Pause"
         self.data = last_
-        self.title_pause = PauseTitle(self.screen)
+        self.title_pause = PauseTitle(self.screen, last_frame)
         self.begin()
 
     def update(self):

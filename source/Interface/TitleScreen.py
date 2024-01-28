@@ -24,11 +24,11 @@ class TitleScreen:
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 3 - 150])
 
-        self.buttons["ContinueButton"] = ContinueButton(self.background, font=self.font2)
-        self.buttons["StartButton"] = StartButton(self.background, font=self.font2)
-        self.buttons["ArcadeButton"] = ArcadeButton(self.background, font=self.font2)
-        self.buttons["SettingsButton"] = SettingsButton(self.background, font=self.font2)
-        self.buttons["ExitButton"] = ExitButton(self.background, font=self.font2)
+        self.buttons["ContinueButton"] = ContinueButton(font=self.font2)
+        self.buttons["StartButton"] = StartButton(font=self.font2)
+        self.buttons["ArcadeButton"] = ArcadeButton(font=self.font2)
+        self.buttons["SettingsButton"] = SettingsButton(font=self.font2)
+        self.buttons["ExitButton"] = ExitButton(font=self.font2)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))

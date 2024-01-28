@@ -13,8 +13,8 @@ from source.Movable_objects.Player import *
 from source.Sounds.Music import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
-
-t = 0
+from source.States.NewItem import NewItem
+from source.States.Pause import Pause
 
 
 class MainGameMode(InterfaceState, Data):
@@ -29,7 +29,6 @@ class MainGameMode(InterfaceState, Data):
         self.field: Field = ...
         self.start_level(level)
         self.screen: pg.Surface = screen
-
 
         self.player: Player = Player(get_images_for_game()["test_player"], self.field)
 
@@ -58,7 +57,7 @@ class MainGameMode(InterfaceState, Data):
         self.interface = Interface(self)
         self.begin()
 
-
+        self.last_screen = self.screen.copy()
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
@@ -130,7 +129,7 @@ class MainGameMode(InterfaceState, Data):
                 self.shooting = True
             if event.key == pg.K_ESCAPE:
                 self.pause = True
-                self.game.change_state("Pause", self)
+                self.game.set_state(Pause(self.screen, self.game, self, self.last_screen))
         if event.type == pg.KEYUP:
             if event.key == pg.K_SPACE:
                 self.shooting = False
@@ -212,6 +211,9 @@ class MainGameMode(InterfaceState, Data):
         self.draw_or_kill()
         field_screen_centre_x, field_screen_centre_y = self.field.data[0:2] - self.field.data[8:10] / 2
         self.screen.blit(self.field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
+
+    def draw_cursor(self):
+        self.last_screen = self.screen.copy()
         mouse_x, mouse_y = pygame.mouse.get_pos()
         self.screen.blit(get_images_for_game()['cursor'],
                          (mouse_x - 16, mouse_y - 16))
@@ -224,5 +226,6 @@ class MainGameMode(InterfaceState, Data):
         self.draw()
         self.draw_console()
         self.draw_interface()
+        self.draw_cursor()
         calc_creation_wave(wave, self.level.difficulty)
         # self.play_music()

@@ -26,31 +26,52 @@ class Button:
         return 0
 
 
+class ImageButton(Button):
+
+    def __init__(self, pos, half_size, image):
+        super().__init__('', pos, half_size, 'black', 'black', None)
+        self.background = pg.Surface(2 * self.half_size + 10)
+        self.background.fill((255, 255, 255))
+        image = pg.transform.scale(image, (2 * self.half_size))
+        self.background.blit(image, (5, 5))
+
+    def draw(self, screen):
+        super().draw(screen)
+
+    def update(self, mouse_pos):
+        return super().update(mouse_pos)
+
+
 class ContinueButton(Button):
-    def __init__(self, screen, font=None):
+    def __init__(self, font=None):
         super().__init__("Continue", np.array([WIDTH / 2, HEIGHT / 3]), np.array([150, 50]), font=font)
 
 
 class StartButton(Button):
-    def __init__(self, screen, font=None):
+    def __init__(self, font=None):
         super().__init__("Start", np.array([WIDTH / 2, HEIGHT / 3 + 150]), np.array([150, 50]), font=font)
 
 
 class ArcadeButton(Button):
-    def __init__(self, screen, font=None):
+    def __init__(self, font=None):
         super().__init__("Arcade", np.array([WIDTH / 2, HEIGHT / 3 + 300]), np.array([150, 50]), font=font)
 
 
 class SettingsButton(Button):
-    def __init__(self, screen, font=None):
+    def __init__(self, font=None):
         super().__init__("Settings", np.array([WIDTH / 2, HEIGHT / 3 + 450]), np.array([150, 50]), font=font)
 
 
 class ExitButton(Button):
-    def __init__(self, screen, font=None):
+    def __init__(self, font=None):
         super().__init__("Exit", np.array([WIDTH / 2, HEIGHT / 3 + 600]), np.array([150, 50]), font=font)
 
 
 class ExitMenuButton(Button):
-    def __init__(self, screen, font=None):
+    def __init__(self, font=None):
         super().__init__("Exit", np.array([WIDTH / 2, HEIGHT / 3 + 150]), np.array([150, 50]), font=font)
+
+
+class ItemButton(ImageButton):
+    def __init__(self, pos, half_size, image):
+        super().__init__(pos, half_size, image)
