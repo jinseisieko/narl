@@ -5,4 +5,4 @@ class Level:
                            "grass3",
                            "grass4", ]
         self.obstacles = ...  # ...
-        self.difficulty = 1
+        self.difficulty = 3

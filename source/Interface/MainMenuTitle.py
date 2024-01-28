@@ -4,7 +4,7 @@ from source.Interface.Buttons import *
 from source.Interface.Video import Video
 
 
-class TitleScreen:
+class MainMenuTitle:
     def __init__(self, screen):
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
@@ -16,11 +16,11 @@ class TitleScreen:
         self.font1 = pygame.font.Font('../resource/fonts/EightBits.ttf', 150)
         self.font2 = pygame.font.Font('../resource/fonts/EightBits.ttf', 90)
 
-        self.text1 = self.font1.render("Nightmare:", 0, "#000000", )
+        self.text1 = self.font1.render("Nightmare:", 0, "#7452ff", )
         self.text_rect1 = self.text1.get_rect()
         self.text_rect1.center = np.array([WIDTH / 2, HEIGHT / 3 - 250])
 
-        self.text2 = self.font1.render("Area of Reality and Lies", True, "#000000")
+        self.text2 = self.font1.render("Area of Reality and Lies", True, "#7452ff")
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 3 - 150])
 

@@ -108,7 +108,7 @@ class MainGameMode(InterfaceState, Data):
 
     def check_events(self, event):
         if self.game.key_pressed[pg.K_y]:
-            self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5))
+            self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5, r3=1000))
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.shooting = True

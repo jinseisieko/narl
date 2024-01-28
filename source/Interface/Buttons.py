@@ -4,7 +4,7 @@ from source.Constants import *
 
 
 class Button:
-    def __init__(self, text, pos, half_size, color1="yellow", color2="red", font=None):
+    def __init__(self, text, pos, half_size, color1="#000000", color2="#7452ff", font=None):
         self.half_size = half_size
         self.pos = pos
         self.background = pg.Surface(2 * self.half_size)

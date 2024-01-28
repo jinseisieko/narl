@@ -32,6 +32,7 @@ class Player:
         self.image.resize(self.matrix[0][size_x], self.matrix[0][size_y])
         self.matrix[0][delay] = max(0.01, self.matrix[0][delay])
         self.matrix[0][slowdown] = self.matrix[0][acceleration] * PLAYER_SLOWDOWN_FACTOR
+        self.animate_damage.scale(*self.matrix[..., 2:4] * 2)
 
     def animate_damage_play(self):
         self.animate_damage.play()

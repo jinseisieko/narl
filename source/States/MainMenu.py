@@ -1,7 +1,7 @@
 import numpy as np
 import pygame as pg
 
-from source.Interface.TitleScreen import TitleScreen
+from source.Interface.MainMenuTitle import MainMenuTitle
 from source.States.InterfaceState import InterfaceState
 
 
@@ -14,7 +14,7 @@ class MainMenu(InterfaceState):
     def __init__(self, screen, game) -> None:
         super().__init__(screen, game)
 
-        self.title_screen: TitleScreen = TitleScreen(self.screen)
+        self.title_screen: MainMenuTitle = MainMenuTitle(self.screen)
 
         self.begin()
 
