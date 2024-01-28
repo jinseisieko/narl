@@ -114,7 +114,9 @@ class MainGameMode(InterfaceState, Data):
                 self.shooting = True
             if event.button == 3:
                 self.spawning = not (self.spawning and True)
-
+        if event.type == pg.MOUSEBUTTONUP:
+            if event.button == 1:
+                self.shooting = False
         if event.type == pg.KEYDOWN:
             self.console.handle_event(event)
             if event.key == pg.K_F1:
@@ -225,6 +227,8 @@ class MainGameMode(InterfaceState, Data):
             sn1.set_volume(1)
             sn1.play()
         if calc_player_level(player):
+            self.pause = True
+            self.game.set_state(NewItem(self.screen, self.game, self, self.last_screen))
             sn1 = pg.mixer.Sound("../resource/music/levelup.mp3")
             sn1.set_volume(1)
             sn1.play()
