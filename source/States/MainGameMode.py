@@ -174,7 +174,7 @@ class MainGameMode(InterfaceState, Data):
 
             calc_collisions(enemies, COLLISIONS_REPELLING, self.game.dt)
             calc_obstacles(enemies, obstacles)
-            calc_obstacles(bullets, obstacles, bounce=bool(player[0, 26]))
+            calc_obstacles(bullets, obstacles, kill=True, bounce=bool(player[0, 26]))
             calc_obstacles(player, obstacles)
 
             calc_damage(enemies, bullets, player)

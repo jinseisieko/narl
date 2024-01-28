@@ -22,24 +22,20 @@ class Button:
 
     def update(self, mouse_pos):
         if len(np.where(np.abs(mouse_pos - self.pos) <= self.half_size)[0]) == 2:
+            sn1 = pg.mixer.Sound("../resource/music/click3.mp3")
+            sn1.set_volume(0.2)
+            sn1.play()
             return 1
         return 0
 
 
 class ImageButton(Button):
-
     def __init__(self, pos, half_size, image):
         super().__init__('', pos, half_size, 'black', 'black', None)
         self.background = pg.Surface(2 * self.half_size + 10)
         self.background.fill((255, 255, 255))
         image = pg.transform.scale(image, (2 * self.half_size))
         self.background.blit(image, (5, 5))
-
-    def draw(self, screen):
-        super().draw(screen)
-
-    def update(self, mouse_pos):
-        return super().update(mouse_pos)
 
 
 class ContinueButton(Button):

@@ -135,12 +135,12 @@ def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, kill: bool = Fal
     entities[ind_x[1], 0] += delta_x[ind_x[0], ind_x[1]]
     entities[ind_y[1], 1] += delta_y[ind_y[0], ind_y[1]]
 
-    if kill:
-        indices: np.ndarray = np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
-        entities[indices, :10] = np.array([-5000, -5000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_)
     if bounce:
         entities[ind_x[1], 6] *= -1
         entities[ind_y[1], 7] *= -1
+    elif kill:
+        indices: np.ndarray = np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
+        entities[indices] = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_)
     else:
         entities[ind_x[1], 6] = 0
         entities[ind_y[1], 7] = 0
@@ -270,7 +270,7 @@ def calc_creation_wave(wave, difficulty):
 def calc_player_level(player: np.ndarray):
     if player[0, 29] <= player[0, 28]:
         player[0, 27] += 1
-        player[0, 29] *= 1.5
+        player[0, 29] -= 1
         player[0, 28] = 0
         return 1
     return 0
