@@ -26,7 +26,7 @@ class MainGameMode(InterfaceState, Data):
         self.pause = False
         pg.mouse.set_visible(False)
 
-    def __init__(self, screen, game, level=Level2()) -> None:
+    def __init__(self, screen, game, level=Level2(), mode=0) -> None:
         super().__init__(screen, game)
         self.type = "MainGameMode"
         self.level = level
@@ -61,26 +61,30 @@ class MainGameMode(InterfaceState, Data):
         self.interface = Interface(self)
 
         self.last_screen = self.screen.copy()
-
-        load()
-        self.begin()
+        self.begin(mode)
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
         calc_creation_wave(wave, level.difficulty)
 
-    def begin(self):
+    def begin(self, mode):
         pg.mouse.set_visible(False)
         self.pause = False
-        self.make_borders()
         self.game.fps = FPS
         self.background_music.update_music_list()
-        for x in set(range(0, MAX_ENEMIES)) - entity_ids:
-            self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
-        for x in set(range(0, MAX_BULLETS)) - bullet_ids:
-            self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
-        for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
-            self.obstacle_set.add(Obstacle(obstacles, x, "red", self.field, obstacles_ids))
+        if mode:
+            load()
+            self.make_borders()
+            for x in set(range(0, MAX_ENEMIES)) - entity_ids:
+                self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
+            for x in set(range(0, MAX_BULLETS)) - bullet_ids:
+                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
+            for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
+                self.obstacle_set.add(Obstacle(obstacles, x, "red", self.field, obstacles_ids))
+        else:
+            clear_data()
+            self.make_borders()
+            self.create_obstacles()
 
     def make_borders(self):
         obstacles[0] = np.array([FIELD_WIDTH / 2, - 100, FIELD_WIDTH, 100])

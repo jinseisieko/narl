@@ -26,7 +26,6 @@ class Game:
         self.key_pressed: (list, None) = None
         self.running = True
 
-
         # pg.mixer.music.load("../resource/music/chipichipichapachapa.mp3")
         # pg.mixer.music.play(loops=-1)
         # pg.mixer.music.queue("../resource/music/Y2mate.mx - Bruh sound effect (128 kbps).mp3", loops=-1)
@@ -54,9 +53,9 @@ class Game:
         self.state.update()
         self.end_cycle()
 
-    def change_state(self, name, data=None):
+    def change_state(self, name, data=None, mode=0):
         if name == "MainGameMode":
-            self.state = MainGameMode(self.screen, self)
+            self.state = MainGameMode(self.screen, self, mode=mode)
         if name == "MainMenu":
             self.state = MainMenu(self.screen, self)
         if name == "Pause":

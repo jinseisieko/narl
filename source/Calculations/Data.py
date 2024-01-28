@@ -58,3 +58,28 @@ def get_data(old_data, old_sets):
     old_sets[0] = np.array(list(entity_ids), dtype=np.float_).tolist()
     old_sets[1] = np.array(list(bullet_ids), dtype=np.float_).tolist()
     old_sets[2] = np.array(list(obstacles_ids), dtype=np.float_).tolist()
+
+
+def clear_data():
+    global enemies, bullets, obstacles, player, field, wave, entity_ids, bullet_ids, obstacles_ids
+    enemies[...] = np.tile(default_enemy, (MAX_ENEMIES, 1))
+    bullets[...] = np.tile(default_bullet, (MAX_BULLETS, 1))
+    obstacles[...] = np.tile(default_obstacle, (MAX_OBSTACLES, 1))
+    player[...] = np.array(
+        [[1000, 1000, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0, PLAYER_MAX_VELOCITY,
+          PLAYER_SLOWDOWN, PLAYER_ACCELERATION, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_DELAY,
+          PLAYER_ARMOR_PIERCING, PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, PLAYER_BULLET_DAMAGE,
+          PLAYER_CRITICAL_COEFFICIENT, PLAYER_CRITICAL_CHANCE, PLAYER_SCATTER, PLAYER_BULLET_LIVE_TIME,
+          PLAYER_BULLET_VELOCITY, PLAYER_DAMAGE_DELAY, 0, 0, 0, 0, 0, PLAYER_NEED_EXP]], dtype=np.float_)
+    field[...] = np.array(
+        [0, 0, MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, 0, 0,
+         FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, SPAWN_LINE, KILL_LINE],
+        dtype=np.float_)
+    wave[...] = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float_)
+
+    entity_ids.clear()
+    bullet_ids.clear()
+    obstacles_ids.clear()
+    entity_ids |= set(range(MAX_ENEMIES))
+    bullet_ids |= set(range(MAX_BULLETS))
+    obstacles_ids |= set(range(MAX_OBSTACLES))

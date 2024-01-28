@@ -29,9 +29,9 @@ class MainMenu(InterfaceState):
             if event.button == 1:
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_screen.buttons["ContinueButton"].update(mouse_pos):
-                    self.game.change_state("MainGameMode")
+                    self.game.change_state("MainGameMode", mode=1)
                 if self.title_screen.buttons["StartButton"].update(mouse_pos):
-                    pass
+                    self.game.change_state("MainGameMode", mode=0)
                 if self.title_screen.buttons["ArcadeButton"].update(mouse_pos):
                     pass
                 if self.title_screen.buttons["SettingsButton"].update(mouse_pos):
