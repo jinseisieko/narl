@@ -192,6 +192,8 @@ class MainGameMode(InterfaceState, Data):
 
         for x in self.enemy_set.copy():
             if x.matrix[x.Id, 8] > 0:
+                wave[3] += 1
+                wave[8] += 1
                 self.enemy_set.remove(x)
                 x.kill()
                 if x.matrix[x.Id, 8] != 5:
@@ -225,4 +227,5 @@ class MainGameMode(InterfaceState, Data):
         self.draw()
         self.draw_console()
         self.draw_interface()
+        calc_creation_wave(wave, self.level.difficulty)
         # self.play_music()

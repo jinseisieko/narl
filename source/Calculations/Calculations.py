@@ -200,7 +200,7 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
     quotient, wave[2] = np.divmod(wave[2] + dt, wave[1])
     if quotient > 0:
         pass
-    amount = np.int_(np.minimum(quotient, np.minimum(wave[4] - wave[3], Id.shape[0])))
+    amount = np.int_(np.minimum(np.minimum(quotient, wave[4] - wave[3]), np.minimum(wave[4] - wave[3], Id.shape[0])))
 
     if amount > 0:
         data = np.tile(np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_),
@@ -237,17 +237,19 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
 
         indices = np.resize(Id, amount)
         enemy[indices] = data
+        wave[3] += amount
         return indices
     return np.array([])
 
 
 def calc_creation_wave(wave, difficulty):
-    number = wave[0]
-    spawn_delay_factor = (number / 10 + 1) * 2 * difficulty
-    spawn_delay = 1 / spawn_delay_factor
-    max_enemies = max(100, ((number / 15 + 1) * 10 * difficulty))
-    need_to_kill = (number / 7 + 1) * 50 * difficulty
-    wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, 0, 3, need_to_kill, 0], dtype=np.float_)
+    if wave[7] <= wave[8]:
+        number = wave[0] + 1
+        spawn_delay_factor = (number / 10 + 1) * 2 * difficulty
+        spawn_delay = 1 / spawn_delay_factor
+        max_enemies = max(100, ((number / 15 + 1) * 10 * difficulty))
+        need_to_kill = (number / 7 + 1) * 50 * difficulty
+        wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, 0, 3, need_to_kill, 0], dtype=np.float_)
 
 
 def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
