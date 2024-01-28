@@ -147,21 +147,23 @@ def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, kill: bool = Fal
 
 
 def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_):
-    max_dist_x = enemies[..., 2] + player[..., 2][..., np.newaxis]
-    real_dist_y = enemies[..., 3] + player[..., 3][..., np.newaxis]
-    dist_x = enemies[..., 0] - player[..., 0][..., np.newaxis]
-    dist_y = enemies[..., 1] - player[..., 1][..., np.newaxis]
     player[..., 24] -= dt
 
     if player[0, 24] <= 0:
+        max_dist_x = enemies[..., 2] + player[..., 2][..., np.newaxis]
+        real_dist_y = enemies[..., 3] + player[..., 3][..., np.newaxis]
+        dist_x = enemies[..., 0] - player[..., 0][..., np.newaxis]
+        dist_y = enemies[..., 1] - player[..., 1][..., np.newaxis]
         indices = np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
         indices = np.resize(indices, np.max(indices.shape[0]))
         damage = np.maximum(0, np.sum(enemies[indices, 5], axis=0) - player[0, 12])
         player[0, 4] -= damage
-        player[..., 24] = player[..., 23]
         if player[0, 4] <= 0:
             exit()
-        return damage > 0
+        if damage > 0:
+            player[..., 24] = player[..., 23]
+            return 1
+        return 0
     return 0
 
 
@@ -173,9 +175,7 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
 
     if amount > 0:
         data = np.tile(np.array([player[0, 0], player[0, 1], player[0, 15], player[0, 16], 1, player[0, 17],
-                                 0,
-                                 0,
-                                 0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (amount, 1))
+                                 0, 0, 0, 0, player[0, 21], player[0, 14]], dtype=np.float_), (amount, 1))
 
         mouse_pos = mouse_pos + field[0:2] - field[8:10] / 2
         angle = np.arctan2(mouse_pos[1] - player[0, 1], mouse_pos[0] - player[0, 0]) \
@@ -184,7 +184,7 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
         data[..., 6] = player[0, 22] * np.cos(angle[...]) + player[0, 6]
         data[..., 7] = player[0, 22] * np.sin(angle[...]) + player[0, 7]
 
-        rng = np.tile(arange[..., np.newaxis], (1, 2))
+        rng = np.tile(arange[..., np.newaxis], (1, 2)) / 2
         data[..., 0:2] += data[..., 6:8] * player[..., 13] * rng
 
         indices = np.resize(Id, amount)
@@ -274,6 +274,7 @@ def calc_player_level(player: np.ndarray):
         player[0, 28] = 0
         return 1
     return 0
+
 
 @njit(fastmath=True)
 def calc_cameraman(player: np.ndarray, filed: np.ndarray, dt: np.float_):
