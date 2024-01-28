@@ -26,10 +26,11 @@ class MainGameMode(InterfaceState, Data):
         super().__init__(screen, game)
         self.type = "MainGameMode"
         self.level = level
-
+        self.field: Field = ...
+        self.start_level(level)
         self.screen: pg.Surface = screen
 
-        self.field: Field = Field(field, level.background)
+
         self.player: Player = Player(get_images_for_game()["test_player"], self.field)
 
         self.enemy_set: set = set()
@@ -56,6 +57,12 @@ class MainGameMode(InterfaceState, Data):
 
         self.interface = Interface(self)
         self.begin()
+
+
+
+    def start_level(self, level):
+        self.field: Field = Field(field, level.background)
+        calc_creation_wave(wave, level.difficulty)
 
     def begin(self):
         pg.mouse.set_visible(False)

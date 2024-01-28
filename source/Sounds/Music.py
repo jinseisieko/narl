@@ -12,7 +12,7 @@ class BackgroundMusic:
         self.channel.set_volume(0.5)
 
     def update_music_list(self):
-        self.music_list = [pg.mixer.Sound(f"../resource/music/{x}") for x in MUSIC_FOR_LEVEL[self.wave[9]]]
+        self.music_list = [pg.mixer.Sound(f"../resource/music/{x}") for x in MUSIC_FOR_LEVEL[0]]
 
     def play(self):
         if not self.channel.get_busy():

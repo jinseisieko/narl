@@ -12,7 +12,7 @@ field = np.array(
     [0, 0, MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, 0, 0,
      FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, SPAWN_LINE, KILL_LINE],
     dtype=np.float_)
-wave = np.array([0, 0.01, 0, 0, 100, 0, 3, 100, 0, 0], dtype=np.float_)
+wave = np.array([0, 0.01, 0, 0, 100, 0, 3, 100, 0], dtype=np.float_)
 types = np.array([
     [25, 25, 10, 1, 0, 0, 0, 300, 3, 0.0, 0],
     [40, 40, 20, 1, 0, 0, 0, 500, 3, 0.2, 1],
