@@ -242,18 +242,6 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
     return np.array([])
 
 
-def calc_creation_wave(wave, difficulty):
-    if wave[7] <= wave[8]:
-        number = wave[0] + 1
-        print("update", number)
-        spawn_delay_factor = (number / 9 + 1) * 2 * difficulty
-        spawn_delay = 1 / spawn_delay_factor
-        max_enemies = min(100, ((number / 7 + 1) * 10 * difficulty))
-        need_to_kill = (number / 5 + 1) * 50 * difficulty
-        wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, 0, 3, need_to_kill, 0], dtype=np.float_)
-        print(wave)
-
-
 def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
     max_dist_x = field[8] / 2 + field[11]
     max_dist_y = field[9] / 2 + field[11]
@@ -266,6 +254,26 @@ def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray):
 
     enemy[indices] = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0], dtype=np.float_)
 
+
+def calc_creation_wave(wave, difficulty):
+    if wave[7] <= wave[8]:
+        number = wave[0] + 1
+        spawn_delay_factor = (number / 10 + 1) * 2 * difficulty
+        spawn_delay = 1 / spawn_delay_factor
+        max_enemies = np.minimum(100, ((number / 15 + 1) * 10 * difficulty))
+        need_to_kill = (number / 7 + 1) * 50 * difficulty
+        wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, 0, 3, need_to_kill, 0], dtype=np.float_)
+        return 1
+    return 0
+
+
+def calc_player_level(player: np.ndarray):
+    if player[0, 29] <= player[0, 28]:
+        player[0, 27] += 1
+        player[0, 29] *= 1.5
+        player[0, 28] = 0
+        return 1
+    return 0
 
 @njit(fastmath=True)
 def calc_cameraman(player: np.ndarray, filed: np.ndarray, dt: np.float_):
