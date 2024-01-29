@@ -16,8 +16,7 @@ def save(game):
 def load(game):
     with DB.atomic():
         save_ = Save.select()[-1]
-        print(save_.items)
-        print(save_.data)
+
         data, sets, items = json.loads(save_.data), json.loads(save_.sets), json.loads(save_.items)
         update_data(data, sets)
         game.player.characteristics.item_names = items
