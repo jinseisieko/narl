@@ -24,6 +24,7 @@ class Loading(InterfaceState):
         self.title_loading = LoadingTitle(screen)
         t1 = Thread(target=build_next, args=(cls, args, kwargs))
         t1.start()
+        self.begin()
 
     def begin(self):
         pg.mouse.set_visible(False)
