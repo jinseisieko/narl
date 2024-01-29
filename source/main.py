@@ -1,11 +1,14 @@
 """pg main loop"""
 import sys
+import warnings
 
-from tqdm import tqdm
 import pygame as pg
+from tqdm import tqdm
+
 from source.Game import GAME
 
 pg.init()
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 game = GAME
 
 with tqdm() as pbar:
