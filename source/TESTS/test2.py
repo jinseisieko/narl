@@ -1,32 +1,35 @@
 import pygame
-import cv2
+import sys
 
-video = cv2.VideoCapture("../../resource/video/chipichipichapachapa.avi")  # Установите свое  видео
-success, video_image = video.read()
-print(video_image)
-fps = video.get(cv2.CAP_PROP_FPS)
+# Инициализация Pygame
+pygame.init()
 
-window = pygame.display.set_mode(video_image.shape[1::-1])
-clock = pygame.time.Clock()
+# Размеры окна
+width, height = 800, 600
 
-run = success
-while run:
-    clock.tick(fps)
+# Создание окна
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Прозрачная поверхность Pygame")
+
+# Прозрачный цвет с альфа-каналом (R, G, B, A)
+transparent_color = (255, 0, 0, 128)
+
+# Создание прозрачной Surface
+transparent_surface = pygame.Surface((200, 200), pygame.SRCALPHA)
+transparent_surface.fill(transparent_color)
+
+# Основной цикл программы
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            pygame.quit()
+            sys.exit()
 
-    success, video_image = video.read()
-    if success:
-        video_surf = pygame.image.frombuffer(
-            video_image.tobytes(),
-            video_image.shape[1::-1],
-            "BGR"
-        )
-    else:
-        run = False
-    window.blit(video_surf, (0, 0))
+    # Очистка экрана
+    screen.fill(0)
+
+    # Рисование прозрачной Surface на экране
+    screen.blit(transparent_surface, (300, 200))
+
+    # Обновление экрана
     pygame.display.flip()
-
-pygame.quit()
-exit()
