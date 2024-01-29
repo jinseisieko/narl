@@ -9,7 +9,7 @@ class BackgroundMusic:
         self.music_list = []
         self.index = 0
         self.channel = pg.mixer.Channel(0)
-        self.channel.set_volume(0.5)
+        self.channel.set_volume(0.3)
 
     def update_music_list(self):
         self.music_list = [pg.mixer.Sound(f"../resource/music/{x}") for x in MUSIC_FOR_LEVEL[0]]

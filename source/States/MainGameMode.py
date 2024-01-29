@@ -1,5 +1,3 @@
-import numpy as np
-
 from source.Calculations.Calculations import *
 from source.Calculations.Data import *
 from source.Console.ConsoleInter import ConsoleInter
@@ -7,12 +5,12 @@ from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Image.InitializationForGame import get_images_for_game
 from source.Interface.Interface import Interface
-from source.Levels.Level import Level1, Level2
+from source.Levels.Level import Level2
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
 from source.Movable_objects.Player import *
-from source.Save.Save import save, load
+from source.Save.Save import load
 from source.Sounds.Music import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
@@ -44,17 +42,12 @@ class MainGameMode(InterfaceState, Data):
 
         self.background_music = BackgroundMusic(wave)
 
-        self.default_enemy_data = np.array(
-            [1100, 1000, ENEMY_SIZE_X, 2 * ENEMY_SIZE_Y, ENEMY_HP, ENEMY_DAMAGE, 0, 0, 0, ENEMY_MAX_VELOCITY,
-             ENEMY_ARMOR, 0, 0],
-            dtype=np.float_)
-
         self.time_passed: np.float_ = np.float_(0)
 
         self.shooting: bool = False
         self.spawning: bool = False
         self.console_: bool = False
-        self.pause: bool = False
+        self.pause: bool = True
 
         self.FPS = FPS
 

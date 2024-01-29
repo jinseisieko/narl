@@ -36,6 +36,7 @@ def update_data(new_arrays, new_sets):
     obstacles[...] = np.array(new_arrays[2], dtype=np.float_)
     player[...] = np.array(new_arrays[3], dtype=np.float_)
     field[...] = np.array(new_arrays[4], dtype=np.float_)
+    field[0:2] = player[0, 0:2]
     wave[...] = np.array(new_arrays[5], dtype=np.float_)
 
     entity_ids.clear()
@@ -66,13 +67,14 @@ def clear_data():
     bullets[...] = np.tile(default_bullet, (MAX_BULLETS, 1))
     obstacles[...] = np.tile(default_obstacle, (MAX_OBSTACLES, 1))
     player[...] = np.array(
-        [[1000, 1000, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0, PLAYER_MAX_VELOCITY,
+        [[FIELD_WIDTH / 2, FIELD_HEIGHT / 2, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0,
+          PLAYER_MAX_VELOCITY,
           PLAYER_SLOWDOWN, PLAYER_ACCELERATION, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_DELAY,
           PLAYER_ARMOR_PIERCING, PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, PLAYER_BULLET_DAMAGE,
           PLAYER_CRITICAL_COEFFICIENT, PLAYER_CRITICAL_CHANCE, PLAYER_SCATTER, PLAYER_BULLET_LIVE_TIME,
           PLAYER_BULLET_VELOCITY, PLAYER_DAMAGE_DELAY, 0, 0, 0, 0, 0, PLAYER_NEED_EXP]], dtype=np.float_)
     field[...] = np.array(
-        [0, 0, MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, 0, 0,
+        [player[0, 0], player[0, 1], MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, 0, 0,
          FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, SPAWN_LINE, KILL_LINE],
         dtype=np.float_)
     wave[...] = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float_)

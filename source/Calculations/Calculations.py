@@ -278,7 +278,7 @@ def calc_player_level(player: np.ndarray):
 
 
 @njit(fastmath=True)
-def calc_cameraman(player: np.ndarray, filed: np.ndarray, dt: np.float_):
+def calc_cameraman(player: np.ndarray, field: np.ndarray, dt: np.float_):
     speed = np.maximum(player[0, 8], np.hypot(player[0, 6], player[0, 7]))
-    filed[0:2] += speed * ((player[0, 0:2] - filed[0:2]) / filed[2:4]) * dt
-    filed[4:6] = np.clip(filed[0:2] - filed[8:10] / 2, 0, filed[6:8] - filed[8:10])
+    field[0:2] += speed * ((player[0, 0:2] - field[0:2]) / field[2:4]) * dt
+    field[4:6] = np.clip(field[0:2] - field[8:10] / 2, 0, field[6:8] - field[8:10])

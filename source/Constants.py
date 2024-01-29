@@ -82,7 +82,6 @@ FONT_SIZE_CHARACTERISTICS = 35
 INDENT_CHARACTERISTICS_INTERFACE = 25
 
 MUSIC_FOR_LEVEL = {
-    0: ["Caramella-Girls-Caramelldansen-_Official-English-Version_.mp3", "keys-of-moon-under-the-sun(chosic.com).mp3",
-        "arthur-vyncke-cherry-metal(chosic.com).mp3", "Adventures-in-Adventureland(chosic.com).mp3",
+    0: ["arthur-vyncke-cherry-metal(chosic.com).mp3", "Adventures-in-Adventureland(chosic.com).mp3",
         "Adventures-in-Adventureland(chosic.com).mp3"]
 }
