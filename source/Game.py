@@ -6,11 +6,10 @@ from source.Functions.Functions import DT
 from source.Image.InitializationForGame import init_images_for_game
 from source.Image.InitializationForItems import init_images_for_items
 from source.States.InterfaceState import InterfaceState
+from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
-from source.States.LoadingScreen import loading_screen
-from source.States.LoadingScreen import start_loading_screen, end_loading_screen
 
 
 class Game:
@@ -33,7 +32,6 @@ class Game:
         # pg.mixer.music.queue("../resource/music/Y2mate.mx - Bruh sound effect (128 kbps).mp3", loops=-1)
         # pg.mixer.music.queue("../resource/music/Y2mate.mx - Metal pipe falling sound effect but it’s more violent (128 kbps).mp3", loops=-1)
         # pg.mixer.music.set_volume(1)
-        loading_screen.screen = self.screen
 
         global GAME
         GAME = self
@@ -57,14 +55,14 @@ class Game:
         self.end_cycle()
 
     def change_state(self, name, data=None, mode=0):
-        start_loading_screen()
+
         if name == "MainGameMode":
-            self.state = MainGameMode(self.screen, self, mode=mode)
+            self.state = Loading(self.screen, self, MainGameMode(self.screen, self, mode=mode))
         if name == "MainMenu":
             self.state = MainMenu(self.screen, self)
         if name == "Pause":
             self.state = Pause(self.screen, self, last_=data, last_frame=Surface((0, 0)))
-        end_loading_screen()
+
 
     def set_state(self, class_):
         self.state = class_

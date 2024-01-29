@@ -26,6 +26,7 @@ class MainGameMode(InterfaceState, Data):
 
     def __init__(self, screen, game, level=Level2(), mode=0) -> None:
         super().__init__(screen, game)
+        self.mode = mode
         self.type = "MainGameMode"
         self.level = level
         self.field: Field = ...
@@ -54,18 +55,18 @@ class MainGameMode(InterfaceState, Data):
         self.interface = Interface(self)
 
         self.last_screen = self.screen.copy()
-        self.begin(mode)
+        self.begin()
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
         calc_creation_wave(wave, level.difficulty)
 
-    def begin(self, mode):
+    def begin(self):
         pg.mouse.set_visible(False)
         self.pause = False
         self.game.fps = FPS
         self.background_music.update_music_list()
-        if mode:
+        if self.mode:
             load()
             self.make_borders()
             for x in set(range(0, MAX_ENEMIES)) - entity_ids:
