@@ -57,12 +57,11 @@ class Game:
     def change_state(self, name, data=None, mode=0):
 
         if name == "MainGameMode":
-            self.state = Loading(self.screen, self, MainGameMode(self.screen, self, mode=mode))
+            self.state = Loading(self.screen, self, MainGameMode, self.screen, self, mode=mode)
         if name == "MainMenu":
             self.state = MainMenu(self.screen, self)
         if name == "Pause":
             self.state = Pause(self.screen, self, last_=data, last_frame=Surface((0, 0)))
-
 
     def set_state(self, class_):
         self.state = class_

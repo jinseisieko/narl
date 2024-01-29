@@ -7,10 +7,12 @@ class LoadingTitle:
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
 
-        self.video = Video("../resource/video/gameplay1.mov")
+        self.video = Video("../resource/video/lemon_loading.avi")
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
 
     def update(self):
         self.video.update(self.background)
+        if not self.video.active:
+            self.video.repeat()
