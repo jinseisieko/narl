@@ -31,5 +31,5 @@ class Pause(InterfaceState):
                     self.data.start()
                     self.game.set_state(self.data)
                 if self.title_pause.buttons["ExitMenuButton"].update(mouse_pos):
-                    save()
+                    save(self.data)
                     self.game.change_state("MainMenu")

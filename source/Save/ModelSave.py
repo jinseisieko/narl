@@ -12,6 +12,7 @@ class BaseModel(Model):
 class Save(BaseModel):
     data = CharField()
     sets = CharField()
+    items = CharField()
 
 
 if not Save.table_exists():

@@ -17,8 +17,18 @@ class Interface:
                                              bullet_velocity, bullet_life_time, critical_chance, critical_coefficient,
                                              scatter, damage_delay]
 
+        self.items_surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+
     def calc(self):
         self.ratio_hp = self.player[0][hp] / self.player[0][max_hp]
+
+    def update_items_surface(self):
+        array_draw = self.game.player.characteristics.array_draw
+        for i, row in enumerate(array_draw):
+            for j, name in enumerate(row):
+                if not (name in get_images_for_items()):
+                    name = 'no-image'
+                self.items_surface.blit(get_images_for_items()[name], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
 
     def draw(self, screen: pg.Surface):
         # draw hp
@@ -42,9 +52,4 @@ class Interface:
                          COORD_CHARACTERISTICS_INTERFACE_Y + INDENT_CHARACTERISTICS_INTERFACE * i))
 
         # items
-        array_draw = self.game.player.characteristics.array_draw
-        for i, row in enumerate(array_draw):
-            for j, name in enumerate(row):
-                if not (name in get_images_for_items()):
-                    name = 'no-image'
-                screen.blit(get_images_for_items()[name], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
+        screen.blit(self.items_surface, (0, 0))

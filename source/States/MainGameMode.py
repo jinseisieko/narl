@@ -22,6 +22,7 @@ from source.States.ScreenOfDeath import ScreenOfDeath
 class MainGameMode(InterfaceState, Data):
     def start(self):
         self.pause = False
+        self.interface.update_items_surface()
         pg.mouse.set_visible(False)
 
     def __init__(self, screen, game, level=Level2(), mode=0) -> None:
@@ -67,7 +68,7 @@ class MainGameMode(InterfaceState, Data):
         self.game.fps = FPS
         self.background_music.update_music_list()
         if self.mode:
-            load()
+            load(self)
             self.make_borders()
             for x in set(range(0, MAX_ENEMIES)) - entity_ids:
                 self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))

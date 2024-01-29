@@ -16,7 +16,7 @@ transparent_color = (255, 0, 0, 128)
 
 # Создание прозрачной Surface
 transparent_surface = pygame.Surface((200, 200), pygame.SRCALPHA)
-transparent_surface.fill(transparent_color)
+# items_surface.fill(transparent_color)
 
 # Основной цикл программы
 while True:
