@@ -80,6 +80,7 @@ class MainGameMode(InterfaceState, Data):
             clear_data()
             self.make_borders()
             self.create_obstacles()
+        self.player.update_characteristics()
 
     def make_borders(self):
         obstacles[0] = np.array([FIELD_WIDTH / 2, - 100, FIELD_WIDTH, 100])
