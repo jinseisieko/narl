@@ -12,7 +12,7 @@ class ScreenOfDeath(InterfaceState):
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
-                sn1 = pg.mixer.Sound("../resource/music/click.mp3")
+                sn1 = pg.mixer.Sound("resource/music/click.mp3")
                 sn1.set_volume(0.2)
                 sn1.play()
                 mouse_pos = np.array(pg.mouse.get_pos())

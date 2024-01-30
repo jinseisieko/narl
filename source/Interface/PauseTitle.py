@@ -13,8 +13,8 @@ class PauseTitle:
 
         self.buttons = {}
 
-        self.font1 = pygame.font.Font('../resource/fonts/EightBits.ttf', 150)
-        self.font2 = pygame.font.Font('../resource/fonts/EightBits.ttf', 90)
+        self.font1 = pygame.font.Font('resource/fonts/EightBits.ttf', 150)
+        self.font2 = pygame.font.Font('resource/fonts/EightBits.ttf', 90)
 
         self.text1 = self.font1.render("Nightmare:", 0, "#7452ff", )
         self.text_rect1 = self.text1.get_rect()

@@ -12,11 +12,11 @@ class Player:
         self.characteristics = Characteristics()
         self.matrix = self.characteristics.characteristics
         self.image = Image(self.matrix[0][2], self.matrix[0][3], image)
-        self.animate_damage = pga.PygAnimation((("../resource/image/playerImages/damage1.png", 100),
-                                                ("../resource/image/playerImages/damage2.png", 100),
-                                                ("../resource/image/playerImages/damage3.png", 100),
-                                                ("../resource/image/playerImages/damage4.png", 100),
-                                                ("../resource/image/playerImages/damage5.png", 100)), loop=0)
+        self.animate_damage = pga.PygAnimation((("resource/image/playerImages/damage1.png", 100),
+                                                ("resource/image/playerImages/damage2.png", 100),
+                                                ("resource/image/playerImages/damage3.png", 100),
+                                                ("resource/image/playerImages/damage4.png", 100),
+                                                ("resource/image/playerImages/damage5.png", 100)), loop=0)
 
     def draw(self) -> None:
         self.field.field.blit(self.image.img, (

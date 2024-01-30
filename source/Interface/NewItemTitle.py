@@ -13,7 +13,7 @@ class NewItemTitle:
 
         self.buttons = {}
 
-        self.font2 = pygame.font.Font('../resource/fonts/EightBits.ttf', 90)
+        self.font2 = pygame.font.Font('resource/fonts/EightBits.ttf', 90)
 
         self.text2 = self.font2.render("Add Item", True, "#7452ff")
         self.text_rect2 = self.text2.get_rect()

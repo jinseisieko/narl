@@ -1,6 +1,6 @@
 from peewee import *
 
-db_name = "../resource/db/saves/db.db"
+db_name = "resource/db/saves/db.db"
 DB = SqliteDatabase(db_name)
 
 

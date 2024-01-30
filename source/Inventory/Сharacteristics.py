@@ -77,7 +77,7 @@ class Characteristics:
 
     def init_prototype(self, db_names: list) -> None:
         for name_db in db_names:
-            con = sql.connect(f"../resource/db/ItemDatabase/{name_db}")
+            con = sql.connect(f"resource/db/ItemDatabase/{name_db}")
             cur = con.cursor()
             for i in range(1, 4):
                 for name_, renewal_plus_, renewal_multiply_, renewal_super_, code_ in cur.execute(

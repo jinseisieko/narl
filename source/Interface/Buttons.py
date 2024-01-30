@@ -22,7 +22,7 @@ class Button:
 
     def update(self, mouse_pos):
         if len(np.where(np.abs(mouse_pos - self.pos) <= self.half_size)[0]) == 2:
-            sn1 = pg.mixer.Sound("../resource/music/click3.mp3")
+            sn1 = pg.mixer.Sound("resource/music/click3.mp3")
             sn1.set_volume(0.2)
             sn1.play()
             return 1

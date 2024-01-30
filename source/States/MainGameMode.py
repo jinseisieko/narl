@@ -166,7 +166,7 @@ class MainGameMode(InterfaceState, Data):
         res = calc_player_damage(enemies, player, self.game.dt)
         if res == 1:
             self.player.animate_damage_play()
-            sn = pg.mixer.Sound("../resource/music/player_damage.mp3")
+            sn = pg.mixer.Sound("resource/music/player_damage.mp3")
             sn.set_volume(0.3)
             sn.play()
         elif res == 2:
@@ -211,7 +211,7 @@ class MainGameMode(InterfaceState, Data):
                 if x.matrix[x.Id, 8] != 5:
                     wave[8] += 1
                     player[0, 28] += 1
-                    sn = pg.mixer.Sound("../resource/music/enemy_damage2.mp3")
+                    sn = pg.mixer.Sound("resource/music/enemy_damage2.mp3")
                     sn.set_volume(0.2)
                     sn.play()
             else:
@@ -238,13 +238,13 @@ class MainGameMode(InterfaceState, Data):
 
     def end_calculations(self):
         if calc_creation_wave(wave, self.level.difficulty):
-            sn1 = pg.mixer.Sound("../resource/music/new_wave.mp3")
+            sn1 = pg.mixer.Sound("resource/music/new_wave.mp3")
             sn1.set_volume(1)
             sn1.play()
         if calc_player_level(player):
             self.pause = True
             self.game.set_state(NewItem(self.screen, self.game, self, self.last_screen))
-            sn1 = pg.mixer.Sound("../resource/music/castle_levelup.mp3")
+            sn1 = pg.mixer.Sound("resource/music/castle_levelup.mp3")
             sn1.set_volume(1)
             sn1.play()
 
