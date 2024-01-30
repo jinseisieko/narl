@@ -1,7 +1,13 @@
+import os
+
 from peewee import *
 
 db_name = "resource/db/saves/db.db"
 DB = SqliteDatabase(db_name)
+
+if not os.path.exists("resource/db/saves/db.db"):
+    with open("resource/db/saves/db.db", "w"):
+        pass
 
 
 class BaseModel(Model):
