@@ -205,7 +205,7 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
     if amount > 0:
         data = np.tile(np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_),
                        (amount, 1))
-        data[..., 2:13] = types[np.random.randint(0, 4, size=amount)]
+        data[..., 2:13] = types[np.random.randint(wave[5], wave[6], size=amount)]
         data[..., 2:11] *= (
                 1 - np.tile(data[..., 11][..., np.newaxis], (1, 9)) + np.tile(data[..., 11][..., np.newaxis],
                                                                               (1, 9)) * 2 * np.random.rand(amount, 9))
@@ -263,7 +263,8 @@ def calc_creation_wave(wave, difficulty, types):
         spawn_delay = 1 / spawn_delay_factor
         max_enemies = np.minimum(100, ((number / 15 + 1) * 10 * difficulty))
         need_to_kill = (number / 7 + 1) * 50 * difficulty
-        wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, types[0], types[1], need_to_kill, 0], dtype=np.float_)
+        wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, types[0], types[1], need_to_kill, 0],
+                             dtype=np.float_)
         return 1
     return 0
 
