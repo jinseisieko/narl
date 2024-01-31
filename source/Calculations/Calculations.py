@@ -3,6 +3,12 @@ from numba import njit
 
 
 def calc_enemy_direction(enemies: np.ndarray, x: np.float_, y: np.float_) -> None:
+    k: np.int_
+    k_2: np.float_
+    x: np.float_
+    y: np.float_
+    angle: np.ndarray
+
     k = 10
     k_2 = k / 2
     x = x + np.random.rand(*enemies[..., 6].shape) * k - k_2
