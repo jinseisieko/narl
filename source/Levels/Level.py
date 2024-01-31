@@ -3,6 +3,9 @@ class Level:
         self.background = []
         self.obstacles = []
         self.difficulty = 0
+        self.enemies_types = (0, 1)
+        self.count_waves = 1
+        self.next = None
 
 
 class Level1(Level):
@@ -15,6 +18,9 @@ class Level1(Level):
                            "grass4", ]
         self.obstacles = ...  # ...
         self.difficulty = 1
+        self.enemies_types = (0, 2)
+        self.count_waves = 1
+        self.next = Level2
 
 
 class Level2(Level):
@@ -39,3 +45,5 @@ class Level2(Level):
                                               ]
         self.obstacles = ...  # ...
         self.difficulty = 1
+        self.enemies_types = (3, 5)
+        self.count_waves = 10

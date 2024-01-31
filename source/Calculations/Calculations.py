@@ -256,14 +256,14 @@ def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray, default_data: np.
     enemy[indices, 8] = 5
 
 
-def calc_creation_wave(wave, difficulty):
+def calc_creation_wave(wave, difficulty, types):
     if wave[7] <= wave[8]:
         number = wave[0] + 1
         spawn_delay_factor = (number / 10 + 1) * 2 * difficulty
         spawn_delay = 1 / spawn_delay_factor
         max_enemies = np.minimum(100, ((number / 15 + 1) * 10 * difficulty))
         need_to_kill = (number / 7 + 1) * 50 * difficulty
-        wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, 0, 3, need_to_kill, 0], dtype=np.float_)
+        wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, types[0], types[1], need_to_kill, 0], dtype=np.float_)
         return 1
     return 0
 

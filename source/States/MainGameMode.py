@@ -5,7 +5,7 @@ from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Image.InitializationForGame import get_images_for_game
 from source.Interface.Interface import Interface
-from source.Levels.Level import Level2
+from source.Levels.Level import Level1
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
@@ -25,7 +25,7 @@ class MainGameMode(InterfaceState, Data):
         self.interface.update_items_surface()
         pg.mouse.set_visible(False)
 
-    def __init__(self, screen, game, level=Level2(), mode=0) -> None:
+    def __init__(self, screen, game, level=Level1(), mode=0) -> None:
         super().__init__(screen, game)
         self.mode = mode
         self.type = "MainGameMode"
@@ -34,7 +34,7 @@ class MainGameMode(InterfaceState, Data):
         self.start_level(level)
         self.screen: pg.Surface = screen
 
-        self.player: Player = Player(get_images_for_game()["test_player"], self.field)
+        self.player: Player = Player(get_images_for_game()["test_player"])
 
         self.enemy_set: set = set()
         self.bullet_set: set = set()
@@ -60,7 +60,7 @@ class MainGameMode(InterfaceState, Data):
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
-        calc_creation_wave(wave, level.difficulty)
+        calc_creation_wave(wave, level.difficulty, level.enemies_types)
 
     def begin(self):
         pg.mouse.set_visible(False)
@@ -151,7 +151,7 @@ class MainGameMode(InterfaceState, Data):
             Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
                                self.game.dt)
             for x in Id:
-                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
+                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", bullet_ids))
                 bullet_ids.remove(x)
 
     def spawn(self):
@@ -159,7 +159,7 @@ class MainGameMode(InterfaceState, Data):
         if self.spawning:
             Id = calc_waves(wave, enemies, field, np.array(list(entity_ids)), self.game.dt, types)
             for x in Id:
-                self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
+                self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
                 entity_ids.remove(x)
 
     def damage_player(self):
@@ -199,9 +199,9 @@ class MainGameMode(InterfaceState, Data):
                 self.bullet_set.remove(x)
                 x.kill()
             else:
-                x.draw()
+                x.draw(self.field.field)
 
-        self.player.draw()
+        self.player.draw(self.field.field)
 
         for x in self.enemy_set.copy():
             if x.matrix[x.Id, 8] > 0:
@@ -215,10 +215,10 @@ class MainGameMode(InterfaceState, Data):
                     sn.set_volume(0.2)
                     sn.play()
             else:
-                x.draw()
+                x.draw(self.field.field)
 
         for x in self.obstacle_set:
-            x.draw()
+            x.draw(self.field.field)
 
     def draw(self):
         self.screen.fill(0)
@@ -237,7 +237,7 @@ class MainGameMode(InterfaceState, Data):
         self.background_music.play()
 
     def end_calculations(self):
-        if calc_creation_wave(wave, self.level.difficulty):
+        if calc_creation_wave(wave, self.level.difficulty, self.level.enemies_types):
             sn1 = pg.mixer.Sound("resource/music/new_wave.mp3")
             sn1.set_volume(1)
             sn1.play()
@@ -248,6 +248,11 @@ class MainGameMode(InterfaceState, Data):
             sn1.set_volume(1)
             sn1.play()
 
+    def check_level(self):
+        if wave[0] > self.level.count_waves:
+            self.level = self.level.next()
+            self.start_level(self.level)
+
     def update(self):
         self.calc_calculations()
         self.draw()
@@ -255,4 +260,5 @@ class MainGameMode(InterfaceState, Data):
         self.draw_interface()
         self.end_calculations()
         self.draw_cursor()
+        self.check_level()
         # self.play_music()

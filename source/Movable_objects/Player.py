@@ -7,8 +7,7 @@ from source.PlayerIndexes import *
 
 
 class Player:
-    def __init__(self, image, field) -> None:
-        self.field = field
+    def __init__(self, image) -> None:
         self.characteristics = Characteristics()
         self.matrix = self.characteristics.characteristics
         self.image = Image(self.matrix[0][2], self.matrix[0][3], image)
@@ -18,10 +17,10 @@ class Player:
                                                 ("resource/image/playerImages/damage4.png", 100),
                                                 ("resource/image/playerImages/damage5.png", 100)), loop=0)
 
-    def draw(self) -> None:
-        self.field.field.blit(self.image.img, (
+    def draw(self, field) -> None:
+        field.blit(self.image.img, (
             self.matrix[0, 0] - self.matrix[0, 2], self.matrix[0, 1] - self.matrix[0, 3]))
-        self.animate_damage.blit(self.field.field, (
+        self.animate_damage.blit(field, (
             self.matrix[0, 0] - self.matrix[0, 2], self.matrix[0, 1] - self.matrix[0, 3]))
 
     def add_item(self, name: str, rank: int) -> None:
