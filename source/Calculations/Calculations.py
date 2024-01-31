@@ -17,7 +17,7 @@ def calc_movements(objects: np.ndarray, dt: np.float_) -> None:
     objects[..., 0:2] += objects[..., 6:8] * dt
 
 
-def calc_bullet_movements(bullet: np.ndarray, dt: np.float_, default_data: np.ndarray):
+def calc_bullet_movements(bullet: np.ndarray, dt: np.float_, default_data: np.ndarray) -> None:
     bullet[..., 0:2] += bullet[..., 6:8] * dt
     bullet[..., 9] += dt
 
@@ -31,6 +31,7 @@ def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float
     slowdown: np.float_
     acceleration: np.float_
     current_velocity: np.float_
+
     vx, vy, max_velocity, slowdown, acceleration = player[..., 6:11][0]
 
     vx = np.maximum(0, np.abs(vx) - slowdown * dt) * np.copysign(1, vx)
@@ -56,16 +57,19 @@ def calc_collisions(enemies: np.ndarray, COLLISIONS_REPELLING: np.float_, dt: np
     real_dist_y: np.ndarray
     dist_x: np.ndarray
     dist_y: np.ndarray
-    dist: np.ndarray
+    angle: np.ndarray
+    min_dist: np.ndarray
+    delta_x: np.ndarray
+    delta_y: np.ndarray
 
-    COLLISIONS_REPELLING = COLLISIONS_REPELLING * (1 / dt) / 120
+    COLLISIONS_REPELLING *= (1 / dt) / 120
 
     max_dist_x = enemies[..., 2] + enemies[..., 2][..., np.newaxis]
     real_dist_y = enemies[..., 3] + enemies[..., 3][..., np.newaxis]
     dist_x = enemies[..., 0] - enemies[..., 0][..., np.newaxis]
     dist_y = enemies[..., 1] - enemies[..., 1][..., np.newaxis]
 
-    angle: np.ndarray = np.arctan2(dist_y, dist_x)
+    angle = np.arctan2(dist_y, dist_x)
 
     min_dist = np.minimum(np.maximum(0, (max_dist_x - np.abs(dist_x))), np.maximum(0, (real_dist_y - np.abs(dist_y))))
 
@@ -87,6 +91,10 @@ def calc_damage(enemies: np.ndarray, bullets: np.ndarray, player: np.ndarray, de
     real_dist_y: np.ndarray
     dist_x: np.ndarray
     dist_y: np.ndarray
+    dist: np.ndarray
+    bullet_indices: np.ndarray
+    indices: np.ndarray
+    damage: np.ndarray
 
     max_dist_x = enemies[..., 2] + bullets[..., 2][..., np.newaxis]
     real_dist_y = enemies[..., 3] + bullets[..., 3][..., np.newaxis]
@@ -95,8 +103,7 @@ def calc_damage(enemies: np.ndarray, bullets: np.ndarray, player: np.ndarray, de
 
     dist = np.abs(dist_x / max_dist_x) + np.abs(dist_y / real_dist_y)
     bullet_indices = np.unique(np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < real_dist_y))[0])
-    if len(bullet_indices):
-        pass
+
     indices = np.argmin(dist, axis=1)[bullet_indices]
     counter = np.bincount(indices)[indices]
 
@@ -115,22 +122,28 @@ def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, default_data: np
     real_dist_y: np.ndarray
     dist_x: np.ndarray
     dist_y: np.ndarray
+    angle: np.ndarray
+    ind_x: np.ndarray
+    ind_y: np.ndarray
+    delta_x: np.ndarray
+    delta_y: np.ndarray
+    indices: np.ndarray
 
     max_dist_x = entities[..., 2] + obstacles[..., 2][..., np.newaxis]
     real_dist_y = entities[..., 3] + obstacles[..., 3][..., np.newaxis]
     dist_x = entities[..., 0] - obstacles[..., 0][..., np.newaxis]
     dist_y = entities[..., 1] - obstacles[..., 1][..., np.newaxis]
 
-    angle: np.ndarray = np.arctan2(dist_y, dist_x)
-    ind_x: np.ndarray = np.array(np.where(
+    angle = np.arctan2(dist_y, dist_x)
+    ind_x = np.array(np.where(
         (np.abs(np.cos(angle)) >= max_dist_x / np.hypot(real_dist_y, max_dist_x)) & (np.abs(dist_x) < max_dist_x) & (
                 np.abs(dist_y) < real_dist_y)))
-    ind_y: np.ndarray = np.array(np.where(
+    ind_y = np.array(np.where(
         (np.abs(np.cos(angle)) < max_dist_x / np.hypot(real_dist_y, max_dist_x)) & (np.abs(dist_x) < max_dist_x) & (
                 np.abs(dist_y) < real_dist_y)))
 
-    delta_x: np.ndarray = np.maximum(0, (max_dist_x - np.abs(dist_x))) * np.copysign(1, dist_x)
-    delta_y: np.ndarray = np.maximum(0, (real_dist_y - np.abs(dist_y))) * np.copysign(1, dist_y)
+    delta_x = np.maximum(0, (max_dist_x - np.abs(dist_x))) * np.copysign(1, dist_x)
+    delta_y = np.maximum(0, (real_dist_y - np.abs(dist_y))) * np.copysign(1, dist_y)
 
     entities[ind_x[1], 0] += delta_x[ind_x[0], ind_x[1]]
     entities[ind_y[1], 1] += delta_y[ind_y[0], ind_y[1]]
@@ -139,14 +152,21 @@ def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, default_data: np
         entities[ind_x[1], 6] *= -1
         entities[ind_y[1], 7] *= -1
     elif kill:
-        indices: np.ndarray = np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
+        indices = np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < real_dist_y))[1]
         entities[indices] = default_data
     else:
         entities[ind_x[1], 6] = 0
         entities[ind_y[1], 7] = 0
 
 
-def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_):
+def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_) -> np.int_:
+    max_dist_x: np.ndarray
+    real_dist_y: np.ndarray
+    dist_x: np.ndarray
+    dist_y: np.ndarray
+    indices: np.ndarray
+    damage: np.ndarray
+
     player[..., 24] -= dt
 
     if player[0, 24] <= 0:
@@ -168,7 +188,14 @@ def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_):
 
 
 def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray, Id: np.ndarray,
-                  dt: np.float_):
+                  dt: np.float_) -> np.ndarray:
+    quotient: np.float_
+    amount: np.float_
+    arange: np.ndarray
+    data: np.ndarray
+    angle: np.ndarray
+    indices: np.ndarray
+
     quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
     amount = np.int_(np.minimum(quotient, Id.shape[0]))
     arange = np.arange(amount, dtype=np.int_)
@@ -184,8 +211,8 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
         data[..., 6] = player[0, 22] * np.cos(angle[...]) + player[0, 6]
         data[..., 7] = player[0, 22] * np.sin(angle[...]) + player[0, 7]
 
-        rng = np.tile(arange[..., np.newaxis], (1, 2)) / 2
-        data[..., 0:2] += data[..., 6:8] * player[..., 13] * rng
+        arange = np.tile(arange[..., np.newaxis], (1, 2)) / 2
+        data[..., 0:2] += data[..., 6:8] * player[..., 13] * arange
 
         indices = np.resize(Id, amount)
 
@@ -196,7 +223,19 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
 
 
 def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,
-               dt: np.float_, types: np.ndarray):
+               dt: np.float_, types: np.ndarray) -> np.ndarray:
+    quotient: np.float_
+    amount: np.float_
+    arange: np.ndarray
+    data: np.ndarray
+    lines: np.ndarray
+    able_inds: tuple
+    inds: np.ndarray
+    able_segments: np.ndarray
+    inds_x: np.ndarray
+    inds_y: np.ndarray
+    indices: np.ndarray
+
     quotient, wave[2] = np.divmod(wave[2] + dt, wave[1])
     if quotient > 0:
         pass
@@ -242,7 +281,13 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
     return np.array([])
 
 
-def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray, default_data: np.ndarray):
+def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray, default_data: np.ndarray) -> None:
+    max_dist_x: np.ndarray
+    max_dist_y: np.ndarray
+    dist_x: np.ndarray
+    dist_y: np.ndarray
+    indices: np.ndarray
+
     max_dist_x = field[8] / 2 + field[11]
     max_dist_y = field[9] / 2 + field[11]
 
@@ -256,7 +301,12 @@ def calc_killing_enemies(enemy: np.ndarray, field: np.ndarray, default_data: np.
     enemy[indices, 8] = 5
 
 
-def calc_creation_wave(wave, difficulty, types):
+def calc_creation_wave(wave: np.ndarray, difficulty: np.ndarray, types: np.ndarray) -> np.int_:
+    number: np.float_
+    spawn_delay_factor: np.float_
+    max_enemies: np.ndarray
+    need_to_kill: np.ndarray
+
     if wave[7] <= wave[8]:
         number = wave[0] + 1
         spawn_delay_factor = (number / 10 + 1) * 2 * difficulty
@@ -269,7 +319,7 @@ def calc_creation_wave(wave, difficulty, types):
     return 0
 
 
-def calc_player_level(player: np.ndarray):
+def calc_player_level(player: np.ndarray) -> np.int_:
     if player[0, 29] <= player[0, 28]:
         player[0, 27] += 1
         player[0, 29] *= 1.1
@@ -279,7 +329,8 @@ def calc_player_level(player: np.ndarray):
 
 
 @njit(fastmath=True)
-def calc_cameraman(player: np.ndarray, field: np.ndarray, dt: np.float_):
+def calc_cameraman(player: np.ndarray, field: np.ndarray, dt: np.float_) -> None:
+    speed: np.ndarray
     speed = np.maximum(player[0, 8], np.hypot(player[0, 6], player[0, 7]))
     field[0:2] += speed * ((player[0, 0:2] - field[0:2]) / field[2:4]) * dt
     field[4:6] = np.clip(field[0:2] - field[8:10] / 2, 0, field[6:8] - field[8:10])
