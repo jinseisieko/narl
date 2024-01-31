@@ -71,11 +71,11 @@ class MainGameMode(InterfaceState, Data):
             load(self)
             self.make_borders()
             for x in set(range(0, MAX_ENEMIES)) - entity_ids:
-                self.enemy_set.add(Enemy(enemies, x, "green", self.field, entity_ids))
+                self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
             for x in set(range(0, MAX_BULLETS)) - bullet_ids:
-                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", self.field, bullet_ids))
+                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet",  bullet_ids))
             for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
-                self.obstacle_set.add(Obstacle(obstacles, x, "red", self.field, obstacles_ids))
+                self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
         else:
             clear_data()
             self.make_borders()
@@ -88,13 +88,13 @@ class MainGameMode(InterfaceState, Data):
         obstacles[2] = np.array([- 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
         obstacles[3] = np.array([FIELD_WIDTH + 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
         self.obstacle_set.add(
-            Obstacle(obstacles, 0, "red", self.field, obstacles_ids))
+            Obstacle(obstacles, 0, "red",  obstacles_ids))
         self.obstacle_set.add(
-            Obstacle(obstacles, 1, "red", self.field, obstacles_ids))
+            Obstacle(obstacles, 1, "red", obstacles_ids))
         self.obstacle_set.add(
-            Obstacle(obstacles, 2, "red", self.field, obstacles_ids))
+            Obstacle(obstacles, 2, "red", obstacles_ids))
         self.obstacle_set.add(
-            Obstacle(obstacles, 3, "red", self.field, obstacles_ids))
+            Obstacle(obstacles, 3, "red", obstacles_ids))
         obstacles_ids.discard(0)
         obstacles_ids.discard(1)
         obstacles_ids.discard(2)
@@ -102,7 +102,7 @@ class MainGameMode(InterfaceState, Data):
 
     def create_obstacles(self):
         self.obstacle_set |= set(
-            [Obstacle(obstacles, obstacles_ids.pop(), "black", self.field, obstacles_ids,
+            [Obstacle(obstacles, obstacles_ids.pop(), "black", obstacles_ids,
                       data=np.array([0 + 100 * i, 0 + 200 * i, 200, 600]))
              for i in range(10)])
 
