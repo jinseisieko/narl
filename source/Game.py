@@ -13,7 +13,6 @@ from source.States.Pause import Pause
 
 
 class Game:
-
     def __init__(self) -> None:
         super().__init__()
         self.fps = FPS

@@ -1,3 +1,5 @@
+"""Indexes in the player's global array """
+
 x: int = 0
 y: int = 1
 size_x: int = 2
