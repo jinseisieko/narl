@@ -2,11 +2,11 @@ import os
 
 from peewee import *
 
-db_name = "resource/db/saves/db.db"
+db_name = "resource/db/saves/main_game_mode.db"
 DB = SqliteDatabase(db_name)
 
-if not os.path.exists("resource/db/saves/db.db"):
-    with open("resource/db/saves/db.db", "w"):
+if not os.path.exists("resource/db/saves/main_game_mode.db"):
+    with open("resource/db/saves/main_game_mode.db", "w"):
         pass
 
 

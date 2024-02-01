@@ -10,7 +10,7 @@ from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
 from source.Movable_objects.Player import *
-from source.Save.Save import load
+from source.Save.Save import load, delete_all_save
 from source.Sounds.Music import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
@@ -69,14 +69,18 @@ class MainGameMode(InterfaceState, Data):
         self.game.fps = FPS
         self.background_music.update_music_list()
         if self.mode:
-            load(self)
-            self.make_borders()
-            for x in set(range(0, MAX_ENEMIES)) - entity_ids:
-                self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
-            for x in set(range(0, MAX_BULLETS)) - bullet_ids:
-                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet",  bullet_ids))
-            for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
-                self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
+            if load(self):
+                clear_data()
+                self.make_borders()
+                self.create_obstacles()
+            else:
+                self.make_borders()
+                for x in set(range(0, MAX_ENEMIES)) - entity_ids:
+                    self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
+                for x in set(range(0, MAX_BULLETS)) - bullet_ids:
+                    self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", bullet_ids))
+                for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
+                    self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
         else:
             clear_data()
             self.make_borders()
@@ -89,7 +93,7 @@ class MainGameMode(InterfaceState, Data):
         obstacles[2] = np.array([- 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
         obstacles[3] = np.array([FIELD_WIDTH + 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
         self.obstacle_set.add(
-            Obstacle(obstacles, 0, "red",  obstacles_ids))
+            Obstacle(obstacles, 0, "red", obstacles_ids))
         self.obstacle_set.add(
             Obstacle(obstacles, 1, "red", obstacles_ids))
         self.obstacle_set.add(
@@ -171,6 +175,7 @@ class MainGameMode(InterfaceState, Data):
             sn.set_volume(0.3)
             sn.play()
         elif res == 2:
+            delete_all_save()
             self.game.set_state(ScreenOfDeath(self.screen, self.game, self.last_screen))
 
     def calc_calculations(self):
