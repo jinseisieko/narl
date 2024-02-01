@@ -19,7 +19,7 @@ BACKGROUND_PICTURE_SIZE: np.int_ = 400
 
 FPS: np.int_ = 120
 
-H: int = 40
+H: int = 5
 
 PLAYER_HALF_SIZE_X: np.int_ = 40  # pixels
 PLAYER_HALF_SIZE_Y: np.int_ = 40  # pixels
