@@ -28,7 +28,7 @@ class Interface:
             for j, name in enumerate(row):
                 if not (name in get_images_for_items()):
                     name = 'no-image'
-                self.items_surface.blit(get_images_for_items()[name], (WIDTH - 37 * H - 10 + j * 37, 10 + i * 37))
+                self.items_surface.blit(get_images_for_items()[name], (WIDTH - 37 * NUMBER_OF_ITEMS - 10 + j * 37, 10 + i * 37))
 
     def draw(self, screen: pg.Surface):
         # draw hp

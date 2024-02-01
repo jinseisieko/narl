@@ -4,7 +4,7 @@ import sqlite3 as sql
 import numpy as np
 
 from source.Calculations.Data import player
-from source.Constants import H
+from source.Constants import NUMBER_OF_ITEMS
 from source.Inventory.GetItem import GetItems
 from source.Inventory.Items.ItemsPrototypes import ItemsPrototypes
 from source.PlayerIndexes import *
@@ -29,10 +29,10 @@ class Characteristics:
     def apply(self, name: str, rank: int) -> None:
         self.item_names.append(name)
         self.array_draw: list[str] = []
-        for i in range(len(self.item_names) // H):
-            self.array_draw += [self.item_names[i * H:i * H + H]]
-        if len(self.item_names) % H != 0:
-            self.array_draw += [self.item_names[-(len(self.item_names) % H):]]
+        for i in range(len(self.item_names) // NUMBER_OF_ITEMS):
+            self.array_draw += [self.item_names[i * NUMBER_OF_ITEMS:i * NUMBER_OF_ITEMS + NUMBER_OF_ITEMS]]
+        if len(self.item_names) % NUMBER_OF_ITEMS != 0:
+            self.array_draw += [self.item_names[-(len(self.item_names) % NUMBER_OF_ITEMS):]]
         new_characteristics: dict = self.itemsPrototypes.get(name, rank).apply(x=self.characteristics[0][x],
                                                                                y=self.characteristics[0][y],
                                                                                size_x=self.characteristics[0][size_x],
