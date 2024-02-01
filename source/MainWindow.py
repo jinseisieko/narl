@@ -1,3 +1,5 @@
+from typing import Any
+
 import pygame as pg
 from pygame import Surface
 
@@ -12,19 +14,26 @@ from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
 
 
-class Game:
+class MainWindow:
+    """Game window Class"""
+
     def __init__(self) -> None:
         super().__init__()
-        self.fps = FPS
+        self.fps: int = FPS
 
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
+
+        # need to initialize pygame images after creating screen
         init_images_for_items()
         init_images_for_game()
+
+        # is the main variable that is responsible for the state, like pause or main menu.
         self.state: InterfaceState = MainMenu(self.screen, self)
 
-        self.dt = 0
+        self.dt: float = 0
+
         self.key_pressed: (list, None) = None
-        self.running = True
+        self.running: bool = True
 
         # pg.mixer.music.load("../resource/music/chipichipichapachapa.mp3")
         # pg.mixer.music.play(loops=-1)
@@ -32,18 +41,22 @@ class Game:
         # pg.mixer.music.queue("../resource/music/Y2mate.mx - Metal pipe falling sound effect but it’s more violent (128 kbps).mp3", loops=-1)
         # pg.mixer.music.set_volume(1)
 
-        global GAME
-        GAME = self
+        # Singleton architecture element
+        global MAIN_WINDOW
+        MAIN_WINDOW = self
 
-    def change_pseudo_constants(self):
+    def change_pseudo_constants(self) -> None:
+        """method of updating all constants in the frame"""
         self.dt = DT(CLOCK)
         self.key_pressed = pg.key.get_pressed()
 
     def end_cycle(self):
+        """method is needed to complete the action in the frame"""
         pg.display.flip()
         CLOCK.tick(self.fps)
 
     def play(self):
+        """main method for window operation"""
         self.change_pseudo_constants()
         for event in pg.event.get():
             if event.type == pg.QUIT or self.key_pressed[pg.K_DELETE]:
@@ -53,18 +66,19 @@ class Game:
         self.state.update()
         self.end_cycle()
 
-    def change_state(self, name, data=None, mode=0):
-
+    def change_state(self, name: str, data: Any = None) -> None:
+        """status selection function"""
         if name == "MainGameMode":
-            self.state = Loading(self.screen, self, MainGameMode, self.screen, self, mode=mode)
+            self.state = Loading(self.screen, self, MainGameMode, self.screen, self, mode=data)
         if name == "MainMenu":
             self.state = MainMenu(self.screen, self)
         if name == "Pause":
             self.state = Pause(self.screen, self, last_=data, last_frame=Surface((0, 0)))
 
-    def set_state(self, class_):
+    def set_state(self, class_: InterfaceState) -> None:
+        """status setting function"""
         self.state = class_
 
 
-GAME = None
-Game()
+MAIN_WINDOW: (MainMenu, None) = None
+MainWindow()
