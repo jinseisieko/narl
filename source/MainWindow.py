@@ -81,4 +81,5 @@ class MainWindow:
 
 
 MAIN_WINDOW: (MainMenu, None) = None
-MainWindow()
+if MAIN_WINDOW is None:
+    MainWindow()

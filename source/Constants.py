@@ -8,12 +8,12 @@ pygame.init()
 
 FIELD_WIDTH: np.int_ = np.int_(5000)
 FIELD_HEIGHT: np.int_ = np.int_(5000)
-WIDTH: int = tk.Tk().winfo_screenwidth()
-HEIGHT: int = tk.Tk().winfo_screenheight()
+WIDTH: np.int_ = np.int_(tk.Tk().winfo_screenwidth())
+HEIGHT: np.int_ = np.int_(tk.Tk().winfo_screenheight())
 MOVE_SCREEN_RECT_X: np.int_ = np.int_(WIDTH // 8)
 MOVE_SCREEN_RECT_Y: np.int_ = np.int_(HEIGHT // 8)
-SPAWN_LINE: int = 50
-KILL_LINE: int = 100
+SPAWN_LINE: np.int_ = np.int_(50)
+KILL_LINE: np.int_ = np.int_(100)
 
 BACKGROUND_PICTURE_SIZE: np.int_ = np.int_(400)
 

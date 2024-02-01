@@ -235,7 +235,7 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
     arange: np.ndarray
     data: np.ndarray
     lines: np.ndarray
-    able_inds: tuple
+    able_inds: np.ndarray
     inds: np.ndarray
     able_segments: np.ndarray
     inds_x: np.ndarray

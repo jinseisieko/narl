@@ -61,6 +61,7 @@ class MainGameMode(InterfaceState, Data):
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
         calc_creation_wave(wave, level.difficulty, level.enemies_types)
+        print(wave[0])
 
     def begin(self):
         pg.mouse.set_visible(False)

@@ -19,3 +19,6 @@ def load(game):
         data, sets, items = json.loads(save_.data), json.loads(save_.sets), json.loads(save_.items)
         update_data(data, sets)
         game.player.characteristics.item_names = items
+
+
+def delete_all_save(): ...

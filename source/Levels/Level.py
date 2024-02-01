@@ -19,7 +19,7 @@ class Level1(Level):
         self.obstacles = ...  # ...
         self.difficulty = 1
         self.enemies_types = (0, 2)
-        self.count_waves = 5
+        self.count_waves = 1
         self.next = Level2
 
 
