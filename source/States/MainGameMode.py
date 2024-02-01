@@ -1,3 +1,5 @@
+import math
+
 from source.Calculations.Calculations import *
 from source.Calculations.Data import *
 from source.Console.ConsoleInter import ConsoleInter
@@ -17,6 +19,8 @@ from source.States.InterfaceState import InterfaceState
 from source.States.NewItem import NewItem
 from source.States.Pause import Pause
 from source.States.ScreenOfDeath import ScreenOfDeath
+
+n = 0
 
 
 class MainGameMode(InterfaceState, Data):
@@ -154,7 +158,7 @@ class MainGameMode(InterfaceState, Data):
                 self.shooting = False
 
     def shoot(self):
-        player[0, 25] = min(player[0, 13], player[0, 25] + self.game.dt)
+        # player[0, 25] = min(player[0, 13], player[0, 25] + self.game.dt)
         if self.shooting:
             Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
                                self.game.dt)
@@ -263,6 +267,8 @@ class MainGameMode(InterfaceState, Data):
             self.start_level(self.level)
 
     def update(self):
+        global n
+
         self.calc_calculations()
         self.draw()
         self.draw_console()
@@ -270,4 +276,7 @@ class MainGameMode(InterfaceState, Data):
         self.end_calculations()
         self.draw_cursor()
         self.check_level()
+
+        n += 1
+        # self.game.fps = 10 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
         # self.play_music()

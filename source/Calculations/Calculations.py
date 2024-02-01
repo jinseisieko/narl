@@ -217,7 +217,7 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
         data[..., 6] = player[0, 22] * np.cos(angle[...]) + player[0, 6]
         data[..., 7] = player[0, 22] * np.sin(angle[...]) + player[0, 7]
 
-        arange = np.tile(arange[..., np.newaxis], (1, 2)) / 2
+        arange = np.tile(arange[..., np.newaxis], (1, 2))
         data[..., 0:2] += data[..., 6:8] * player[..., 13] * arange
 
         indices = np.resize(Id, amount)
