@@ -26,13 +26,16 @@ class Characteristics:
         self.getitem = GetItems()
         self.init_prototype(["original.db"] + self.mods)
 
-    def apply(self, name: str, rank: int) -> None:
-        self.item_names.append(name)
+    def update_array_draw(self):
         self.array_draw: list[str] = []
         for i in range(len(self.item_names) // NUMBER_OF_ITEMS):
             self.array_draw += [self.item_names[i * NUMBER_OF_ITEMS:i * NUMBER_OF_ITEMS + NUMBER_OF_ITEMS]]
         if len(self.item_names) % NUMBER_OF_ITEMS != 0:
             self.array_draw += [self.item_names[-(len(self.item_names) % NUMBER_OF_ITEMS):]]
+
+    def apply(self, name: str, rank: int) -> None:
+        self.item_names.append(name)
+        self.update_array_draw()
         new_characteristics: dict = self.itemsPrototypes.get(name, rank).apply(x=self.characteristics[0][x],
                                                                                y=self.characteristics[0][y],
                                                                                size_x=self.characteristics[0][size_x],

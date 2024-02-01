@@ -17,12 +17,12 @@ def load(game):
     with DB.atomic():
         saves_ = Save.select()
         if len(saves_) == 0:
-            return 1
+            return 0
         save_ = saves_[-1]
         data, sets, items = json.loads(save_.data), json.loads(save_.sets), json.loads(save_.items)
         update_data(data, sets)
         game.player.characteristics.item_names = items
-        return 0
+        return 1
 
 
 def delete_all_save():

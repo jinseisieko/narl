@@ -70,10 +70,8 @@ class MainGameMode(InterfaceState, Data):
         self.background_music.update_music_list()
         if self.mode:
             if load(self):
-                clear_data()
-                self.make_borders()
-                self.create_obstacles()
-            else:
+                self.player.characteristics.update_array_draw()
+                self.interface.update_items_surface()
                 self.make_borders()
                 for x in set(range(0, MAX_ENEMIES)) - entity_ids:
                     self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
@@ -81,6 +79,11 @@ class MainGameMode(InterfaceState, Data):
                     self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", bullet_ids))
                 for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
                     self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
+            else:
+                clear_data()
+                self.make_borders()
+                self.create_obstacles()
+
         else:
             clear_data()
             self.make_borders()
