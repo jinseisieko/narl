@@ -29,6 +29,7 @@ class Player:
 
     def update_characteristics(self):
         self.image.resize(self.matrix[0][size_x], self.matrix[0][size_y])
+        self.matrix[0][hp] = min(self.matrix[0][hp], self.matrix[0][max_hp])
         self.matrix[0][delay] = max(0.01, self.matrix[0][delay])
         self.matrix[0][slowdown] = self.matrix[0][acceleration] * PLAYER_SLOWDOWN_FACTOR
         self.animate_damage.scale(*self.matrix[..., 2:4] * 2)
