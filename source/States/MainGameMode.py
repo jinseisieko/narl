@@ -11,7 +11,7 @@ from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
 from source.Movable_objects.Player import *
 from source.Save.Save import load, delete_all_save
-from source.Sounds.Music import *
+from source.Sounds.Sound import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
 from source.States.NewItem import NewItem
@@ -45,6 +45,7 @@ class MainGameMode(InterfaceState, Data):
         self.console = ConsoleInter(self, 100, 10)
 
         self.background_music = BackgroundMusic(wave)
+        self.sound_effect = SoundEffect()
 
         self.time_passed: np.float_ = np.float_(0)
 
@@ -132,27 +133,27 @@ class MainGameMode(InterfaceState, Data):
         if self.game.key_pressed[pg.K_y]:
             self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5, r3=1000))
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1:
+            if event.button == CONTROLS_1["SHOOT"] or event.button == CONTROLS_2["SHOOT"]:
                 self.shooting = True
             if event.button == 3:
                 self.spawning = not (self.spawning and True)
         if event.type == pg.MOUSEBUTTONUP:
-            if event.button == 1:
+            if event.button == CONTROLS_1["SHOOT"] or event.button == CONTROLS_2["SHOOT"]:
                 self.shooting = False
         if event.type == pg.KEYDOWN:
             self.console.handle_event(event)
-            if event.key == pg.K_F1:
+            if event.key == CONTROLS_1["OPEN_CONSOLE"] or event.key == CONTROLS_2["OPEN_CONSOLE"]:
                 self.console_ = not self.console_
                 self.pause = self.console_
                 if self.console_:
                     self.console.open_console()
-            if event.key == pg.K_SPACE:
+            if event.key == CONTROLS_1["SHOOT"] or event.key == CONTROLS_2["SHOOT"]:
                 self.shooting = True
-            if event.key == pg.K_ESCAPE:
+            if event.key == CONTROLS_1["MENU"] or event.key == CONTROLS_2["MENU"]:
                 self.pause = True
                 self.game.set_state(Pause(self.screen, self.game, self, self.last_screen))
         if event.type == pg.KEYUP:
-            if event.key == pg.K_SPACE:
+            if event.key == CONTROLS_1["SHOOT"] or event.key == CONTROLS_2["SHOOT"]:
                 self.shooting = False
 
     def shoot(self):
@@ -176,9 +177,7 @@ class MainGameMode(InterfaceState, Data):
         res = calc_player_damage(enemies, player, self.game.dt)
         if res == 1:
             self.player.animate_damage_play()
-            sn = pg.mixer.Sound("resource/music/player_damage.mp3")
-            sn.set_volume(0.3)
-            sn.play()
+            self.sound_effect.player_damage()
         elif res == 2:
             delete_all_save()
             self.game.set_state(ScreenOfDeath(self.screen, self.game, self.last_screen))
@@ -222,9 +221,7 @@ class MainGameMode(InterfaceState, Data):
                 if x.matrix[x.Id, 8] != 5:
                     wave[8] += 1
                     player[0, 28] += 1
-                    sn = pg.mixer.Sound("resource/music/enemy_damage2.mp3")
-                    sn.set_volume(0.2)
-                    sn.play()
+                    self.sound_effect.kill_enemy()
             else:
                 x.draw(self.field.field)
 
@@ -249,15 +246,11 @@ class MainGameMode(InterfaceState, Data):
 
     def end_calculations(self):
         if calc_creation_wave(wave, self.level.difficulty, self.level.enemies_types):
-            sn1 = pg.mixer.Sound("resource/music/new_wave.mp3")
-            sn1.set_volume(1)
-            sn1.play()
+            self.sound_effect.new_wave()
         if calc_player_level(player):
             self.pause = True
             self.game.set_state(NewItem(self.screen, self.game, self, self.last_screen))
-            sn1 = pg.mixer.Sound("resource/music/castle_levelup.mp3")
-            sn1.set_volume(1)
-            sn1.play()
+            self.sound_effect.new_level()
 
     def check_level(self):
         if wave[0] > self.level.count_waves:
@@ -277,4 +270,4 @@ class MainGameMode(InterfaceState, Data):
 
         n += 1
         # self.game.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
-        # self.play_music()
+        self.play_music()

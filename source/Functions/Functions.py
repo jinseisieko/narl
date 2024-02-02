@@ -1,5 +1,5 @@
 import numpy as np
-import pygame as pg
+from source.Settings.SettingsData import *
 
 
 def DT(clock: pg.time.Clock):
@@ -8,12 +8,12 @@ def DT(clock: pg.time.Clock):
 
 def set_direction(pressed):
     direction: np.ndarray = np.array([0, 0])
-    if pressed[pg.K_a]:
+    if pressed[CONTROLS_1["LEFT"]] or pressed[CONTROLS_2["LEFT"]]:
         direction[0] -= 1
-    if pressed[pg.K_d]:
+    if pressed[CONTROLS_1["RIGHT"]] or pressed[CONTROLS_2["RIGHT"]]:
         direction[0] += 1
-    if pressed[pg.K_w]:
+    if pressed[CONTROLS_1["FORWARD"]] or pressed[CONTROLS_2["FORWARD"]]:
         direction[1] -= 1
-    if pressed[pg.K_s]:
+    if pressed[CONTROLS_1["BACKWARD"]] or pressed[CONTROLS_2["BACKWARD"]]:
         direction[1] += 1
     return direction
