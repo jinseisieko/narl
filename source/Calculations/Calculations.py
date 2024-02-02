@@ -202,6 +202,7 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
     angle: np.ndarray
     indices: np.ndarray
 
+    player[0, 25] -= dt
     quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
     amount = np.int_(np.minimum(quotient, Id.shape[0]))
     arange = np.arange(amount, dtype=np.int_)
@@ -242,6 +243,7 @@ def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.nd
     inds_y: np.ndarray
     indices: np.ndarray
 
+    wave[2] -= dt
     quotient, wave[2] = np.divmod(wave[2] + dt, wave[1])
     if quotient > 0:
         pass

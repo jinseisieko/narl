@@ -1,5 +1,3 @@
-import math
-
 from source.Calculations.Calculations import *
 from source.Calculations.Data import *
 from source.Console.ConsoleInter import ConsoleInter
@@ -158,7 +156,7 @@ class MainGameMode(InterfaceState, Data):
                 self.shooting = False
 
     def shoot(self):
-        # player[0, 25] = min(player[0, 13], player[0, 25] + self.game.dt)
+        player[0, 25] = min(player[0, 13], player[0, 25] + self.game.dt)
         if self.shooting:
             Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
                                self.game.dt)
