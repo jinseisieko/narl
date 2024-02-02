@@ -5,6 +5,7 @@ import pygame as pg
 
 from source.Interface.MainMenuTitle import MainMenuTitle
 from source.States.InterfaceState import InterfaceState
+from source.States.Settings import Settings
 
 
 class MainMenu(InterfaceState):
@@ -17,7 +18,6 @@ class MainMenu(InterfaceState):
         super().__init__(screen, game)
 
         self.title_screen: MainMenuTitle = MainMenuTitle(self.screen)
-
         self.begin()
 
     def update(self):
@@ -35,7 +35,7 @@ class MainMenu(InterfaceState):
                 if self.title_screen.buttons["ArcadeButton"].update(mouse_pos):
                     pass
                 if self.title_screen.buttons["SettingsButton"].update(mouse_pos):
-                    pass
+                    self.game.set_state(Settings(self.screen, self.game))
                 if self.title_screen.buttons["ExitButton"].update(mouse_pos):
                     self.game.running = False
                     time.sleep(0.2)

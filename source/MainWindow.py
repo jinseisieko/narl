@@ -12,6 +12,7 @@ from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
+from source.States.Settings import Settings
 
 
 class MainWindow:
