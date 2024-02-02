@@ -1,5 +1,5 @@
 import numpy as np
-import pygame as pg
+from source.Settings.SettingsData import *
 
 
 class TextInput:
@@ -23,7 +23,7 @@ class TextInput:
 
     def handle_event(self, event) -> None:
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1:
+            if event.button == CONTROLS_1["PRESS"] or event.button == CONTROLS_2["PRESS"]:
                 x_, y_ = pg.mouse.get_pos()
                 if self.x < x_ < self.x + self.width and self.y < y_ < self.y + self.height:
                     self.active = True

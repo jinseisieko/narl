@@ -1,8 +1,8 @@
+import pygame as pg
+
 from source.Constants import *
 from source.Interface.Buttons import Button
 from source.Interface.TextInput import TextInput
-import pygame as pg
-
 from source.Interface.Video import Video
 
 
@@ -20,6 +20,7 @@ class SettingsInterface():
         self.text_input4 = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 300)
 
         self.button_exit = Button("Exit", np.array([WIDTH / 2, HEIGHT / 4 + 400]), np.array([150, 50]), font=self.font2)
+        self.button_apply = Button("Apply", np.array([WIDTH / 2, HEIGHT / 4 + 200]), np.array([150, 50]), font=self.font2)
 
         self.screen = screen
 
@@ -30,6 +31,7 @@ class SettingsInterface():
         self.text_input3.draw(self.screen)
         self.text_input4.draw(self.screen)
         self.button_exit.draw(self.screen)
+        self.button_apply.draw(self.screen)
 
     def update(self):
         self.text_input1.update()

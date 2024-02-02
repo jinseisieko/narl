@@ -1,6 +1,5 @@
-import pygame as pg
-
 from source.Interface.SettingsInterface import SettingsInterface
+from source.Settings.SettingsData import *
 from source.States.InterfaceState import InterfaceState
 
 
@@ -20,8 +19,10 @@ class Settings(InterfaceState):
         self.interface_setting.check_event(event)
 
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1:
+            if event.button == CONTROLS_1["PRESS"] or event.button == CONTROLS_2["PRESS"]:
                 if self.interface_setting.button_exit.update(pg.mouse.get_pos()):
+                    self.game.change_state("MainMenu")
+                if self.interface_setting.button_apply.update(pg.mouse.get_pos()):
                     self.game.change_state("MainMenu")
 
     def begin(self):

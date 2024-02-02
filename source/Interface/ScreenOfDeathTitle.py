@@ -23,7 +23,8 @@ class ScreenOfDeathTitle:
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 3 - 150])
 
-        self.buttons["ExitMenuButton"] = ExitMenuButton(font=self.font2, w_h=np.array([WIDTH / 2, HEIGHT / 3]))
+        self.buttons["ExitMenuButton"] = Button("Exit", np.array([WIDTH / 2, HEIGHT / 3]), np.array([150, 50]),
+                                                font=self.font2)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))

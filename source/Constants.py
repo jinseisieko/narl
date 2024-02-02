@@ -81,6 +81,6 @@ INDENT_CHARACTERISTICS_INTERFACE: int = 25
 NUMBER_OF_ITEMS: int = 5
 
 MUSIC_FOR_LEVEL: dict = {
-    0: ["arthur-vyncke-cherry-metal(chosic.com).mp3", "Adventures-in-Adventureland(chosic.com).mp3",
+    1: ["arthur-vyncke-cherry-metal(chosic.com).mp3", "Adventures-in-Adventureland(chosic.com).mp3",
         "Adventures-in-Adventureland(chosic.com).mp3"]
 }

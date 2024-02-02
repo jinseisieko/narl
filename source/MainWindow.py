@@ -12,6 +12,7 @@ from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
+from source.Settings.SettingsData import *
 from source.States.Settings import Settings
 
 
@@ -20,7 +21,7 @@ class MainWindow:
 
     def __init__(self) -> None:
         super().__init__()
-        self.fps: int = FPS
+        self.fps: int = MAX_FPS
 
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 

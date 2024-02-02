@@ -26,6 +26,7 @@ class MainGameMode(InterfaceState, Data):
         self.pause = False
         self.interface.update_items_surface()
         pg.mouse.set_visible(False)
+        self.game.fps = MAX_FPS
 
     def __init__(self, screen, game, level=Level1(), mode=0) -> None:
         super().__init__(screen, game)
@@ -44,7 +45,7 @@ class MainGameMode(InterfaceState, Data):
 
         self.console = ConsoleInter(self, 100, 10)
 
-        self.background_music = BackgroundMusic(wave)
+        self.background_music = BackgroundMusic()
         self.sound_effect = SoundEffect()
 
         self.time_passed: np.float_ = np.float_(0)
@@ -53,8 +54,6 @@ class MainGameMode(InterfaceState, Data):
         self.spawning: bool = False
         self.console_: bool = False
         self.pause: bool = True
-
-        self.FPS = FPS
 
         self.interface = Interface(self)
 
@@ -69,7 +68,8 @@ class MainGameMode(InterfaceState, Data):
     def begin(self):
         pg.mouse.set_visible(False)
         self.pause = False
-        self.game.fps = FPS
+        self.game.fps = MAX_FPS
+        self.background_music.update(self.level.number)
         self.background_music.update_music_list()
         if self.mode:
             if load(self):
@@ -270,4 +270,4 @@ class MainGameMode(InterfaceState, Data):
 
         n += 1
         # self.game.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
-        self.play_music()
+        # self.play_music()

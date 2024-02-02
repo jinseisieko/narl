@@ -1,6 +1,5 @@
-import pygame as pg
-
 from source.Constants import *
+from source.Settings.SettingsData import *
 
 
 class Button:
@@ -23,7 +22,7 @@ class Button:
     def update(self, mouse_pos):
         if len(np.where(np.abs(mouse_pos - self.pos) <= self.half_size)[0]) == 2:
             sn1 = pg.mixer.Sound("resource/music/click3.mp3")
-            sn1.set_volume(0.2)
+            sn1.set_volume(0.2 * SFX_VOLUME * MASTER_VOLUME)
             sn1.play()
             return 1
         return 0
@@ -36,36 +35,6 @@ class ImageButton(Button):
         self.background.fill((255, 255, 255))
         image = pg.transform.scale(image, (2 * self.half_size))
         self.background.blit(image, (5, 5))
-
-
-class ContinueButton(Button):
-    def __init__(self, font=None):
-        super().__init__("Continue", np.array([WIDTH / 2, HEIGHT / 3]), np.array([150, 50]), font=font)
-
-
-class StartButton(Button):
-    def __init__(self, font=None):
-        super().__init__("Start", np.array([WIDTH / 2, HEIGHT / 3 + 150]), np.array([150, 50]), font=font)
-
-
-class ArcadeButton(Button):
-    def __init__(self, font=None):
-        super().__init__("Arcade", np.array([WIDTH / 2, HEIGHT / 3 + 300]), np.array([150, 50]), font=font)
-
-
-class SettingsButton(Button):
-    def __init__(self, font=None):
-        super().__init__("Settings", np.array([WIDTH / 2, HEIGHT / 3 + 450]), np.array([150, 50]), font=font)
-
-
-class ExitButton(Button):
-    def __init__(self, font=None):
-        super().__init__("Exit", np.array([WIDTH / 2, HEIGHT / 3 + 600]), np.array([150, 50]), font=font)
-
-
-class ExitMenuButton(Button):
-    def __init__(self, font=None, w_h=np.array([WIDTH / 2, HEIGHT / 3 + 150])):
-        super().__init__("Exit", w_h, np.array([150, 50]), font=font)
 
 
 class ItemButton(ImageButton):

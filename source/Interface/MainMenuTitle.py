@@ -24,11 +24,15 @@ class MainMenuTitle:
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 3 - 150])
 
-        self.buttons["ContinueButton"] = ContinueButton(font=self.font2)
-        self.buttons["StartButton"] = StartButton(font=self.font2)
-        self.buttons["ArcadeButton"] = ArcadeButton(font=self.font2)
-        self.buttons["SettingsButton"] = SettingsButton(font=self.font2)
-        self.buttons["ExitButton"] = ExitButton(font=self.font2)
+        self.buttons["ContinueButton"] = Button("Continue", np.array([WIDTH / 2, HEIGHT / 3]), np.array([150, 50]),
+                                                font=self.font2)
+        self.buttons["StartButton"] = Button("Start", np.array([WIDTH / 2, HEIGHT / 3 + 150]), np.array([150, 50]),
+                                             font=self.font2)
+        self.buttons["ArcadeButton"] = Button("Arcade", np.array([WIDTH / 2, HEIGHT / 3 + 300]), np.array([150, 50]), font=self.font2)
+        self.buttons["SettingsButton"] = Button("Settings", np.array([WIDTH / 2, HEIGHT / 3 + 450]),
+                                                np.array([150, 50]), font=self.font2)
+        self.buttons["ExitButton"] = Button("Exit", np.array([WIDTH / 2, HEIGHT / 3 + 600]), np.array([150, 50]),
+                                            font=self.font2)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))

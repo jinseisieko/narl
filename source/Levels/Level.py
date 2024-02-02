@@ -2,6 +2,7 @@ class Level:
     def __init__(self) -> None:
         self.background = []
         self.obstacles = []
+        self.number = -1
         self.difficulty = 0
         self.enemies_types = (0, 1)
         self.count_waves = 1
@@ -17,6 +18,7 @@ class Level1(Level):
                            "grass3",
                            "grass4", ]
         self.obstacles = ...  # ...
+        self.number = 1
         self.difficulty = 1
         self.enemies_types = (0, 2)
         self.count_waves = 1
@@ -44,6 +46,7 @@ class Level2(Level):
                                               'forest15',
                                               ]
         self.obstacles = ...  # ...
+        self.number = 2
         self.difficulty = 1
         self.enemies_types = (3, 5)
         self.count_waves = 10
