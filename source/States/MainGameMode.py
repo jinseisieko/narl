@@ -278,5 +278,5 @@ class MainGameMode(InterfaceState, Data):
         self.check_level()
 
         n += 1
-        # self.game.fps = 10 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
+        # self.game.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
         # self.play_music()
