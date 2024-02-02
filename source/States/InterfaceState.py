@@ -8,6 +8,7 @@ class InterfaceState(ABC):
         self.game = game
         self.screen = screen
 
+
     @abstractmethod
     def update(self):
         ...

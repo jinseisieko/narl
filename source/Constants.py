@@ -17,7 +17,7 @@ KILL_LINE: np.int_ = np.int_(100)
 
 BACKGROUND_PICTURE_SIZE: np.int_ = np.int_(400)
 
-FPS: np.int_ = np.int_(10)
+FPS: np.int_ = np.int_(120)
 
 PLAYER_HALF_SIZE_X: np.int_ = np.int_(40)  # pixels
 PLAYER_HALF_SIZE_Y: np.int_ = np.int_(40)  # pixels
