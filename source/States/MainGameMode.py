@@ -17,6 +17,7 @@ from source.States.InterfaceState import InterfaceState
 from source.States.NewItem import NewItem
 from source.States.Pause import Pause
 from source.States.ScreenOfDeath import ScreenOfDeath
+from source.TasksAndAchievements.TasksAndAchievements import TasksAndAchievements
 
 n = 0
 
@@ -58,6 +59,8 @@ class MainGameMode(InterfaceState, Data):
         self.interface = Interface(self)
 
         self.last_screen = self.screen.copy()
+
+        self.tasksAndAchievements = TasksAndAchievements()
         self.begin()
 
     def start_level(self, level):
@@ -218,6 +221,7 @@ class MainGameMode(InterfaceState, Data):
                 wave[3] -= 1
                 self.enemy_set.remove(x)
                 x.kill()
+                self.tasksAndAchievements.kill_enemies(1)
                 if x.matrix[x.Id, 8] != 5:
                     wave[8] += 1
                     player[0, 28] += 1
