@@ -4,7 +4,7 @@ from source.Image.InitializationForItems import get_images_for_items
 from source.Interface.Buttons import *
 
 
-class NewItemTitle:
+class NewItemInterface:
     def __init__(self, screen, last_frame, game):
         self.last_frame = last_frame
         self.screen = screen

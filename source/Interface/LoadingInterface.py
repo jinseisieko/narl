@@ -2,7 +2,7 @@ from source.Interface.Buttons import *
 from source.Interface.Video import Video
 
 
-class LoadingTitle:
+class LoadingInterface:
     def __init__(self, screen):
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))

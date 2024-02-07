@@ -1,4 +1,4 @@
-from source.Interface.NewItemTitle import NewItemTitle
+from source.Interface.NewItemInterface import NewItemInterface
 from source.States.InterfaceState import InterfaceState
 import pygame as pg
 import numpy as np
@@ -34,5 +34,5 @@ class NewItem(InterfaceState):
     def __init__(self, screen, game, last_, last_frame) -> None:
         super().__init__(screen, game)
         self.data = last_
-        self.new_item_pause = NewItemTitle(self.screen, last_frame, last_)
+        self.new_item_pause = NewItemInterface(self.screen, last_frame, last_)
         self.begin()

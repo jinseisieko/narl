@@ -3,7 +3,7 @@ import pygame.font
 from source.Interface.Buttons import *
 
 
-class ScreenOfDeathTitle:
+class ScreenOfDeathInterface:
     def __init__(self, screen, last_frame):
         self.last_frame = last_frame
         self.screen = screen

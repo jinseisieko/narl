@@ -1,7 +1,7 @@
 import numpy as np
 import pygame as pg
 
-from source.Interface.ScreenOfDeathTitle import ScreenOfDeathTitle
+from source.Interface.ScreenOfDeathInterface import ScreenOfDeathInterface
 from source.States.InterfaceState import InterfaceState
 
 
@@ -27,5 +27,5 @@ class ScreenOfDeath(InterfaceState):
     def __init__(self, screen, game, last_frame) -> None:
         super().__init__(screen, game)
         self.type = "ScreenOfDeath"
-        self.title_screen_of_death = ScreenOfDeathTitle(self.screen, last_frame)
+        self.title_screen_of_death = ScreenOfDeathInterface(self.screen, last_frame)
         self.begin()

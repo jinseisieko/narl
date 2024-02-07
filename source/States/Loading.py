@@ -2,7 +2,7 @@ from threading import Thread
 
 import pygame as pg
 
-from source.Interface.LoadingTitle import LoadingTitle
+from source.Interface.LoadingInterface import LoadingInterface
 from source.States.InterfaceState import InterfaceState
 
 next = None
@@ -21,7 +21,7 @@ class Loading(InterfaceState):
         next = None
         super().__init__(screen, game)
         self.type = "Loading"
-        self.title_loading = LoadingTitle(screen)
+        self.title_loading = LoadingInterface(screen)
         t1 = Thread(target=build_next, args=(cls, args, kwargs))
         t1.start()
 

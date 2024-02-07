@@ -3,7 +3,7 @@ import time
 import numpy as np
 import pygame as pg
 
-from source.Interface.MainMenuTitle import MainMenuTitle
+from source.Interface.MainMenuInterface import MainMenuInterface
 from source.States.InterfaceState import InterfaceState
 from source.States.Settings import Settings
 
@@ -17,7 +17,7 @@ class MainMenu(InterfaceState):
     def __init__(self, screen, game) -> None:
         super().__init__(screen, game)
 
-        self.title_screen: MainMenuTitle = MainMenuTitle(self.screen)
+        self.title_screen: MainMenuInterface = MainMenuInterface(self.screen)
         self.begin()
 
     def update(self):

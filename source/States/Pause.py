@@ -1,7 +1,7 @@
 import numpy as np
 import pygame as pg
 
-from source.Interface.PauseTitle import PauseTitle
+from source.Interface.PauseInterface import PauseInterface
 from source.Save.Save import save
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
@@ -13,7 +13,7 @@ class Pause(InterfaceState):
         super().__init__(screen, game)
         self.type = "Pause"
         self.data = last_
-        self.title_pause = PauseTitle(self.screen, last_frame)
+        self.title_pause = PauseInterface(self.screen, last_frame)
         self.begin()
 
     def update(self):
