@@ -23,10 +23,10 @@ class BackgroundMusic:
 
 class SoundEffect:
     def __init__(self):
-        self.player_volume = 0.3 * SFX_VOLUME * MASTER_VOLUME
-        self.enemy_volume = 0.2 * SFX_VOLUME * MASTER_VOLUME
-        self.new_wave_volume = SFX_VOLUME * MASTER_VOLUME
-        self.new_level_volume = SFX_VOLUME * MASTER_VOLUME
+        self.player_volume = 0.3 * SFX_VOLUME[0] * MASTER_VOLUME[0]
+        self.enemy_volume = 0.2 * SFX_VOLUME[0] * MASTER_VOLUME[0]
+        self.new_wave_volume = SFX_VOLUME[0] * MASTER_VOLUME[0]
+        self.new_level_volume = SFX_VOLUME[0] * MASTER_VOLUME[0]
 
     def player_damage(self):
         sn = pg.mixer.Sound("resource/music/player_damage.mp3")

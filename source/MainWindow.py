@@ -1,5 +1,6 @@
 from typing import Any
 
+import pygame as pg
 from pygame import Surface
 
 from source.Constants import *
@@ -15,6 +16,9 @@ from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
+from source.Settings.SettingsData import *
+from source.States.Settings import Settings
+from source.Save.ModelSave import set_save_db
 
 
 class MainWindow:
@@ -22,6 +26,9 @@ class MainWindow:
 
     def __init__(self) -> None:
         super().__init__()
+        self.fps: int = MAX_FPS[0]
+
+        set_save_db("resource/players/test_pl1")
         self.fps: int = MAX_FPS
         self.meta_player = MetaPlayer()
         self.meta_player.init_db()
