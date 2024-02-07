@@ -62,6 +62,7 @@ class MainGameMode(InterfaceState, Data):
 
         self.tasksAndAchievements = TasksAndAchievements()
         self.begin()
+        print(self.game.meta_player.name)
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
