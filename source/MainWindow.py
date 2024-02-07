@@ -14,6 +14,7 @@ from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
 from source.Settings.SettingsData import *
 from source.States.Settings import Settings
+from source.Save.ModelSave import set_save_db
 
 
 class MainWindow:
@@ -23,6 +24,7 @@ class MainWindow:
         super().__init__()
         self.fps: int = MAX_FPS
 
+        set_save_db("resource/players/test_pl1")
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 
         # need to initialize pygame images after creating screen

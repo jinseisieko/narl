@@ -1,7 +1,9 @@
 import json
 
 from source.Calculations.Data import get_data, update_data
-from source.Save.ModelSave import *
+from source.Save.ModelSave import Save, get_db
+
+DB = get_db()
 
 
 def save(game):
