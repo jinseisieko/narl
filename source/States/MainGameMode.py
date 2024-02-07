@@ -27,7 +27,7 @@ class MainGameMode(InterfaceState, Data):
         self.pause = False
         self.interface.update_items_surface()
         pg.mouse.set_visible(False)
-        self.game.fps = MAX_FPS[0]
+        self.main_window.fps = MAX_FPS[0]
 
     def __init__(self, screen, game, level=Level1(), mode=0) -> None:
         super().__init__(screen, game)
@@ -60,9 +60,8 @@ class MainGameMode(InterfaceState, Data):
 
         self.last_screen = self.screen.copy()
 
-        self.tasksAndAchievements = TasksAndAchievements()
         self.begin()
-        print(self.game.meta_player.name)
+        print(self.main_window.meta_player.name)
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
@@ -72,7 +71,7 @@ class MainGameMode(InterfaceState, Data):
     def begin(self):
         pg.mouse.set_visible(False)
         self.pause = False
-        self.game.fps = MAX_FPS[0]
+        self.main_window.fps = MAX_FPS[0]
         self.background_music.update(self.level.number)
         self.background_music.update_music_list()
         if self.mode:
@@ -134,7 +133,7 @@ class MainGameMode(InterfaceState, Data):
         self.interface.draw(self.screen)
 
     def check_events(self, event):
-        if self.game.key_pressed[pg.K_y]:
+        if self.main_window.key_pressed[pg.K_y]:
             self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5, r3=1000))
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == CONTROLS_1["SHOOT"] or event.button == CONTROLS_2["SHOOT"]:
@@ -155,49 +154,49 @@ class MainGameMode(InterfaceState, Data):
                 self.shooting = True
             if event.key == CONTROLS_1["MENU"] or event.key == CONTROLS_2["MENU"]:
                 self.pause = True
-                self.game.set_state(Pause(self.screen, self.game, self, self.last_screen))
+                self.main_window.set_state(Pause(self.screen, self.main_window, self, self.last_screen))
         if event.type == pg.KEYUP:
             if event.key == CONTROLS_1["SHOOT"] or event.key == CONTROLS_2["SHOOT"]:
                 self.shooting = False
 
     def shoot(self):
-        player[0, 25] = min(player[0, 13], player[0, 25] + self.game.dt)
+        player[0, 25] = min(player[0, 13], player[0, 25] + self.main_window.dt)
         if self.shooting:
             Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
-                               self.game.dt)
+                               self.main_window.dt)
             for x in Id:
                 self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", bullet_ids))
                 bullet_ids.remove(x)
 
     def spawn(self):
-        wave[2] = min(wave[1], wave[2] + self.game.dt)
+        wave[2] = min(wave[1], wave[2] + self.main_window.dt)
         if self.spawning:
-            Id = calc_waves(wave, enemies, field, np.array(list(entity_ids)), self.game.dt, types)
+            Id = calc_waves(wave, enemies, field, np.array(list(entity_ids)), self.main_window.dt, types)
             for x in Id:
                 self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
                 entity_ids.remove(x)
 
     def damage_player(self):
-        res = calc_player_damage(enemies, player, self.game.dt)
+        res = calc_player_damage(enemies, player, self.main_window.dt)
         if res == 1:
             self.player.animate_damage_play()
             self.sound_effect.player_damage()
         elif res == 2:
             delete_all_save()
-            self.game.set_state(ScreenOfDeath(self.screen, self.game, self.last_screen))
+            self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
     def calc_calculations(self):
         if not self.pause:
-            calc_player_movement(player, set_direction(self.game.key_pressed), self.game.dt)
+            calc_player_movement(player, set_direction(self.main_window.key_pressed), self.main_window.dt)
             self.spawn()
 
             calc_enemy_direction(enemies, *player[0, 0:2])
-            calc_movements(enemies, self.game.dt)
-            calc_bullet_movements(bullets, self.game.dt, default_bullet)
+            calc_movements(enemies, self.main_window.dt)
+            calc_bullet_movements(bullets, self.main_window.dt, default_bullet)
             calc_killing_enemies(enemies, field, default_enemy)
             self.shoot()
 
-            calc_collisions(enemies, COLLISIONS_REPELLING, self.game.dt)
+            calc_collisions(enemies, COLLISIONS_REPELLING, self.main_window.dt)
             calc_obstacles(enemies, obstacles, default_enemy)
             calc_obstacles(bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
             calc_obstacles(player, obstacles, np.array([]))
@@ -205,7 +204,7 @@ class MainGameMode(InterfaceState, Data):
             calc_damage(enemies, bullets, player, default_enemy, default_bullet)
             self.damage_player()
 
-            calc_cameraman(player, field, self.game.dt)
+            calc_cameraman(player, field, self.main_window.dt)
 
     def draw_or_kill(self):
         for x in self.bullet_set.copy():
@@ -222,7 +221,7 @@ class MainGameMode(InterfaceState, Data):
                 wave[3] -= 1
                 self.enemy_set.remove(x)
                 x.kill()
-                self.tasksAndAchievements.kill_enemies(1)
+                self.main_window.tasksAndAchievements.kill_enemies(1)
                 if x.matrix[x.Id, 8] != 5:
                     wave[8] += 1
                     player[0, 28] += 1
@@ -254,7 +253,7 @@ class MainGameMode(InterfaceState, Data):
             self.sound_effect.new_wave()
         if calc_player_level(player):
             self.pause = True
-            self.game.set_state(NewItem(self.screen, self.game, self, self.last_screen))
+            self.main_window.set_state(NewItem(self.screen, self.main_window, self, self.last_screen))
             self.sound_effect.new_level()
 
     def check_level(self):

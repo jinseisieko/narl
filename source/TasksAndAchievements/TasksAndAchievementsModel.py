@@ -5,11 +5,11 @@ from peewee import *
 from source.TasksAndAchievements.Achievements import achievements
 from source.TasksAndAchievements.Tasks import tasks
 
-db_name = "resource/db/tasksAndAchievements/tasksAndAchievements.db"
+db_name = "resource/players/guest/tasksAndAchievements.db"
 DB = SqliteDatabase(db_name)
 
-if not os.path.exists("resource/db/tasksAndAchievements/tasksAndAchievements.db"):
-    with open("resource/db/tasksAndAchievements/tasksAndAchievements.db", "w"):
+if not os.path.exists(db_name):
+    with open(db_name, "w"):
         pass
 
 
@@ -63,4 +63,23 @@ def init():
                                     fulfillment=achievement["fulfillment"])
 
 
-# def
+def set_tasksAndAchievements_db(name):
+    global DB, db_name
+    db_name = name + "/tasksAndAchievements.db"
+    DB = SqliteDatabase(db_name)
+
+    if not os.path.exists(db_name):
+        with open(db_name, "w"):
+            pass
+
+    BaseModel._meta.database = DB
+    Achievements._meta.database = DB
+    Tasks._meta.database = DB
+
+    if not Tasks.table_exists():
+        DB.create_tables([Tasks])
+
+    if not Achievements.table_exists():
+        DB.create_tables([Achievements])
+
+    init()

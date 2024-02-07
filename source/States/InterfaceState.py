@@ -5,7 +5,7 @@ class InterfaceState(ABC):
     def __init__(self, screen, game) -> None:
         super().__init__()
         self.type = ""
-        self.game = game
+        self.main_window = game
         self.screen = screen
 
 

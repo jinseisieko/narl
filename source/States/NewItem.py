@@ -15,16 +15,16 @@ class NewItem(InterfaceState):
                 if self.new_item_pause.buttons["ItemButton1"].update(mouse_pos):
                     self.data.player.characteristics.apply(self.new_item_pause.random_item1, self.new_item_pause.rank1)
                     self.data.start()
-                    self.game.set_state(self.data)
+                    self.main_window.set_state(self.data)
 
                 if self.new_item_pause.buttons["ItemButton2"].update(mouse_pos):
                     self.data.player.characteristics.apply(self.new_item_pause.random_item2, self.new_item_pause.rank2)
                     self.data.start()
-                    self.game.set_state(self.data)
+                    self.main_window.set_state(self.data)
                 if self.new_item_pause.buttons["ItemButton3"].update(mouse_pos):
                     self.data.player.characteristics.apply(self.new_item_pause.random_item3, self.new_item_pause.rank3)
                     self.data.start()
-                    self.game.set_state(self.data)
+                    self.main_window.set_state(self.data)
                 self.data.player.update_characteristics()
 
     def update(self):

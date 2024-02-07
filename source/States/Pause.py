@@ -29,8 +29,8 @@ class Pause(InterfaceState):
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_pause.buttons["ContinueButton"].update(mouse_pos):
                     self.data.start()
-                    self.game.set_state(self.data)
+                    self.main_window.set_state(self.data)
                 if self.title_pause.buttons["ExitMenuButton"].update(mouse_pos):
                     save(self.data)
-                    self.data.tasksAndAchievements.save()
-                    self.game.change_state("MainMenu")
+                    self.main_window.tasksAndAchievements.save()
+                    self.main_window.change_state("MainMenu")

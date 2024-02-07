@@ -39,7 +39,7 @@ class ConsoleInter:
                 self.index_previous_commands = 0
             elif event.key == pg.K_LCTRL:
                 pass
-            elif event.key == pg.K_v and self.game.game.key_pressed[pg.K_LCTRL]:
+            elif event.key == pg.K_v and self.game.main_window.key_pressed[pg.K_LCTRL]:
                 self.text += pyperclip.paste()
             elif event.key == pg.K_BACKSPACE:
                 self.text = self.text[:-1]

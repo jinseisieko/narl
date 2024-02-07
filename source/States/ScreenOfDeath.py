@@ -18,7 +18,7 @@ class ScreenOfDeath(InterfaceState):
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_screen_of_death.buttons["ExitMenuButton"].update(mouse_pos):
                     # создание пустого сохранения
-                    self.game.change_state("MainMenu")
+                    self.main_window.change_state("MainMenu")
 
     def update(self):
         self.title_screen_of_death.update()

@@ -38,4 +38,4 @@ class Loading(InterfaceState):
             self.title_loading.update()
             self.title_loading.draw()
         else:
-            self.game.set_state(next)
+            self.main_window.set_state(next)

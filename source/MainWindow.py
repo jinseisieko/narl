@@ -19,6 +19,7 @@ from source.States.Pause import Pause
 from source.Settings.SettingsData import *
 from source.States.Settings import Settings
 from source.Save.ModelSave import set_save_db
+from source.TasksAndAchievements.TasksAndAchievements import TasksAndAchievements
 
 
 class MainWindow:
@@ -43,6 +44,9 @@ class MainWindow:
 
         self.key_pressed: (list, None) = None
         self.running: bool = True
+
+        self.tasksAndAchievements = TasksAndAchievements()
+
 
         # pg.mixer.music.load("../resource/music/chipichipichapachapa.mp3")
         # pg.mixer.music.play(loops=-1)

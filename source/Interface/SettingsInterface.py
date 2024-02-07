@@ -7,7 +7,7 @@ from source.Interface.Video import Video
 from source.Settings.SettingsData import *
 
 
-class SettingsInterface():
+class SettingsInterface:
     def __init__(self, screen) -> None:
         super().__init__()
         self.background = pg.Surface((WIDTH, HEIGHT))
@@ -26,7 +26,8 @@ class SettingsInterface():
         self.text_input4.set(MAX_FPS[0])
 
         self.button_exit = Button("Exit", np.array([WIDTH / 2, HEIGHT / 4 + 400]), np.array([150, 50]), font=self.font2)
-        self.button_apply = Button("Apply", np.array([WIDTH / 2, HEIGHT / 4 + 600]), np.array([150, 50]), font=self.font2)
+        self.button_apply = Button("Apply", np.array([WIDTH / 2, HEIGHT / 4 + 600]), np.array([150, 50]),
+                                   font=self.font2)
 
         self.screen = screen
 
