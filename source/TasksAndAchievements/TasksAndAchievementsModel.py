@@ -61,3 +61,6 @@ def init():
                 Achievements.create(id=achievement["id"], name=achievement["name"],
                                     description=achievement["description"], data=achievement["data"],
                                     fulfillment=achievement["fulfillment"])
+
+
+# def

@@ -1,20 +1,20 @@
 from typing import Any
 
-import pygame as pg
 from pygame import Surface
 
 from source.Constants import *
 from source.Functions.Functions import DT
 from source.Image.InitializationForGame import init_images_for_game
 from source.Image.InitializationForItems import init_images_for_items
+from source.Interface.InletInterface import InletInterface
+from source.MetaPlayer.MetaPlayer import MetaPlayer
+from source.Settings.SettingsData import *
+from source.States.Inlet import Inlet
 from source.States.InterfaceState import InterfaceState
 from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
-from source.Settings.SettingsData import *
-from source.States.Settings import Settings
-from source.Save.ModelSave import set_save_db
 
 
 class MainWindow:
@@ -23,8 +23,8 @@ class MainWindow:
     def __init__(self) -> None:
         super().__init__()
         self.fps: int = MAX_FPS
-
-        set_save_db("resource/players/test_pl1")
+        self.meta_player = MetaPlayer()
+        self.meta_player.init_db()
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 
         # need to initialize pygame images after creating screen
@@ -32,7 +32,7 @@ class MainWindow:
         init_images_for_game()
 
         # is the main variable that is responsible for the state, like pause or main menu.
-        self.state: InterfaceState = MainMenu(self.screen, self)
+        self.state: InterfaceState = Inlet(self.screen, self)
 
         self.dt: float = 0
 
