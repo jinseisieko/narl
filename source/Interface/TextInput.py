@@ -1,4 +1,3 @@
-import numpy as np
 from source.Settings.SettingsData import *
 
 
@@ -44,8 +43,11 @@ class TextInput:
 
     def draw(self, screen) -> None:
         """method for drawing text input"""
-        screen.blit(self.txt_surface, (self.x + 5, self.y + 5))
+        screen.blit(self.txt_surface, (self.x + 5, self.y + 3))
         pg.draw.rect(screen, self.color1 if self.active else self.color2, (self.x, self.y, self.width, self.height), 2)
 
     def get(self):
         return self.text
+
+    def set(self, text):
+        self.text = str(text)

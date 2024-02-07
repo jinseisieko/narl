@@ -27,7 +27,7 @@ class MainGameMode(InterfaceState, Data):
         self.pause = False
         self.interface.update_items_surface()
         pg.mouse.set_visible(False)
-        self.game.fps = MAX_FPS
+        self.game.fps = MAX_FPS[0]
 
     def __init__(self, screen, game, level=Level1(), mode=0) -> None:
         super().__init__(screen, game)
@@ -71,7 +71,7 @@ class MainGameMode(InterfaceState, Data):
     def begin(self):
         pg.mouse.set_visible(False)
         self.pause = False
-        self.game.fps = MAX_FPS
+        self.game.fps = MAX_FPS[0]
         self.background_music.update(self.level.number)
         self.background_music.update_music_list()
         if self.mode:

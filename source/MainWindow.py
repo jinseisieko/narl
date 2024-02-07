@@ -22,7 +22,7 @@ class MainWindow:
 
     def __init__(self) -> None:
         super().__init__()
-        self.fps: int = MAX_FPS
+        self.fps: int = MAX_FPS[0]
 
         set_save_db("resource/players/test_pl1")
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)

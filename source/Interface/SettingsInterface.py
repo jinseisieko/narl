@@ -4,6 +4,7 @@ from source.Constants import *
 from source.Interface.Buttons import Button
 from source.Interface.TextInput import TextInput
 from source.Interface.Video import Video
+from source.Settings.SettingsData import *
 
 
 class SettingsInterface():
@@ -19,8 +20,13 @@ class SettingsInterface():
         self.text_input3 = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 200)
         self.text_input4 = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 300)
 
+        self.text_input1.set(MASTER_VOLUME[0])
+        self.text_input2.set(MUSIC_VOLUME[0])
+        self.text_input3.set(SFX_VOLUME[0])
+        self.text_input4.set(MAX_FPS[0])
+
         self.button_exit = Button("Exit", np.array([WIDTH / 2, HEIGHT / 4 + 400]), np.array([150, 50]), font=self.font2)
-        self.button_apply = Button("Apply", np.array([WIDTH / 2, HEIGHT / 4 + 200]), np.array([150, 50]), font=self.font2)
+        self.button_apply = Button("Apply", np.array([WIDTH / 2, HEIGHT / 4 + 600]), np.array([150, 50]), font=self.font2)
 
         self.screen = screen
 
