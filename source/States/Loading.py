@@ -16,10 +16,10 @@ def build_next(cls, args, kwargs):
 
 
 class Loading(InterfaceState):
-    def __init__(self, screen, game, cls, *args, **kwargs) -> None:
+    def __init__(self, screen, main_window, cls, *args, **kwargs) -> None:
         global next
         next = None
-        super().__init__(screen, game)
+        super().__init__(screen, main_window)
         self.type = "Loading"
         self.title_loading = LoadingInterface(screen)
         t1 = Thread(target=build_next, args=(cls, args, kwargs))

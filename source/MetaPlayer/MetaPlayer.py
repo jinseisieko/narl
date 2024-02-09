@@ -45,7 +45,7 @@ class MetaPlayer:
                     self.init_db()
 
     def register(self, name, password):
-        os.mkdir(f"resource/players/{name}")
+        os.mkdir(fr"resource/players/{name}/")
         with DB.atomic():
             select = Player.select().where(Player.name == name)
             if not select:

@@ -25,8 +25,8 @@ class InletInterface:
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 3 - 150])
 
-        self.text_input1 = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 50)
-        self.text_input2 = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 200)
+        self.text_input1 = TextInput(WIDTH / 2, HEIGHT / 4 + 50)
+        self.text_input2 = TextInput(WIDTH / 2, HEIGHT / 4 + 200)
 
         self.buttons["LogIn"] = Button("LogIn", np.array([WIDTH / 2, HEIGHT / 4 + 400]), np.array([150, 50]),
                                        font=self.font2)

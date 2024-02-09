@@ -6,6 +6,7 @@ import pygame as pg
 from source.Interface.MainMenuInterface import MainMenuInterface
 from source.States.InterfaceState import InterfaceState
 from source.States.Settings import Settings
+from source.States.SettingsFirst import SettingsFirst
 
 
 class MainMenu(InterfaceState):
@@ -14,8 +15,8 @@ class MainMenu(InterfaceState):
         pg.mouse.set_visible(True)
         self.main_window.fps = self.title_screen.video.fps
 
-    def __init__(self, screen, game) -> None:
-        super().__init__(screen, game)
+    def __init__(self, screen, main_window) -> None:
+        super().__init__(screen, main_window)
 
         self.title_screen: MainMenuInterface = MainMenuInterface(self.screen)
         self.begin()
@@ -35,7 +36,7 @@ class MainMenu(InterfaceState):
                 if self.title_screen.buttons["ArcadeButton"].update(mouse_pos):
                     pass
                 if self.title_screen.buttons["SettingsButton"].update(mouse_pos):
-                    self.main_window.set_state(Settings(self.screen, self.main_window))
+                    self.main_window.set_state(SettingsFirst(self.screen, self.main_window))
                 if self.title_screen.buttons["ExitButton"].update(mouse_pos):
                     self.main_window.running = False
                     time.sleep(0.2)

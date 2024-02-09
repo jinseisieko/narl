@@ -11,8 +11,8 @@ class Inlet(InterfaceState):
         pg.mouse.set_visible(True)
         self.main_window.fps = self.inlet_interface.video.fps
 
-    def __init__(self, screen, game) -> None:
-        super().__init__(screen, game)
+    def __init__(self, screen, main_window) -> None:
+        super().__init__(screen, main_window)
 
         self.inlet_interface: InletInterface = InletInterface(self.screen)
         self.begin()
@@ -35,13 +35,13 @@ class Inlet(InterfaceState):
                                                           self.inlet_interface.text_input2.get())
                     self.main_window.set_state(MainMenu(self.screen, self.main_window))
                 # if self.title_screen.buttons["ContinueButton"].update(mouse_pos):
-                #     self.game.change_state("MainGameMode", data=1)
+                #     self.main_window.change_state("MainGameMode", data=1)
                 # if self.title_screen.buttons["StartButton"].update(mouse_pos):
-                #     self.game.change_state("MainGameMode", data=0)
+                #     self.main_window.change_state("MainGameMode", data=0)
                 # if self.title_screen.buttons["ArcadeButton"].update(mouse_pos):
                 #     pass
                 # if self.title_screen.buttons["SettingsButton"].update(mouse_pos):
-                #     self.game.set_state(Settings(self.screen, self.game))
+                #     self.main_window.set_state(Settings(self.screen, self.main_window))
                 # if self.title_screen.buttons["ExitButton"].update(mouse_pos):
-                #     self.game.running = False
+                #     self.main_window.running = False
                 #     time.sleep(0.2)

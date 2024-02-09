@@ -19,6 +19,9 @@ from source.States.Pause import Pause
 from source.Settings.SettingsData import *
 from source.States.Settings import Settings
 from source.Save.ModelSave import set_save_db
+from source.States.SettingsFirst import SettingsFirst
+from source.States.SettingsSecond import SettingsSecond
+from source.States.SettingsThird import SettingsThird
 from source.TasksAndAchievements.TasksAndAchievements import TasksAndAchievements
 
 
@@ -87,6 +90,13 @@ class MainWindow:
             self.state = MainMenu(self.screen, self)
         if name == "Pause":
             self.state = Pause(self.screen, self, last_=data, last_frame=Surface((0, 0)))
+        if name == "SettingsFirst":
+            self.state = SettingsFirst(self.screen, self, data)
+        if name == "SettingsSecond":
+            self.state = SettingsSecond(self.screen, self, data)
+        if name == "SettingsThird":
+            self.state = SettingsThird(self.screen, self, data)
+
 
     def set_state(self, class_: InterfaceState) -> None:
         """status setting function"""

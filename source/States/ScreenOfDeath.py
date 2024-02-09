@@ -24,8 +24,8 @@ class ScreenOfDeath(InterfaceState):
         self.title_screen_of_death.update()
         self.title_screen_of_death.draw()
 
-    def __init__(self, screen, game, last_frame) -> None:
-        super().__init__(screen, game)
+    def __init__(self, screen, main_window, last_frame) -> None:
+        super().__init__(screen, main_window)
         self.type = "ScreenOfDeath"
         self.title_screen_of_death = ScreenOfDeathInterface(self.screen, last_frame)
         self.begin()

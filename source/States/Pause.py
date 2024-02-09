@@ -9,8 +9,8 @@ from source.States.InterfaceState import InterfaceState
 
 class Pause(InterfaceState):
 
-    def __init__(self, screen, game, last_, last_frame) -> None:
-        super().__init__(screen, game)
+    def __init__(self, screen, main_window, last_, last_frame) -> None:
+        super().__init__(screen, main_window)
         self.type = "Pause"
         self.data = last_
         self.title_pause = PauseInterface(self.screen, last_frame)

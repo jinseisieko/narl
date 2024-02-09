@@ -11,7 +11,7 @@ class Item:
          and the value is an additive number
         renewal_multiply: dictionary where the key is the name of the variable
          and the value is the number to multiply by
-        renewal_super: significances that are indicative and affect the process or mechanics of the game"""
+        renewal_super: significances that are indicative and affect the process or mechanics of the main_window"""
 
         super().__init__()
         self.name: str = name

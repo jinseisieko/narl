@@ -29,8 +29,8 @@ class MainGameMode(InterfaceState, Data):
         pg.mouse.set_visible(False)
         self.main_window.fps = MAX_FPS[0]
 
-    def __init__(self, screen, game, level=Level1(), mode=0) -> None:
-        super().__init__(screen, game)
+    def __init__(self, screen, main_window, level=Level1(), mode=0) -> None:
+        super().__init__(screen, main_window)
         self.mode = mode
         self.type = "MainGameMode"
         self.level = level
@@ -273,5 +273,5 @@ class MainGameMode(InterfaceState, Data):
         self.check_level()
 
         n += 1
-        # self.game.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
+        # self.main_window.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
         # self.play_music()

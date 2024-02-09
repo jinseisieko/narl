@@ -31,8 +31,8 @@ class NewItem(InterfaceState):
         self.new_item_pause.update()
         self.new_item_pause.draw()
 
-    def __init__(self, screen, game, last_, last_frame) -> None:
-        super().__init__(screen, game)
+    def __init__(self, screen, main_window, last_, last_frame) -> None:
+        super().__init__(screen, main_window)
         self.data = last_
         self.new_item_pause = NewItemInterface(self.screen, last_frame, last_)
         self.begin()
