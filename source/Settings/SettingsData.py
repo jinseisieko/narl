@@ -15,7 +15,8 @@ CONTROLS_1 = {
     "RIGHT": pg.K_d,
     "MENU": pg.K_ESCAPE,
     "SHOOT": 1,
-    "PRESS": 1,
+    "PRESS_L": 1,
+    "PRESS_R": 1,
     "OPEN_CONSOLE": pg.K_F1
 }
 

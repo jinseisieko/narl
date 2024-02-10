@@ -33,6 +33,11 @@ class SoundEffect:
         sn.set_volume(self.player_volume)
         sn.play()
 
+    def player_death(self):
+        sn = pg.mixer.Sound("resource/music/player_death.mp3")
+        sn.set_volume(self.player_volume)
+        sn.play()
+
     def kill_enemy(self):
         sn = pg.mixer.Sound("resource/music/enemy_damage2.mp3")
         sn.set_volume(self.enemy_volume)

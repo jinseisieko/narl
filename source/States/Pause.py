@@ -5,6 +5,7 @@ from source.Interface.PauseInterface import PauseInterface
 from source.Save.Save import save
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
+from source.Settings.SettingsData import CONTROLS_1, CONTROLS_2
 
 
 class Pause(InterfaceState):
@@ -25,7 +26,7 @@ class Pause(InterfaceState):
 
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1:
+            if event.button == CONTROLS_1["PRESS_L"] or event.button == CONTROLS_2["PRESS_L"]:
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_pause.buttons["ContinueButton"].update(mouse_pos):
                     self.data.start()

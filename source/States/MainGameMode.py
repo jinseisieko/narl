@@ -183,6 +183,7 @@ class MainGameMode(InterfaceState, Data):
             self.sound_effect.player_damage()
         elif res == 2:
             delete_all_save()
+            self.sound_effect.player_death()
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
     def calc_calculations(self):

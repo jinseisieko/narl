@@ -4,8 +4,8 @@ import numpy as np
 import pygame as pg
 
 from source.Interface.MainMenuInterface import MainMenuInterface
+from source.Settings.SettingsData import CONTROLS_1, CONTROLS_2
 from source.States.InterfaceState import InterfaceState
-from source.States.Settings import Settings
 from source.States.SettingsFirst import SettingsFirst
 
 
@@ -27,14 +27,14 @@ class MainMenu(InterfaceState):
 
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1:
+            if event.button == CONTROLS_1["PRESS_L"] or event.button == CONTROLS_2["PRESS_L"]:
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_screen.buttons["ContinueButton"].update(mouse_pos):
                     self.main_window.change_state("MainGameMode", data=1)
                 if self.title_screen.buttons["StartButton"].update(mouse_pos):
                     self.main_window.change_state("MainGameMode", data=0)
                 if self.title_screen.buttons["ArcadeButton"].update(mouse_pos):
-                    pass
+                    self.main_window.change_state("RedactorMode", data=0)
                 if self.title_screen.buttons["SettingsButton"].update(mouse_pos):
                     self.main_window.set_state(SettingsFirst(self.screen, self.main_window))
                 if self.title_screen.buttons["ExitButton"].update(mouse_pos):

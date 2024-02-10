@@ -24,8 +24,8 @@ class SettingsFirst(InterfaceState):
         self.interface_setting.check_event(event)
 
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == source.Settings.SettingsData.CONTROLS_1["PRESS"] or event.button == \
-                    source.Settings.SettingsData.CONTROLS_2["PRESS"]:
+            if event.button == source.Settings.SettingsData.CONTROLS_1["PRESS_L"] or event.button == \
+                    source.Settings.SettingsData.CONTROLS_2["PRESS_L"]:
                 if self.interface_setting.button_next.update(pg.mouse.get_pos()):
                     self.main_window.change_state("SettingsSecond", self.settings_container)
                 if self.interface_setting.button_exit.update(pg.mouse.get_pos()):
