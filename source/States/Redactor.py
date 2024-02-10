@@ -39,7 +39,7 @@ class RedactorMode(InterfaceState, Data):
         self.begin()
 
     def begin(self):
-        ...
+        self.pause = False
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
@@ -82,10 +82,11 @@ class RedactorMode(InterfaceState, Data):
 
     def build(self):
         if len(self.pos) == 2:
-            ID = obstacles_ids.pop()
-            obstacles[ID] = np.ndarray([
-                np.abs(self.pos[0][0] + self.pos[0][1]) // 2, np.abs(self.pos[1][0] + self.pos[1][1]) // 2,
-                np.abs(self.pos[0][0] - self.pos[0][1]) // 2, np.abs(self.pos[1][0] - self.pos[1][1]) // 2
+            print(self.pos)
+            ID = np.int_(obstacles_ids.pop())
+            obstacles[ID] = np.array([
+                np.abs(self.pos[0][0] + self.pos[1][0]) // 2, np.abs(self.pos[0][1] + self.pos[1][1]) // 2,
+                np.abs(self.pos[0][0] - self.pos[1][0]) // 2, np.abs(self.pos[0][1] - self.pos[1][1]) // 2
             ])
             self.obstacle_set.add(Obstacle(obstacles, ID, "gold", obstacles_ids))
             self.pos = []
@@ -93,9 +94,11 @@ class RedactorMode(InterfaceState, Data):
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == CONTROLS_1["PRESS_L"] or event.button == CONTROLS_2["PRESS_L"]:
-                self.pos.append(np.array(pg.mouse.get_pos()))
+                self.pos.append(
+                    np.array(pg.mouse.get_pos()) + np.array((field[0] - field[8] / 2, field[1] - field[9] / 2)))
             if event.button == CONTROLS_1["PRESS_R"] or event.button == CONTROLS_2["PRESS_R"]:
                 self.pos = []
+                exit()
         if event.type == pg.KEYDOWN:
             if event.key == CONTROLS_1["MENU"] or event.key == CONTROLS_2["MENU"]:
                 self.pause = True
@@ -116,6 +119,7 @@ class RedactorMode(InterfaceState, Data):
         self.field.draw()
         self.draw_or_kill()
         field_screen_centre_x, field_screen_centre_y = self.field.data[0:2] - self.field.data[8:10] / 2
+        self.update_blueprint()
         self.screen.blit(self.field.field, (0, 0), (field_screen_centre_x, field_screen_centre_y, WIDTH, HEIGHT))
 
     def draw_cursor(self):
@@ -124,10 +128,14 @@ class RedactorMode(InterfaceState, Data):
         self.screen.blit(get_images_for_game()['cursor'],
                          (mouse_x - 16, mouse_y - 16))
 
-    def draw_blueprint(self):
+    def update_blueprint(self):
+        self.build()
         if len(self.pos) == 1:
-            m_pos = np.array(pg.mouse.get_pos())
-            pg.draw.rect(self.screen, "#137ABB40", (self.pos[0][0], self.pos[0][1], m_pos[0], m_pos[1]))
+            m_pos = np.array(pg.mouse.get_pos()) + np.array((field[0] - field[8] / 2, field[1] - field[9] / 2))
+            rect_data = (min(self.pos[0][0], m_pos[0]), min(self.pos[0][1], m_pos[1]), abs(m_pos[0] - self.pos[0][0]), abs(m_pos[1] - self.pos[0][1]))
+            pg.draw.rect(self.field.field, "#137ABB", rect_data)
+            pg.draw.rect(self.field.field, "#282B4E", rect_data, 5)
+
 
     def update(self):
         global n
@@ -135,6 +143,6 @@ class RedactorMode(InterfaceState, Data):
         self.calc_calculations()
         self.draw()
         self.draw_cursor()
-        self.draw_blueprint()
+
 
         n += 1
