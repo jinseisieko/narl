@@ -91,16 +91,24 @@ class RedactorMode(InterfaceState, Data):
             self.obstacle_set.add(Obstacle(obstacles, ID, "gold", obstacles_ids))
             self.pos = []
 
+    def delete(self):
+        m_pos = np.array(pg.mouse.get_pos()) + np.array((field[0] - field[8] / 2, field[1] - field[9] / 2))
+        pass
+
+
+
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == CONTROLS_1["PRESS_L"] or event.button == CONTROLS_2["PRESS_L"]:
+            if event.button == 1:
                 self.pos.append(
                     np.array(pg.mouse.get_pos()) + np.array((field[0] - field[8] / 2, field[1] - field[9] / 2)))
-            if event.button == CONTROLS_1["PRESS_R"] or event.button == CONTROLS_2["PRESS_R"]:
-                self.pos = []
-                exit()
+            if event.button == 3:
+                if len(self.pos) == 1:
+                    self.pos = []
+                if len(self.pos) == 0:
+                    self.delete()
         if event.type == pg.KEYDOWN:
-            if event.key == CONTROLS_1["MENU"] or event.key == CONTROLS_2["MENU"]:
+            if event.key == CONTROLS_1["MENU"]:
                 self.pause = True
                 self.main_window.set_state(Pause(self.screen, self.main_window, self, self.last_screen))
 
@@ -143,6 +151,5 @@ class RedactorMode(InterfaceState, Data):
         self.calc_calculations()
         self.draw()
         self.draw_cursor()
-
 
         n += 1

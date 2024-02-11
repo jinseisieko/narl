@@ -14,18 +14,12 @@ CONTROLS_1 = {
     "LEFT": pg.K_a,
     "RIGHT": pg.K_d,
     "MENU": pg.K_ESCAPE,
-    "SHOOT": 1,
-    "PRESS_L": 1,
-    "PRESS_R": 3,
+    "SHOOT": pg.K_SPACE,
     "OPEN_CONSOLE": pg.K_F1
 }
 
-CONTROLS_2 = {
-    "SHOOT": pg.K_SPACE,
-}
-
-CONTROLS_1 = defaultdict(lambda: -1, CONTROLS_1)
-CONTROLS_2 = defaultdict(lambda: -1, CONTROLS_2)
+# CONTROLS_1 = defaultdict(lambda: -1, CONTROLS_1)
+# CONTROLS_2 = defaultdict(lambda: -1, CONTROLS_2)
 
 
 def update(a, b, c, d):

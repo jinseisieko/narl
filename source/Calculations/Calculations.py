@@ -336,6 +336,10 @@ def calc_player_level(player: np.ndarray) -> np.int_:
     return 0
 
 
+def calc_obstacle_delete():
+    ...
+
+
 @njit(fastmath=True)
 def calc_cameraman(player: np.ndarray, field: np.ndarray, dt: np.float_) -> None:
     speed: np.ndarray

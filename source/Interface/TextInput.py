@@ -22,7 +22,7 @@ class TextInput:
 
     def handle_event(self, event) -> None:
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == CONTROLS_1["PRESS"] or event.button == CONTROLS_2["PRESS"]:
+            if event.button == 1:
                 x_, y_ = pg.mouse.get_pos()
                 if self.x - self.half_size[0] < x_ < self.x + self.half_size[0] and self.y - self.half_size[
                     1] < y_ < self.y + self.half_size[1]:

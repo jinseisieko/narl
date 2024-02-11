@@ -8,12 +8,12 @@ def DT(clock: pg.time.Clock):
 
 def set_direction(pressed):
     direction: np.ndarray = np.array([0, 0])
-    if pressed[CONTROLS_1["LEFT"]] or pressed[CONTROLS_2["LEFT"]]:
+    if pressed[CONTROLS_1["LEFT"]]:
         direction[0] -= 1
-    if pressed[CONTROLS_1["RIGHT"]] or pressed[CONTROLS_2["RIGHT"]]:
+    if pressed[CONTROLS_1["RIGHT"]]:
         direction[0] += 1
-    if pressed[CONTROLS_1["FORWARD"]] or pressed[CONTROLS_2["FORWARD"]]:
+    if pressed[CONTROLS_1["FORWARD"]]:
         direction[1] -= 1
-    if pressed[CONTROLS_1["BACKWARD"]] or pressed[CONTROLS_2["BACKWARD"]]:
+    if pressed[CONTROLS_1["BACKWARD"]]:
         direction[1] += 1
     return direction

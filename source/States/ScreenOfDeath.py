@@ -2,7 +2,7 @@ import numpy as np
 import pygame as pg
 
 from source.Interface.ScreenOfDeathInterface import ScreenOfDeathInterface
-from source.Settings.SettingsData import CONTROLS_1, CONTROLS_2
+from source.Settings.SettingsData import CONTROLS_1
 from source.States.InterfaceState import InterfaceState
 
 
@@ -12,7 +12,7 @@ class ScreenOfDeath(InterfaceState):
 
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == CONTROLS_1["PRESS_L"] or event.button == CONTROLS_2["PRESS_L"]:
+            if event.button == 1:
                 sn1 = pg.mixer.Sound("resource/music/click.mp3")
                 sn1.set_volume(0.2)
                 sn1.play()
