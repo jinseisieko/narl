@@ -7,9 +7,8 @@ from source.Functions.Functions import DT
 from source.Image.InitializationForGame import init_images_for_game
 from source.Image.InitializationForItems import init_images_for_items
 from source.MetaPlayer.MetaPlayer import MetaPlayer
-from source.Settings.Settings import load_settings, save_settings
+from source.Settings.Settings import load_settings
 from source.Settings.SettingsData import *
-from source.States.Inlet import Inlet
 from source.States.InterfaceState import InterfaceState
 from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
@@ -40,7 +39,7 @@ class MainWindow:
         init_images_for_game()
 
         # is the main variable that is responsible for the state, like pause or main menu.
-        self.state: InterfaceState = Inlet(self.screen, self)
+        self.state: InterfaceState = MainMenu(self.screen, self)
 
         self.dt: float = 0
 
