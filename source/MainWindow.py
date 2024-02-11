@@ -18,6 +18,7 @@ from source.States.SettingsFirst import SettingsFirst
 from source.States.SettingsSecond import SettingsSecond
 from source.States.SettingsThird import SettingsThird
 from source.TasksAndAchievements.TasksAndAchievements import TasksAndAchievements
+from source.States.Redactor import RedactorMode
 
 
 class MainWindow:
@@ -80,6 +81,8 @@ class MainWindow:
         """status selection function"""
         if name == "MainGameMode":
             self.state = Loading(self.screen, self, MainGameMode, self.screen, self, mode=data)
+        if name == "RedactorMode":
+            self.state = Loading(self.screen, self, RedactorMode, self.screen, self)
         if name == "MainMenu":
             self.state = MainMenu(self.screen, self)
         if name == "Pause":

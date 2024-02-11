@@ -1,12 +1,11 @@
 import time
+from source.Interface.Video import Video
 
 import numpy as np
 import pygame as pg
 
 from source.Interface.MainMenuInterface import MainMenuInterface
-from source.Interface.Video import Video
 from source.States.InterfaceState import InterfaceState
-from source.States.Settings import Settings
 from source.States.SettingsFirst import SettingsFirst
 
 
@@ -35,9 +34,10 @@ class MainMenu(InterfaceState):
                 if self.interface_screen.buttons["StartButton"].update(mouse_pos):
                     self.main_window.change_state("MainGameMode", data=0)
                 if self.interface_screen.buttons["ArcadeButton"].update(mouse_pos):
-                    pass
+                    self.main_window.change_state("RedactorMode", data=0)
                 if self.interface_screen.buttons["SettingsButton"].update(mouse_pos):
-                    self.main_window.set_state(SettingsFirst(self.screen, self.main_window, video=self.interface_screen.video))
+                    self.main_window.set_state(
+                        SettingsFirst(self.screen, self.main_window, video=self.interface_screen.video))
                 if self.interface_screen.buttons["ExitButton"].update(mouse_pos):
                     self.main_window.running = False
                     time.sleep(0.2)
