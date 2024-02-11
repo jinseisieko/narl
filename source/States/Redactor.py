@@ -60,10 +60,10 @@ class RedactorMode(InterfaceState, Data):
         self.make_borders()
 
     def make_borders(self):
-        obstacles[0] = np.array([FIELD_WIDTH / 2, - 100, FIELD_WIDTH, 100])
-        obstacles[1] = np.array([FIELD_WIDTH / 2, FIELD_HEIGHT + 100, FIELD_WIDTH, 100])
-        obstacles[2] = np.array([- 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
-        obstacles[3] = np.array([FIELD_WIDTH + 100, FIELD_HEIGHT / 2, 100, FIELD_HEIGHT])
+        obstacles[0] = np.array([FIELD_WIDTH / 2, - 1000, FIELD_WIDTH, 1000])
+        obstacles[1] = np.array([FIELD_WIDTH / 2, FIELD_HEIGHT + 1000, FIELD_WIDTH, 1000])
+        obstacles[2] = np.array([- 1000, FIELD_HEIGHT / 2, 1000, FIELD_HEIGHT])
+        obstacles[3] = np.array([FIELD_WIDTH + 1000, FIELD_HEIGHT / 2, 1000, FIELD_HEIGHT])
         self.obstacle_set.add(
             Obstacle(obstacles, 0, "red", obstacles_ids))
         self.obstacle_set.add(
