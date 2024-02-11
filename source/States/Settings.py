@@ -21,8 +21,7 @@ class Settings(InterfaceState):
         self.interface_setting.check_event(event)
 
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == source.Settings.SettingsData.CONTROLS_1["PRESS"] or event.button == \
-                    source.Settings.SettingsData.CONTROLS_2["PRESS"]:
+            if event.button == 1:
                 if self.interface_setting.button_exit.update(pg.mouse.get_pos()):
                     self.main_window.change_state("MainMenu")
                 if self.interface_setting.button_apply.update(pg.mouse.get_pos()):

@@ -1,13 +1,11 @@
 from typing import Any
 
-import pygame as pg
 from pygame import Surface
 
 from source.Constants import *
 from source.Functions.Functions import DT
 from source.Image.InitializationForGame import init_images_for_game
 from source.Image.InitializationForItems import init_images_for_items
-from source.Interface.InletInterface import InletInterface
 from source.MetaPlayer.MetaPlayer import MetaPlayer
 from source.Settings.SettingsData import *
 from source.States.Inlet import Inlet
@@ -16,9 +14,6 @@ from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
-from source.Settings.SettingsData import *
-from source.States.Settings import Settings
-from source.Save.ModelSave import set_save_db
 from source.States.SettingsFirst import SettingsFirst
 from source.States.SettingsSecond import SettingsSecond
 from source.States.SettingsThird import SettingsThird
@@ -49,7 +44,6 @@ class MainWindow:
         self.running: bool = True
 
         self.tasksAndAchievements = TasksAndAchievements()
-
 
         # pg.mixer.music.load("../resource/music/chipichipichapachapa.mp3")
         # pg.mixer.music.play(loops=-1)
@@ -91,12 +85,11 @@ class MainWindow:
         if name == "Pause":
             self.state = Pause(self.screen, self, last_=data, last_frame=Surface((0, 0)))
         if name == "SettingsFirst":
-            self.state = SettingsFirst(self.screen, self, data)
+            self.state = SettingsFirst(self.screen, self, data[0], video=data[1])
         if name == "SettingsSecond":
-            self.state = SettingsSecond(self.screen, self, data)
+            self.state = SettingsSecond(self.screen, self, data[0], video=data[1])
         if name == "SettingsThird":
-            self.state = SettingsThird(self.screen, self, data)
-
+            self.state = SettingsThird(self.screen, self, data[0], video=data[1])
 
     def set_state(self, class_: InterfaceState) -> None:
         """status setting function"""

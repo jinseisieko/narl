@@ -6,11 +6,11 @@ from source.Interface.Video import Video
 
 
 class InletInterface:
-    def __init__(self, screen):
+    def __init__(self, screen, video=Video("resource/video/gameplay1.mov")):
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
 
-        self.video = Video("resource/video/gameplay1.mov")
+        self.video = video
 
         self.buttons = {}
 

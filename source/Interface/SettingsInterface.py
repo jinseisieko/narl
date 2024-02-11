@@ -8,12 +8,12 @@ from source.Settings.SettingsData import *
 
 
 class SettingsInterface:
-    def __init__(self, screen) -> None:
+    def __init__(self, screen, video=Video("resource/video/gameplay1.mov")) -> None:
         super().__init__()
         self.background = pg.Surface((WIDTH, HEIGHT))
         self.font2 = pygame.font.Font('resource/fonts/EightBits.ttf', 90)
 
-        self.video = Video("resource/video/gameplay1.mov")
+        self.video = video
 
         self.text_input1 = TextInput(WIDTH / 2 - 100, HEIGHT / 4)
         self.text_input2 = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 100)
