@@ -1,3 +1,4 @@
+from source.Settings.Settings import save_settings
 from source.Settings.SettingsData import *
 
 
@@ -13,5 +14,4 @@ class SettingsContainer:
     def update_settings(self):
         update(self.text_input_master_volume, self.text_input_music_volume, self.text_input_sfx_volume,
                self.text_input_max_fps)
-
-        
+        save_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS)

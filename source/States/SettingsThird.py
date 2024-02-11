@@ -29,12 +29,7 @@ class SettingsThird(InterfaceState):
                 if self.interface_setting.button_exit.update(pg.mouse.get_pos()):
                     self.main_window.change_state("MainMenu")
                 if self.interface_setting.button_apply.update(pg.mouse.get_pos()):
-                    # source.Settings.SettingsData.update(
-                    #     self.interface_setting.text_input1.get(),
-                    #     self.interface_setting.text_input2.get(),
-                    #     self.interface_setting.text_input3.get(),
-                    #     self.interface_setting.text_input4.get()
-                    # )
+                    self.settings_container.update_settings()
                     self.main_window.change_state("MainMenu")
 
     def begin(self):
