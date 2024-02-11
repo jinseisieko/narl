@@ -1,3 +1,5 @@
+import random
+
 from source.Calculations.Calculations import *
 from source.Calculations.Data import *
 from source.Field.Field import Field
@@ -40,6 +42,7 @@ class RedactorMode(InterfaceState, Data):
 
     def begin(self):
         self.pause = False
+        self.make_borders()
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
@@ -82,20 +85,22 @@ class RedactorMode(InterfaceState, Data):
 
     def build(self):
         if len(self.pos) == 2:
-            print(self.pos)
             ID = np.int_(obstacles_ids.pop())
             obstacles[ID] = np.array([
                 np.abs(self.pos[0][0] + self.pos[1][0]) // 2, np.abs(self.pos[0][1] + self.pos[1][1]) // 2,
                 np.abs(self.pos[0][0] - self.pos[1][0]) // 2, np.abs(self.pos[0][1] - self.pos[1][1]) // 2
             ])
-            self.obstacle_set.add(Obstacle(obstacles, ID, "gold", obstacles_ids))
+            self.obstacle_set.add(Obstacle(obstacles, ID, [random.randint(0, 255) for _ in range(3)], obstacles_ids))
             self.pos = []
 
     def delete(self):
-        m_pos = np.array(pg.mouse.get_pos()) + np.array((field[0] - field[8] / 2, field[1] - field[9] / 2))
-        pass
-
-
+        ID = calc_obstacle_delete(
+            np.array(pg.mouse.get_pos()) + np.array((field[0] - field[8] / 2, field[1] - field[9] / 2)), obstacles)
+        if ID > 3:
+            obstacles[ID] = default_obstacle
+            for x in set(self.obstacle_set):
+                if x.Id == ID:
+                    x.kill()
 
     def check_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
@@ -140,10 +145,10 @@ class RedactorMode(InterfaceState, Data):
         self.build()
         if len(self.pos) == 1:
             m_pos = np.array(pg.mouse.get_pos()) + np.array((field[0] - field[8] / 2, field[1] - field[9] / 2))
-            rect_data = (min(self.pos[0][0], m_pos[0]), min(self.pos[0][1], m_pos[1]), abs(m_pos[0] - self.pos[0][0]), abs(m_pos[1] - self.pos[0][1]))
+            rect_data = (min(self.pos[0][0], m_pos[0]), min(self.pos[0][1], m_pos[1]), abs(m_pos[0] - self.pos[0][0]),
+                         abs(m_pos[1] - self.pos[0][1]))
             pg.draw.rect(self.field.field, "#137ABB", rect_data)
             pg.draw.rect(self.field.field, "#282B4E", rect_data, 5)
-
 
     def update(self):
         global n
