@@ -45,11 +45,11 @@ class SoundEffect:
         sn.play()
 
     def new_wave(self):
-        sn = pg.mixer.Sound("resource/music/new_wave.mp3")
+        sn = pg.mixer.Sound("resource/music/castle_levelup.mp3")
         sn.set_volume(self.new_wave_volume)
         sn.play()
 
     def new_level(self):
-        sn = pg.mixer.Sound("resource/music/castle_levelup.mp3")
+        sn = pg.mixer.Sound("resource/music/new_wave.mp3")
         sn.set_volume(self.new_level_volume)
         sn.play()
