@@ -1,10 +1,11 @@
 import time
-from source.Interface.Video import Video
 
 import numpy as np
 import pygame as pg
 
 from source.Interface.MainMenuInterface import MainMenuInterface
+from source.Interface.Video import Video
+from source.Settings.SettingsContainer import SettingsContainer
 from source.States.InterfaceState import InterfaceState
 from source.States.SettingsFirst import SettingsFirst
 
@@ -37,7 +38,8 @@ class MainMenu(InterfaceState):
                     self.main_window.change_state("RedactorMode", data=0)
                 if self.interface_screen.buttons["SettingsButton"].update(mouse_pos):
                     self.main_window.set_state(
-                        SettingsFirst(self.screen, self.main_window, video=self.interface_screen.video))
+                        SettingsFirst(self.screen, self.main_window, video=self.interface_screen.video,
+                                      settings_container=SettingsContainer()))
                 if self.interface_screen.buttons["ExitButton"].update(mouse_pos):
                     self.main_window.running = False
                     time.sleep(0.2)

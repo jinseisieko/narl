@@ -5,7 +5,7 @@ from source.Interface.PauseInterface import PauseInterface
 from source.Save.Save import save
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
-from source.Settings.SettingsData import CONTROLS_1
+from source.Settings.SettingsData import CONTROLS
 
 
 class Pause(InterfaceState):

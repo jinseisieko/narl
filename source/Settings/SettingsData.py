@@ -8,7 +8,7 @@ MASTER_VOLUME = [1.0]
 MUSIC_VOLUME = [1.0]
 SFX_VOLUME = [1.0]
 MAX_FPS = [FPS]
-CONTROLS_1 = {
+CONTROLS = {
     "FORWARD": pg.K_w,
     "BACKWARD": pg.K_s,
     "LEFT": pg.K_a,
@@ -18,7 +18,7 @@ CONTROLS_1 = {
     "OPEN_CONSOLE": pg.K_F1
 }
 
-# CONTROLS_1 = defaultdict(lambda: -1, CONTROLS_1)
+# CONTROLS = defaultdict(lambda: -1, CONTROLS)
 # CONTROLS_2 = defaultdict(lambda: -1, CONTROLS_2)
 
 

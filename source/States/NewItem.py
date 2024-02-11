@@ -2,7 +2,7 @@ from source.Interface.NewItemInterface import NewItemInterface
 from source.States.InterfaceState import InterfaceState
 import pygame as pg
 import numpy as np
-from source.Settings.SettingsData import CONTROLS_1
+from source.Settings.SettingsData import CONTROLS
 
 class NewItem(InterfaceState):
     def begin(self):

@@ -12,8 +12,9 @@ class SettingsFirst(InterfaceState):
                  video=Video("resource/video/gameplay1.mov")) -> None:
         super().__init__(screen, main_window)
         self.main_window = main_window
-        self.interface_setting = SettingsInterfaceFirst(screen, container=settings_container, video=video)
         self.settings_container = settings_container
+        self.interface_setting = SettingsInterfaceFirst(screen, container=self.settings_container, video=video)
+
         self.begin()
 
     def update(self):

@@ -108,7 +108,7 @@ class RedactorMode(InterfaceState, Data):
                 if len(self.pos) == 0:
                     self.delete()
         if event.type == pg.KEYDOWN:
-            if event.key == CONTROLS_1["MENU"]:
+            if event.key == CONTROLS["MENU"]:
                 self.pause = True
                 self.main_window.set_state(Pause(self.screen, self.main_window, self, self.last_screen))
 

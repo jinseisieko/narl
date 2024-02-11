@@ -17,7 +17,6 @@ from source.States.InterfaceState import InterfaceState
 from source.States.NewItem import NewItem
 from source.States.Pause import Pause
 from source.States.ScreenOfDeath import ScreenOfDeath
-from source.TasksAndAchievements.TasksAndAchievements import TasksAndAchievements
 
 n = 0
 
@@ -136,27 +135,27 @@ class MainGameMode(InterfaceState, Data):
         if self.main_window.key_pressed[pg.K_y]:
             self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5, r3=1000))
         if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == CONTROLS_1["SHOOT"]:
+            if event.button == 1:
                 self.shooting = True
             if event.button == 3:
                 self.spawning = not (self.spawning and True)
         if event.type == pg.MOUSEBUTTONUP:
-            if event.button == CONTROLS_1["SHOOT"]:
+            if event.button == 1:
                 self.shooting = False
         if event.type == pg.KEYDOWN:
             self.console.handle_event(event)
-            if event.key == CONTROLS_1["OPEN_CONSOLE"]:
+            if event.key == CONTROLS["OPEN_CONSOLE"]:
                 self.console_ = not self.console_
                 self.pause = self.console_
                 if self.console_:
                     self.console.open_console()
-            if event.key == CONTROLS_1["SHOOT"]:
+            if event.key == CONTROLS["SHOOT"]:
                 self.shooting = True
-            if event.key == CONTROLS_1["MENU"]:
+            if event.key == CONTROLS["MENU"]:
                 self.pause = True
                 self.main_window.set_state(Pause(self.screen, self.main_window, self, self.last_screen))
         if event.type == pg.KEYUP:
-            if event.key == CONTROLS_1["SHOOT"]:
+            if event.key == CONTROLS["SHOOT"]:
                 self.shooting = False
 
     def shoot(self):

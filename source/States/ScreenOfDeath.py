@@ -2,7 +2,7 @@ import numpy as np
 import pygame as pg
 
 from source.Interface.ScreenOfDeathInterface import ScreenOfDeathInterface
-from source.Settings.SettingsData import CONTROLS_1
+from source.Settings.SettingsData import CONTROLS
 from source.States.InterfaceState import InterfaceState
 
 
