@@ -3,6 +3,7 @@ import os
 from peewee import *
 
 from source.Save.ModelSave import set_save_db
+from source.Settings.ModelSettings import set_settings_db
 from source.TasksAndAchievements.TasksAndAchievementsModel import set_tasksAndAchievements_db
 
 db_name = "resource/db/players.db"
@@ -35,6 +36,7 @@ class MetaPlayer:
     def init_db(self):
         set_save_db(f"resource/players/{self.name}")
         set_tasksAndAchievements_db(f"resource/players/{self.name}")
+        set_settings_db(f"resource/players/{self.name}")
 
     def set(self, name, password):
         with DB.atomic():

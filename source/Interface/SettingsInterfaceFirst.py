@@ -15,10 +15,10 @@ class SettingsInterfaceFirst:
 
         self.video = video
 
-        self.text_input_master_volume = TextInput(WIDTH / 2 - 100, HEIGHT / 4)
-        self.text_input_music_volume = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 100)
-        self.text_input_sfx_volume = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 200)
-        self.text_input_max_fps = TextInput(WIDTH / 2 - 100, HEIGHT / 4 + 300)
+        self.text_input_master_volume = TextInput(WIDTH / 2, HEIGHT / 4)
+        self.text_input_music_volume = TextInput(WIDTH / 2, HEIGHT / 4 + 100)
+        self.text_input_sfx_volume = TextInput(WIDTH / 2, HEIGHT / 4 + 200)
+        self.text_input_max_fps = TextInput(WIDTH / 2, HEIGHT / 4 + 300)
 
         self.text_input_master_volume.set(self.container.text_input_master_volume)
         self.text_input_music_volume.set(self.container.text_input_music_volume)

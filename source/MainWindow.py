@@ -7,6 +7,7 @@ from source.Functions.Functions import DT
 from source.Image.InitializationForGame import init_images_for_game
 from source.Image.InitializationForItems import init_images_for_items
 from source.MetaPlayer.MetaPlayer import MetaPlayer
+from source.Settings.Settings import load_settings, save_settings
 from source.Settings.SettingsData import *
 from source.States.Inlet import Inlet
 from source.States.InterfaceState import InterfaceState
@@ -14,11 +15,11 @@ from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
 from source.States.Pause import Pause
+from source.States.Redactor import RedactorMode
 from source.States.SettingsFirst import SettingsFirst
 from source.States.SettingsSecond import SettingsSecond
 from source.States.SettingsThird import SettingsThird
 from source.TasksAndAchievements.TasksAndAchievements import TasksAndAchievements
-from source.States.Redactor import RedactorMode
 
 
 class MainWindow:
@@ -26,10 +27,12 @@ class MainWindow:
 
     def __init__(self) -> None:
         super().__init__()
-        self.fps: int = MAX_FPS[0]
-        self.fps: int = MAX_FPS
         self.meta_player = MetaPlayer()
         self.meta_player.init_db()
+        load_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS)
+        self.fps: int = MAX_FPS[0]
+        self.fps: int = MAX_FPS
+
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 
         # need to initialize pygame images after creating screen

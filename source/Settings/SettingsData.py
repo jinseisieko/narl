@@ -18,9 +18,6 @@ CONTROLS = {
     "OPEN_CONSOLE": pg.K_F1
 }
 
-# CONTROLS = defaultdict(lambda: -1, CONTROLS)
-# CONTROLS_2 = defaultdict(lambda: -1, CONTROLS_2)
-
 
 def update(a, b, c, d):
     global MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS
