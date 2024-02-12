@@ -9,7 +9,9 @@ from source.Image.InitializationForItems import init_images_for_items
 from source.MetaPlayer.MetaPlayer import MetaPlayer
 from source.Settings.Settings import load_settings
 from source.Settings.SettingsData import *
+from source.States.Inlet import Inlet
 from source.States.InterfaceState import InterfaceState
+from source.States.ItemsCreator import ItemsCreator
 from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
@@ -30,7 +32,6 @@ class MainWindow:
         self.meta_player.init_db()
         load_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS)
         self.fps: int = MAX_FPS[0]
-        self.fps: int = MAX_FPS
 
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)
 
@@ -39,7 +40,7 @@ class MainWindow:
         init_images_for_game()
 
         # is the main variable that is responsible for the state, like pause or main menu.
-        self.state: InterfaceState = MainMenu(self.screen, self)
+        self.state: InterfaceState = Inlet(self.screen, self)
 
         self.dt: float = 0
 
@@ -47,12 +48,6 @@ class MainWindow:
         self.running: bool = True
 
         self.tasksAndAchievements = TasksAndAchievements()
-
-        # pg.mixer.music.load("../resource/music/chipichipichapachapa.mp3")
-        # pg.mixer.music.play(loops=-1)
-        # pg.mixer.music.queue("../resource/music/Y2mate.mx - Bruh sound effect (128 kbps).mp3", loops=-1)
-        # pg.mixer.music.queue("../resource/music/Y2mate.mx - Metal pipe falling sound effect but it’s more violent (128 kbps).mp3", loops=-1)
-        # pg.mixer.music.set_volume(1)
 
         # Singleton architecture element
         global MAIN_WINDOW

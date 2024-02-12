@@ -6,8 +6,8 @@ from source.TasksAndAchievements.TasksAndAchievementsModel import DB, Tasks, Ach
 class TasksAndAchievements:
     def __init__(self) -> None:
         super().__init__()
-        self.tasks: dict[dict] = {}
-        self.achievements: dict[dict] = {}
+        self.tasks: dict[str] = {}
+        self.achievements: dict[str] = {}
 
         self.init_tasks()
         self.init_achievements()
@@ -37,17 +37,29 @@ class TasksAndAchievements:
                     'fulfillment': achievement_select.fulfillment
                 }
 
-    def kill_enemies(self, count):  # при убийстве врага/врагов
+    def kill_100_enemies(self, count):  # при убийстве врага/врагов
         self.tasks['kill_100_enemies']['data']['count'] += count
+
+        if self.tasks['kill_100_enemies']['data']['count'] >= 100:
+            self.tasks['kill_100_enemies']["fulfillment"] = True
+            ...
+
+    def kill_1000_enemies(self, count):
         self.achievements['kill_1000_enemies']['data']['count'] += count
+
+        if self.achievements['kill_1000_enemies']['data']['count'] >= 1000:
+            self.achievements['kill_1000_enemies']["fulfillment"] = True
+            ...
 
     def save(self):
         select_tasks = Tasks.select()
         for task in select_tasks:
             task.data = json.dumps(self.tasks[task.id]["data"])
+            task.fulfillment = self.tasks[task.id]["fulfillment"]
             task.save()
 
         select_achievements = Achievements.select()
         for achievement in select_achievements:
             achievement.data = json.dumps(self.achievements[achievement.id]["data"])
+            achievement.fulfillment = self.achievements[achievement.id]["fulfillment"]
             achievement.save()

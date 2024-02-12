@@ -10,16 +10,19 @@ class GetItems:
         self.rank1: list = []
         self.rank2: list = []
         self.rank3: list = []
+        self.blocked: list = []
 
-    def add(self, name: str, rank: int):
-        self.names.append(name)
+    def add(self, id_: str, rank: int):
+        self.names.append(id_)
 
         if rank == 1:
-            self.rank1.append(name)
+            self.rank1.append(id_)
         elif rank == 2:
-            self.rank2.append(name)
+            self.rank2.append(id_)
         elif rank == 3:
-            self.rank3.append(name)
+            self.rank3.append(id_)
+        elif rank == -1:
+            self.blocked.append(id_)
         else:
             raise ExceptionNonRank(f"impossible rank {rank}")
 
@@ -33,6 +36,8 @@ class GetItems:
                 return random.choice(self.rank2)
             elif rank == 3:
                 return random.choice(self.rank3)
+            elif rank == -1:
+                return random.choice(self.blocked)
             else:
                 raise ExceptionNonRank(f"impossible rank {rank}")
 
@@ -43,9 +48,11 @@ class GetItems:
             return 2
         elif name in self.rank3:
             return 3
+        elif name in self.blocked:
+            return -1
         else:
             raise ExceptionNotFoundName(f'not found name {name}')
 
-    def get_rank_random(self, r1=1, r2=1, r3=1):
-        rank = random.choice([1] * r1 + [2] * r2 + [3] * r3)
+    def get_rank_random(self, r1=1, r2=1, r3=1, r_1=1):
+        rank = random.choice([1] * r1 + [2] * r2 + [3] * r3 + [-1] * r_1)
         return self.get_random(rank), rank

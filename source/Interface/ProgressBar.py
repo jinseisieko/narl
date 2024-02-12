@@ -8,7 +8,7 @@ class ProgressBar:
     font1 = pg.font.Font("resource/fonts/EightBits.ttf", 90)
     font2 = pg.font.Font("resource/fonts/EightBits.ttf", 40)
 
-    def __init__(self, max_, dt_, name, description, w=(WIDTH // 2) - 400, h=75) -> None:
+    def __init__(self, max_, dt_, name, description, w=(WIDTH // 2) - 400, h=75, fulfillment=False) -> None:
         super().__init__()
 
         self.w = w
@@ -24,7 +24,7 @@ class ProgressBar:
         self.text_description = self.font2.render(self.description, True, (0, 0, 0))
         self.progress_bar.blit(self.text_name, (0, 0))
         pg.draw.rect(self.progress_bar, (255, 255, 255), (0, self.text_name.get_height() + 5, self.w * 2, 30))
-        pg.draw.rect(self.progress_bar, "#7452ff",
+        pg.draw.rect(self.progress_bar, "#7452ff" if not fulfillment else (10, 200, 10),
                      (0, self.text_name.get_height() + 5, int((self.w * 2) / self.max_ * self.dt_), 30))
         pg.draw.rect(self.progress_bar, (0, 0, 0), (0, self.text_name.get_height() + 5, self.w * 2, 30),
                      width=5)

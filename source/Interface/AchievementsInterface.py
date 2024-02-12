@@ -5,7 +5,7 @@ from source.Interface.ProgressBar import ProgressBar
 from source.Interface.Video import Video
 
 
-class TasksInterface:
+class AchievementsInterface:
     def __init__(self, screen, tasksAndAchievements, video=Video("resource/video/gameplay1.mov")):
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
@@ -15,17 +15,17 @@ class TasksInterface:
         self.font1 = pygame.font.Font('resource/fonts/EightBits.ttf', 150)
         self.font2 = pygame.font.Font('resource/fonts/EightBits.ttf', 90)
 
-        self.text1 = self.font1.render("Tasks", 0, "#7452ff", )
+        self.text1 = self.font1.render("Achievements", 0, "#7452ff", )
         self.text_rect1 = self.text1.get_rect()
         self.text_rect1.center = np.array([WIDTH / 2, 40])
         self.shift = 0
 
         self.list_progress_bar = []
 
-        for task in tasksAndAchievements.tasks.values():
-            if task["id"] == "kill_100_enemies":
+        for task in tasksAndAchievements.achievements.values():
+            if task["id"] == "kill_1000_enemies":
                 self.list_progress_bar.append(
-                    ProgressBar(100, task["data"]["count"], task["id"], task["description"],
+                    ProgressBar(1000, task["data"]["count"], task["id"], task["description"],
                                 fulfillment=task["fulfillment"]))
 
         self.button_exit = Button("Exit", np.array([WIDTH / 2, HEIGHT - 100]), np.array([150, 50]),

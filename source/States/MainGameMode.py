@@ -221,7 +221,8 @@ class MainGameMode(InterfaceState, Data):
                 wave[3] -= 1
                 self.enemy_set.remove(x)
                 x.kill()
-                self.main_window.tasksAndAchievements.kill_enemies(1)
+                self.main_window.tasksAndAchievements.kill_100_enemies(1)
+                self.main_window.tasksAndAchievements.kill_1000_enemies(1)
                 if x.matrix[x.Id, 8] != 5:
                     wave[8] += 1
                     player[0, 28] += 1

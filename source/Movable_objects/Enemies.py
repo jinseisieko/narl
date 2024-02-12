@@ -40,7 +40,7 @@ class Enemy(Entity):
 #         self.dx: float = 0.
 #         self.dy: float = 0.
 #
-#         self.name: str = "Enemy"
+#         self.id_: str = "Enemy"
 #
 #         self.player = player
 #         self.angle: float = 0.
