@@ -2,6 +2,7 @@
 import pygame as pg
 
 from source.Constants import *
+from source.Image.InitializationForGame import get_images_for_game
 from source.Image.InitializationForItems import get_images_for_items
 from source.PlayerIndexes import *
 
@@ -16,6 +17,11 @@ class Interface:
         self.index_needed_characteristics = [max_velocity, acceleration, armor, armor_piercing, delay, bullet_damage,
                                              bullet_velocity, bullet_life_time, critical_chance, critical_coefficient,
                                              scatter, damage_delay]
+        self.index_needed_characteristics_name = ["max_velocity", "acceleration", "armor", "armor_piercing", "delay",
+                                                  "bullet_damage",
+                                                  "bullet_velocity", "bullet_life_time", "critical_chance",
+                                                  "critical_coefficient",
+                                                  "scatter", "damage_delay"]
 
         self.items_surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
 
@@ -28,7 +34,8 @@ class Interface:
             for j, name in enumerate(row):
                 if not (name in get_images_for_items()):
                     name = 'no-image'
-                self.items_surface.blit(get_images_for_items()[name], (WIDTH - 37 * NUMBER_OF_ITEMS - 10 + j * 37, 10 + i * 37))
+                self.items_surface.blit(get_images_for_items()[name],
+                                        (WIDTH - 37 * NUMBER_OF_ITEMS - 10 + j * 37, 10 + i * 37))
 
     def draw(self, screen: pg.Surface):
         # draw hp
@@ -46,9 +53,12 @@ class Interface:
                          border_radius=3, width=4)
 
         # characteristics
-        for i, j in enumerate(self.index_needed_characteristics):
-            screen.blit(self.font.render(str(self.player[0][j])[:7], True, "#3A2980"),
+        for i, (j, name) in enumerate(zip(self.index_needed_characteristics, self.index_needed_characteristics_name)):
+            screen.blit(get_images_for_game()[name],
                         (COORD_CHARACTERISTICS_INTERFACE_X,
+                         COORD_CHARACTERISTICS_INTERFACE_Y + INDENT_CHARACTERISTICS_INTERFACE * i))
+            screen.blit(self.font.render(str(self.player[0][j])[:7], True, "#3A2980"),
+                        (COORD_CHARACTERISTICS_INTERFACE_X + 33,
                          COORD_CHARACTERISTICS_INTERFACE_Y + INDENT_CHARACTERISTICS_INTERFACE * i))
 
         # items

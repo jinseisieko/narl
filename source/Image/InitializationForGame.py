@@ -13,7 +13,7 @@ def init_images_for_game():
 
         'test_player': pg.transform.scale(pg.image.load(r"resource\image\playerImages\test_player.png"), (80, 80)),
         'test_bullet': pg.transform.scale(pg.image.load(r"resource\image\bulletImages\test_bullet.png"), (10, 10)),
-        'test_enemy':  pg.transform.scale(pg.image.load(r"resource\image\enemyImages\test_enemy.png"), (16, 16)),
+        'test_enemy': pg.transform.scale(pg.image.load(r"resource\image\enemyImages\test_enemy.png"), (16, 16)),
         'cursor': pg.transform.scale(pg.image.load(r"resource\image\other\cursor.png"), (32, 32)),
 
         'forest1': pg.transform.scale(pg.image.load(r"resource\image\mapImages\forest\forest1.png"), (400, 400)),
@@ -31,6 +31,21 @@ def init_images_for_game():
         'forest13': pg.transform.scale(pg.image.load(r"resource\image\mapImages\forest\forest13.png"), (400, 400)),
         'forest14': pg.transform.scale(pg.image.load(r"resource\image\mapImages\forest\forest14.png"), (400, 400)),
         'forest15': pg.transform.scale(pg.image.load(r"resource\image\mapImages\forest\forest15.png"), (400, 400)),
+
+        'acceleration': pg.transform.scale(pg.image.load(r"resource\image\interface\acceleration.png"), (32, 32)),
+        'armor': pg.transform.scale(pg.image.load(r"resource\image\interface\armor.png"), (32, 32)),
+        'armor_piercing': pg.transform.scale(pg.image.load(r"resource\image\interface\armor_piercing.png"), (32, 32)),
+        'bullet_damage': pg.transform.scale(pg.image.load(r"resource\image\interface\bullet_damage.png"), (32, 32)),
+        'bullet_life_time': pg.transform.scale(pg.image.load(r"resource\image\interface\bullet_life_time.png"),
+                                               (32, 32)),
+        'bullet_velocity': pg.transform.scale(pg.image.load(r"resource\image\interface\bullet_velocity.png"), (32, 32)),
+        'critical_chance': pg.transform.scale(pg.image.load(r"resource\image\interface\critical_chance.png"), (32, 32)),
+        'critical_coefficient': pg.transform.scale(pg.image.load(r"resource\image\interface\critical_coefficient.png"),
+                                                   (32, 32)),
+        'damage_delay': pg.transform.scale(pg.image.load(r"resource\image\interface\damage_delay.png"), (32, 32)),
+        'delay': pg.transform.scale(pg.image.load(r"resource\image\interface\delay.png"), (32, 32)),
+        'max_velocity': pg.transform.scale(pg.image.load(r"resource\image\interface\max_velocity.png"), (32, 32)),
+        'scatter': pg.transform.scale(pg.image.load(r"resource\image\interface\scatter.png"), (32, 32)),
     }
 
 

@@ -25,7 +25,7 @@ class AchievementsInterface:
         for task in tasksAndAchievements.achievements.values():
             if task["id"] == "kill_1000_enemies":
                 self.list_progress_bar.append(
-                    ProgressBar(1000, task["data"]["count"], task["id"], task["description"],
+                    ProgressBar(1000, task["data"]["count"], task["name"], task["description"],
                                 fulfillment=task["fulfillment"]))
 
         self.button_exit = Button("Exit", np.array([WIDTH / 2, HEIGHT - 100]), np.array([150, 50]),
