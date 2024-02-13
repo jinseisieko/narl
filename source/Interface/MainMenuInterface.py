@@ -47,6 +47,8 @@ class MainMenuInterface:
         self.buttons["Items"] = Button("Items", np.array([200, HEIGHT - 200]), np.array([150, 50]),
                                        font=self.font2)
 
+
+
     def draw(self):
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(self.text1, self.text_rect1)

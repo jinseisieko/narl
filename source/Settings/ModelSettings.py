@@ -2,7 +2,7 @@ import os
 
 from peewee import *
 
-db_name = "resource/players/guest/settings.db"
+db_name = "resource/db/settings.db"
 DB = SqliteDatabase(db_name)
 
 if not os.path.exists(db_name):
@@ -16,6 +16,7 @@ class BaseModel(Model):
 
 
 class Settings(BaseModel):
+    player = CharField()
     master_volume = DoubleField()
     music_volume = DoubleField()
     sfx_volume = DoubleField()
@@ -26,18 +27,3 @@ class Settings(BaseModel):
 if not Settings.table_exists():
     DB.create_tables([Settings])
 
-
-def set_settings_db(name):
-    global DB, db_name
-    db_name = name + "/settings.db"
-    DB = SqliteDatabase(db_name)
-
-    if not os.path.exists(db_name):
-        with open(db_name, "w"):
-            pass
-
-    BaseModel._meta.database = DB
-    Settings._meta.database = DB
-
-    if not Settings.table_exists():
-        DB.create_tables([Settings])

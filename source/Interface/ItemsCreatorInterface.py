@@ -76,8 +76,8 @@ class ItemsCreatorInterface:
             id_ = self.input_id.get()
             name = self.input_name.get()
             description = self.input_description.get()
-            rank = int(self.input_rank.get())
-            blocking = True
+            rank = float(self.input_rank.get())
+            blocked = True
             renewal_plus = {}
             renewal_multiply = {}
             renewal_super = {}
@@ -85,163 +85,164 @@ class ItemsCreatorInterface:
 
             if self.input_renewal_plus_1.get() != "":
                 name_, value = self.input_renewal_plus_1.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_2.get() != "":
                 name_, value = self.input_renewal_plus_2.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_3.get() != "":
                 name_, value = self.input_renewal_plus_3.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_4.get() != "":
                 name_, value = self.input_renewal_plus_4.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_5.get() != "":
                 name_, value = self.input_renewal_plus_5.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_6.get() != "":
                 name_, value = self.input_renewal_plus_6.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_7.get() != "":
                 name_, value = self.input_renewal_plus_7.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_8.get() != "":
                 name_, value = self.input_renewal_plus_8.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_9.get() != "":
                 name_, value = self.input_renewal_plus_9.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_plus_10.get() != "":
                 name_, value = self.input_renewal_plus_10.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_plus[name_] = value
 
             if self.input_renewal_multiply_1.get() != "":
                 name_, value = self.input_renewal_multiply_1.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_2.get() != "":
                 name_, value = self.input_renewal_multiply_2.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_3.get() != "":
                 name_, value = self.input_renewal_multiply_3.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_4.get() != "":
                 name_, value = self.input_renewal_multiply_4.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_5.get() != "":
                 name_, value = self.input_renewal_multiply_5.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_6.get() != "":
                 name_, value = self.input_renewal_multiply_6.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_7.get() != "":
                 name_, value = self.input_renewal_multiply_7.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_8.get() != "":
                 name_, value = self.input_renewal_multiply_8.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_9.get() != "":
                 name_, value = self.input_renewal_multiply_9.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_multiply_10.get() != "":
                 name_, value = self.input_renewal_multiply_10.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_multiply[name_] = value
 
             if self.input_renewal_super_1.get() != "":
                 name_, value = self.input_renewal_super_1.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_2.get() != "":
                 name_, value = self.input_renewal_super_2.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_3.get() != "":
                 name_, value = self.input_renewal_super_3.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_4.get() != "":
                 name_, value = self.input_renewal_super_4.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_5.get() != "":
                 name_, value = self.input_renewal_super_5.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_6.get() != "":
                 name_, value = self.input_renewal_super_6.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_7.get() != "":
                 name_, value = self.input_renewal_super_7.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_8.get() != "":
                 name_, value = self.input_renewal_super_8.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_9.get() != "":
                 name_, value = self.input_renewal_super_9.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             if self.input_renewal_super_10.get() != "":
                 name_, value = self.input_renewal_super_10.get().split()
-                value = int(value)
+                value = float(value)
                 renewal_super[name_] = value
 
             with DB.atomic():
                 if rank == -1:
-                    ItemsBlocked.create(id=id_,
+                    ItemsBlocked.create(player="nan",
+                                        id=id_,
                                         name=name,
                                         description=description,
                                         renewal_plus=json.dumps(renewal_plus),
                                         renewal_multiply=json.dumps(renewal_multiply),
                                         renewal_super=json.dumps(renewal_super),
-                                        blocking=blocking,
+                                        blocked=blocked,
                                         code=code)
                 if rank == 1:
                     ItemsRank1.create(id=id_,

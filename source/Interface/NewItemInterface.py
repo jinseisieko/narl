@@ -19,9 +19,9 @@ class NewItemInterface:
         self.text_rect2 = self.text2.get_rect()
         self.text_rect2.center = np.array([WIDTH / 2, HEIGHT / 2 - 120])
 
-        random_item1, self.rank1 = game.player.characteristics.getitem.get_rank_random(r1=10, r2=5,  r3=5)
-        random_item2, self.rank2 = game.player.characteristics.getitem.get_rank_random(r1=10, r2=5,  r3=5)
-        random_item3, self.rank3 = game.player.characteristics.getitem.get_rank_random(r1=10, r2=5, r3=5)
+        random_item1, self.rank1 = game.player.characteristics.getitem.get_rank_random(r1=15, r2=10,  r3=5)
+        random_item2, self.rank2 = game.player.characteristics.getitem.get_rank_random(r1=15, r2=10,  r3=5)
+        random_item3, self.rank3 = game.player.characteristics.getitem.get_rank_random(r1=15, r2=10, r3=5)
 
         self.random_item1 = random_item1
         self.random_item2 = random_item2

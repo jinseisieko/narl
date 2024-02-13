@@ -46,7 +46,7 @@ class MainWindow:
         self.key_pressed: (list, None) = None
         self.running: bool = True
 
-        self.tasksAndAchievements = TasksAndAchievements()
+        self.tasksAndAchievements = TasksAndAchievements(self)
 
         # Singleton architecture element
         global MAIN_WINDOW

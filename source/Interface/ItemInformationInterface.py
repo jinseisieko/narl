@@ -5,12 +5,13 @@ from source.Constants import WIDTH, HEIGHT
 from source.Interface.Buttons import Button
 from source.Interface.TextNameAndDescription import TextNameAndDescription
 from source.Interface.Video import Video
-from source.Inventory.Items.ItemModel import DB, ItemsRank1, ItemsBlocked, ItemsRank3, ItemsRank2
+from source.Inventory.Items.ItemModel import DB, ItemsRank1, ItemsRank3, ItemsRank2, ItemsBlocked
 
 
 class ItemInformationInterface:
-    def __init__(self, screen, video=Video("resource/video/gameplay1.mov")) -> None:
+    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mov")) -> None:
         super().__init__()
+        self.main_window = main_window
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
         self.video = video
@@ -32,9 +33,12 @@ class ItemInformationInterface:
                 self.list_items.append(TextNameAndDescription(item.name + " - 2", item.description, item.id))
             for item in ItemsRank3.select():
                 self.list_items.append(TextNameAndDescription(item.name + " - 3", item.description, item.id))
-            for item in ItemsBlocked.select():
+
+        with DB.atomic():
+            for item in ItemsBlocked.select().where(ItemsBlocked.player == self.main_window.meta_player.name):
+                print(self.main_window.meta_player.name, item.blocked)
                 self.list_items.append(
-                    TextNameAndDescription(item.name + " - " + "blocked" if item.blocking else "unlocked",
+                    TextNameAndDescription(item.name + " - " + ("blocked" if item.blocked else "unlocked"),
                                            item.description, item.id))
 
         self.button_exit = Button("Exit", np.array([WIDTH / 2, HEIGHT - 100]), np.array([150, 50]),
