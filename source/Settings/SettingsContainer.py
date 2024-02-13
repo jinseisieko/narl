@@ -4,8 +4,9 @@ from source.Settings.SettingsData import *
 
 class SettingsContainer:
 
-    def __init__(self) -> None:
+    def __init__(self, main_window) -> None:
         super().__init__()
+        self.main_window = main_window
         self.text_input_master_volume: str = str(MASTER_VOLUME[0])
         self.text_input_music_volume: str = str(MUSIC_VOLUME[0])
         self.text_input_sfx_volume: str = str(SFX_VOLUME[0])
@@ -14,4 +15,4 @@ class SettingsContainer:
     def update_settings(self):
         update(self.text_input_master_volume, self.text_input_music_volume, self.text_input_sfx_volume,
                self.text_input_max_fps)
-        save_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS)
+        save_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS, self.main_window.meta_player.name)

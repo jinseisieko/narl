@@ -29,7 +29,7 @@ class MainWindow:
         super().__init__()
         self.meta_player = MetaPlayer()
         self.meta_player.init_db()
-        load_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS)
+
         self.fps: int = MAX_FPS[0]
 
         self.screen: pg.Surface = pg.display.set_mode((WIDTH, HEIGHT), flags=pg.NOFRAME, depth=0)

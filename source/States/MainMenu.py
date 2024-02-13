@@ -43,7 +43,7 @@ class MainMenu(InterfaceState):
                 if self.interface_screen.buttons["SettingsButton"].update(mouse_pos):
                     self.main_window.set_state(
                         SettingsFirst(self.screen, self.main_window, video=self.interface_screen.video,
-                                      settings_container=SettingsContainer()))
+                                      settings_container=SettingsContainer(self.main_window)))
                 if self.interface_screen.buttons["Tasks"].update(mouse_pos):
                     self.main_window.set_state(Tasks(self.screen, self.main_window))
                 if self.interface_screen.buttons["ExitButton"].update(mouse_pos):
