@@ -2,16 +2,17 @@ import pygame as pg
 
 from source.Interface.SettingsInterfaceFirst import SettingsInterfaceFirst
 from source.Interface.Video import Video
-from source.Settings.Settings import save_settings
 from source.Settings.SettingsContainer import SettingsContainer
 from source.States.InterfaceState import InterfaceState
 
 
 class SettingsFirst(InterfaceState):
 
-    def __init__(self, screen, main_window, settings_container=SettingsContainer(),
+    def __init__(self, screen, main_window, settings_container=None,
                  video=Video("resource/video/gameplay1.mov")) -> None:
         super().__init__(screen, main_window)
+        if settings_container is None:
+            settings_container = SettingsContainer(main_window)
         self.main_window = main_window
         self.settings_container = settings_container
         self.interface_setting = SettingsInterfaceFirst(screen, container=self.settings_container, video=video)

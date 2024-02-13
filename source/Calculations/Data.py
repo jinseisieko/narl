@@ -37,21 +37,20 @@ def update_data(new_arrays, new_sets):
     global enemies, player_bullets, enemy_bullets, obstacles, player, field, wave, entity_ids, player_bullets_ids, enemy_bullets_ids, obstacles_ids
     enemies[...] = np.array(new_arrays[0], dtype=np.float_)
     player_bullets[...] = np.array(new_arrays[1], dtype=np.float_)
-    # !!!!!!!!!!!! enemy_bullets[...] = np.array(new_arrays[1], dtype=np.float_)
     obstacles[...] = np.array(new_arrays[2], dtype=np.float_)
     player[...] = np.array(new_arrays[3], dtype=np.float_)
     field[...] = np.array(new_arrays[4], dtype=np.float_)
     field[0:2] = player[0, 0:2]
     wave[...] = np.array(new_arrays[5], dtype=np.float_)
-
+    enemy_bullets[...] = np.array(new_arrays[6], dtype=np.float_)
     entity_ids.clear()
     player_bullets_ids.clear()
     enemy_bullets_ids.clear()
     obstacles_ids.clear()
     entity_ids |= set(map(int, new_sets[0]))
     player_bullets_ids |= set(map(int, new_sets[1]))
-    #!!!!!!!!!!! enemy_bullets_ids |= set(map(int, new_sets[1]))
     obstacles_ids |= set(map(int, new_sets[2]))
+    enemy_bullets_ids |= set(map(int, new_sets[3]))
 
 
 def get_data(old_data, old_sets):
@@ -62,11 +61,13 @@ def get_data(old_data, old_sets):
     old_data[3] = player.tolist()
     old_data[4] = field.tolist()
     old_data[5] = wave.tolist()
+    old_data[6] = enemy_bullets.tolist()
     # !!!!!!!!!!!!!!!!!! как сделать это с еще одним массивом
 
     old_sets[0] = np.array(list(entity_ids), dtype=np.float_).tolist()
     old_sets[1] = np.array(list(player_bullets_ids), dtype=np.float_).tolist()
     old_sets[2] = np.array(list(obstacles_ids), dtype=np.float_).tolist()
+    old_sets[3] = np.array(list(enemy_bullets_ids), dtype=np.float_).tolist()
     # !!!!!!!!!!!!!!!!!!!!!!!! как сделать это с еще одним сетом
 
 

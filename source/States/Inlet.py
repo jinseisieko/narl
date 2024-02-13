@@ -4,6 +4,8 @@ import pygame as pg
 from source.Interface.InletInterface import InletInterface
 from source.Interface.Video import Video
 from source.Inventory.Items.ItemModel import init
+from source.Settings.Settings import load_settings
+from source.Settings.SettingsData import MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS
 from source.States.InterfaceState import InterfaceState
 from source.States.MainMenu import MainMenu
 
@@ -34,10 +36,14 @@ class Inlet(InterfaceState):
                     self.main_window.set_state(MainMenu(self.screen, self.main_window))
                     self.main_window.tasksAndAchievements.init()
                     init(self.main_window.meta_player.name)
+                    load_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS,
+                                  self.main_window.meta_player.name)
                 if self.inlet_interface.buttons["SignIn"].update(mouse_pos):
                     self.main_window.meta_player.register(self.inlet_interface.text_input1.get(),
                                                           self.inlet_interface.text_input2.get())
-                    self.main_window.set_state(MainMenu(self.screen, self.main_window, video=self.inlet_interface.video))
+                    self.main_window.set_state(
+                        MainMenu(self.screen, self.main_window, video=self.inlet_interface.video))
                     self.main_window.tasksAndAchievements.init()
                     init(self.main_window.meta_player.name)
-
+                    load_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS,
+                                  self.main_window.meta_player.name)

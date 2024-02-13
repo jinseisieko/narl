@@ -5,7 +5,7 @@ from source.Save.ModelSave import Save, DB
 
 
 def save(game):
-    data, sets = [[] for _ in range(6)], [[] for _ in range(3)]
+    data, sets = [[] for _ in range(7)], [[] for _ in range(4)]
     get_data(data, sets)
 
     with DB.atomic():
