@@ -7,6 +7,7 @@ from source.Interface.MainMenuInterface import MainMenuInterface
 from source.Interface.Video import Video
 from source.Settings.SettingsContainer import SettingsContainer
 from source.States.Achievements import Achievements
+from source.States.EnemiesInformation import EnemiesInformation
 from source.States.InterfaceState import InterfaceState
 from source.States.ItemInformation import ItemInformation
 from source.States.ItemsCreator import ItemsCreator
@@ -55,5 +56,7 @@ class MainMenu(InterfaceState):
                     self.main_window.set_state(Achievements(self.screen, self.main_window))
                 if self.interface_screen.buttons["Items"].update(mouse_pos):
                     self.main_window.set_state(ItemInformation(self.screen, self.main_window))
+                if self.interface_screen.buttons["Enemies"].update(mouse_pos):
+                    self.main_window.set_state(EnemiesInformation(self.screen, self.main_window))
 
 

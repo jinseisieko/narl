@@ -9,6 +9,7 @@ from source.Image.InitializationForItems import init_images_for_items
 from source.MetaPlayer.MetaPlayer import MetaPlayer
 from source.Settings.Settings import load_settings
 from source.Settings.SettingsData import *
+from source.States.EnemiesInformation import EnemiesInformation
 from source.States.Inlet import Inlet
 from source.States.InterfaceState import InterfaceState
 from source.States.Loading import Loading
