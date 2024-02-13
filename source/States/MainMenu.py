@@ -8,6 +8,7 @@ from source.Interface.Video import Video
 from source.Settings.SettingsContainer import SettingsContainer
 from source.States.Achievements import Achievements
 from source.States.InterfaceState import InterfaceState
+from source.States.ItemInformation import ItemInformation
 from source.States.ItemsCreator import ItemsCreator
 from source.States.SettingsFirst import SettingsFirst
 from source.States.Tasks import Tasks
@@ -52,4 +53,7 @@ class MainMenu(InterfaceState):
                     self.main_window.set_state(ItemsCreator(self.screen, self.main_window))
                 if self.interface_screen.buttons["Achievements"].update(mouse_pos):
                     self.main_window.set_state(Achievements(self.screen, self.main_window))
+                if self.interface_screen.buttons["Items"].update(mouse_pos):
+                    self.main_window.set_state(ItemInformation(self.screen, self.main_window))
+
 

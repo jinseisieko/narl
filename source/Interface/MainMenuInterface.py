@@ -41,8 +41,11 @@ class MainMenuInterface:
         self.buttons["ItemsCreator"] = Button("ItemsCreator", np.array([200, HEIGHT - 70]), np.array([170, 50]),
                                               font=self.font2)
 
-        self.buttons["Achievements"] = Button("Achievements", np.array([WIDTH-200, HEIGHT - 70]), np.array([180, 50]),
+        self.buttons["Achievements"] = Button("Achievements", np.array([WIDTH - 200, HEIGHT - 70]), np.array([180, 50]),
                                               font=self.font2)
+
+        self.buttons["Items"] = Button("Items", np.array([200, HEIGHT - 200]), np.array([150, 50]),
+                                       font=self.font2)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
