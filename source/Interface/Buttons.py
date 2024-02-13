@@ -6,8 +6,8 @@ class Button:
     def __init__(self, text, pos, half_size, color1="#000000", color2="#7452ff", font=None):
         self.half_size = half_size
         self.pos = pos
-        self.background = pg.Surface(2 * self.half_size)
-        self.background.fill(color1)
+        self.background = pg.Surface(2 * self.half_size, pygame.SRCALPHA)
+        pg.draw.rect(self.background, color1, (0, 0, *2 * half_size), border_radius=20)
         self.font = font
         if font is None:
             self.font = pg.font.Font(None, 90)
