@@ -7,8 +7,8 @@ from source.PlayerIndexes import *
 
 
 class Player:
-    def __init__(self, image) -> None:
-        self.characteristics = Characteristics()
+    def __init__(self, main_window, image) -> None:
+        self.characteristics = Characteristics(main_window)
         self.matrix = self.characteristics.characteristics
         self.image = Image(self.matrix[0][2], self.matrix[0][3], image)
         self.animate_damage = pga.PygAnimation((("resource/image/playerImages/damage1.png", 100),
@@ -28,9 +28,13 @@ class Player:
         self.update_characteristics()
 
     def update_characteristics(self):
+        if self.matrix[0][size_x] < 7:
+            self.matrix[0][size_x] = 7
+        if self.matrix[0][size_y] < 7:
+            self.matrix[0][size_y] = 7
         self.image.resize(self.matrix[0][size_x], self.matrix[0][size_y])
         self.matrix[0][hp] = min(self.matrix[0][hp], self.matrix[0][max_hp])
-        self.matrix[0][delay] = max(0.01, self.matrix[0][delay])
+        self.matrix[0][delay] = max(0.005, self.matrix[0][delay])
         self.matrix[0][slowdown] = self.matrix[0][acceleration] * PLAYER_SLOWDOWN_FACTOR
         self.animate_damage.scale(*self.matrix[..., 2:4] * 2)
 

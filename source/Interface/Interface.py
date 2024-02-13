@@ -57,7 +57,7 @@ class Interface:
             screen.blit(get_images_for_game()[name],
                         (COORD_CHARACTERISTICS_INTERFACE_X,
                          COORD_CHARACTERISTICS_INTERFACE_Y + INDENT_CHARACTERISTICS_INTERFACE * i))
-            screen.blit(self.font.render(str(self.player[0][j])[:7], True, "#3A2980"),
+            screen.blit(self.font.render(str(self.player[0][j])[:7] if self.player[0][j] > 1e-4 else "0", True, "#3A2980"),
                         (COORD_CHARACTERISTICS_INTERFACE_X + 33,
                          COORD_CHARACTERISTICS_INTERFACE_Y + INDENT_CHARACTERISTICS_INTERFACE * i))
 

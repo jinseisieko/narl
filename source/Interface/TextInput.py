@@ -1,3 +1,5 @@
+import pyperclip
+
 from source.Settings.SettingsData import *
 
 
@@ -23,6 +25,8 @@ class TextInput:
         self.half_size = np.array([self.width // 2, self.height // 2])
         self.active = False
 
+        self.ctrl = False
+
     def handle_event(self, event) -> None:
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -33,8 +37,15 @@ class TextInput:
                 else:
                     self.active = False
         if self.active:
+            if event.type == pg.KEYUP:
+                if event.key == pg.KMOD_CTRL or event.key == pg.K_LCTRL:
+                    self.ctrl = False
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_BACKSPACE:
+                if event.key == pg.KMOD_CTRL or event.key == pg.K_LCTRL:
+                    self.ctrl = True
+                elif event.key == pg.K_v and self.ctrl:
+                    self.text += pyperclip.paste()
+                elif event.key == pg.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
                     self.text += event.unicode

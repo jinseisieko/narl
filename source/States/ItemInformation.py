@@ -10,7 +10,7 @@ class ItemInformation(InterfaceState):
     def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mov")) -> None:
         super().__init__(screen, main_window)
 
-        self.itemInformation_interface = ItemInformationInterface(screen, video)
+        self.itemInformation_interface = ItemInformationInterface(screen, main_window, video)
 
         self.movement = False
         self.last_mouse_pos = pg.mouse.get_pos()

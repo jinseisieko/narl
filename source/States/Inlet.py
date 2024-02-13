@@ -3,6 +3,7 @@ import pygame as pg
 
 from source.Interface.InletInterface import InletInterface
 from source.Interface.Video import Video
+from source.Inventory.Items.ItemModel import init
 from source.States.InterfaceState import InterfaceState
 from source.States.MainMenu import MainMenu
 
@@ -31,18 +32,12 @@ class Inlet(InterfaceState):
                     self.main_window.meta_player.set(self.inlet_interface.text_input1.get(),
                                                      self.inlet_interface.text_input2.get())
                     self.main_window.set_state(MainMenu(self.screen, self.main_window))
+                    self.main_window.tasksAndAchievements.init()
+                    init(self.main_window.meta_player.name)
                 if self.inlet_interface.buttons["SignIn"].update(mouse_pos):
                     self.main_window.meta_player.register(self.inlet_interface.text_input1.get(),
                                                           self.inlet_interface.text_input2.get())
                     self.main_window.set_state(MainMenu(self.screen, self.main_window, video=self.inlet_interface.video))
-                # if self.interface_screen.buttons["ContinueButton"].update(mouse_pos):
-                #     self.main_window.change_state("MainGameMode", data=1)
-                # if self.interface_screen.buttons["StartButton"].update(mouse_pos):
-                #     self.main_window.change_state("MainGameMode", data=0)
-                # if self.interface_screen.buttons["ArcadeButton"].update(mouse_pos):
-                #     pass
-                # if self.interface_screen.buttons["SettingsButton"].update(mouse_pos):
-                #     self.main_window.set_state(Settings(self.screen, self.main_window))
-                # if self.interface_screen.buttons["ExitButton"].update(mouse_pos):
-                #     self.main_window.running = False
-                #     time.sleep(0.2)
+                    self.main_window.tasksAndAchievements.init()
+                    init(self.main_window.meta_player.name)
+

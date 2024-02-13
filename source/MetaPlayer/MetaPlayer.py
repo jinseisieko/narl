@@ -2,9 +2,9 @@ import os
 
 from peewee import *
 
-from source.Save.ModelSave import set_save_db
-from source.Settings.ModelSettings import set_settings_db
-from source.TasksAndAchievements.TasksAndAchievementsModel import set_tasksAndAchievements_db
+
+
+
 
 db_name = "resource/db/players.db"
 DB = SqliteDatabase(db_name)
@@ -34,9 +34,7 @@ class MetaPlayer:
         self.name = "guest"
 
     def init_db(self):
-        set_save_db(f"resource/players/{self.name}")
-        set_tasksAndAchievements_db(f"resource/players/{self.name}")
-        set_settings_db(f"resource/players/{self.name}")
+        ...
 
     def set(self, name, password):
         with DB.atomic():
@@ -47,7 +45,6 @@ class MetaPlayer:
                     self.init_db()
 
     def register(self, name, password):
-        os.mkdir(fr"resource/players/{name}/")
         with DB.atomic():
             select = Player.select().where(Player.name == name)
             if not select:

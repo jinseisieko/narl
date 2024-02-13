@@ -11,8 +11,9 @@ from source.PlayerIndexes import *
 
 
 class Characteristics:
-    def __init__(self, mods: (list, None) = None) -> None:
+    def __init__(self, main_window, mods: (list, None) = None) -> None:
         super().__init__()
+        self.main_window = main_window
 
         if mods is None:
             self.mods = []
@@ -44,36 +45,36 @@ class Characteristics:
                                                                               vx=self.characteristics[0][vx],
                                                                               vy=self.characteristics[0][vy],
                                                                               max_velocity=self.characteristics[0][
-                                                                                   max_velocity],
+                                                                                  max_velocity],
                                                                               slowdown=self.characteristics[0][
-                                                                                   slowdown],
+                                                                                  slowdown],
                                                                               acceleration=self.characteristics[0][
-                                                                                   acceleration],
+                                                                                  acceleration],
                                                                               max_hp=self.characteristics[0][max_hp],
                                                                               armor=self.characteristics[0][armor],
                                                                               delay=self.characteristics[0][delay],
                                                                               armor_piercing=self.characteristics[0][
-                                                                                   armor_piercing],
+                                                                                  armor_piercing],
                                                                               bullet_size_x=self.characteristics[0][
-                                                                                   bullet_size_x],
+                                                                                  bullet_size_x],
                                                                               bullet_size_y=self.characteristics[0][
-                                                                                   bullet_size_y],
+                                                                                  bullet_size_y],
                                                                               bullet_damage=self.characteristics[0][
-                                                                                   bullet_damage],
+                                                                                  bullet_damage],
                                                                               critical_coefficient=
-                                                                               self.characteristics[0][
-                                                                                   critical_coefficient],
+                                                                              self.characteristics[0][
+                                                                                  critical_coefficient],
                                                                               critical_chance=self.characteristics[0][
-                                                                                   critical_chance],
+                                                                                  critical_chance],
                                                                               scatter=self.characteristics[0][scatter],
                                                                               bullet_life_time=self.characteristics[0][
-                                                                                   bullet_life_time],
+                                                                                  bullet_life_time],
                                                                               bullet_velocity=self.characteristics[0][
-                                                                                   bullet_velocity],
+                                                                                  bullet_velocity],
                                                                               damage_delay=self.characteristics[0][
-                                                                                   damage_delay],
+                                                                                  damage_delay],
                                                                               bullet_bouncing=self.characteristics[0][
-                                                                                   bullet_bouncing])
+                                                                                  bullet_bouncing])
 
         for key, value in new_characteristics.items():
             exec(f"self.characteristics[0][{key}] = {value}")
@@ -106,10 +107,10 @@ class Characteristics:
                                          renewal_super=json.loads(item.renewal_super), name=item.name,
                                          description=item.description, code=item.code, blocking=False)
 
-            select_ = ItemsBlocked.select()
+            select_ = ItemsBlocked.select().where(ItemsBlocked.player == self.main_window.meta_player.name)
             for item in select_:
-                self.getitem.add(item.id, -1)
+                self.getitem.add(item.id, -1, item.blocked)
                 self.itemsPrototypes.add(-1, item.id, renewal_plus=json.loads(item.renewal_plus),
                                          renewal_multiply=json.loads(item.renewal_multiply),
                                          renewal_super=json.loads(item.renewal_super), name=item.name,
-                                         description=item.description, code=item.code, blocking=item.blocking)
+                                         description=item.description, code=item.code, blocking=item.blocked)

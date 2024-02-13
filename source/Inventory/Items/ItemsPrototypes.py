@@ -71,11 +71,11 @@ class ItemsPrototypes:
             description: str = None, code: str = '', blocking: bool = False):
         if rank == 1:
             return self.add_rank_1(id_, renewal_plus, renewal_multiply, renewal_super, name, description, code)
-        if rank == 2:
+        elif rank == 2:
             return self.add_rank_2(id_, renewal_plus, renewal_multiply, renewal_super, name, description, code)
-        if rank == 3:
+        elif rank == 3:
             return self.add_rank_3(id_, renewal_plus, renewal_multiply, renewal_super, name, description, code)
-        if rank == -1:
+        elif rank == -1:
             return self.add_blocked(id_, renewal_plus, renewal_multiply, renewal_super, name, description, code,
                                     blocking)
 
@@ -98,3 +98,9 @@ class ItemsPrototypes:
                 raise ExceptionNotFoundName(f'this id_ is not found in the catalog_rank_3: {id_}')
 
             return copy.deepcopy(self.catalog_rank_3[id_])
+
+        if rank == -1:
+            if not (id_ in self.catalog_blocked_not_blocking):
+                raise ExceptionNotFoundName(f'this id_ is not found in the catalog_blocked_not_blocking: {id_}')
+
+            return copy.deepcopy(self.catalog_blocked_not_blocking[id_])

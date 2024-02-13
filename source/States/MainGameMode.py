@@ -37,7 +37,7 @@ class MainGameMode(InterfaceState, Data):
         self.start_level(level)
         self.screen: pg.Surface = screen
 
-        self.player: Player = Player(get_images_for_game()["test_player"])
+        self.player: Player = Player(self.main_window, get_images_for_game()["test_player"])
 
         self.enemy_set: set = set()
         self.bullet_set: set = set()
@@ -133,7 +133,7 @@ class MainGameMode(InterfaceState, Data):
 
     def check_events(self, event):
         if self.main_window.key_pressed[pg.K_y]:
-            self.player.add_item(*self.player.characteristics.getitem.get_rank_random(r1=10, r2=5, r3=1000))
+            self.player.add_item(*self.player.characteristics.getitem.get_rank_random())
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.shooting = True
@@ -181,7 +181,7 @@ class MainGameMode(InterfaceState, Data):
             self.player.animate_damage_play()
             self.sound_effect.player_damage()
         elif res == 2:
-            delete_all_save()
+            delete_all_save(self.main_window.meta_player.name)
             self.sound_effect.player_death()
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
@@ -221,9 +221,9 @@ class MainGameMode(InterfaceState, Data):
                 wave[3] -= 1
                 self.enemy_set.remove(x)
                 x.kill()
-                self.main_window.tasksAndAchievements.kill_100_enemies(1)
-                self.main_window.tasksAndAchievements.kill_1000_enemies(1)
                 if x.matrix[x.Id, 8] != 5:
+                    self.main_window.tasksAndAchievements.kill_100_enemies(1)
+                    self.main_window.tasksAndAchievements.kill_1000_enemies(1)
                     wave[8] += 1
                     player[0, 28] += 1
                     self.sound_effect.kill_enemy()

@@ -1,9 +1,7 @@
 import json
 
 from source.Calculations.Data import get_data, update_data
-from source.Save.ModelSave import Save, get_db
-
-DB = get_db()
+from source.Save.ModelSave import Save, DB
 
 
 def save(game):
@@ -11,13 +9,14 @@ def save(game):
     get_data(data, sets)
 
     with DB.atomic():
-        Save.create(data=str(data), sets=str(sets),
+        print(DB.database)
+        Save.create(player=game.main_window.meta_player.name, data=str(data), sets=str(sets),
                     items=str(game.player.characteristics.item_names).replace("'", '"'))
 
 
 def load(game):
     with DB.atomic():
-        saves_ = Save.select()
+        saves_ = Save.select().where(Save.player == game.main_window.meta_player.name)
         if len(saves_) == 0:
             return 0
         save_ = saves_[-1]
@@ -27,7 +26,7 @@ def load(game):
         return 1
 
 
-def delete_all_save():
+def delete_all_save(name):
     with DB.atomic():
-        for obj in Save.select():
+        for obj in Save.select().where(Save.player == name):
             obj.delete_instance()
