@@ -11,7 +11,6 @@ from source.Settings.Settings import load_settings
 from source.Settings.SettingsData import *
 from source.States.Inlet import Inlet
 from source.States.InterfaceState import InterfaceState
-from source.States.ItemsCreator import ItemsCreator
 from source.States.Loading import Loading
 from source.States.MainGameMode import MainGameMode
 from source.States.MainMenu import MainMenu
