@@ -5,7 +5,8 @@ default_bullet = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np
 default_obstacle = np.array([-3000, -3000, 0, 0], dtype=np.float_)
 
 enemies = np.tile(default_enemy, (MAX_ENEMIES, 1))
-bullets = np.tile(default_bullet, (MAX_BULLETS, 1))
+player_bullets = np.tile(default_bullet, (MAX_PLAYER_BULLETS, 1))
+enemy_bullets = np.tile(default_bullet, (MAX_ENEMY_BULLETS, 1))
 obstacles = np.tile(default_obstacle, (MAX_OBSTACLES, 1))
 player = np.array([[1000, 1000, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0, PLAYER_MAX_VELOCITY,
                     PLAYER_SLOWDOWN, PLAYER_ACCELERATION, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_DELAY,
@@ -27,14 +28,16 @@ types = np.array([
 ])
 
 entity_ids = set(range(MAX_ENEMIES))
-bullet_ids = set(range(MAX_BULLETS))
+player_bullets_ids = set(range(MAX_PLAYER_BULLETS))
+enemy_bullets_ids = set(range(MAX_ENEMY_BULLETS))
 obstacles_ids = set(range(MAX_OBSTACLES))
 
 
 def update_data(new_arrays, new_sets):
-    global enemies, bullets, obstacles, player, field, wave, entity_ids, bullet_ids, obstacles_ids
+    global enemies, player_bullets, enemy_bullets, obstacles, player, field, wave, entity_ids, player_bullets_ids, enemy_bullets_ids, obstacles_ids
     enemies[...] = np.array(new_arrays[0], dtype=np.float_)
-    bullets[...] = np.array(new_arrays[1], dtype=np.float_)
+    player_bullets[...] = np.array(new_arrays[1], dtype=np.float_)
+    # !!!!!!!!!!!! enemy_bullets[...] = np.array(new_arrays[1], dtype=np.float_)
     obstacles[...] = np.array(new_arrays[2], dtype=np.float_)
     player[...] = np.array(new_arrays[3], dtype=np.float_)
     field[...] = np.array(new_arrays[4], dtype=np.float_)
@@ -42,31 +45,36 @@ def update_data(new_arrays, new_sets):
     wave[...] = np.array(new_arrays[5], dtype=np.float_)
 
     entity_ids.clear()
-    bullet_ids.clear()
+    player_bullets_ids.clear()
+    enemy_bullets_ids.clear()
     obstacles_ids.clear()
     entity_ids |= set(map(int, new_sets[0]))
-    bullet_ids |= set(map(int, new_sets[1]))
+    player_bullets_ids |= set(map(int, new_sets[1]))
+    #!!!!!!!!!!! enemy_bullets_ids |= set(map(int, new_sets[1]))
     obstacles_ids |= set(map(int, new_sets[2]))
 
 
 def get_data(old_data, old_sets):
-    global enemies, bullets, obstacles, player, field, wave, entity_ids, bullet_ids, obstacles_ids
+    global enemies, player_bullets, enemy_bullets, obstacles, player, field, wave, entity_ids, player_bullets_ids, enemy_bullets_ids, obstacles_ids
     old_data[0] = enemies.tolist()
-    old_data[1] = bullets.tolist()
+    old_data[1] = player_bullets.tolist()
     old_data[2] = obstacles.tolist()
     old_data[3] = player.tolist()
     old_data[4] = field.tolist()
     old_data[5] = wave.tolist()
+    # !!!!!!!!!!!!!!!!!! как сделать это с еще одним массивом
 
     old_sets[0] = np.array(list(entity_ids), dtype=np.float_).tolist()
-    old_sets[1] = np.array(list(bullet_ids), dtype=np.float_).tolist()
+    old_sets[1] = np.array(list(player_bullets_ids), dtype=np.float_).tolist()
     old_sets[2] = np.array(list(obstacles_ids), dtype=np.float_).tolist()
+    # !!!!!!!!!!!!!!!!!!!!!!!! как сделать это с еще одним сетом
 
 
 def clear_data():
-    global enemies, bullets, obstacles, player, field, wave, entity_ids, bullet_ids, obstacles_ids
+    global enemies, player_bullets, enemy_bullets, obstacles, player, field, wave, entity_ids, player_bullets_ids, enemy_bullets_ids, obstacles_ids
     enemies[...] = np.tile(default_enemy, (MAX_ENEMIES, 1))
-    bullets[...] = np.tile(default_bullet, (MAX_BULLETS, 1))
+    player_bullets[...] = np.tile(default_bullet, (MAX_PLAYER_BULLETS, 1))
+    enemy_bullets[...] = np.tile(default_bullet, (MAX_ENEMY_BULLETS, 1))
     obstacles[...] = np.tile(default_obstacle, (MAX_OBSTACLES, 1))
     player[...] = np.array(
         [[FIELD_WIDTH / 2, FIELD_HEIGHT / 2, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0,
@@ -82,8 +90,10 @@ def clear_data():
     wave[...] = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float_)
 
     entity_ids.clear()
-    bullet_ids.clear()
+    player_bullets_ids.clear()
+    enemy_bullets_ids.clear()
     obstacles_ids.clear()
     entity_ids |= set(range(MAX_ENEMIES))
-    bullet_ids |= set(range(MAX_BULLETS))
+    player_bullets_ids |= set(range(MAX_PLAYER_BULLETS))
+    enemy_bullets_ids |= set(range(MAX_ENEMY_BULLETS))
     obstacles_ids |= set(range(MAX_OBSTACLES))

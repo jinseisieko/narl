@@ -80,8 +80,8 @@ class MainGameMode(InterfaceState, Data):
                 self.make_borders()
                 for x in set(range(0, MAX_ENEMIES)) - entity_ids:
                     self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
-                for x in set(range(0, MAX_BULLETS)) - bullet_ids:
-                    self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", bullet_ids))
+                for x in set(range(0, MAX_PLAYER_BULLETS)) - player_bullets_ids:
+                    self.bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
                 for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
                     self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
             else:
@@ -161,11 +161,11 @@ class MainGameMode(InterfaceState, Data):
     def shoot(self):
         player[0, 25] = min(player[0, 13], player[0, 25] + self.main_window.dt)
         if self.shooting:
-            Id = calc_shooting(player, bullets, np.array(pg.mouse.get_pos()), field, np.array(list(bullet_ids)),
-                               self.main_window.dt)
+            Id = calc_player_shooting(player, player_bullets, np.array(pg.mouse.get_pos()), field, np.array(list(player_bullets_ids)),
+                                      self.main_window.dt)
             for x in Id:
-                self.bullet_set.add(DefaultBullet(bullets, x, "test_bullet", bullet_ids))
-                bullet_ids.remove(x)
+                self.bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
+                player_bullets_ids.remove(x)
 
     def spawn(self):
         wave[2] = min(wave[1], wave[2] + self.main_window.dt)
@@ -192,16 +192,21 @@ class MainGameMode(InterfaceState, Data):
 
             calc_enemy_direction(enemies, *player[0, 0:2])
             calc_movements(enemies, self.main_window.dt)
-            calc_bullet_movements(bullets, self.main_window.dt, default_bullet)
-            calc_killing_enemies(enemies, field, default_enemy)
-            self.shoot()
+            calc_bullet_movements(player_bullets, self.main_window.dt, default_bullet)
+            calc_bullet_movements(enemy_bullets, self.main_window.dt, default_bullet)
 
             calc_collisions(enemies, COLLISIONS_REPELLING, self.main_window.dt)
             calc_obstacles(enemies, obstacles, default_enemy)
-            calc_obstacles(bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
+            calc_obstacles(player_bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
+            calc_obstacles(enemy_bullets, obstacles, default_bullet, kill=True, bounce=True)
             calc_obstacles(player, obstacles, np.array([]))
 
-            calc_damage(enemies, bullets, player, default_enemy, default_bullet)
+            calc_killing_enemies(enemies, field, default_enemy)
+            self.shoot()
+
+            calc_enemy_shooting(enemies, enemy_bullets, player, field, enemy_bullets_ids, self.main_window.dt)
+
+            calc_damage(enemies, player_bullets, player, default_enemy, default_bullet)
             self.damage_player()
 
             calc_cameraman(player, field, self.main_window.dt)

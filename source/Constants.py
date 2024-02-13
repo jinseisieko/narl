@@ -64,7 +64,8 @@ FONT_COUNT_OBJECTS: tuple[(None, str), int] = (None, 27)
 CLOCK: pygame.time.Clock = pygame.time.Clock()
 
 MAX_ENEMIES: np.int_ = np.int_(100)
-MAX_BULLETS: np.int_ = np.int_(300)
+MAX_PLAYER_BULLETS: np.int_ = np.int_(300)
+MAX_ENEMY_BULLETS: np.int_ = np.int_(300)
 MAX_OBSTACLES: np.int_ = np.int_(100)
 
 SIZE_HP_INTERFACE_Y: int = HEIGHT // 2

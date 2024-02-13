@@ -165,7 +165,7 @@ def calc_obstacles(entities: np.ndarray, obstacles: np.ndarray, default_data: np
         entities[ind_y[1], 7] = 0
 
 
-def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_) -> np.int_:
+def calc_player_damage(entities: np.ndarray, player: np.ndarray, dt: np.float_) -> np.int_:
     max_dist_x: np.ndarray
     max_dist_y: np.ndarray
     dist_x: np.ndarray
@@ -176,13 +176,13 @@ def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_) -
     player[..., 24] -= dt
 
     if player[0, 24] <= 0:
-        max_dist_x = enemies[..., 2] + player[..., 2][..., np.newaxis]
-        max_dist_y = enemies[..., 3] + player[..., 3][..., np.newaxis]
-        dist_x = enemies[..., 0] - player[..., 0][..., np.newaxis]
-        dist_y = enemies[..., 1] - player[..., 1][..., np.newaxis]
+        max_dist_x = entities[..., 2] + player[..., 2][..., np.newaxis]
+        max_dist_y = entities[..., 3] + player[..., 3][..., np.newaxis]
+        dist_x = entities[..., 0] - player[..., 0][..., np.newaxis]
+        dist_y = entities[..., 1] - player[..., 1][..., np.newaxis]
         indices = np.where((np.abs(dist_x) < max_dist_x) & (np.abs(dist_y) < max_dist_y))[1]
         indices = np.resize(indices, np.max(indices.shape[0]))
-        damage = np.maximum(0, np.sum(enemies[indices, 5], axis=0) - player[0, 12])
+        damage = np.maximum(0, np.sum(entities[indices, 5], axis=0) - player[0, 12])
         player[0, 4] -= damage
         if player[0, 4] <= 0:
             return 2
@@ -193,8 +193,9 @@ def calc_player_damage(enemies: np.ndarray, player: np.ndarray, dt: np.float_) -
     return 0
 
 
-def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray, Id: np.ndarray,
-                  dt: np.float_) -> np.ndarray:
+def calc_player_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray,
+                         Id: np.ndarray,
+                         dt: np.float_) -> np.ndarray:
     quotient: np.float_
     amount: np.float_
     arange: np.ndarray
@@ -227,6 +228,11 @@ def calc_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray
 
         return indices
     return np.array([])
+
+
+def calc_enemy_shooting(enemy: np.ndarray, bullets: np.ndarray, player: np.ndarray, field: np.ndarray, Id: np.ndarray,
+                        dt: np.float_) -> np.ndarray:
+    ...
 
 
 def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,

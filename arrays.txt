@@ -58,7 +58,21 @@ player
  need_exp
  ]
 
-bullet
+player_bullet
+[[x]
+ [y]
+ [size_x]
+ [size_y]
+ [hp]
+ [damage]
+ [vx]
+ [vy]
+ [kill]
+ [pass_time]
+ [live_time]
+ [armor_piercing]]
+
+ enemy_bullet
 [[x]
  [y]
  [size_x]
@@ -76,8 +90,7 @@ obstacles <- entity
 [[x]
  [y]
  [size_x]
- [size_y]
- [cos]]
+ [size_y]]
 
 
 filed

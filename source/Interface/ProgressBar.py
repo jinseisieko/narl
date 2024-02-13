@@ -16,7 +16,7 @@ class ProgressBar:
         self.max_ = max_
         self.dt_ = dt_
         self.name = name
-        self.description = description
+        self.description = " " + description + " "
 
         self.progress_bar = pg.Surface((w * 2, h * 2)).convert_alpha()
         self.progress_bar.fill((0, 0, 0, 0))
@@ -34,11 +34,13 @@ class ProgressBar:
     def draw(self, screen, x, y):
         screen.blit(self.progress_bar, (x - self.w, y))
         if self.description_:
-            pg.draw.rect(screen, (255, 255, 255),
-                         (x + self.w - self.text_description.get_width(), y + self.h//2, self.text_description.get_width(),
+            pg.draw.rect(screen, "#9289fe",
+                         (x + self.w - self.text_description.get_width(), y + self.h // 2,
+                          self.text_description.get_width(),
                           self.text_description.get_height()))
-            screen.blit(self.text_description, (x + self.w - self.text_description.get_width(), y + self.h//2, self.text_description.get_width(),
-                          self.text_description.get_height()))
+            screen.blit(self.text_description, (
+            x + self.w - self.text_description.get_width(), y + self.h // 2, self.text_description.get_width(),
+            self.text_description.get_height()))
 
     def update(self, mouse_pos, x, y):
         if len(np.where(np.abs(mouse_pos - np.array((x, y + self.h))) <= np.array((self.w, self.h)))[0]) == 2:
