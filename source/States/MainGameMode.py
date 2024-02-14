@@ -40,7 +40,8 @@ class MainGameMode(InterfaceState, Data):
         self.player: Player = Player(self.main_window, get_images_for_game()["test_player"])
 
         self.enemy_set: set = set()
-        self.bullet_set: set = set()
+        self.player_bullet_set: set = set()
+        self.enemy_bullet_set: set = set()
         self.obstacle_set: set = set()
 
         self.console = ConsoleInter(self, 100, 10)
@@ -81,7 +82,7 @@ class MainGameMode(InterfaceState, Data):
                 for x in set(range(0, MAX_ENEMIES)) - entity_ids:
                     self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
                 for x in set(range(0, MAX_PLAYER_BULLETS)) - player_bullets_ids:
-                    self.bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
+                    self.player_bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
                 for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
                     self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
             else:
@@ -161,10 +162,11 @@ class MainGameMode(InterfaceState, Data):
     def shoot(self):
         player[0, 25] = min(player[0, 13], player[0, 25] + self.main_window.dt)
         if self.shooting:
-            Id = calc_player_shooting(player, player_bullets, np.array(pg.mouse.get_pos()), field, np.array(list(player_bullets_ids)),
+            Id = calc_player_shooting(player, player_bullets, np.array(pg.mouse.get_pos()), field,
+                                      np.array(list(player_bullets_ids)),
                                       self.main_window.dt)
             for x in Id:
-                self.bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
+                self.player_bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
                 player_bullets_ids.remove(x)
 
     def spawn(self):
@@ -184,6 +186,20 @@ class MainGameMode(InterfaceState, Data):
             delete_all_save(self.main_window.meta_player.name)
             self.sound_effect.player_death()
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
+
+    def boss_mechanics(self):
+        enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
+        calc_boss_direction_(boss, player)
+        calc_movements(enemies, self.main_window.dt)
+        boss[0, 13] = min(player[0, 12], player[0, 13] + self.main_window.dt)
+
+        Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)), self.main_window.dt)
+        for x in Id:
+            self.enemy_bullet_set.add(DefaultBullet(enemy_bullets, x, "test_bullet", enemy_bullets_ids))
+            enemy_bullets_ids.remove(x)
+
+
+
 
     def calc_calculations(self):
         if not self.pause:
@@ -212,9 +228,9 @@ class MainGameMode(InterfaceState, Data):
             calc_cameraman(player, field, self.main_window.dt)
 
     def draw_or_kill(self):
-        for x in self.bullet_set.copy():
+        for x in self.player_bullet_set.copy():
             if x.matrix[x.Id, 8] > 0:
-                self.bullet_set.remove(x)
+                self.player_bullet_set.remove(x)
                 x.kill()
             else:
                 x.draw(self.field.field)

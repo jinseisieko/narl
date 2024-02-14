@@ -57,10 +57,6 @@ def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float
     player[..., 0] += player[..., 6] * dt
     player[..., 1] += player[..., 7] * dt
 
-def calc_boss_shooting(boss:np.ndarray, player:np.ndarray, dt:np.float_):
-
-
-
 
 def calc_collisions(enemies: np.ndarray, COLLISIONS_REPELLING: np.float_, dt: np.float_) -> None:
     max_dist_x: np.ndarray
@@ -197,9 +193,52 @@ def calc_player_damage(entities: np.ndarray, player: np.ndarray, dt: np.float_) 
     return 0
 
 
+def calc_boss_shooting(boss: np.ndarray, enemy_bullets: np.ndarray, player: np.ndarray,
+                       Id: np.ndarray, dt: np.float_) -> np.ndarray:
+    quotient: np.float_
+    amount: np.float_
+    arange: np.ndarray
+    data: np.ndarray
+    angle: np.ndarray
+    indices: np.ndarray
+
+    boss[0, 13] -= dt
+    quotient, boss[0, 13] = np.divmod(boss[0, 13] + dt, boss[0, 12])
+    amount = np.int_(np.minimum(quotient, Id.shape[0]))
+    arange = np.arange(amount, dtype=np.int_)
+
+    if amount > 0:
+        data = np.tile(np.array([boss[0], boss[1], 20, 20, 1, 10 + 5 * boss[14],
+                                 0, 0, 0, 0, 3, 4 * boss[14]], dtype=np.float_), (amount, 1))
+
+        goal_pos = np.ndarray([player[0, 0], player[0, 1]], dtype=np.float_)
+        angle = np.arctan2(goal_pos[1] - boss[1], goal_pos[0] - boss[0]) \
+                + boss[9] * (np.random.random(amount) - 0.5) * 2
+
+        data[..., 6] = (1200 + boss[14]) * np.cos(angle[...]) + boss[6]
+        data[..., 7] = (1200 + boss[14]) * np.sin(angle[...]) + boss[7]
+
+        arange = np.tile(arange[..., np.newaxis], (1, 2))
+        data[..., 0:2] += data[..., 6:8] * boss[12] * arange
+
+        indices = np.resize(Id, amount)
+
+        enemy_bullets[indices] = data
+
+        return indices
+    return np.array([])
+
+
+def calc_boss_direction_(boss: np.ndarray, player: np.ndarray):
+    angle: np.ndarray
+
+    angle = np.arctan2(player[..., 1] - boss[1], player[..., 0], - boss[0])
+    boss[..., 6] = np.cos(angle) * boss[..., 9]
+    boss[..., 7] = np.sin(angle) * boss[..., 9]
+
+
 def calc_player_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.ndarray, field: np.ndarray,
-                         Id: np.ndarray,
-                         dt: np.float_) -> np.ndarray:
+                         Id: np.ndarray, dt: np.float_) -> np.ndarray:
     quotient: np.float_
     amount: np.float_
     arange: np.ndarray
@@ -234,9 +273,15 @@ def calc_player_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.
     return np.array([])
 
 
-def calc_enemy_shooting(enemy: np.ndarray, bullets: np.ndarray, player: np.ndarray, field: np.ndarray, Id: np.ndarray,
-                        dt: np.float_) -> np.ndarray:
-    ...
+def calc_boss_fight_start(player: np.ndarray, boss: np.ndarray, boss_type: np.ndarray, types: np.ndarray,
+                          field: np.ndarray):
+    player[0, 0] = field[6] // 2 - 500
+    player[0, 1] = field[6] // 2
+
+    boss[0] = field[6] // 2 + 500
+    boss[1] = field[6] // 2
+
+    boss[2:] = types[boss_type][:]
 
 
 def calc_waves(wave: np.ndarray, enemy: np.ndarray, field: np.ndarray, Id: np.ndarray,

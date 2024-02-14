@@ -90,7 +90,7 @@ player_bullet
  [live_time]
  [armor_piercing]]
 
- enemy_bullet
+enemy_bullet
 [[x]
  [y]
  [size_x]
