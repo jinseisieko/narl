@@ -61,6 +61,24 @@ def update_data(new_arrays, new_sets):
     enemy_bullets_ids |= set(map(int, new_sets[3]))
 
 
+def clear_obstacles_ids():
+    global obstacles_ids
+    obstacles_ids.clear()
+    obstacles_ids |= set(range(MAX_OBSTACLES))
+
+
+def clear_bullets():
+    global player_bullets_ids, enemy_bullets_ids
+    player_bullets_ids.clear()
+    enemy_bullets_ids.clear()
+
+    player_bullets_ids |= set(range(MAX_PLAYER_BULLETS))
+    enemy_bullets_ids |= set(range(MAX_ENEMY_BULLETS))
+
+    player_bullets[...] = np.tile(default_bullet, (MAX_PLAYER_BULLETS, 1))
+    enemy_bullets[...] = np.tile(default_bullet, (MAX_ENEMY_BULLETS, 1))
+
+
 def get_data(old_data, old_sets):
     global enemies, player_bullets, enemy_bullets, obstacles, player, field, wave, entity_ids, player_bullets_ids, enemy_bullets_ids, obstacles_ids
     old_data[0] = enemies.tolist()

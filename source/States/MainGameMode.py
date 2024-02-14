@@ -65,7 +65,21 @@ class MainGameMode(InterfaceState, Data):
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
-        calc_creation_wave(wave, level.difficulty, level.enemies_types)
+        name = "red"
+        if level.name is None:
+            ...
+        else:
+            name = level.name
+        if level.obstacles is None:
+            ...
+        else:
+            obstacles[:] = level.obstacles[:]
+            clear_obstacles_ids()
+            clear_bullets()
+            for x in set(range(4, MAX_OBSTACLES)):
+                self.obstacle_set.add(Obstacle(obstacles, x, name, obstacles_ids))
+                obstacles_ids.remove(x)
+        calc_creation_wave(wave, level.difficulty / 2, level.enemies_types)
         print(wave[0])
 
     def begin(self):
@@ -85,15 +99,14 @@ class MainGameMode(InterfaceState, Data):
                     self.player_bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
                 for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
                     self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
+                    obstacles_ids.remove(x)
             else:
                 clear_data()
                 self.make_borders()
-                self.create_obstacles()
 
         else:
             clear_data()
             self.make_borders()
-            self.create_obstacles()
         self.player.update_characteristics()
 
     def make_borders(self):
@@ -228,9 +241,9 @@ class MainGameMode(InterfaceState, Data):
             calc_cameraman(player, field, self.main_window.dt)
 
     def draw_or_kill(self):
-        for x in self.player_bullet_set.copy():
+        for x in self.bullet_set.copy():
             if x.matrix[x.Id, 8] > 0:
-                self.player_bullet_set.remove(x)
+                self.bullet_set.remove(x)
                 x.kill()
             else:
                 x.draw(self.field.field)
