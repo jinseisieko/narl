@@ -34,7 +34,7 @@ class Level1(Level):
         self.number = 1
         self.difficulty = 1
         self.enemies_types = (0, 2)
-        self.count_waves = 1
+        self.count_waves = 3
         self.next = Level3
 
 
@@ -59,7 +59,7 @@ class Level2(Level):
                                               'forest15',
                                               ]
         self.number = 2
-        self.difficulty = 1
+        self.difficulty = 3
         self.enemies_types = (3, 5)
         self.count_waves = 10
         self.name = "forest"
@@ -91,10 +91,51 @@ class Level3(Level):
                                               'forest15',
                                               ]
         self.number = 2
-        self.difficulty = 1
+        self.difficulty = 5
         self.enemies_types = (3, 5)
-        self.count_waves = 10
-        self.name = "maze"
+        self.count_waves = 17
+        self.name = "red"
 
         with open(f"resource/data/2332311.npy", "rb") as f:
             self.obstacles = np.load(f)
+
+        self.next = Level4
+
+
+class Level4(Level):
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.background = ['forest2'] * 20 + ['forest1',
+                                              'forest2',
+                                              'forest3',
+                                              'forest4',
+                                              'forest5',
+                                              'forest6',
+                                              'forest7',
+                                              'forest8',
+                                              'forest9',
+                                              'forest10',
+                                              'forest11',
+                                              'forest12',
+                                              'forest13',
+                                              'forest14',
+                                              'forest15',
+                                              ]
+        self.number = 2
+        self.difficulty = 6
+        self.enemies_types = (3, 5)
+        self.count_waves = 22
+
+        self.next = Level5
+
+
+class Level5(Level):
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.background = ['forest2']
+        self.number = 2
+        self.difficulty = 1
+        self.enemies_types = (3, 5)
+        self.count_waves = 22
