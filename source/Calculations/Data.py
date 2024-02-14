@@ -18,6 +18,8 @@ field = np.array(
      FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, SPAWN_LINE, KILL_LINE],
     dtype=np.float_)
 wave = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float_)
+portal = np.array([-4000, -4000, 0, 0])
+
 types = np.array([
     [25, 25, 1, 2, 0, 0, 0, 200, 0, 0.001, 0],
     [40, 40, 5, 1, 0, 0, 0, 100, 1, 0.01, 1],

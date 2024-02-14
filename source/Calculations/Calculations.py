@@ -333,6 +333,22 @@ def calc_creation_wave(wave: np.ndarray, difficulty: np.ndarray, types: np.ndarr
     return 0
 
 
+def calc_teleport(player: np.ndarray, portal: np.ndarray) -> np.int_:
+    max_dist_x: np.ndarray
+    max_dist_y: np.ndarray
+    dist_x: np.ndarray
+    dist_y: np.ndarray
+
+    max_dist_x = player[..., 2] + portal[..., 2][..., np.newaxis]
+    max_dist_y = player[..., 3] + portal[..., 3][..., np.newaxis]
+    dist_x = player[..., 0] - portal[..., 0][..., np.newaxis]
+    dist_y = player[..., 1] - portal[..., 1][..., np.newaxis]
+
+    if dist_x < max_dist_x and dist_y < max_dist_y:
+        return 1
+    return 0
+
+
 def calc_player_level(player: np.ndarray) -> np.int_:
     if player[0, 29] <= player[0, 28]:
         player[0, 27] += 1

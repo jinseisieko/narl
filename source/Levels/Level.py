@@ -1,3 +1,16 @@
+import numpy as np
+import pygame as pg
+
+
+class Portal:
+    def __init__(self, matrix: np.ndarray):
+        self.matrix: np.ndarray = matrix
+        self.sprite = ...
+
+    def draw(self, field):
+        pg.draw.rect(field, "gold", (self.matrix[0], self.matrix[1], 2 * self.matrix[2], 2 * self.matrix[3]))
+
+
 class Level:
     def __init__(self) -> None:
         self.background = []
