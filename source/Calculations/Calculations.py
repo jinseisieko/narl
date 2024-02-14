@@ -57,6 +57,10 @@ def calc_player_movement(player: np.ndarray, direction: np.ndarray, dt: np.float
     player[..., 0] += player[..., 6] * dt
     player[..., 1] += player[..., 7] * dt
 
+def calc_boss_shooting(boss:np.ndarray, player:np.ndarray, dt:np.float_):
+
+
+
 
 def calc_collisions(enemies: np.ndarray, COLLISIONS_REPELLING: np.float_, dt: np.float_) -> None:
     max_dist_x: np.ndarray
