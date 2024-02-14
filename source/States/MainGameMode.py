@@ -3,7 +3,6 @@ from source.Calculations.Data import *
 from source.Console.ConsoleInter import ConsoleInter
 from source.Field.Field import Field
 from source.Functions.Functions import set_direction
-from source.Image.InitializationForGame import get_images_for_game
 from source.Interface.Interface import Interface
 from source.Levels.Level import Level1
 from source.Movable_objects.Bullets import DefaultBullet
@@ -64,6 +63,9 @@ class MainGameMode(InterfaceState, Data):
         print(self.main_window.meta_player.name)
 
     def start_level(self, level):
+        if level.end:
+            player[0][hp] = -1
+            return
         self.field: Field = Field(field, level.background)
         name = "red"
         if level.name is None:

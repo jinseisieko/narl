@@ -48,6 +48,9 @@ def init_images_for_game():
         'scatter': pg.transform.scale(pg.image.load(r"resource\image\interface\scatter.png"), (32, 32)),
         'forest': pg.transform.scale(pg.image.load(r"resource\image\mapImages\forestd.png"), (32, 32)),
         'maze': pg.transform.scale(pg.image.load(r"resource\image\mapImages\maze.png"), (64, 64)),
+
+        'level3': pg.transform.scale(pg.image.load(r"resource\image\mapImages\level3\level3.png"), (400, 400)),
+        'level4': pg.transform.scale(pg.image.load(r"resource\image\mapImages\level4\leve4.png"), (400, 400)),
     }
 
 

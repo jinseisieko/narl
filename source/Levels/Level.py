@@ -21,6 +21,7 @@ class Level:
         self.count_waves = 1
         self.next = None
         self.name = None
+        self.end = False
 
 
 class Level1(Level):
@@ -34,8 +35,8 @@ class Level1(Level):
         self.number = 1
         self.difficulty = 1
         self.enemies_types = (0, 2)
-        self.count_waves = 3
-        self.next = Level3
+        self.count_waves = 1
+        self.next = Level2
 
 
 class Level2(Level):
@@ -74,22 +75,7 @@ class Level3(Level):
     def __init__(self) -> None:
         super().__init__()
 
-        self.background = ['forest2'] * 20 + ['forest1',
-                                              'forest2',
-                                              'forest3',
-                                              'forest4',
-                                              'forest5',
-                                              'forest6',
-                                              'forest7',
-                                              'forest8',
-                                              'forest9',
-                                              'forest10',
-                                              'forest11',
-                                              'forest12',
-                                              'forest13',
-                                              'forest14',
-                                              'forest15',
-                                              ]
+        self.background = ["level3"]
         self.number = 2
         self.difficulty = 5
         self.enemies_types = (3, 5)
@@ -106,22 +92,7 @@ class Level4(Level):
     def __init__(self) -> None:
         super().__init__()
 
-        self.background = ['forest2'] * 20 + ['forest1',
-                                              'forest2',
-                                              'forest3',
-                                              'forest4',
-                                              'forest5',
-                                              'forest6',
-                                              'forest7',
-                                              'forest8',
-                                              'forest9',
-                                              'forest10',
-                                              'forest11',
-                                              'forest12',
-                                              'forest13',
-                                              'forest14',
-                                              'forest15',
-                                              ]
+        self.background = ["level4"]
         self.number = 2
         self.difficulty = 6
         self.enemies_types = (3, 5)
@@ -138,4 +109,6 @@ class Level5(Level):
         self.number = 2
         self.difficulty = 1
         self.enemies_types = (3, 5)
-        self.count_waves = 22
+        self.count_waves = 1e99
+
+        self.end = True
