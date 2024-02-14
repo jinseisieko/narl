@@ -7,7 +7,6 @@ from source.Functions.Functions import set_direction
 from source.Image.InitializationForGame import get_images_for_game
 from source.Levels.Level import Level1
 from source.Movable_objects.Obstacles import *
-from source.Save.Save import load
 from source.Sounds.Sound import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
@@ -47,16 +46,19 @@ class RedactorMode(InterfaceState, Data):
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
 
-    def save(self):
-        ...
+    @staticmethod
+    def save():
+        name = "".join([random.choice(["1", "2", "3", "4"]) for _ in range(7)])
+        with open(f"resource/data/{name}.npy", "wb") as f:
+            np.save(f, obstacles)
 
-    def load(self):
-        if load(self):
-            for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
-                self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
-        else:
-            clear_data()
-
+    def load(self, name="1414211"):
+        clear_data()
+        with open(f"resource/data/{name}.npy", "rb") as f:
+            obstacles[:] = np.load(f)[:]
+        for x in set(range(4, MAX_OBSTACLES)):
+            self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
+            obstacles_ids.remove(x)
         self.make_borders()
 
     def make_borders(self):
@@ -90,7 +92,7 @@ class RedactorMode(InterfaceState, Data):
                 np.abs(self.pos[0][0] + self.pos[1][0]) // 2, np.abs(self.pos[0][1] + self.pos[1][1]) // 2,
                 np.abs(self.pos[0][0] - self.pos[1][0]) // 2, np.abs(self.pos[0][1] - self.pos[1][1]) // 2
             ])
-            self.obstacle_set.add(Obstacle(obstacles, ID, [random.randint(0, 255) for _ in range(3)], obstacles_ids))
+            self.obstacle_set.add(Obstacle(obstacles, ID, "red", obstacles_ids))
             self.pos = []
 
     def delete(self):
@@ -113,6 +115,10 @@ class RedactorMode(InterfaceState, Data):
                 if len(self.pos) == 0:
                     self.delete()
         if event.type == pg.KEYDOWN:
+            if event.key == pg.K_m:
+                self.save()
+            if event.key == pg.K_l:
+                self.load()
             if event.key == CONTROLS["MENU"]:
                 self.pause = True
                 self.main_window.set_state(Pause(self.screen, self.main_window, self, self.last_screen))

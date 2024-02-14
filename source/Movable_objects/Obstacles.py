@@ -1,4 +1,5 @@
 """classes Obstacles"""
+from source.Image.InitializationForGame import get_images_for_game
 from source.Movable_objects.Entity import *
 
 
@@ -7,5 +8,7 @@ class Obstacle(Entity):
         if data is not None:
             matrix[Id] = data
         super().__init__(matrix, Id, image, free_Ids)
-
-        self.image.fill(image)
+        if image != "red":
+            self.image = pg.transform.scale(get_images_for_game()[image], (int(matrix[Id][2] * 2), int(matrix[Id][3] * 2)))
+        else:
+            self.image.fill(image)

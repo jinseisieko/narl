@@ -64,7 +64,21 @@ class MainGameMode(InterfaceState, Data):
 
     def start_level(self, level):
         self.field: Field = Field(field, level.background)
-        calc_creation_wave(wave, level.difficulty, level.enemies_types)
+        name = "red"
+        if level.name is None:
+            ...
+        else:
+            name = level.name
+        if level.obstacles is None:
+            ...
+        else:
+            obstacles[:] = level.obstacles[:]
+            clear_obstacles_ids()
+            clear_bullets()
+            for x in set(range(4, MAX_OBSTACLES)):
+                self.obstacle_set.add(Obstacle(obstacles, x, name, obstacles_ids))
+                obstacles_ids.remove(x)
+        calc_creation_wave(wave, level.difficulty / 2, level.enemies_types)
         print(wave[0])
 
     def begin(self):
@@ -82,17 +96,16 @@ class MainGameMode(InterfaceState, Data):
                     self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
                 for x in set(range(0, MAX_PLAYER_BULLETS)) - player_bullets_ids:
                     self.bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
-                for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
+                for x in set(range(4, MAX_OBSTACLES)):
                     self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
+                    obstacles_ids.remove(x)
             else:
                 clear_data()
                 self.make_borders()
-                self.create_obstacles()
 
         else:
             clear_data()
             self.make_borders()
-            self.create_obstacles()
         self.player.update_characteristics()
 
     def make_borders(self):
@@ -161,7 +174,8 @@ class MainGameMode(InterfaceState, Data):
     def shoot(self):
         player[0, 25] = min(player[0, 13], player[0, 25] + self.main_window.dt)
         if self.shooting:
-            Id = calc_player_shooting(player, player_bullets, np.array(pg.mouse.get_pos()), field, np.array(list(player_bullets_ids)),
+            Id = calc_player_shooting(player, player_bullets, np.array(pg.mouse.get_pos()), field,
+                                      np.array(list(player_bullets_ids)),
                                       self.main_window.dt)
             for x in Id:
                 self.bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
@@ -255,7 +269,7 @@ class MainGameMode(InterfaceState, Data):
         self.background_music.play()
 
     def end_calculations(self):
-        if calc_creation_wave(wave, self.level.difficulty, self.level.enemies_types):
+        if calc_creation_wave(wave, self.level.difficulty / 2, self.level.enemies_types):
             self.sound_effect.new_wave()
         if calc_player_level(player):
             self.pause = True

@@ -46,6 +46,8 @@ def init_images_for_game():
         'delay': pg.transform.scale(pg.image.load(r"resource\image\interface\delay.png"), (32, 32)),
         'max_velocity': pg.transform.scale(pg.image.load(r"resource\image\interface\max_velocity.png"), (32, 32)),
         'scatter': pg.transform.scale(pg.image.load(r"resource\image\interface\scatter.png"), (32, 32)),
+        'forest': pg.transform.scale(pg.image.load(r"resource\image\mapImages\forestd.png"), (32, 32)),
+        'maze': pg.transform.scale(pg.image.load(r"resource\image\mapImages\maze.png"), (64, 64)),
     }
 
 
