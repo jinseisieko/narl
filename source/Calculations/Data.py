@@ -3,6 +3,7 @@ from source.Constants import *
 default_enemy = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=np.float_)
 default_bullet = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_)
 default_obstacle = np.array([-3000, -3000, 0, 0], dtype=np.float_)
+default_boss = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], dtype=np.float_)
 
 enemies = np.tile(default_enemy, (MAX_ENEMIES, 1))
 player_bullets = np.tile(default_bullet, (MAX_PLAYER_BULLETS, 1))
@@ -18,15 +19,20 @@ field = np.array(
      FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, SPAWN_LINE, KILL_LINE],
     dtype=np.float_)
 wave = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float_)
-portal = np.array([-4000, -4000, 0, 0])
+portal = np.array([-4000, -4000, 0, 0], dtype=np.float_)
+boss = default_boss
 
-types = np.array([
+enemy_types = np.array([
     [25, 25, 1, 2, 0, 0, 0, 200, 0, 0.001, 0],
     [40, 40, 5, 1, 0, 0, 0, 100, 1, 0.01, 1],
     [20, 20, 4, 1, 0, 0, 0, 150, 0, 0.0, 2],
     [25, 25, 1, 1, 0, 0, 0, 400, 0, 0.01, 3],
     [50, 25, 4, 2, 0, 0, 0, 400, 0, 0.01, 3],
     [25, 50, 2, 4, 0, 0, 0, 400, 0, 0.01, 3],
+])
+
+boss_types = np.array([
+    0
 ])
 
 entity_ids = set(range(MAX_ENEMIES))

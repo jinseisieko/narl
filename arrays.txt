@@ -25,6 +25,24 @@ enemy
  [random_coefficient]
  [type]]
 
+boss
+[[x]
+ [y]
+ [size_x]
+ [size_y]
+ [hp]
+ [damage]
+ [vx]
+ [vy]
+ [kill]
+ [max_velocity]
+ [armor]
+ [scatter]
+ [delay]
+ [time_passed]
+ [type]]
+
+
 player
 [x
  y
