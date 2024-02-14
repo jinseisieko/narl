@@ -17,7 +17,7 @@ KILL_LINE: np.int_ = np.int_(100)
 
 BACKGROUND_PICTURE_SIZE: np.int_ = np.int_(400)
 
-FPS: np.float_ = np.float_(120)
+FPS: np.float_ = np.float_(12)
 
 PLAYER_HALF_SIZE_X: np.int_ = np.int_(40)  # pixels
 PLAYER_HALF_SIZE_Y: np.int_ = np.int_(40)  # pixels
@@ -26,7 +26,7 @@ PLAYER_SLOWDOWN: np.float_ = np.float_(600)  # pixels / second ** 2
 PLAYER_ACCELERATION: np.float_ = np.float_(1500)  # pixels / second ** 2
 PLAYER_MAX_HP: np.int_ = np.int_(10)  # int
 PLAYER_ARMOR: np.float_ = np.float_(0)  # int
-PLAYER_DELAY: np.float_ = np.float_(1)  # seconds
+PLAYER_DELAY: np.float_ = np.float_(0.01)  # seconds
 PLAYER_ARMOR_PIERCING: np.float_ = np.float_(0)  # int
 PLAYER_BULLET_SIZE_X: np.float_ = np.float_(10)  # pixels
 PLAYER_BULLET_SIZE_Y: np.float_ = np.float_(10)  # pixels

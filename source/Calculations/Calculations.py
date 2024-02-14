@@ -246,7 +246,7 @@ def calc_player_shooting(player: np.ndarray, bullets: np.ndarray, mouse_pos: np.
     angle: np.ndarray
     indices: np.ndarray
 
-    player[0, 25] -= dt
+    # player[0, 25] -= dt
     quotient, player[0, 25] = np.divmod(player[0, 25] + dt, player[0, 13])
     amount = np.int_(np.minimum(quotient, Id.shape[0]))
     arange = np.arange(amount, dtype=np.int_)

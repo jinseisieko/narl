@@ -211,9 +211,6 @@ class MainGameMode(InterfaceState, Data):
             self.enemy_bullet_set.add(DefaultBullet(enemy_bullets, x, "test_bullet", enemy_bullets_ids))
             enemy_bullets_ids.remove(x)
 
-
-
-
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.main_window.key_pressed), self.main_window.dt)
@@ -233,17 +230,15 @@ class MainGameMode(InterfaceState, Data):
             calc_killing_enemies(enemies, field, default_enemy)
             self.shoot()
 
-            calc_enemy_shooting(enemies, enemy_bullets, player, field, enemy_bullets_ids, self.main_window.dt)
-
             calc_damage(enemies, player_bullets, player, default_enemy, default_bullet)
             self.damage_player()
 
             calc_cameraman(player, field, self.main_window.dt)
 
     def draw_or_kill(self):
-        for x in self.bullet_set.copy():
+        for x in self.player_bullet_set.copy():
             if x.matrix[x.Id, 8] > 0:
-                self.bullet_set.remove(x)
+                self.player_bullet_set.remove(x)
                 x.kill()
             else:
                 x.draw(self.field.field)
