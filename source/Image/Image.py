@@ -2,7 +2,6 @@ import pygame as pg
 
 
 class Image:
-
     def __init__(self, w: int, h: int, image) -> None:
         super().__init__()
         self.width: int = w
