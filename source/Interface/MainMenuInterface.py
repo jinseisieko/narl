@@ -5,7 +5,7 @@ from source.Interface.Video import Video
 
 
 class MainMenuInterface:
-    def __init__(self, screen, video=Video("resource/video/gameplay1.mov")):
+    def __init__(self, screen, video=Video("resource/video/gameplay1.mp4")):
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
 

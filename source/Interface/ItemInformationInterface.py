@@ -9,7 +9,7 @@ from source.Inventory.Items.ItemModel import DB, ItemsRank1, ItemsRank3, ItemsRa
 
 
 class ItemInformationInterface:
-    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mov")) -> None:
+    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mp4")) -> None:
         super().__init__()
         self.main_window = main_window
         self.screen = screen
