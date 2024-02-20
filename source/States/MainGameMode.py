@@ -308,6 +308,7 @@ class MainGameMode(InterfaceState, Data):
 
     def check_level(self):
         if wave[0] > self.level.count_waves:
+            self.summon_boss()
             self.level = self.level.next()
             self.start_level(self.level)
 

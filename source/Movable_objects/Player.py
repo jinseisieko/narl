@@ -32,6 +32,12 @@ class Player:
             self.matrix[0][size_x] = 7
         if self.matrix[0][size_y] < 7:
             self.matrix[0][size_y] = 7
+
+        if self.matrix[0][bullet_size_x] < 2:
+            self.matrix[0][bullet_size_x] = 2
+        if self.matrix[0][bullet_size_y] < 2:
+            self.matrix[0][bullet_size_y] = 2
+
         self.image.resize(self.matrix[0][size_x], self.matrix[0][size_y])
         self.matrix[0][hp] = min(self.matrix[0][hp], self.matrix[0][max_hp])
         self.matrix[0][delay] = max(0.005, self.matrix[0][delay])

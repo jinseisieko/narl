@@ -14,5 +14,5 @@ class DefaultBullet(Entity):
 
     def draw(self, field) -> None:
         field.blit(self.image.img, (
-            self.matrix[self.Id, X] - self.matrix[self.Id, SIZE_X],
-            self.matrix[self.Id, Y] - self.matrix[self.Id, SIZE_Y]))
+            self.matrix[self.Id, 0] - self.matrix[self.Id, 2],
+            self.matrix[self.Id, 1] - self.matrix[self.Id, 3]))

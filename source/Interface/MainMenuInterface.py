@@ -48,9 +48,7 @@ class MainMenuInterface:
                                        font=self.font2)
 
         self.buttons["Enemies"] = Button("Enemies", np.array([WIDTH - 200, HEIGHT - 200]), np.array([150, 50]),
-                                       font=self.font2)
-
-
+                                         font=self.font2)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
