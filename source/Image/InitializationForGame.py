@@ -52,14 +52,23 @@ def init_images_for_game():
         'level3': pg.transform.scale(pg.image.load(r"resource\image\mapImages\level3\level3.png"), (400, 400)),
         'level4': pg.transform.scale(pg.image.load(r"resource\image\mapImages\level4\leve4.png"), (400, 400)),
 
-        0: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy1.png"), (32, 32)),
-        1: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy2.jpg"), (32, 32)),
-        2: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy3.jpg"), (32, 32)),
-        3: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy4.jpg"), (32, 32)),
-        4: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy5.jpg"), (32, 32)),
-        5: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy6.jpg"), (32, 32)),
-        6: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy7.jpg"), (32, 32)),
-        7: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy8.jpg"), (32, 32)),
+        0: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy1.png"), (100, 100)),
+        1: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy2.jpg"), (100, 100)),
+        2: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy3.jpg"), (100, 100)),
+        3: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy4.jpg"), (100, 100)),
+        4: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy5.jpg"), (100, 100)),
+        5: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy6.jpg"), (100, 100)),
+        6: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy7.jpg"), (100, 100)),
+        7: pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy8.jpg"), (100, 100)),
+
+        "0": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy1.png"), (32, 32)),
+        "1": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy2.jpg"), (32, 32)),
+        "2": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy3.jpg"), (32, 32)),
+        "3": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy4.jpg"), (32, 32)),
+        "4": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy5.jpg"), (32, 32)),
+        "5": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy6.jpg"), (32, 32)),
+        "6": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy7.jpg"), (32, 32)),
+        "7": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy8.jpg"), (32, 32)),
     }
 
 

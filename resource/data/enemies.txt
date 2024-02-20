@@ -1,15 +1,24 @@
-name
-description
-id (image from InitializationForGame.py)
+first enemy
+harmless enemy that doesn't do much damage.
+0
+Incomprehensible
+has a large size and 5 health, but does the same damage as the first enemy.
 1
+Cool
+10 health and 5 damage, pretty fast
 2
+Pink
+like cool, only the damage is 2
 3
-1
-2
-3
-1
-2
-3
-без
-лишних переносов строки
-grass1
+Ancient
+has a lot of health and 9 damage
+4
+Orange
+20 health and 11 damage
+5
+Kind
+has a lot of health and 17 damage.
+6
+Pathetic
+a lot of damage (30), 40 health
+7

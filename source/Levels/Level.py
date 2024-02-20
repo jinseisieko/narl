@@ -34,7 +34,7 @@ class Level1(Level):
                            "grass4", ]
         self.number = 1
         self.difficulty = 1
-        self.enemies_types = (0, 2)
+        self.enemies_types = (0, 7)
         self.count_waves = 1
         self.next = Level2
 
