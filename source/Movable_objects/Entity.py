@@ -1,15 +1,6 @@
 import numpy as np
 import pygame as pg
 
-X = 0
-Y = 1
-SIZE_X = 2
-SIZE_Y = 3
-VX = 4
-VY = 5
-HP = 6
-DAMAGE = 7
-
 
 class Entity:
     def __init__(self, matrix: np.ndarray, Id: int, image: str, free_Ids: set) -> None:

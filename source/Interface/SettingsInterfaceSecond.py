@@ -24,6 +24,18 @@ class SettingsInterfaceSecond:
 
         self.screen = screen
 
+        self.forward_change_button = Button("a", np.array([WIDTH / 2, 100]), np.array([150, 50]),
+                                            font=self.font2)
+
+        self.backward_change_button = Button("b", np.array([WIDTH / 2, 100]), np.array([150, 50]),
+                                             font=self.font2)
+
+        self.forward_change_button = Button("a", np.array([WIDTH / 2, 100]), np.array([150, 50]),
+                                            font=self.font2)
+
+        self.backward_change_button = Button("b", np.array([WIDTH / 2, 100]), np.array([150, 50]),
+                                             font=self.font2)
+
     def draw(self):
         self.screen.blit(self.background, (0, 0))
 
@@ -31,6 +43,7 @@ class SettingsInterfaceSecond:
         self.button_apply.draw(self.screen)
         self.button_next.draw(self.screen)
         self.button_back.draw(self.screen)
+        self.forward_change_button.draw(self.screen)
 
     def update(self):
         self.video.update(self.background)

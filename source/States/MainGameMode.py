@@ -5,6 +5,7 @@ from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Interface.Interface import Interface
 from source.Levels.Level import Level1
+from source.Movable_objects.Boss import Boss
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
@@ -202,11 +203,28 @@ class MainGameMode(InterfaceState, Data):
             self.sound_effect.player_death()
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
+    def summon_boss(self, type):
+        for x in self.player_bullet_set.copy():
+            self.player_bullet_set.remove(x)
+            x.kill()
+            x.matrix[x.Id] = default_bullet
+
+        for x in self.enemy_set.copy():
+            self.enemy_set.remove(x)
+            x.kill()
+            x.matrix[x.Id] = default_enemy
+
+        self.boss_fight = True
+        self.boss = Boss(boss, "NAME BOSS SPRITE")
+        calc_boss_fight_start(player, boss, type, boss_types, field)
+
     def boss_mechanics(self):
         enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
-        calc_boss_direction_(boss, player)
+        calc_boss_direction(boss, player)
         calc_movements(enemies, self.main_window.dt)
         boss[0, 13] = min(player[0, 12], player[0, 13] + self.main_window.dt)
+
+
 
         Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)), self.main_window.dt)
         for x in Id:
