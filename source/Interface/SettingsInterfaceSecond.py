@@ -5,7 +5,7 @@ from source.Settings.SettingsData import *
 
 
 class SettingsInterfaceSecond:
-    def __init__(self, screen, container, video=Video("resource/video/gameplay1.mov")) -> None:
+    def __init__(self, screen, container, video=Video("resource/video/gameplay1.mp4")) -> None:
         super().__init__()
         self.background = pg.Surface((WIDTH, HEIGHT))
         self.font2 = pygame.font.Font('resource/fonts/EightBits.ttf', 90)

@@ -9,7 +9,7 @@ from source.States.InterfaceState import InterfaceState
 class SettingsFirst(InterfaceState):
 
     def __init__(self, screen, main_window, settings_container=None,
-                 video=Video("resource/video/gameplay1.mov")) -> None:
+                 video=Video("resource/video/gameplay1.mp4")) -> None:
         super().__init__(screen, main_window)
         if settings_container is None:
             settings_container = SettingsContainer(main_window)

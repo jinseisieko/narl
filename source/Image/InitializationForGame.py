@@ -13,7 +13,7 @@ def init_images_for_game():
 
         'test_player': pg.transform.scale(pg.image.load(r"resource\image\playerImages\test_player.png"), (80, 80)),
         'test_bullet': pg.transform.scale(pg.image.load(r"resource\image\bulletImages\test_bullet.png"), (10, 10)),
-        'test_enemy': pg.transform.scale(pg.image.load(r"resource\image\enemyImages\test_enemy.png"), (16, 16)),
+        'test_enemy': pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy1.png"), (16, 16)),
         'cursor': pg.transform.scale(pg.image.load(r"resource\image\other\cursor.png"), (32, 32)),
 
         'forest1': pg.transform.scale(pg.image.load(r"resource\image\mapImages\forest\forest1.png"), (400, 400)),

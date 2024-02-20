@@ -8,7 +8,7 @@ from source.Interface.Video import Video
 
 
 class EnemiesInformationInterface:
-    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mov")) -> None:
+    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mp4")) -> None:
         super().__init__()
         self.main_window = main_window
         self.screen = screen

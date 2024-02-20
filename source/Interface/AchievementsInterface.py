@@ -6,7 +6,7 @@ from source.Interface.Video import Video
 
 
 class AchievementsInterface:
-    def __init__(self, screen, tasksAndAchievements, video=Video("resource/video/gameplay1.mov")):
+    def __init__(self, screen, tasksAndAchievements, video=Video("resource/video/gameplay1.mp4")):
         self.screen = screen
         self.background = pg.Surface((WIDTH, HEIGHT))
         self.tasksAndAchievements = tasksAndAchievements

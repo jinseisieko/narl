@@ -12,7 +12,7 @@ class Tasks(InterfaceState):
         pg.mouse.set_visible(True)
         self.main_window.fps = self.interface_screen.video.fps
 
-    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mov")) -> None:
+    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mp4")) -> None:
         super().__init__(screen, main_window)
 
         self.interface_screen: TasksInterface = TasksInterface(self.screen, self.main_window.tasksAndAchievements, video=video)

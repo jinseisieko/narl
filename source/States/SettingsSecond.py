@@ -7,7 +7,7 @@ from source.States.InterfaceState import InterfaceState
 
 class SettingsSecond(InterfaceState):
 
-    def __init__(self, screen, main_window, settings_container, video=Video("resource/video/gameplay1.mov")) -> None:
+    def __init__(self, screen, main_window, settings_container, video=Video("resource/video/gameplay1.mp4")) -> None:
         super().__init__(screen, main_window)
         self.main_window = main_window
         self.interface_setting = SettingsInterfaceSecond(screen, video=video, container=settings_container)

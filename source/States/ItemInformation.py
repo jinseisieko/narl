@@ -7,7 +7,7 @@ from source.States.InterfaceState import InterfaceState
 
 
 class ItemInformation(InterfaceState):
-    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mov")) -> None:
+    def __init__(self, screen, main_window, video=Video("resource/video/gameplay1.mp4")) -> None:
         super().__init__(screen, main_window)
 
         self.itemInformation_interface = ItemInformationInterface(screen, main_window, video)
