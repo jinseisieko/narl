@@ -73,6 +73,8 @@ class Interface:
                     name = 'no-image'
                 self.items_surface.blit(get_images_for_items()[name],
                                         (WIDTH - 37 * NUMBER_OF_ITEMS - 10 + j * 37 - 50, 10 + i * 37))
+    def clear_items_surface(self):
+        self.items_surface = pg.Surface((WIDTH, HEIGHT), pg.SRCALPHA)
 
     def draw(self, screen: pg.Surface):
         # draw bars

@@ -379,6 +379,8 @@ def calc_creation_wave(wave: np.ndarray, difficulty: np.ndarray, types: np.ndarr
         wave[...] = np.array([number, spawn_delay, 0, 0, max_enemies, types[0], types[1], need_to_kill, 0],
                              dtype=np.float_)
         return 1
+    wave[5] = types[0]
+    wave[6] = types[1]
     return 0
 
 

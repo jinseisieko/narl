@@ -22,6 +22,7 @@ class Level:
         self.next = None
         self.name = None
         self.end = False
+        self.boss = None
 
 
 class Level1(Level):
@@ -37,6 +38,8 @@ class Level1(Level):
         self.enemies_types = (0, 2)
         self.count_waves = 1
         self.next = Level2
+
+
 
 
 class Level2(Level):
@@ -64,7 +67,7 @@ class Level2(Level):
         self.enemies_types = (2, 4)
         self.count_waves = 2
         self.name = "forest"
-
+        self.boss = "boss_stump"
         with open(f"resource/data/1414211.npy", "rb") as f:
             self.obstacles = np.load(f)
 
@@ -81,6 +84,7 @@ class Level3(Level):
         self.enemies_types = (4, 6)
         self.count_waves = 3
         self.name = "red"
+        self.boss = "maze_boss"
 
         with open(f"resource/data/2332311.npy", "rb") as f:
             self.obstacles = np.load(f)
@@ -97,7 +101,10 @@ class Level4(Level):
         self.difficulty = 6
         self.enemies_types = (0, 8)
         self.count_waves = 4
+        self.boss = "enemy1"
 
+        with open(f"resource/data/3411312.npy", "rb") as f:
+            self.obstacles = np.load(f)
         self.next = Level5
 
 

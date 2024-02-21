@@ -28,6 +28,11 @@ class Arcade(InterfaceState, Data):
 
     def __init__(self, screen, main_window, level=Level1()) -> None:
         super().__init__(screen, main_window)
+        self.count = 0
+        self.number = 1
+        self.diff = 1
+        self.max_enemy_type = 2
+
         self.type = "Arcade"
         self.level = level
         self.field: Field = ...
@@ -56,7 +61,7 @@ class Arcade(InterfaceState, Data):
         self.interface = Interface(self)
 
         self.last_screen = self.screen.copy()
-        self.count = 0
+
 
         self.begin()
         print(self.main_window.meta_player.name)
@@ -80,7 +85,7 @@ class Arcade(InterfaceState, Data):
             for x in set(range(4, MAX_OBSTACLES)):
                 self.obstacle_set.add(Obstacle(obstacles, x, name, obstacles_ids))
                 obstacles_ids.remove(x)
-        calc_creation_wave(wave, level.difficulty / 2, level.enemies_types)
+        calc_creation_wave(wave, np.array(self.diff), np.array((0, self.max_enemy_type)))
         print(wave[0])
 
     def begin(self):
@@ -227,7 +232,7 @@ class Arcade(InterfaceState, Data):
                     self.main_window.tasksAndAchievements.kill_100_enemies(1)
                     self.main_window.tasksAndAchievements.kill_1000_enemies(1)
                     wave[8] += 1
-                    player[0, 28] += 1
+                    player[0, 28] += 0.1
                     self.sound_effect.kill_enemy()
             else:
                 x.draw(self.field.field)
@@ -252,7 +257,9 @@ class Arcade(InterfaceState, Data):
         self.background_music.play()
 
     def end_calculations(self):
-        if calc_creation_wave(wave, self.level.difficulty, self.level.enemies_types):
+        if calc_creation_wave(wave, np.array(self.diff), np.array((0, self.max_enemy_type))):
+            self.diff *= 1.1
+            self.max_enemy_type += 0.3
             self.sound_effect.new_wave()
         if calc_player_level(player):
             self.count += 1
@@ -260,6 +267,10 @@ class Arcade(InterfaceState, Data):
             self.sound_effect.new_level()
 
     def update_items(self):
+        self.interface.clear_items_surface()
+        print(player)
+        clear_player(player, default_player)
+        print(player)
         self.player.characteristics.item_names = []
         self.player.characteristics.array_draw = []
         for _ in range(self.count):

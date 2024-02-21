@@ -9,7 +9,7 @@ class Boss:
         self.matrix: np.ndarray = matrix
         self.image: pg.Surface = pg.Surface((2 * matrix[2], 2 * matrix[3]))
         self.image: Image = Image(int(self.matrix[2]), int(self.matrix[3]),
-                                  get_images_for_game()["test_enemy"])
+                                  get_images_for_game()[image])
 
     def draw(self, field) -> None:
         field.blit(self.image, (
