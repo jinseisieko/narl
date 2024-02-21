@@ -346,6 +346,7 @@ class MainGameMode(InterfaceState, Data):
                 self.start_level(self.level)
                 self.boss_fight = False
 
+
     def update(self):
         global n
 
