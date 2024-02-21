@@ -204,16 +204,6 @@ class MainGameMode(InterfaceState, Data):
             self.sound_effect.player_death()
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
-    def summon_boss(self, type):
-        for x in self.enemy_set.copy():
-            self.enemy_set.remove(x)
-            x.kill()
-            x.matrix[x.Id] = default_enemy
-
-        self.boss_fight = True
-        self.boss = Boss(boss, "NAME BOSS SPRITE")
-        calc_boss_fight_start(player, boss, type, boss_types, field)
-
     def boss_mechanics(self):
         enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
         calc_boss_direction(boss, player)
@@ -334,16 +324,20 @@ class MainGameMode(InterfaceState, Data):
         if not self.boss_fight:
             if wave[0] > self.level.count_waves:
                 if not self.level.boss is None:
+                    for x in self.enemy_set.copy():
+                        self.enemy_set.remove(x)
+                        x.kill()
+                        x.matrix[x.Id] = default_enemy
+
                     self.boss_fight = True
-                    # image у босса это level.boss
-                    # спавн босса и очистка волны и тп
+
+                    self.boss = Boss(boss, "NAME BOSS SPRITE")
+                    calc_boss_fight_start(player, boss, self.level.number - 2, boss_types, field)
         else:
-            ...
-            # метод для проверки убит ли босс
-            # если да то
-            # self.level = self.level.next()
-            # self.start_level(self.level)
-            # self.boss_fight = False
+            if boss[4] <= 0:
+                self.level = self.level.next()
+                self.start_level(self.level)
+                self.boss_fight = False
 
     def update(self):
         global n

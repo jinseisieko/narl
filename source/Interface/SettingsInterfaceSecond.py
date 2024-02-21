@@ -23,21 +23,45 @@ class SettingsInterfaceSecond:
 
         self.screen = screen
 
-        self.forward_change_button = Button(get_key_code(CONTROLS["FORWARD"]).replace("K_", ""), np.array([WIDTH / 2, 100]),
-                                            np.array([150, 50]),
-                                            font=self.font2)
+        self.forward_change_button = Button(get_key_code(CONTROLS["FORWARD"]).replace("K_", "").upper(),
+                                            np.array([WIDTH / 2 + 300, HEIGHT // 2 - 300 - 50]),
+                                            np.array([150, 50]), font=self.font2)
 
-        self.backward_change_button = Button(get_key_code(CONTROLS["BACKWARD"]).replace("K_", ""), np.array([WIDTH / 2, 200]), np.array([150, 50]),
+        self.backward_change_button = Button(get_key_code(CONTROLS["BACKWARD"]).replace("K_", "").upper(),
+                                             np.array([WIDTH / 2 + 300, HEIGHT // 2 - 100 - 50]), np.array([150, 50]),
                                              font=self.font2)
 
-        self.left_change_button = Button(get_key_code(CONTROLS["LEFT"]).replace("K_", ""), np.array([WIDTH / 2, 300]), np.array([150, 50]),
+        self.left_change_button = Button(get_key_code(CONTROLS["LEFT"]).replace("K_", "").upper(),
+                                         np.array([WIDTH / 2 + 300, HEIGHT // 2 + 100 - 50]), np.array([150, 50]),
                                          font=self.font2)
 
-        self.right_change_button = Button(get_key_code(CONTROLS["RIGHT"]).replace("K_", ""), np.array([WIDTH / 2, 400]), np.array([150, 50]),
+        self.right_change_button = Button(get_key_code(CONTROLS["RIGHT"]).replace("K_", "").upper(),
+                                          np.array([WIDTH / 2 + 300, HEIGHT // 2 + 300 - 50]), np.array([150, 50]),
                                           font=self.font2)
+
+        self.forward_text = self.font2.render("Forward movement", 0, 0)
+        self.forward_text_rect = self.forward_text.get_rect()
+        self.forward_text_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 - 300 - 50]
+
+        self.backward_text = self.font2.render("Backward movement", 0, 0)
+        self.backward_text_rect = self.backward_text.get_rect()
+        self.backward_text_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 - 100 - 50]
+
+        self.left_text = self.font2.render("Left movement", 0, 0)
+        self.left_text_rect = self.left_text.get_rect()
+        self.left_text_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 + 100 - 50]
+
+        self.right_text = self.font2.render("Right movement", 0, 0)
+        self.right_text_rect = self.right_text.get_rect()
+        self.right_text_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 + 300 - 50]
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
+
+        self.screen.blit(self.forward_text, self.forward_text_rect)
+        self.screen.blit(self.backward_text, self.backward_text_rect)
+        self.screen.blit(self.left_text, self.left_text_rect)
+        self.screen.blit(self.right_text, self.right_text_rect)
 
         self.button_exit.draw(self.screen)
         self.button_apply.draw(self.screen)
