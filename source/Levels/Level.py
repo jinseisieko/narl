@@ -79,7 +79,7 @@ class Level3(Level):
         super().__init__()
 
         self.background = ["level3"]
-        self.number = 2
+        self.number = 3
         self.difficulty = 5
         self.enemies_types = (4, 6)
         self.count_waves = 3
@@ -97,7 +97,7 @@ class Level4(Level):
         super().__init__()
 
         self.background = ["level4"]
-        self.number = 2
+        self.number = 4
         self.difficulty = 6
         self.enemies_types = (0, 8)
         self.count_waves = 4
@@ -113,7 +113,7 @@ class Level5(Level):
         super().__init__()
 
         self.background = ['forest2']
-        self.number = 2
+        self.number = 5
         self.difficulty = 1
         self.enemies_types = (3, 5)
         self.count_waves = 1e99
