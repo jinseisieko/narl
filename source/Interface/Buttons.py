@@ -9,6 +9,7 @@ class Button:
         self.background = pg.Surface(2 * self.half_size, pygame.SRCALPHA)
         pg.draw.rect(self.background, color1, (0, 0, *2 * half_size), border_radius=20)
         self.font = font
+        self.color2 = color2
         if font is None:
             self.font = pg.font.Font(None, 90)
         self.text = self.font.render(text, True, color2)
@@ -18,6 +19,11 @@ class Button:
     def draw(self, screen):
         screen.blit(self.background, self.pos - self.half_size)
         screen.blit(self.text, self.text_rect)
+
+    def update_text(self, text):
+        self.text = self.font.render(text, True, self.color2)
+        self.text_rect = self.text.get_rect()
+        self.text_rect.center = self.pos
 
     def update(self, mouse_pos):
         if len(np.where(np.abs(mouse_pos - self.pos) <= self.half_size)[0]) == 2:

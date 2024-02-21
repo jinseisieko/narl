@@ -3,6 +3,7 @@ import tkinter as tk
 
 import numpy as np
 import pygame
+from pygame.locals import *
 
 pygame.init()
 
@@ -97,5 +98,7 @@ MUSIC_FOR_LEVEL: dict = {
     1: ["arthur-vyncke-cherry-metal(chosic.com).mp3", "Adventures-in-Adventureland(chosic.com).mp3",
         "Adventures-in-Adventureland(chosic.com).mp3"]
 }
+
+____ = ACTIVEEVENT
 
 KEY_CODE_REVERSE: dict = {v: k for k, v in locals().items() if k.startswith('K_')}

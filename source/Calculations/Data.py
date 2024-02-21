@@ -4,16 +4,19 @@ default_enemy = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], dtype=
 default_bullet = np.array([-2000, -2000, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float_)
 default_obstacle = np.array([-3000, -3000, 0, 0], dtype=np.float_)
 default_boss = np.array([-1000, -1000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], dtype=np.float_)
+default_player = np.array(
+    [[1000, 1000, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0, PLAYER_MAX_VELOCITY,
+      PLAYER_SLOWDOWN, PLAYER_ACCELERATION, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_DELAY,
+      PLAYER_ARMOR_PIERCING, PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, PLAYER_BULLET_DAMAGE,
+      PLAYER_CRITICAL_COEFFICIENT, PLAYER_CRITICAL_CHANCE, PLAYER_SCATTER, PLAYER_BULLET_LIVE_TIME,
+      PLAYER_BULLET_VELOCITY, PLAYER_DAMAGE_DELAY, 0, 0, 0, 0, 0, PLAYER_NEED_EXP]], dtype=np.float_)
 
 enemies = np.tile(default_enemy, (MAX_ENEMIES, 1))
 player_bullets = np.tile(default_bullet, (MAX_PLAYER_BULLETS, 1))
 enemy_bullets = np.tile(default_bullet, (MAX_ENEMY_BULLETS, 1))
 obstacles = np.tile(default_obstacle, (MAX_OBSTACLES, 1))
-player = np.array([[1000, 1000, PLAYER_HALF_SIZE_X, PLAYER_HALF_SIZE_Y, PLAYER_MAX_HP, 0, 0, 0, PLAYER_MAX_VELOCITY,
-                    PLAYER_SLOWDOWN, PLAYER_ACCELERATION, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_DELAY,
-                    PLAYER_ARMOR_PIERCING, PLAYER_BULLET_SIZE_X, PLAYER_BULLET_SIZE_Y, PLAYER_BULLET_DAMAGE,
-                    PLAYER_CRITICAL_COEFFICIENT, PLAYER_CRITICAL_CHANCE, PLAYER_SCATTER, PLAYER_BULLET_LIVE_TIME,
-                    PLAYER_BULLET_VELOCITY, PLAYER_DAMAGE_DELAY, 0, 0, 0, 0, 0, PLAYER_NEED_EXP]], dtype=np.float_)
+player = default_player
+
 field = np.array(
     [0, 0, MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, 0, 0,
      FIELD_WIDTH, FIELD_HEIGHT, WIDTH, HEIGHT, SPAWN_LINE, KILL_LINE],

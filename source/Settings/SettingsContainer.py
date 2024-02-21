@@ -11,8 +11,11 @@ class SettingsContainer:
         self.text_input_music_volume: str = str(MUSIC_VOLUME[0])
         self.text_input_sfx_volume: str = str(SFX_VOLUME[0])
         self.text_input_max_fps: str = str(MAX_FPS[0])
+        self.buttons = CONTROLS.copy()
 
     def update_settings(self):
         update(self.text_input_master_volume, self.text_input_music_volume, self.text_input_sfx_volume,
                self.text_input_max_fps)
         save_settings(MASTER_VOLUME, MUSIC_VOLUME, SFX_VOLUME, MAX_FPS, CONTROLS, self.main_window.meta_player.name)
+        for i in self.buttons.keys():
+            CONTROLS[i] = self.buttons[i]

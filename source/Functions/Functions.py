@@ -1,4 +1,4 @@
-import numpy as np
+from source.Constants import *
 from source.Settings.SettingsData import *
 
 
@@ -17,3 +17,7 @@ def set_direction(pressed):
     if pressed[CONTROLS["BACKWARD"]]:
         direction[1] += 1
     return direction
+
+
+def get_key_code(key_name):
+    return KEY_CODE_REVERSE.get(key_name, None)
