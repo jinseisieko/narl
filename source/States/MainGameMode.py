@@ -222,7 +222,7 @@ class MainGameMode(InterfaceState, Data):
             if self.boss_fight:
                 calc_boss_direction(boss, player)
                 calc_movements(enemies, self.main_window.dt)
-                boss[13] = min(boss[12], player[13] + self.main_window.dt)
+                boss[13] = min(boss[12], boss[13] + self.main_window.dt)
 
                 Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)),
                                         self.main_window.dt)
@@ -235,8 +235,7 @@ class MainGameMode(InterfaceState, Data):
 
                 calc_obstacles(np.array([boss]), obstacles, np.array([]))
                 calc_obstacles(enemy_bullets, obstacles, default_bullet, kill=True, bounce=True)
-
-                calc_killing_enemies(np.array([boss]), field, default_enemy)
+                # calc_killing_enemies(np.array([boss]), field, default_enemy)
 
                 self.shoot()
                 calc_bullet_movements(player_bullets, self.main_window.dt, default_bullet)
@@ -336,6 +335,7 @@ class MainGameMode(InterfaceState, Data):
                 else:
                     self.level = self.level.next()
                     self.start_level(self.level)
+        else:
             if boss[4] <= 0:
                 self.level = self.level.next()
                 self.start_level(self.level)
