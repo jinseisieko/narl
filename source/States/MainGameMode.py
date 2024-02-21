@@ -222,7 +222,7 @@ class MainGameMode(InterfaceState, Data):
             if self.boss_fight:
                 calc_boss_direction(boss, player)
                 calc_movements(enemies, self.main_window.dt)
-                boss[13] = min(boss[12], player[13] + self.main_window.dt)
+                boss[13] = min(boss[12], boss[13] + self.main_window.dt)
 
                 Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)),
                                         self.main_window.dt)
@@ -331,8 +331,11 @@ class MainGameMode(InterfaceState, Data):
 
                     self.boss_fight = True
 
-                    self.boss = Boss(boss, "NAME BOSS SPRITE")
+                    self.boss = Boss(boss, self.level.boss)
                     calc_boss_fight_start(player, boss, self.level.number - 2, boss_types, field)
+                else:
+                    self.level = self.level.next()
+                    self.start_level(self.level)
         else:
             if boss[4] <= 0:
                 self.level = self.level.next()

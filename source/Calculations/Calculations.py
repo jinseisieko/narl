@@ -202,8 +202,8 @@ def calc_boss_shooting(boss: np.ndarray, enemy_bullets: np.ndarray, player: np.n
     angle: np.ndarray
     indices: np.ndarray
 
-    boss[0, 13] -= dt
-    quotient, boss[0, 13] = np.divmod(boss[0, 13] + dt, boss[0, 12])
+    boss[13] -= dt
+    quotient, boss[13] = np.divmod(boss[13] + dt, boss[12])
     amount = np.int_(np.minimum(quotient, Id.shape[0]))
     arange = np.arange(amount, dtype=np.int_)
 
@@ -232,7 +232,7 @@ def calc_boss_shooting(boss: np.ndarray, enemy_bullets: np.ndarray, player: np.n
 def calc_boss_direction(boss: np.ndarray, player: np.ndarray):
     angle: np.ndarray
 
-    angle = np.arctan2(player[..., 1] - boss[1], player[..., 0], - boss[0])
+    angle = np.arctan2(player[..., 1] - boss[1], player[..., 0] - boss[0])
     boss[..., 6] = np.cos(angle) * boss[..., 9]
     boss[..., 7] = np.sin(angle) * boss[..., 9]
 
