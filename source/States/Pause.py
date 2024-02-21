@@ -33,5 +33,6 @@ class Pause(InterfaceState):
                     self.main_window.set_state(self.data)
                 if self.title_pause.buttons["ExitMenuButton"].update(mouse_pos):
                     save(self.data)
+                    pg.mixer.stop()
                     self.main_window.tasksAndAchievements.save()
                     self.main_window.change_state("MainMenu")

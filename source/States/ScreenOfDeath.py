@@ -18,6 +18,7 @@ class ScreenOfDeath(InterfaceState):
                 sn1.play()
                 mouse_pos = np.array(pg.mouse.get_pos())
                 if self.title_screen_of_death.buttons["ExitMenuButton"].update(mouse_pos):
+                    pg.mixer.stop()
                     # создание пустого сохранения
                     self.main_window.change_state("MainMenu")
 

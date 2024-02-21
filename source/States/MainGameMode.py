@@ -17,6 +17,7 @@ from source.States.InterfaceState import InterfaceState
 from source.States.NewItem import NewItem
 from source.States.Pause import Pause
 from source.States.ScreenOfDeath import ScreenOfDeath
+from source.Calculations.Data import *
 
 n = 0
 
@@ -204,17 +205,6 @@ class MainGameMode(InterfaceState, Data):
             self.sound_effect.player_death()
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
-    def boss_mechanics(self):
-        enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
-        calc_boss_direction(boss, player)
-        calc_movements(enemies, self.main_window.dt)
-        boss[13] = min(boss[12], player[13] + self.main_window.dt)
-
-        Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)), self.main_window.dt)
-        for x in Id:
-            self.enemy_bullet_set.add(DefaultBullet(enemy_bullets, x, "test_bullet", enemy_bullets_ids))
-            enemy_bullets_ids.remove(x)
-
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.main_window.key_pressed), self.main_window.dt)
@@ -222,28 +212,27 @@ class MainGameMode(InterfaceState, Data):
             if self.boss_fight:
                 calc_boss_direction(boss, player)
                 calc_movements(enemies, self.main_window.dt)
-                boss[13] = min(boss[12], boss[13] + self.main_window.dt)
+                boss[0, 13] = min(boss[0, 12], boss[0, 13] + self.main_window.dt)
 
                 Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)),
                                         self.main_window.dt)
                 for x in Id:
                     self.enemy_bullet_set.add(DefaultBullet(enemy_bullets, x, "test_bullet", enemy_bullets_ids))
                     enemy_bullets_ids.remove(x)
+                    print(x)
 
-                enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
+                enemy_bullets[0] = np.array([boss[0, 0], boss[0, 1], boss[0, 2] + 100, boss[0, 3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
                 calc_bullet_movements(enemy_bullets, self.main_window.dt, default_bullet)
 
-                calc_obstacles(np.array([boss]), obstacles, np.array([]))
+                calc_obstacles(boss, obstacles, np.array([]))
                 calc_obstacles(enemy_bullets, obstacles, default_bullet, kill=True, bounce=True)
-
-                calc_killing_enemies(np.array([boss]), field, default_boss)
 
                 self.shoot()
                 calc_bullet_movements(player_bullets, self.main_window.dt, default_bullet)
                 calc_obstacles(player_bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
                 calc_obstacles(player, obstacles, np.array([]))
-                calc_damage(np.array([boss]), player_bullets, player, default_enemy, default_bullet)
-                self.damage_player(np.array([boss]))
+                calc_damage(boss, player_bullets, player, default_boss, default_bullet)
+                self.damage_player(boss)
             else:
                 self.spawn()
 
@@ -275,6 +264,13 @@ class MainGameMode(InterfaceState, Data):
             else:
                 x.draw(self.field.field)
 
+        for x in self.enemy_bullet_set.copy():
+            if x.matrix[x.Id, 8] > 0:
+                self.enemy_bullet_set.remove(x)
+                x.kill()
+            else:
+                x.draw(self.field.field)
+
         self.player.draw(self.field.field)
 
         for x in self.enemy_set.copy():
@@ -290,6 +286,9 @@ class MainGameMode(InterfaceState, Data):
                     self.sound_effect.kill_enemy()
             else:
                 x.draw(self.field.field)
+
+        if self.boss_fight:
+            self.boss.draw(self.field.field)
 
         for x in self.obstacle_set:
             x.draw(self.field.field)
@@ -333,11 +332,13 @@ class MainGameMode(InterfaceState, Data):
 
                     self.boss = Boss(boss, self.level.boss)
                     calc_boss_fight_start(player, boss, self.level.number - 2, boss_types, field)
+                    enemy_bullets_ids.remove(0)
                 else:
                     self.level = self.level.next()
                     self.start_level(self.level)
         else:
-            if boss[4] <= 0:
+            if boss[0, 4] <= 0:
+                enemy_bullets_ids.add(0)
                 self.level = self.level.next()
                 self.start_level(self.level)
                 self.boss_fight = False
@@ -355,4 +356,4 @@ class MainGameMode(InterfaceState, Data):
 
         n += 1
         # self.main_window.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
-        # self.play_music()
+        self.play_music()
