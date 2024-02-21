@@ -15,10 +15,26 @@ class SettingsInterfaceFirst:
 
         self.video = video
 
-        self.text_input_master_volume = TextInput(WIDTH / 2, HEIGHT / 4)
-        self.text_input_music_volume = TextInput(WIDTH / 2, HEIGHT / 4 + 100)
-        self.text_input_sfx_volume = TextInput(WIDTH / 2, HEIGHT / 4 + 200)
-        self.text_input_max_fps = TextInput(WIDTH / 2, HEIGHT / 4 + 300)
+        self.text_input_master_volume = TextInput(WIDTH / 2 + 300, HEIGHT / 2 - 300 - 50)
+        self.text_input_music_volume = TextInput(WIDTH / 2 + 300, HEIGHT / 2 - 100 - 50)
+        self.text_input_sfx_volume = TextInput(WIDTH / 2 + 300, HEIGHT / 2 + 100 - 50)
+        self.text_input_max_fps = TextInput(WIDTH / 2 + 300, HEIGHT / 2 + 300 - 50)
+
+        self.master_text = self.font2.render("Master volume", 0, 0)
+        self.master_text_rect = self.master_text.get_rect()
+        self.master_text_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 - 300 - 50]
+
+        self.music_text = self.font2.render("Music volume", 0, 0)
+        self.music_text_rect = self.music_text.get_rect()
+        self.music_text_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 - 100 - 50]
+
+        self.SFX_text = self.font2.render("SFX", 0, 0)
+        self.SFX_text_rect = self.SFX_text.get_rect()
+        self.SFX_text_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 + 100 - 50]
+
+        self.max_fps = self.font2.render("Maximum FPS", 0, 0)
+        self.max_fps_rect = self.max_fps.get_rect()
+        self.max_fps_rect.center = [WIDTH // 2 - 300, HEIGHT // 2 + 300 - 50]
 
         self.text_input_master_volume.set(self.container.text_input_master_volume)
         self.text_input_music_volume.set(self.container.text_input_music_volume)
@@ -37,6 +53,12 @@ class SettingsInterfaceFirst:
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
+
+        self.screen.blit(self.master_text, self.master_text_rect)
+        self.screen.blit(self.music_text, self.music_text_rect)
+        self.screen.blit(self.SFX_text, self.SFX_text_rect)
+        self.screen.blit(self.max_fps, self.max_fps_rect)
+
         self.text_input_master_volume.draw(self.screen)
         self.text_input_music_volume.draw(self.screen)
         self.text_input_sfx_volume.draw(self.screen)

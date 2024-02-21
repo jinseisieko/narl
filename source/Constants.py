@@ -54,6 +54,7 @@ GREEN: tuple[int, int, int] = (0, 255, 0)
 BLUE: tuple[int, int, int] = (0, 0, 255)
 GRAY: tuple[int, int, int] = (200, 200, 200)
 BLACK: tuple[int, int, int] = (0, 0, 0)
+TEXT_COLOR: str = "#7452ff"
 
 # fonts
 FONT_CONSOLE: tuple[(None, str), int] = (None, 27)
