@@ -37,7 +37,7 @@ enemy_types = np.array([
 ])
 
 boss_types = np.array([
-    [200, 200, 200, 50, 0, 0, 0, 100, 10, 0.75, 0.33, 0, 0]
+    [200, 200, 200, 50, 0, 0, 0, 100, 10, 0.0, 0.33, 0, 0]
 ])
 
 entity_ids = set(range(MAX_ENEMIES))

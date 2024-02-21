@@ -233,6 +233,7 @@ class MainGameMode(InterfaceState, Data):
                 calc_obstacles(player, obstacles, np.array([]))
                 calc_damage(boss, player_bullets, player, default_boss, default_bullet)
                 self.damage_player(boss)
+                self.damage_player(enemy_bullets)
             else:
                 self.spawn()
 
