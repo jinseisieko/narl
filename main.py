@@ -8,6 +8,7 @@ from tqdm import tqdm
 
 from source.MainWindow import MAIN_WINDOW
 
+_ = peewee.Model
 pg.init()
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 mainWindow = MAIN_WINDOW
