@@ -14,6 +14,7 @@ from source.Sounds.Sound import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
 from source.States.Pause import Pause
+from source.States.PauseArcade import PauseArcade
 from source.States.ScreenOfDeath import ScreenOfDeath
 
 n = 0
@@ -156,7 +157,7 @@ class Arcade(InterfaceState, Data):
                 self.shooting = True
             if event.key == CONTROLS["MENU"]:
                 self.pause = True
-                self.main_window.set_state(Pause(self.screen, self.main_window, self, self.last_screen))
+                self.main_window.set_state(PauseArcade(self.screen, self.main_window, self, self.last_screen))
         if event.type == pg.KEYUP:
             if event.key == CONTROLS["SHOOT"]:
                 self.shooting = False
