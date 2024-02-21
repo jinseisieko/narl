@@ -331,9 +331,11 @@ class MainGameMode(InterfaceState, Data):
 
                     self.boss_fight = True
 
-                    self.boss = Boss(boss, "NAME BOSS SPRITE")
+                    self.boss = Boss(boss, self.level.boss)
                     calc_boss_fight_start(player, boss, self.level.number - 2, boss_types, field)
-        else:
+                else:
+                    self.level = self.level.next()
+                    self.start_level(self.level)
             if boss[4] <= 0:
                 self.level = self.level.next()
                 self.start_level(self.level)
