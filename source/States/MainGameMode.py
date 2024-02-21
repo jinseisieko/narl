@@ -236,7 +236,7 @@ class MainGameMode(InterfaceState, Data):
                 calc_obstacles(np.array([boss]), obstacles, np.array([]))
                 calc_obstacles(enemy_bullets, obstacles, default_bullet, kill=True, bounce=True)
 
-                calc_killing_enemies(np.array([boss]), field, default_enemy)
+                calc_killing_enemies(np.array([boss]), field, default_boss)
 
                 self.shoot()
                 calc_bullet_movements(player_bullets, self.main_window.dt, default_bullet)
