@@ -1,7 +1,7 @@
 """pg main loop"""
 import sys
 import warnings
-
+import peewee
 
 import pygame as pg
 from tqdm import tqdm
