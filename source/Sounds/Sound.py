@@ -13,6 +13,7 @@ class BackgroundMusic:
         self.music_list = [pg.mixer.Sound(f"resource/music/{x}") for x in MUSIC_FOR_LEVEL[self.ind]]
 
     def play(self):
+        self.channel.set_volume(MASTER_VOLUME[0] * MUSIC_VOLUME[0])
         if not self.channel.get_busy():
             self.channel.play(self.music_list[self.index])
             self.index += 1

@@ -211,7 +211,7 @@ def calc_boss_shooting(boss: np.ndarray, enemy_bullets: np.ndarray, player: np.n
         data = np.tile(np.array([boss[0, 0], boss[0, 1], 20, 20, 1, 10 + 5 * boss[0, 14],
                                  0, 0, 0, 0, 3, 4 * boss[0, 14]], dtype=np.float_), (amount, 1))
 
-        goal_pos = np.array([player[0, 1], player[0, 0]], dtype=np.float_)
+        goal_pos = np.array([player[0, 0], player[0, 1]], dtype=np.float_)
         angle = np.arctan2(goal_pos[1] - boss[0, 1], goal_pos[0] - boss[0, 0]) \
                 + boss[0, 11] * (np.random.random(amount) - 0.5) * 2
 
