@@ -15,7 +15,7 @@ enemies = np.tile(default_enemy, (MAX_ENEMIES, 1))
 player_bullets = np.tile(default_bullet, (MAX_PLAYER_BULLETS, 1))
 enemy_bullets = np.tile(default_bullet, (MAX_ENEMY_BULLETS, 1))
 obstacles = np.tile(default_obstacle, (MAX_OBSTACLES, 1))
-player = default_player
+player = default_player.copy()
 
 field = np.array(
     [0, 0, MOVE_SCREEN_RECT_X, MOVE_SCREEN_RECT_Y, 0, 0,

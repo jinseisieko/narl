@@ -80,11 +80,11 @@ class MainGameMode(InterfaceState, Data):
             obstacles[:] = level.obstacles[:]
             clear_obstacles_ids()
             clear_bullets()
+            self.obstacle_set.clear()
             for x in set(range(4, MAX_OBSTACLES)):
                 self.obstacle_set.add(Obstacle(obstacles, x, name, obstacles_ids))
                 obstacles_ids.remove(x)
         calc_creation_wave(wave, level.difficulty / 2, level.enemies_types)
-        print(wave[0])
 
     def begin(self):
         pg.mouse.set_visible(False)
@@ -321,18 +321,29 @@ class MainGameMode(InterfaceState, Data):
         self.background_music.play()
 
     def end_calculations(self):
-        if calc_creation_wave(wave, self.level.difficulty, self.level.enemies_types):
-            self.sound_effect.new_wave()
+        if not self.boss_fight:
+            if calc_creation_wave(wave, self.level.difficulty, self.level.enemies_types):
+                self.sound_effect.new_wave()
+
         if calc_player_level(player):
             self.pause = True
             self.main_window.set_state(NewItem(self.screen, self.main_window, self, self.last_screen))
             self.sound_effect.new_level()
 
     def check_level(self):
-        if wave[0] > self.level.count_waves:
-            # self.summon_boss()
-            self.level = self.level.next()
-            self.start_level(self.level)
+        if not self.boss_fight:
+            if wave[0] > self.level.count_waves:
+                if not self.level.boss is None:
+                    self.boss_fight = True
+                    # image у босса это level.boss
+                    # спавн босса и очистка волны и тп
+        else:
+            ...
+            # метод для проверки убит ли босс
+            # если да то
+            # self.level = self.level.next()
+            # self.start_level(self.level)
+            # self.boss_fight = False
 
     def update(self):
         global n
