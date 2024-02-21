@@ -70,8 +70,8 @@ def init_images_for_game():
         "6": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy7.jpg"), (32, 32)),
         "7": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\enemy8.jpg"), (32, 32)),
 
-        "boss_stump": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\boss_stump.jpg"), (300, 300)),
-        "maze_boss": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\maze_boss.jpg"), (300, 300)),
+        "boss_stump": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\boss_stump.png"), (300, 300)),
+        "maze_boss": pg.transform.scale(pg.image.load(r"resource\image\enemyImages\maze_boss.png"), (300, 300)),
     }
 
 
