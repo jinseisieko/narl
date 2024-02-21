@@ -1,7 +1,6 @@
-from source.Constants import *
+from source.Functions.Functions import *
 from source.Interface.Buttons import Button
 from source.Interface.Video import Video
-from source.Settings.SettingsData import *
 
 
 class SettingsInterfaceThird:

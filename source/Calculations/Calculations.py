@@ -425,6 +425,14 @@ def calc_obstacle_delete(m_pos: np.ndarray, obstacles: np.ndarray):
     return result_ind[-1]
 
 
+def clear_wave(wave: np.ndarray) -> None:
+    wave[...] = np.array([wave[0], 100, 0, 0, 0, 0, 0, 1, 0], np.float_)
+
+
+def clear_player(player: np.ndarray, default_data: np.ndarray) -> None:
+    player[..., 2:] = default_data[..., 2:]
+
+
 @njit(fastmath=True)
 def calc_cameraman(player: np.ndarray, field: np.ndarray, dt: np.float_) -> None:
     speed: np.ndarray

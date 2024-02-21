@@ -55,6 +55,7 @@ class MainGameMode(InterfaceState, Data):
         self.spawning: bool = False
         self.console_: bool = False
         self.pause: bool = True
+        self.boss_fight: bool = False
 
         self.interface = Interface(self)
 
@@ -193,8 +194,8 @@ class MainGameMode(InterfaceState, Data):
                 self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
                 entity_ids.remove(x)
 
-    def damage_player(self):
-        res = calc_player_damage(enemies, player, self.main_window.dt)
+    def damage_player(self, who):
+        res = calc_player_damage(who, player, self.main_window.dt)
         if res == 1:
             self.player.animate_damage_play()
             self.sound_effect.player_damage()
@@ -204,11 +205,6 @@ class MainGameMode(InterfaceState, Data):
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
     def summon_boss(self, type):
-        for x in self.player_bullet_set.copy():
-            self.player_bullet_set.remove(x)
-            x.kill()
-            x.matrix[x.Id] = default_bullet
-
         for x in self.enemy_set.copy():
             self.enemy_set.remove(x)
             x.kill()
@@ -222,9 +218,7 @@ class MainGameMode(InterfaceState, Data):
         enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
         calc_boss_direction(boss, player)
         calc_movements(enemies, self.main_window.dt)
-        boss[0, 13] = min(player[0, 12], player[0, 13] + self.main_window.dt)
-
-
+        boss[13] = min(boss[12], player[13] + self.main_window.dt)
 
         Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)), self.main_window.dt)
         for x in Id:
@@ -234,24 +228,52 @@ class MainGameMode(InterfaceState, Data):
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.main_window.key_pressed), self.main_window.dt)
-            self.spawn()
 
-            calc_enemy_direction(enemies, *player[0, 0:2])
-            calc_movements(enemies, self.main_window.dt)
-            calc_bullet_movements(player_bullets, self.main_window.dt, default_bullet)
-            calc_bullet_movements(enemy_bullets, self.main_window.dt, default_bullet)
+            if self.boss_fight:
+                calc_boss_direction(boss, player)
+                calc_movements(enemies, self.main_window.dt)
+                boss[13] = min(boss[12], player[13] + self.main_window.dt)
 
-            calc_collisions(enemies, COLLISIONS_REPELLING, self.main_window.dt)
-            calc_obstacles(enemies, obstacles, default_enemy)
-            calc_obstacles(player_bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
-            calc_obstacles(enemy_bullets, obstacles, default_bullet, kill=True, bounce=True)
-            calc_obstacles(player, obstacles, np.array([]))
+                Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)),
+                                        self.main_window.dt)
+                for x in Id:
+                    self.enemy_bullet_set.add(DefaultBullet(enemy_bullets, x, "test_bullet", enemy_bullets_ids))
+                    enemy_bullets_ids.remove(x)
 
-            calc_killing_enemies(enemies, field, default_enemy)
-            self.shoot()
+                enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
+                calc_bullet_movements(enemy_bullets, self.main_window.dt, default_bullet)
 
-            calc_damage(enemies, player_bullets, player, default_enemy, default_bullet)
-            self.damage_player()
+                calc_obstacles(np.array([boss]), obstacles, np.array([]))
+                calc_obstacles(enemy_bullets, obstacles, default_bullet, kill=True, bounce=True)
+
+                calc_killing_enemies(np.array([boss]), field, default_enemy)
+
+                self.shoot()
+                calc_bullet_movements(player_bullets, self.main_window.dt, default_bullet)
+                calc_obstacles(player_bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
+                calc_obstacles(player, obstacles, np.array([]))
+                calc_damage(np.array([boss]), player_bullets, player, default_enemy, default_bullet)
+                self.damage_player(np.array([boss]))
+            else:
+                self.spawn()
+
+                calc_enemy_direction(enemies, *player[0, 0:2])
+                calc_movements(enemies, self.main_window.dt)
+                calc_bullet_movements(enemy_bullets, self.main_window.dt, default_bullet)
+
+                calc_collisions(enemies, COLLISIONS_REPELLING, self.main_window.dt)
+                calc_obstacles(enemies, obstacles, default_enemy)
+                calc_obstacles(enemy_bullets, obstacles, default_bullet, kill=True, bounce=True)
+
+                calc_killing_enemies(enemies, field, default_enemy)
+
+                self.shoot()
+                calc_bullet_movements(player_bullets, self.main_window.dt, default_bullet)
+                calc_obstacles(player_bullets, obstacles, default_bullet, kill=True, bounce=bool(player[0, 26]))
+                calc_obstacles(player, obstacles, np.array([]))
+
+                calc_damage(enemies, player_bullets, player, default_enemy, default_bullet)
+                self.damage_player(enemies)
 
             calc_cameraman(player, field, self.main_window.dt)
 

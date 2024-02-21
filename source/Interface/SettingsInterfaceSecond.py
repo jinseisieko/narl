@@ -1,7 +1,6 @@
-from source.Constants import *
+from source.Functions.Functions import *
 from source.Interface.Buttons import Button
 from source.Interface.Video import Video
-from source.Settings.SettingsData import *
 
 
 class SettingsInterfaceSecond:
@@ -24,17 +23,18 @@ class SettingsInterfaceSecond:
 
         self.screen = screen
 
-        self.forward_change_button = Button("a", np.array([WIDTH / 2, 100]), np.array([150, 50]),
+        self.forward_change_button = Button(get_key_code(CONTROLS["FORWARD"]).replace("K_", ""), np.array([WIDTH / 2, 100]),
+                                            np.array([150, 50]),
                                             font=self.font2)
 
-        self.backward_change_button = Button("b", np.array([WIDTH / 2, 100]), np.array([150, 50]),
+        self.backward_change_button = Button(get_key_code(CONTROLS["BACKWARD"]).replace("K_", ""), np.array([WIDTH / 2, 200]), np.array([150, 50]),
                                              font=self.font2)
 
-        self.forward_change_button = Button("a", np.array([WIDTH / 2, 100]), np.array([150, 50]),
-                                            font=self.font2)
+        self.left_change_button = Button(get_key_code(CONTROLS["LEFT"]).replace("K_", ""), np.array([WIDTH / 2, 300]), np.array([150, 50]),
+                                         font=self.font2)
 
-        self.backward_change_button = Button("b", np.array([WIDTH / 2, 100]), np.array([150, 50]),
-                                             font=self.font2)
+        self.right_change_button = Button(get_key_code(CONTROLS["RIGHT"]).replace("K_", ""), np.array([WIDTH / 2, 400]), np.array([150, 50]),
+                                          font=self.font2)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
@@ -44,6 +44,9 @@ class SettingsInterfaceSecond:
         self.button_next.draw(self.screen)
         self.button_back.draw(self.screen)
         self.forward_change_button.draw(self.screen)
+        self.backward_change_button.draw(self.screen)
+        self.left_change_button.draw(self.screen)
+        self.right_change_button.draw(self.screen)
 
     def update(self):
         self.video.update(self.background)
