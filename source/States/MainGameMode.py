@@ -359,4 +359,4 @@ class MainGameMode(InterfaceState, Data):
 
         n += 1
         # self.main_window.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
-        # self.play_music()
+        self.play_music()
