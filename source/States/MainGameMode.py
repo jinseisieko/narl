@@ -1,10 +1,12 @@
+from time import sleep
+
 from source.Calculations.Calculations import *
 from source.Calculations.Data import *
 from source.Console.ConsoleInter import ConsoleInter
 from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Interface.Interface import Interface
-from source.Levels.Level import Level1
+from source.Levels.Level import Level1, Level2
 from source.Movable_objects.Boss import Boss
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
@@ -151,8 +153,9 @@ class MainGameMode(InterfaceState, Data):
         self.interface.draw(self.screen)
 
     def check_events(self, event):
-        if self.main_window.key_pressed[pg.K_y]:
-            self.player.add_item(*self.player.characteristics.getitem.get_rank_random())
+        if self.main_window.key_pressed[pg.K_TAB]:
+            wave[0] += 1
+            self.boss_fight = False
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.shooting = True
@@ -357,4 +360,4 @@ class MainGameMode(InterfaceState, Data):
 
         n += 1
         # self.main_window.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
-        self.play_music()
+        # self.play_music()
