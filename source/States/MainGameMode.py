@@ -106,7 +106,6 @@ class MainGameMode(InterfaceState, Data):
                     self.player_bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
                 for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
                     self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
-                    obstacles_ids.remove(x)
             else:
                 clear_data()
                 self.make_borders()
