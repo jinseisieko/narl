@@ -31,13 +31,9 @@ class TasksAndAchievements:
         if self.tasks['kill_100_enemies']['data']['count'] >= 100:
             self.tasks['kill_100_enemies']["fulfillment"] = True
             with DB.atomic():
-                s = ItemsBlocked.select().where(ItemsBlocked.id == "shotgun" and
-                                                ItemsBlocked.player == self.main_window.meta_player.name)
-                if len(s) != 0:
-                    s = s[0]
-                    s.blocking = False
-                    s.save()
-
+                s = ItemsBlocked.update({ItemsBlocked.blocked: False}).where(
+                    ItemsBlocked.player == self.main_window.meta_player.name and ItemsBlocked.id == "shotgun")
+                s.execute()
     def kill_1000_enemies(self, count):
         self.achievements['kill_1000_enemies']['data']['count'] += count
 
