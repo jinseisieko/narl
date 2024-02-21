@@ -7,10 +7,12 @@ from source.Interface.MainMenuInterface import MainMenuInterface
 from source.Interface.Video import Video
 from source.Settings.SettingsContainer import SettingsContainer
 from source.States.Achievements import Achievements
+from source.States.Arcade import Arcade
 from source.States.EnemiesInformation import EnemiesInformation
 from source.States.InterfaceState import InterfaceState
 from source.States.ItemInformation import ItemInformation
 from source.States.ItemsCreator import ItemsCreator
+from source.States.Loading import Loading
 from source.States.SettingsFirst import SettingsFirst
 from source.States.Tasks import Tasks
 
@@ -40,7 +42,7 @@ class MainMenu(InterfaceState):
                 if self.interface_screen.buttons["StartButton"].update(mouse_pos):
                     self.main_window.change_state("MainGameMode", data=0)
                 if self.interface_screen.buttons["ArcadeButton"].update(mouse_pos):
-                    self.main_window.change_state("RedactorMode", data=0)
+                    self.main_window.set_state(Loading(self.screen, self.main_window, Arcade, self.screen, self.main_window))
                 if self.interface_screen.buttons["SettingsButton"].update(mouse_pos):
                     self.main_window.set_state(
                         SettingsFirst(self.screen, self.main_window, video=self.interface_screen.video,

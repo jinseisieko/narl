@@ -34,7 +34,7 @@ class Level1(Level):
                            "grass4", ]
         self.number = 1
         self.difficulty = 1
-        self.enemies_types = (0, 7)
+        self.enemies_types = (0, 2)
         self.count_waves = 1
         self.next = Level2
 
@@ -61,8 +61,8 @@ class Level2(Level):
                                               ]
         self.number = 2
         self.difficulty = 3
-        self.enemies_types = (3, 5)
-        self.count_waves = 10
+        self.enemies_types = (2, 4)
+        self.count_waves = 2
         self.name = "forest"
 
         with open(f"resource/data/1414211.npy", "rb") as f:
@@ -78,8 +78,8 @@ class Level3(Level):
         self.background = ["level3"]
         self.number = 2
         self.difficulty = 5
-        self.enemies_types = (3, 5)
-        self.count_waves = 17
+        self.enemies_types = (4, 6)
+        self.count_waves = 3
         self.name = "red"
 
         with open(f"resource/data/2332311.npy", "rb") as f:
@@ -95,8 +95,8 @@ class Level4(Level):
         self.background = ["level4"]
         self.number = 2
         self.difficulty = 6
-        self.enemies_types = (3, 5)
-        self.count_waves = 22
+        self.enemies_types = (0, 8)
+        self.count_waves = 4
 
         self.next = Level5
 

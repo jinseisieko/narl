@@ -5,33 +5,30 @@ from source.Field.Field import Field
 from source.Functions.Functions import set_direction
 from source.Interface.Interface import Interface
 from source.Levels.Level import Level1
-from source.Movable_objects.Boss import Boss
 from source.Movable_objects.Bullets import DefaultBullet
 from source.Movable_objects.Enemies import Enemy
 from source.Movable_objects.Obstacles import *
 from source.Movable_objects.Player import *
-from source.Save.Save import load, delete_all_save
+from source.Save.Save import delete_all_save
 from source.Sounds.Sound import *
 from source.States.InterfaceData import Data
 from source.States.InterfaceState import InterfaceState
-from source.States.NewItem import NewItem
 from source.States.Pause import Pause
 from source.States.ScreenOfDeath import ScreenOfDeath
 
 n = 0
 
 
-class MainGameMode(InterfaceState, Data):
+class Arcade(InterfaceState, Data):
     def start(self):
         self.pause = False
         self.interface.update_items_surface()
         pg.mouse.set_visible(False)
         self.main_window.fps = MAX_FPS[0]
 
-    def __init__(self, screen, main_window, level=Level1(), mode=0) -> None:
+    def __init__(self, screen, main_window, level=Level1()) -> None:
         super().__init__(screen, main_window)
-        self.mode = mode
-        self.type = "MainGameMode"
+        self.type = "Arcade"
         self.level = level
         self.field: Field = ...
         self.start_level(level)
@@ -59,6 +56,7 @@ class MainGameMode(InterfaceState, Data):
         self.interface = Interface(self)
 
         self.last_screen = self.screen.copy()
+        self.count = 0
 
         self.begin()
         print(self.main_window.meta_player.name)
@@ -91,25 +89,8 @@ class MainGameMode(InterfaceState, Data):
         self.main_window.fps = MAX_FPS[0]
         self.background_music.update(self.level.number)
         self.background_music.update_music_list()
-        if self.mode:
-            if load(self):
-                self.player.characteristics.update_array_draw()
-                self.interface.update_items_surface()
-                self.make_borders()
-                for x in set(range(0, MAX_ENEMIES)) - entity_ids:
-                    self.enemy_set.add(Enemy(enemies, x, "green", entity_ids))
-                for x in set(range(0, MAX_PLAYER_BULLETS)) - player_bullets_ids:
-                    self.player_bullet_set.add(DefaultBullet(player_bullets, x, "test_bullet", player_bullets_ids))
-                for x in set(range(4, MAX_OBSTACLES)) - obstacles_ids:
-                    self.obstacle_set.add(Obstacle(obstacles, x, "red", obstacles_ids))
-                    obstacles_ids.remove(x)
-            else:
-                clear_data()
-                self.make_borders()
-
-        else:
-            clear_data()
-            self.make_borders()
+        clear_data()
+        self.make_borders()
         self.player.update_characteristics()
 
     def make_borders(self):
@@ -203,34 +184,6 @@ class MainGameMode(InterfaceState, Data):
             self.sound_effect.player_death()
             self.main_window.set_state(ScreenOfDeath(self.screen, self.main_window, self.last_screen))
 
-    def summon_boss(self, type):
-        for x in self.player_bullet_set.copy():
-            self.player_bullet_set.remove(x)
-            x.kill()
-            x.matrix[x.Id] = default_bullet
-
-        for x in self.enemy_set.copy():
-            self.enemy_set.remove(x)
-            x.kill()
-            x.matrix[x.Id] = default_enemy
-
-        self.boss_fight = True
-        self.boss = Boss(boss, "NAME BOSS SPRITE")
-        calc_boss_fight_start(player, boss, type, boss_types, field)
-
-    def boss_mechanics(self):
-        enemy_bullets[0] = np.array([boss[0], boss[1], boss[2] + 100, boss[3] + 100, 1, 20, 0, 0, 0, 1, 1, 10])
-        calc_boss_direction(boss, player)
-        calc_movements(enemies, self.main_window.dt)
-        boss[0, 13] = min(player[0, 12], player[0, 13] + self.main_window.dt)
-
-
-
-        Id = calc_boss_shooting(boss, enemy_bullets, player, np.array(list(enemy_bullets_ids)), self.main_window.dt)
-        for x in Id:
-            self.enemy_bullet_set.add(DefaultBullet(enemy_bullets, x, "test_bullet", enemy_bullets_ids))
-            enemy_bullets_ids.remove(x)
-
     def calc_calculations(self):
         if not self.pause:
             calc_player_movement(player, set_direction(self.main_window.key_pressed), self.main_window.dt)
@@ -302,15 +255,16 @@ class MainGameMode(InterfaceState, Data):
         if calc_creation_wave(wave, self.level.difficulty, self.level.enemies_types):
             self.sound_effect.new_wave()
         if calc_player_level(player):
-            self.pause = True
-            self.main_window.set_state(NewItem(self.screen, self.main_window, self, self.last_screen))
+            self.count += 1
+            self.update_items()
             self.sound_effect.new_level()
 
-    def check_level(self):
-        if wave[0] > self.level.count_waves:
-            # self.summon_boss()
-            self.level = self.level.next()
-            self.start_level(self.level)
+    def update_items(self):
+        self.player.characteristics.item_names = []
+        self.player.characteristics.array_draw = []
+        for _ in range(self.count):
+            self.player.characteristics.apply(*self.player.characteristics.getitem.get_rank_random(r1=15, r2=10, r3=5))
+        self.interface.update_items_surface()
 
     def update(self):
         global n
@@ -321,7 +275,6 @@ class MainGameMode(InterfaceState, Data):
         self.draw_interface()
         self.end_calculations()
         self.draw_cursor()
-        self.check_level()
 
         n += 1
         # self.main_window.fps = 15 + 60 * math.sin(n / 1000 * 2 * math.pi) ** 2
